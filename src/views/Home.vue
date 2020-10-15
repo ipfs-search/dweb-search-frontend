@@ -208,7 +208,7 @@ import Searchbar from '@/components/Searchbar.vue'
 export default {
   name: 'Home',
   components: {
-    Searchbar
+    Searchbar,
   },
 
   data:() => ({
