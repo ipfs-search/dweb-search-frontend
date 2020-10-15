@@ -42,18 +42,16 @@
             </v-menu>
           </template>
           <template v-slot:append-outer>
-            <v-tooltip>
-              <template v-slot:activator="{ on }">
-                <v-icon
-                  class="ml-n1"
-                  large
-                  color="white"
-                  v-on="on"
-                >
-                  mdi-magnify
-                </v-icon>
-              </template>
-            </v-tooltip>
+            <template>
+              <v-icon
+                class="ml-n1"
+                large
+                color="white"
+                @click="onClickSearch"
+              >
+                mdi-magnify
+              </v-icon>
+            </template>
           </template>
         </v-text-field>
       </div>
