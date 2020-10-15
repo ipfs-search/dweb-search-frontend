@@ -17,7 +17,11 @@
             offset-xl="2"
             class="d-flex justify-space-between align-center"
           >
-            <div class="d-flex align-center">
+            <div
+              class="d-flex align-center"
+              style="cursor: pointer;"
+              @click="this.$router(0)"
+            >
               <v-img
                 alt="DWEB Search Logo"
                 class="pl-1 mr-2"

@@ -25,6 +25,7 @@
               <div
                 class="d-flex align-center"
                 @click="goHome"
+                style="cursor: pointer;"
               >
                 <v-img
                   alt="DWEB Search Logo"
