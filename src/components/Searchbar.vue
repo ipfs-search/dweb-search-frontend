@@ -22,7 +22,7 @@
               offset-y
             >
               <template v-slot:activator="{ on }">
-                <div class="mr-n3 pt-1 grey--text d-flex align-center" v-on="on">
+                <div class="mr-n3 grey--text d-flex align-center" v-on="on">
                   <span>{{ contentType }}</span>
                   <v-icon
                    class="d-inline-block">

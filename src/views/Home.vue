@@ -3,7 +3,7 @@
     <v-app-bar
       app
       color="white"
-      height="64"
+      height="56"
       elevate-on-scroll
       light
     >
@@ -19,16 +19,15 @@
           >
             <div
               class="d-flex align-center"
-              style="cursor: pointer;"
-              @click="this.$router(0)"
             >
               <v-img
                 alt="DWEB Search Logo"
                 class="pl-1 mr-2"
                 contain
+                color="white"
                 src="../assets/logo_primary.svg"
-                width="32"
-                height="32"
+                :width="$vuetify.breakpoint.mdAndUp ? 32 : 24"
+                :height="$vuetify.breakpoint.mdAndUp ? 32 : 24"
               />
               <h2 class="">DWEB <span>SEARCH</span></h2>
             </div>
@@ -53,7 +52,7 @@
                 <v-btn
                   icon
                   v-bind="attrs"
-                  class="my-2 mx-1 hidden-md-and-up"
+                  class="my-2 mx-0 mr-n2 hidden-md-and-up"
                   v-on="on"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
@@ -76,10 +75,10 @@
     </v-app-bar>
 
     <v-img src="../assets/background-02.png" aspect-ratio="1.83" class="hero">
-      <v-container class="fill-height align-content-end">
+      <v-container class="pa-0 fill-height align-content-end">
         <v-row>
           <v-col class="white--text">
-            <h3 class="mb-2 text-center">
+            <h3 class="mb-2 text-center hidden-sm-and-down">
               Search the Distributed&#160;Web
             </h3>
               <searchbar />
@@ -243,7 +242,7 @@ export default {
   h3 {
     font-family: 'Heebo', sans-serif;
     letter-spacing: -0.02em;
-    font-size: 180%;
+    font-size: 150%;
     font-weight: 700;
   }
   .v-card__title {
