@@ -7,7 +7,7 @@
           placeholder="Search"
           light
           rounded
-          height="46"
+          height="42"
           autocomplete="off"
           autofocus
           dense
@@ -22,21 +22,23 @@
               offset-y
             >
               <template v-slot:activator="{ on }">
-                <div class="pt-1 grey--text" v-on="on">
-                  {{ contentType }}
-                  <v-icon>
+                <div class="mr-n3 pt-1 grey--text d-flex align-center" v-on="on">
+                  <span>{{ contentType }}</span>
+                  <v-icon
+                   class="d-inline-block">
                     mdi-menu-down
                   </v-icon>
                 </div>
               </template>
               <v-list>
                 <v-list-item
-
                   v-for="(item, index) in items"
                   :key="index"
                   @click="showSelectedContentType(index)"
                 >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  <v-list-item-title>
+                    {{ item.title }}
+                  </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -65,9 +67,9 @@ export default {
   data: () => ({
     query: null,
     previousQuery: null,
-    contentType: 'Any file',
+    contentType: 'Any',
     items: [
-      { title: 'Any file' },
+      { title: 'Any' },
       { title: 'Texts' },
       { title: 'Images' },
       { title: 'Music' },
