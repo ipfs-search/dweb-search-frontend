@@ -78,6 +78,7 @@
       padless
       color="white"
       fixed
+      class="hidden-sm-and-down"
     >
       <v-row
         justify="center"
