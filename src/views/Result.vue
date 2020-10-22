@@ -6,7 +6,7 @@
     <v-app-bar
       app
       color="primary"
-      height="64"
+      height="56"
       light
     >
       <v-container
@@ -39,7 +39,7 @@
               </div>
             </div>
             <div class="flex-grow-1">
-              <searchbar />
+              <searchbar class="pt-1" />
             </div>
             <div
               class="d-none d-lg-block"
@@ -61,7 +61,8 @@
     >
       <v-row>
         <v-col cols="12" xl="8" offset-xl="2" align="end" class="text--secondary body-2">
-          Filter:
+          <span class="hidden-sm-and-down">Filter: </span>
+
           <span>
             <v-menu>
               <template v-slot:activator="{ on }">
@@ -117,39 +118,39 @@
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
           <v-card
-            @click="dialog = true"
+            @click="genericDialog()"
           >
+            <v-card-subtitle class="text-caption mb-n7 text-truncate">
+              <span class="green--text">Last seen 1 day ago</span><span> | Size 478mb</span><span> | Mimetype text/html</span>
+            </v-card-subtitle>
             <v-card-title class="subtitle-1">
               Unlimited music now
             </v-card-title>
             <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline albums whenever and wherever, online and offline.</v-card-subtitle>
-            <v-card-subtitle class="green--text text-caption mt-n6 text-right">
-              Last seen 1 day ago
-            </v-card-subtitle>
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
           <v-card>
+            <v-card-subtitle class="text-caption mb-n7 text-truncate">
+              <span class="orange--text">Last seen 1 week ago</span><span> | Size 478mb</span><span> | Mimetype audio/mpeg</span>
+            </v-card-subtitle>
             <v-card-title class="subtitle-1">
               Unlimited music now
             </v-card-title>
             <v-card-subtitle>
               Listen to your favorite artists and albums whenever and wherever, online and offline.
             </v-card-subtitle>
-            <v-card-subtitle class="orange--text text-caption mt-n6 text-right">
-              Last seen 1 week ago
-            </v-card-subtitle>
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
           <v-card>
+            <v-card-subtitle class="text-caption mb-n7 text-truncate">
+              <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span> <span> | Mimetype application/msword</span>
+            </v-card-subtitle>
             <v-card-title class="subtitle-1">
               Unlimited music now
             </v-card-title>
             <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
-            <v-card-subtitle class="red--text text-caption mt-n6 text-right">
-              Last seen 2 months ago
-            </v-card-subtitle>
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
@@ -157,7 +158,6 @@
         </v-col>
       </v-row>
     </v-container>
-
 
     <v-container>
       <template>
@@ -169,78 +169,22 @@
       </template>
     </v-container>
 
-    <v-dialog
-      v-model="dialog"
-      class=""
-      scrollable
-      fullscreen
-    >
-      <v-card
-        tile
-        flat
-      >
-        <v-card-title class="pa-0">
-          <v-container class="py-0">
-            <v-row>
-              <v-col cols="12" xl="8" offset-xl="2" class="d-flex align-center justify-space-between">
-                <div class="text-body-1" style="width: 80%">
-                  Demo title
-                </div>
-                <v-btn
-                  icon
-                  @click="dialog = false"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-0">
-          <v-container class="py-0">
-            <v-row>
-              <v-col cols="12" xl="8" offset-xl="2">
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-                <p class="text-body-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore consequatur unde culpa, rerum facere sint in saepe, inventore sapiente magni eaque assumenda dolorem cum tenetur ratione recusandae at eos iure? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error vero non animi labore quis voluptate laborum ab, maiores eius accusamus.</p>
-              </v-col>
-            </v-row>
-          </v-container>
-         </v-card-text>
-      </v-card>
-    </v-dialog>
-
   </div>
 </template>
 
 
 <script>
 import Searchbar from '@/components/Searchbar.vue'
+import DialogDetailText from '@/components/DialogDetailText.vue'
+import { showDialog } from '@/helpers/dialogHelper.js';
 
 export default {
   components: {
-    Searchbar
+    Searchbar,
   },
 
   data: () => ({
     page: 1,
-    dialog: false,
     sizeFilter: '0-10mb',
     lastSeenFilter: '<3hr',
 
@@ -269,6 +213,10 @@ export default {
 
     goHome() {
       this.$router.go(-1);
+    },
+
+    genericDialog() {
+      showDialog(DialogDetailText, {});
     },
   }
 }
