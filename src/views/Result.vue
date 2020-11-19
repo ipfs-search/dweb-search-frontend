@@ -174,6 +174,8 @@
 
 
 <script>
+const IpfsSearchApi = require('ipfs-search-client');
+// import IpfsSearchApi from 'ipfs-search-client';
 import Searchbar from '@/components/Searchbar.vue'
 import DialogDetailText from '@/components/DialogDetailText.vue'
 import { showDialog } from '@/helpers/dialogHelper.js';
@@ -212,12 +214,36 @@ export default {
     },
 
     goHome() {
-      this.$router.go(-1);
+      this.$router.push({ path: '/' });
     },
 
     genericDialog() {
       showDialog(DialogDetailText, {});
     },
+
+    getDataFromApi() {
+      const api = new IpfsSearchApi.DefaultApi();
+      const q = this.$route.query.query;
+
+      const opts = {
+        type: 'any', // {{Type}} Resource type. Omit to return all types.
+        page: 0, // {{Integer}} Page number.
+      };
+      // eslint-disable-next-line no-unused-vars
+      api.searchGet(q, opts).then((data) => {
+        if (data) {
+          console.log('Yeeeh!', data);
+        }
+      });
+    }
+
+  },
+
+  mounted() {
+    console.log('TEST QUERY', this.$route.query.query);
+    if (this.$route.query.query) {
+      this.getDataFromApi();
+    }
   }
 }
 </script>
