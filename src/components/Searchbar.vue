@@ -66,7 +66,6 @@ export default {
 
   data: () => ({
     query: null,
-    previousQuery: null,
     contentType: 'Any',
     items: [
       { title: 'Any' },
@@ -80,23 +79,28 @@ export default {
 
   methods: {
     showSelectedContentType (index) {
-      console.log(index); // eslint-disable-line
+      // console.log(index); // eslint-disable-line
       this.contentType = this.items[index].title
+      this.onClickSearch();
     },
 
     onClickSearch () {
-      if (this.previousQuery !== this.query) {
-        this.$router.push({ path: '/result' })
+      if (this.query) {
+        // TODO: Add url encoder for query
+        this.$router.push({ path: `/result?query=${this.query}&type=${this.contentType}` }).catch(err => { console.log(err)})
       }
-      this.previousQuery = this.query
     },
+  },
 
-    watchRouter () {
-      if (this.$route.name === 'home') {
-        this.query = ''
-      }
+  mounted() {
+    if (this.$route.query.query) {
+      this.query = this.$route.query.query;
+    }
+    if (this.$route.query.type) {
+      this.contentType = this.$route.query.type;
     }
   }
+
 }
 </script>
 
