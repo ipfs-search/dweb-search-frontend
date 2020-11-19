@@ -95,7 +95,7 @@
               <v-col cols="12" md="4" sm="6">
                 <v-card flat class="transparent">
                   <v-card-text class="text-center">
-                    <v-icon size="42px" class="ml-n12 secondary--text text--lighten-1">mdi-wrench</v-icon>
+                    <v-icon size="42px" class="ml-n4 secondary--text text--lighten-1">mdi-wrench</v-icon>
                   </v-card-text>
                   <v-card-title primary-title>
                     <div class="headline">Publicly available search</div>
@@ -110,7 +110,7 @@
               <v-col cols="12" md="4" sm="6">
                 <v-card flat class="transparent">
                   <v-card-text class="text-center">
-                    <v-icon size="42px" class="ml-n12 secondary--text text--lighten-1">mdi-share-variant</v-icon>
+                    <v-icon size="42px" class="ml-n4 secondary--text text--lighten-1">mdi-share-variant</v-icon>
                   </v-card-text>
                   <v-card-title primary-title>
                     <div class="headline">For external organisations</div>
@@ -125,7 +125,7 @@
               <v-col cols="12" md="4" sm="6">
                 <v-card flat class="transparent">
                   <v-card-text class="text-center">
-                    <v-icon size="42px" class="ml-n12 secondary--text text--lighten-1">mdi-earth</v-icon>
+                    <v-icon size="42px" class="ml-n4 secondary--text text--lighten-1">mdi-earth</v-icon>
                   </v-card-text>
                   <v-card-title primary-title>
                     <div class="headline">Next generation internet</div>
@@ -140,7 +140,7 @@
               <v-col cols="12" md="4" sm="6">
                 <v-card flat class="transparent">
                   <v-card-text class="text-center">
-                    <v-icon size="42px" class="ml-n12 secondary--text text--lighten-1">mdi-open-source-initiative</v-icon>
+                    <v-icon size="42px" class="ml-n4 secondary--text text--lighten-1">mdi-open-source-initiative</v-icon>
                   </v-card-text>
                   <v-card-title primary-title>
                     <div class="headline">World class documentation</div>
@@ -156,7 +156,7 @@
               <v-col cols="12" md="4" sm="6">
                 <v-card flat class="transparent">
                   <v-card-text class="text-center">
-                    <v-icon size="42px" class="ml-n12 secondary--text text--lighten-1">mdi-account-multiple</v-icon>
+                    <v-icon size="42px" class="ml-n4 secondary--text text--lighten-1">mdi-account-multiple</v-icon>
                   </v-card-text>
                   <v-card-title primary-title center>
                     <div class="headline">Pragmatic solution</div>
@@ -173,7 +173,7 @@
               <v-col cols="12" md="4" sm="6">
                 <v-card flat class="transparent">
                   <v-card-text class="text-center">
-                    <v-icon size="42px" class="ml-n12 secondary--text text--lighten-1">mdi-flash</v-icon>
+                    <v-icon size="42px" class="ml-n4 secondary--text text--lighten-1">mdi-flash</v-icon>
                   </v-card-text>
                   <v-card-title primary-title>
                     <div class="headline">Darker visions</div>
@@ -209,7 +209,7 @@
 import Searchbar from '@/components/Searchbar.vue'
 
 export default {
-  name: 'Home',
+
   components: {
     Searchbar,
   },
