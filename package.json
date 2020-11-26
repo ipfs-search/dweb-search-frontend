@@ -10,9 +10,12 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "ipfs-search-client": "^0.1.0",
+    "masonry-layout": "^4.2.2",
     "vue": "^2.6.11",
+    "vue-masonry": "^0.11.8",
     "vue-router": "^3.2.0",
-    "vuetify": "^2.2.11"
+    "vuetify": "^2.2.11",
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

@@ -65,8 +65,12 @@
 
           <span>
             <v-menu>
-              <template v-slot:activator="{ on }">
-                <span class="pt-2" v-on="on">
+              <template v-slot:activator="{ on, attrs }">
+                <span
+                  class="m-2"
+                  v-on="on"
+                  v-bind="attrs"
+                >
                   Size {{ sizeFilter }}<v-icon>mdi-menu-down</v-icon>
                 </span>
               </template>
@@ -84,8 +88,12 @@
 
           <span>
             <v-menu>
-              <template v-slot:activator="{ on }">
-                <span class="pt-2" v-on="on">
+              <template v-slot:activator="{ on, attrs }">
+                <span
+                  class="m-2"
+                  v-on="on"
+                  v-bind="attrs"
+                >
                   Last seen {{ lastSeenFilter }}
                   <v-icon>
                     mdi-menu-down
@@ -107,6 +115,9 @@
       </v-row>
     </v-container>
 
+
+
+    <!-- TEXT FILES -->
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
@@ -115,6 +126,7 @@
           </v-subheader>
         </v-col>
       </v-row>
+
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
           <v-card
@@ -153,15 +165,255 @@
             <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
           </v-card>
         </v-col>
+      </v-row>
+    </v-container>
+
+
+
+    <!-- IMAGE FILES -->
+    <v-container>
+      <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="mt-n2 mb-n4" />
+          <v-subheader class="mt-n2 mb-n4">
+            Images (230) - view all
+          </v-subheader>
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-row dense>
+            <v-col
+              v-for="n in 6"
+              :key="n"
+              class="d-flex child-flex"
+              cols="6" sm="4" md="3" lg="2"
+            >
+              <v-img
+                :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+                :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                aspect-ratio="1"
+                class="grey lighten-2"
+              >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-5"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
 
+
+
+    <!-- AUDIO FILES -->
+    <v-container>
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-subheader class="mt-n2 mb-n4">
+            Audio (230) - view all
+          </v-subheader>
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-row
+            dense
+          >
+            <v-col
+              v-for="card in cards"
+              :key="card.title"
+              cols="6" xs="4" sm="4" md="3" lg="2"
+            >
+              <v-card
+              >
+                <v-img
+                  :src="card.src"
+                  class="white--text align-end"
+                  :aspect-ratio="1"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  :width="width"
+                >
+                  <v-icon size="64" color="white" style="opacity: 0.3; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-music</v-icon>
+                  <v-card-title class="subtitle-1 font-weight-bold" v-text="card.title"></v-card-title>
+                  <v-card-subtitle class="white--text text-caption" v-text="card.subtitle"></v-card-subtitle>
+                </v-img>
+
+                <v-card-subtitle class="text-caption text-truncate">
+                  <div class="my-n2">
+                    <span class="red--text">Last seen 2 months ago</span><br>
+                    <span>Size 478mb</span>
+                  </div>
+                </v-card-subtitle>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+
+
+    <!-- VIDEO FILES -->
+    <v-container>
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-subheader class="mt-n2 mb-n4">
+            Video (230) - view all
+          </v-subheader>
+        </v-col>
+      </v-row>
+
+
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-card
+            @click="genericDialog()"
+          >
+            <div class="d-flex flex-no-wrap justify-start">
+              <div>
+                <v-avatar
+                  class="ma-3 mr-0"
+                  width="179"
+                  height="96"
+                  tile
+                >
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  >
+                    <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
+                  </v-img>
+                </v-avatar>
+              </div>
+              <div class="mt-n2">
+                <v-card-subtitle class="text-caption mb-n7 text-truncate">
+                  <span class="green--text">Last seen 1 day ago</span><span> | Size 478mb</span>
+                </v-card-subtitle>
+                <v-card-title class="subtitle-1">
+                  Unlimited music now
+                </v-card-title>
+                <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline online and offline.</v-card-subtitle>
+              </div>
+            </div>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-card>
+            <div class="d-flex flex-no-wrap justify-start">
+              <div>
+                <v-avatar
+                  class="ma-3 mr-0"
+                  width="179"
+                  height="96"
+                  tile
+                >
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  >
+                    <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
+                  </v-img>
+                </v-avatar>
+              </div>
+              <div class="mt-n2">
+                <v-card-subtitle class="text-caption mb-n7 text-truncate">
+                  <span class="orange--text">Last seen 1 week ago</span><span> | Size 478mb</span>
+                </v-card-subtitle>
+                <v-card-title class="subtitle-1">
+                  Unlimited music now
+                </v-card-title>
+                <v-card-subtitle>
+                  Listen to your favorite artists and albums whenever and artists and albums whenever and wherever, onlineonline and offline.
+                </v-card-subtitle>
+              </div>
+            </div>
+          </v-card>
+        </v-col>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-card>
+            <div class="d-flex flex-no-wrap justify-start">
+              <div>
+                <v-avatar
+                  class="ma-3 mr-0"
+                  width="179"
+                  height="96"
+                  tile
+                >
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  >
+                    <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
+                  </v-img>
+                </v-avatar>
+              </div>
+              <div class="mt-n2">
+                <v-card-subtitle class="text-caption mb-n7 text-truncate">
+                  <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span>
+                </v-card-subtitle>
+                <v-card-title class="subtitle-1">
+                  Unlimited music now
+                </v-card-title>
+                <v-card-subtitle>Listen to your favorite artists and albums artists and albums whenever and wherever, online and online and offline.</v-card-subtitle>
+              </div>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-row
+            dense
+          >
+            <v-col
+              v-for="card in cards"
+              :key="card.title"
+              cols="6" xs="4" sm="4" md="3" lg="2"
+            >
+              <v-card
+                flat
+                shaped
+                tile
+              >
+                <v-img
+                  :src="card.src"
+                  class="white--text align-end"
+                  :aspect-ratio="16/9"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  :width="width"
+                >
+                  <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
+                </v-img>
+
+                <v-card-subtitle class="text-caption text-truncate">
+                  <div class="my-n2">
+                    <span class="red--text">Last seen 2 months ago</span><br>
+                    <span>Size 478mb</span>
+                  </div>
+                </v-card-subtitle>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row> -->
+    </v-container>
+
+
+    <!-- PAGINATION -->
     <v-container>
       <template>
-        <div class="mt-4">
+        <div class="my-16">
           <v-pagination
             v-model="page"
           />
@@ -201,7 +453,16 @@ export default {
       { title: '<3hr' },
       { title: '<24hr' },
       { title: '<7d' }
-    ]
+    ],
+
+    cards: [
+      { title: 'Beatles', subtitle: 'Hey Jude', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
+      { title: 'Beatles', subtitle: 'Yesterday.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 3 },
+      { title: 'Beatles', subtitle: 'The White Album', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
+      { title: 'Beatles', subtitle: 'Goodnight.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
+      { title: 'Beatles', subtitle: 'The White Album 2', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
+      { title: 'Beatles', subtitle: 'The wallrus', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
+    ],
   }),
 
   methods: {
@@ -221,28 +482,38 @@ export default {
       showDialog(DialogDetailText, {});
     },
 
-    getDataFromApi() {
+    /*
+      We want to retrieve results for all of the types if no type is selected.
+      So first we have to find out whether a type is selected. If this is not the
+      case we have to iterate over the types and make queries for them.
+    */
+
+    getDataFromApi(query, type) {
       const api = new IpfsSearchApi.DefaultApi();
-      const q = this.$route.query.query;
 
       const opts = {
-        type: 'any', // {{Type}} Resource type. Omit to return all types.
+        type, // {{Type}} Resource type. Omit to return all types.
         page: 0, // {{Integer}} Page number.
       };
       // eslint-disable-next-line no-unused-vars
-      api.searchGet(q, opts).then((data) => {
+      api.searchGet(query, opts).then((data) => {
         if (data) {
-          console.log('Yeeeh!', data);
+          console.log('Yeeeh!', JSON.stringify(data, undefined, 2));
         }
+      }).catch((err) => {
+        console.log('Error from api.searchGet: ', err);
       });
     }
 
   },
 
   mounted() {
-    console.log('TEST QUERY', this.$route.query.query);
-    if (this.$route.query.query) {
-      this.getDataFromApi();
+    // Once we enter this view we want retrieve data from the api with
+    // the params from the given url
+    const query = this.$route.query.query;
+    const type = this.$route.query.type;
+    if (query) {
+      this.getDataFromApi(query, type);
     }
   }
 }

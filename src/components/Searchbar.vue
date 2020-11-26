@@ -93,6 +93,9 @@ export default {
   },
 
   mounted() {
+    // We have to put this inside a store so we can use it everywhere
+    // Otherwise we have to do this in all the component where we need
+    // access to the query params
     if (this.$route.query.query) {
       this.query = this.$route.query.query;
     }

@@ -3,6 +3,10 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import router from './router'
 
+import { VueMasonryPlugin } from 'vue-masonry';
+
+Vue.use(VueMasonryPlugin)
+
 Vue.config.productionTip = false
 
 new Vue({
