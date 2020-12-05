@@ -354,7 +354,7 @@
                   <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
                 </v-img>
               </v-col>
-              <v-col cols="12" sm="8" md="9" lg="10" class="mt-n4 mt-sm-n2 py-sm-0 ml-sm-n6">
+              <v-col cols="12" sm="8" md="9" lg="10" class="mt-sm-n2 mt-n7 py-sm-0 ml-sm-n6">
                 <v-card-subtitle class="text-caption mb-n7 text-truncate">
                   <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span>
                 </v-card-subtitle>
