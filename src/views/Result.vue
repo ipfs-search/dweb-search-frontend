@@ -274,7 +274,7 @@
 
 
       <v-row dense>
-        <v-col cols="12" xl="8" offset-xl="2">
+        <!-- <v-col cols="12" xl="8" offset-xl="2">
           <v-card
             @click="genericDialog()"
           >
@@ -338,26 +338,23 @@
               </div>
             </div>
           </v-card>
-        </v-col>
+        </v-col> -->
+
         <v-col cols="12" xl="8" offset-xl="2">
           <v-card>
-            <div class="d-flex flex-no-wrap justify-start">
-              <div>
-                <v-avatar
-                  class="ma-3 mr-0"
-                  width="179"
-                  height="96"
-                  tile
+            <v-row>
+              <v-col cols="12" sm="4" md="3" lg="2" class="py-0">
+                <v-img
+                  class="ma-3 mr-sm-0"
+                  cover
+                  aspect-ratio="1.778"
+                  src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 >
-                  <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
-                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  >
-                    <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
-                  </v-img>
-                </v-avatar>
-              </div>
-              <div class="mt-n2">
+                  <v-icon size="64" color="white" style="opacity: 0.9; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-play</v-icon>
+                </v-img>
+              </v-col>
+              <v-col cols="12" sm="8" md="9" lg="10" class="mt-n4 mt-sm-n2 py-sm-0 ml-sm-n6">
                 <v-card-subtitle class="text-caption mb-n7 text-truncate">
                   <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span>
                 </v-card-subtitle>
@@ -365,8 +362,9 @@
                   Unlimited music now
                 </v-card-title>
                 <v-card-subtitle>Listen to your favorite artists and albums artists and albums whenever and wherever, online and online and offline.</v-card-subtitle>
-              </div>
-            </div>
+              </v-col>
+            </v-row>
+
           </v-card>
         </v-col>
       </v-row>
@@ -407,6 +405,58 @@
           </v-row>
         </v-col>
       </v-row> -->
+    </v-container>
+
+
+    <!-- DIRECTORIES FILES -->
+    <v-container>
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-subheader class="mt-n2 mb-n4">
+            Directories (230) - view all
+          </v-subheader>
+        </v-col>
+      </v-row>
+
+      <v-row dense>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-card
+            @click="genericDialog()"
+          >
+            <v-card-subtitle class="text-caption mb-n7 text-truncate">
+              <span class="green--text">Last seen 1 day ago</span><span> | Size 478mb</span><span> | 128 files</span>
+            </v-card-subtitle>
+            <v-card-title class="subtitle-1">
+              Beatles samples and works
+            </v-card-title>
+            <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline albums whenever and wherever, online and offline.</v-card-subtitle>
+          </v-card>
+        </v-col>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-card>
+            <v-card-subtitle class="text-caption mb-n7 text-truncate">
+              <span class="orange--text">Last seen 1 week ago</span><span> | Size 478mb</span><span> | 528 files</span>
+            </v-card-subtitle>
+            <v-card-title class="subtitle-1">
+              Unlimited music now
+            </v-card-title>
+            <v-card-subtitle>
+              Listen to your favorite artists and albums whenever and wherever, online and offline.
+            </v-card-subtitle>
+          </v-card>
+        </v-col>
+        <v-col cols="12" xl="8" offset-xl="2">
+          <v-card>
+            <v-card-subtitle class="text-caption mb-n7 text-truncate">
+              <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span> <span> | 64 files</span>
+            </v-card-subtitle>
+            <v-card-title class="subtitle-1">
+              Beatles All - Files
+            </v-card-title>
+            <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
 
 

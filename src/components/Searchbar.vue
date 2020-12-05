@@ -71,7 +71,7 @@ export default {
       { title: 'Any' },
       { title: 'Texts' },
       { title: 'Images' },
-      { title: 'Music' },
+      { title: 'Audio' },
       { title: 'Videos' },
       { title: 'Directories' }
     ]
