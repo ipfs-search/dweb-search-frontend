@@ -1,5 +1,6 @@
 <template>
   <v-dialog
+    class="myDialog"
     v-model="dialog"
     scrollable
     fullscreen
@@ -7,15 +8,17 @@
     <v-card
       tile
       flat
+      class="dialogCard"
     >
       <v-sheet elevation="2">
         <v-card-title class="pa-0">
           <v-container class="py-0">
             <v-row>
               <v-col cols="12" xl="8" offset-xl="2" class="d-flex align-center justify-space-between">
-                <div class="text-body-1" style="width: 80%">
+                <!-- <div class="text-body-1" style="width: 80%">
                   <slot name="dialog-detail-title"></slot>
-                </div>
+                </div> -->
+                <div style="width: 80%">&nbsp;</div>
                 <v-btn
                   icon
                   @click="hideDialog()"
@@ -28,7 +31,7 @@
         </v-card-title>
       </v-sheet>
 
-      <v-card-text class="pa-0">
+      <v-card-text class="pa-0 modal">
         <v-container class="py-0">
           <v-row>
             <v-col cols="12" xl="8" offset-xl="2">
@@ -42,10 +45,10 @@
 </template>
 
 <script>
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { hideDialog } from '@/helpers/dialogHelper.js';
 
 export default {
-
   data() {
     return {
       dialog: true,
@@ -56,9 +59,23 @@ export default {
     hideDialog,
   },
 
+  mounted() {
+    const modal = document.querySelector('.modal');
+    disableBodyScroll(modal);
+  },
+
+  beforeDestory() {
+    clearAllBodyScrollLocks();
+  },
 }
 </script>
 
-<style lang="">
+<style lang="scss" scoped>
+.modal {
+  -webkit-overflow-scrolling: touch;
+}
 
+.dialogCard {
+  overflow-y: hidden;
+}
 </style>
