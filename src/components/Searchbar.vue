@@ -43,7 +43,7 @@
               </v-list>
             </v-menu>
           </template>
-          <template v-slot:append-outer>
+          <template v-slot:append-outer v-if="$vuetify.breakpoint.smAndDown ? false : true">
             <template>
               <v-icon
                 class="ml-n1"
