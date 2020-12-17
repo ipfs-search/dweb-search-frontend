@@ -44,16 +44,14 @@
             </v-menu>
           </template>
           <template v-slot:append-outer v-if="$vuetify.breakpoint.smAndDown ? false : true">
-            <template>
-              <v-icon
-                class="ml-n1"
-                large
-                color="white"
-                @click="onClickSearch"
-              >
-                mdi-magnify
-              </v-icon>
-            </template>
+            <v-icon
+              style="margin-top: -2px;"
+              size="34"
+              color="white"
+              @click="onClickSearch"
+            >
+              mdi-magnify
+            </v-icon>
           </template>
         </v-text-field>
       </div>
