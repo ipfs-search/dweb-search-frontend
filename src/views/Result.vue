@@ -38,7 +38,7 @@
               </div>
             </div>
             <div class="flex-grow-1">
-              <searchbar class="pt-1" />
+              <searchbar />
             </div>
             <div
               class="d-none d-lg-block"
@@ -140,7 +140,9 @@
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-card-subtitle class="text-caption mb-n7 text-truncate">
               <span class="orange--text">Last seen 1 week ago</span><span> | Size 478mb</span><span> | Mimetype audio/mpeg</span>
             </v-card-subtitle>
@@ -153,7 +155,9 @@
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-card-subtitle class="text-caption mb-n7 text-truncate">
               <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span> <span> | Mimetype application/msword</span>
             </v-card-subtitle>
@@ -187,6 +191,7 @@
               cols="6" sm="4" md="3" lg="2"
             >
               <v-img
+                @click="genericDialog()"
                 :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
                 :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
                 aspect-ratio="1"
@@ -233,6 +238,7 @@
               cols="6" xs="4" sm="4" md="3" lg="2"
             >
               <v-card
+                @click="genericDialog()"
               >
                 <v-img
                   :src="card.src"
@@ -272,7 +278,9 @@
       <v-row dense>
 
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-row>
               <v-col cols="12" sm="4" md="3" lg="2" class="py-0">
                 <v-img
@@ -299,7 +307,9 @@
         </v-col>
 
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-row>
               <v-col cols="12" sm="4" md="3" lg="2" class="py-0">
                 <v-img
@@ -327,7 +337,9 @@
 
 
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-row>
               <v-col cols="12" sm="4" md="3" lg="2" class="py-0">
                 <v-img
@@ -383,7 +395,9 @@
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-card-subtitle class="text-caption mb-n7 text-truncate">
               <span class="orange--text">Last seen 1 week ago</span><span> | Size 478mb</span><span> | 528 files</span>
             </v-card-subtitle>
@@ -396,7 +410,9 @@
           </v-card>
         </v-col>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-card>
+          <v-card
+            @click="genericDialog()"
+          >
             <v-card-subtitle class="text-caption mb-n7 text-truncate">
               <span class="red--text">Last seen 2 months ago</span><span> | Size 478mb</span> <span> | 64 files</span>
             </v-card-subtitle>

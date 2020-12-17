@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import vuetify from '../plugins/vuetify';
 
-
 import { createDialogContainer } from "./createDialogContainer";
 
 function hideDialog() {
@@ -22,6 +21,7 @@ function showDialog(component, data) {
     },
   });
   instance.$mount('#dialog-container');
+
 }
 
 export {

@@ -1,9 +1,7 @@
 <template>
   <v-dialog
-    class="myDialog"
     v-model="dialog"
     scrollable
-    fullscreen
   >
     <v-card
       tile
@@ -14,7 +12,7 @@
         <v-card-title class="pa-0">
           <v-container class="py-0">
             <v-row>
-              <v-col cols="12" xl="8" offset-xl="2" class="d-flex align-center justify-space-between">
+              <v-col cols="12" xl="8" offset-xl="2" class="d-flex align-center justify-space-between py-2">
                 <!-- <div class="text-body-1" style="width: 80%">
                   <slot name="dialog-detail-title"></slot>
                 </div> -->
@@ -31,7 +29,7 @@
         </v-card-title>
       </v-sheet>
 
-      <v-card-text class="pa-0 modal">
+      <v-card-text class="pa-0 mymodal" v-body-scroll-lock="modalIsOpen">
         <v-container class="py-0">
           <v-row>
             <v-col cols="12" xl="8" offset-xl="2">
@@ -45,13 +43,13 @@
 </template>
 
 <script>
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { hideDialog } from '@/helpers/dialogHelper.js';
 
 export default {
   data() {
     return {
       dialog: true,
+      modalIsOpen: false,
     }
   },
 
@@ -60,22 +58,18 @@ export default {
   },
 
   mounted() {
-    const modal = document.querySelector('.modal');
-    disableBodyScroll(modal);
+    this.$set(this, 'modalIsOpen', true)
   },
 
-  beforeDestory() {
-    clearAllBodyScrollLocks();
+  beforeDestroy() {
+    this.$set(this, 'modalIsOpen', false)
   },
+
 }
 </script>
 
 <style lang="scss" scoped>
-.modal {
+.mymodal {
   -webkit-overflow-scrolling: touch;
-}
-
-.dialogCard {
-  overflow-y: hidden;
 }
 </style>
