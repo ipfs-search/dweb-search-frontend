@@ -1,0 +1,44 @@
+{
+  "query": "Beatles",
+  "document-type": "Texts",
+  "total-hits": 230,
+  "link": "link-to-all-texts-results",
+  "sneak-preview": [
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "title": "Review Beatles at Paradiso Amsterdam - 1967",
+      "description": "Listen to your favorite artists and albums whenever and wherever, online and offline albums whenever and wherever, online and offline.",
+      "type": "file",
+      "size": 1127279,
+      "file-type": "pdf",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:56:23Z",
+      "score": 133.061,
+      "mimetype": "application/pdf"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "All about the Beatles - Part I",
+      "description": "The absolute review about your favorite artist",
+      "type": "file",
+      "size": 2188478,
+      "file-type": "pdf",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "application/pdf"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "All about the Beatles - Part II",
+      "description": "The absolute review about your favorite artist",
+      "type": "file",
+      "size": 2188478,
+      "file-type": "pdf",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "application/pdf"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "total": 0,
+  "max_score": 0,
+  "query": "Beatles*",
+  "document-types": [
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "document-type": "Texts",
+      "hits": 230,
+      "link": "link-to-all-texts-results"
+    },
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "document-type": "Images",
+      "hits": 250,
+      "link": "link-to-all-images-results"
+    },
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "document-type": "Audio",
+      "hits": 310,
+      "link": "link-to-all-audio-results"
+    },
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "document-type": "Video",
+      "hits": 240,
+      "link": "link-to-all-video-results"
+    },
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "document-type": "Directories",
+      "hits": 150,
+      "link": "link-to-all-directories-results"
+    }
+  ]
+}
