@@ -1,0 +1,47 @@
+{
+  "query": "Beatles",
+  "document-type": "Directories",
+  "total-hits": 230,
+  "link": "link-to-all-directories-results",
+  "sneak-preview": [
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "title": "All About The Beatles - Part I",
+      "description": "An extensive collection of Beatles memorablia and parafernalia",
+      "type": "file",
+      "size": 1127279,
+      "file-count": 512,
+      "file-type": null,
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:56:23Z",
+      "score": 133.061,
+      "mimetype": "text/directory"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "All About The Beatles - Part II",
+      "description": "An extensive collection of Beatles memorablia and parafernalia",
+      "type": "file",
+      "size": 2188478,
+      "file-count": 256,
+      "file-type": null,
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "text/directory"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "All About The Beatles - Part III",
+      "description": "An extensive collection of Beatles memorablia and parafernalia",
+      "type": "file",
+      "size": 2188478,
+      "file-count": 128,
+      "file-type": null,
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "text/directory"
+    }
+  ]
+}
