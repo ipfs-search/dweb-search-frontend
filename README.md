@@ -1,4 +1,14 @@
-# ipfs-search-vuetify-a-la-carte
+# dweb-search-frontend
+[![Build Status](https://travis-ci.org/ipfs-search/dweb-search-frontend.svg?branch=master)](https://travis-ci.org/ipfs-search/dweb-search-frontend)
+[![Backers on Open Collective](https://opencollective.com/ipfs-search/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/ipfs-search/sponsors/badge.svg)](#sponsors)
+
+New frontend repository for dweb-search, formerly ipfs-search.
+
+## Dependencies
+* NodeJS
+* [VueJS](https://vuejs.org/)
+* [VuetifyJS](https://vuetifyjs.com/)
 
 ## Project setup
 ```
