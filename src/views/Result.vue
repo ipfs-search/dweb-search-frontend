@@ -119,8 +119,15 @@
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="mt-n2 mb-n4">
-            Texts (230) - view all
+          <v-subheader class="text-subtitle-1 mt-n2 mb-n4 d-flex justify-space-between">
+            <div>
+              Texts (230)
+            </div>
+            <div>
+              <a href="" class="text-subtitle-1 text-decoration-none">
+                view all
+              </a>
+            </div>
           </v-subheader>
         </v-col>
       </v-row>
@@ -176,8 +183,15 @@
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="mt-n2 mb-n4">
-            Images (230) - view all
+          <v-subheader class="text-subtitle-1 mt-n2 mb-n4 d-flex justify-space-between">
+            <div>
+              Images (230)
+            </div>
+            <div>
+              <a href="" class="text-subtitle-1 text-decoration-none">
+                view all
+              </a>
+            </div>
           </v-subheader>
         </v-col>
       </v-row>
@@ -222,8 +236,15 @@
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="mt-n2 mb-n4">
-            Audio (230) - view all
+          <v-subheader class="text-subtitle-1 mt-n2 mb-n4 d-flex justify-space-between">
+            <div>
+              Audio (64)
+            </div>
+            <div>
+              <a href="" class="text-subtitle-1 text-decoration-none">
+                view all
+              </a>
+            </div>
           </v-subheader>
         </v-col>
       </v-row>
@@ -269,8 +290,15 @@
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="mt-n2 mb-n4">
-            Video (230) - view all
+          <v-subheader class="text-subtitle-1 mt-n2 mb-n4 d-flex justify-space-between">
+            <div>
+              Video (230)
+            </div>
+            <div>
+              <a href="" class="text-subtitle-1 text-decoration-none">
+                view all
+              </a>
+            </div>
           </v-subheader>
         </v-col>
       </v-row>
@@ -374,8 +402,15 @@
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="mt-n2 mb-n4">
-            Directories (230) - view all
+          <v-subheader class="text-subtitle-1 mt-n2 mb-n4 d-flex justify-space-between">
+            <div>
+              Directories (230)
+            </div>
+            <div>
+              <a href="" class="text-subtitle-1 text-decoration-none">
+                view all
+              </a>
+            </div>
           </v-subheader>
         </v-col>
       </v-row>
