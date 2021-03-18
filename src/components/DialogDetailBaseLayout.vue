@@ -3,12 +3,13 @@
     v-model="dialog"
     scrollable
     :max-width="$vuetify.breakpoint.mdAndUp ? '70vw' : 'none'"
+    style="border-radius: none !important"
   >
     <v-card
       tile
       flat
       class="dialogCard"
-      style="min-height: 100vh !important"
+      style="min-height: 100vh !important;"
     >
       <v-sheet elevation="2">
         <v-card-title class="pa-0">
@@ -16,7 +17,7 @@
             <v-row>
               <v-col cols="12" xl="8" offset-xl="2" class="d-flex align-center justify-space-between py-2">
                 <!-- <div class="text-body-1" style="width: 80%">
-                  <slot name="dialog-detail-title"></slot>
+                  placeholder title or logo
                 </div> -->
                 <div style="width: 80%">&nbsp;</div>
                 <v-btn
@@ -35,17 +36,7 @@
         <v-container class="py-0">
           <v-row>
             <v-col cols="12" xl="8" offset-xl="2">
-              <slot name="dialog-detail-meta"></slot>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" xl="8" offset-xl="2">
-              <slot name="dialog-detail-title"></slot>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" xl="8" offset-xl="2">
-              <slot name="dialog-detail-content"></slot>
+              <slot name="dialog-detail"></slot>
             </v-col>
           </v-row>
         </v-container>
