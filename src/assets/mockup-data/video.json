@@ -40,7 +40,7 @@
       "director": "Robert Zemeckis",
       "duration": "P1Y2M10DT2H30M",
       "thumbnail": "link-to-thumbnail.jpg",
-      "link-to-video-file": "Back_To_The Future.mp4",
+      "link-to-video-file": "https://somewhere.com/videos/Back_To_The Future.mp4",
       "type": "file",
       "size": 2188478,
       "file-type": "mp3",
