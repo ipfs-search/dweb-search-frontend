@@ -2,11 +2,13 @@
   <v-dialog
     v-model="dialog"
     scrollable
+    :max-width="$vuetify.breakpoint.mdAndUp ? '70vw' : 'none'"
   >
     <v-card
       tile
       flat
       class="dialogCard"
+      style="min-height: 100vh !important"
     >
       <v-sheet elevation="2">
         <v-card-title class="pa-0">
