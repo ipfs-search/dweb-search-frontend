@@ -35,6 +35,16 @@
         <v-container class="py-0">
           <v-row>
             <v-col cols="12" xl="8" offset-xl="2">
+              <slot name="dialog-detail-meta"></slot>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" xl="8" offset-xl="2">
+              <slot name="dialog-detail-title"></slot>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" xl="8" offset-xl="2">
               <slot name="dialog-detail-content"></slot>
             </v-col>
           </v-row>
