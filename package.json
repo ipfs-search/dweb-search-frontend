@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "howler": "^2.2.1",
     "ipfs-search-client": "^0.1.0",
     "masonry-layout": "^4.2.2",
     "v-body-scroll-lock": "^1.1.3",
