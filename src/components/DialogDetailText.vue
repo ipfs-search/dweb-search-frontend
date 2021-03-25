@@ -100,9 +100,7 @@
       <v-row>
         <v-col>
           <div class="text-body-1">
-            <div class="embed-responsive embed-responsive-16by9">
-              <video class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8" controls="" preload="metadata"></video>
-            </div>
+            <video-player :options="videoOptions" />
           </div>
         </v-col>
       </v-row>
@@ -113,17 +111,28 @@
 </template>
 
 <script>
-import {Howl} from 'howler';
+import { Howl } from 'howler';
 import DialogDetailBaseLayout from '@/components/DialogDetailBaseLayout.vue';
+import VideoPlayer from '@/components/VideoPlayer.vue';
 
 export default {
 
   components: {
     DialogDetailBaseLayout,
+    VideoPlayer,
   },
 
   data () {
     return {
+      videoOptions: {
+        controls: true,
+        sources: [
+          {
+            src: '//vjs.zencdn.net/v/oceans.mp4',
+            type: 'video/mp4',
+          }
+        ]
+      },
       playing: false,
       paused: false,
       sound: null,
@@ -194,18 +203,9 @@ export default {
       this.sound.stop();
     },
   },
-
-  beforeUnmount() {
-    this.sound.stop();
-  },
 }
 </script>
 
 <style lang="scss" scoped>
-.embed-responsive-item {
-  width: 100%;
-}
-.embed-responsive-16by9::before {
-  padding-top: 56.25%;
-}
+
 </style>

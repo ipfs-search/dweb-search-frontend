@@ -177,8 +177,6 @@
       </v-row>
     </v-container>
 
-
-
     <!-- IMAGE FILES -->
     <v-container>
       <v-row dense>
@@ -229,8 +227,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-
 
     <!-- AUDIO FILES -->
     <v-container>
@@ -284,7 +280,6 @@
         </v-col>
       </v-row>
     </v-container>
-
 
     <!-- VIDEO FILES -->
     <v-container>
@@ -363,7 +358,6 @@
           </v-card>
         </v-col>
 
-
         <v-col cols="12" xl="8" offset-xl="2">
           <v-card
             @click="genericDialog()"
@@ -396,7 +390,6 @@
       </v-row>
 
     </v-container>
-
 
     <!-- DIRECTORIES FILES -->
     <v-container>
@@ -459,7 +452,6 @@
         </v-col>
       </v-row>
     </v-container>
-
 
     <!-- PAGINATION -->
     <v-container>
