@@ -34,3 +34,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  // .video-js {
+  //   width: 100%;
+  // }
+</style>
