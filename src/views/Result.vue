@@ -285,7 +285,7 @@
     <v-container>
       <v-row dense>
         <v-col cols="12" xl="8" offset-xl="2">
-          <v-subheader class="text-subtitle-1 mt-n2 mb-n4 d-flex justify-space-between">
+          <v-subheader class="text-subtitle-1 mt-n2 mb-n1 d-flex justify-space-between">
             <div>
               Video (230)
             </div>
