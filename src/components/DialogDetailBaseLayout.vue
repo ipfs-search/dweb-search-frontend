@@ -3,7 +3,6 @@
     v-model="dialog"
     scrollable
     :max-width="$vuetify.breakpoint.mdAndUp ? '70vw' : 'none'"
-    style="border-radius: none !important"
   >
     <v-card
       tile
@@ -11,15 +10,18 @@
       class="dialogCard"
       style="min-height: 100vh !important;"
     >
-      <v-sheet elevation="2">
+      <v-sheet
+        elevation="2"
+        style="z-index: 2 !important;"
+      >
         <v-card-title class="pa-0">
-          <v-container class="py-0">
+          <v-container>
             <v-row>
               <v-col cols="12" xl="8" offset-xl="2" class="d-flex align-center justify-space-between py-2">
                 <!-- <div class="text-body-1" style="width: 80%">
                   placeholder title or logo
                 </div> -->
-                <div style="width: 80%">&nbsp;</div>
+                <div>&nbsp;</div>
                 <v-btn
                   icon
                   @click="hideDialog()"
@@ -33,7 +35,7 @@
       </v-sheet>
 
       <v-card-text class="pa-0 mymodal" v-body-scroll-lock="modalIsOpen">
-        <v-container class="py-0">
+        <v-container class="py-3">
           <v-row>
             <v-col cols="12" xl="8" offset-xl="2">
               <slot name="dialog-detail"></slot>
