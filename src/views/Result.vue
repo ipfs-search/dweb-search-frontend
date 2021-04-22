@@ -250,7 +250,7 @@
             dense
           >
             <v-col
-              v-for="card in cards"
+              v-for="card in results"
               :key="card.id"
               cols="6" xs="4" sm="4" md="3" lg="2"
             >
@@ -497,7 +497,7 @@ export default {
       { title: '<7d' }
     ],
 
-    cards: [
+    results: [
       { id: "1", title: 'Beatles', subtitle: 'Hey Jude', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
       { id: "2", title: 'Beatles', subtitle: 'Yesterday.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 3 },
       { id: "3", title: 'Beatles', subtitle: 'The White Album', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
