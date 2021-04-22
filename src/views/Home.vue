@@ -80,7 +80,7 @@
             <h3 class="mb-2 text-center hidden-sm-and-down">
               Search the Distributed&#160;Web
             </h3>
-              <searchbar />
+              <SearchBar />
           </v-col>
         </v-row>
       </v-container>
@@ -205,12 +205,11 @@
 
 <script>
 // @ is an alias to /src
-import Searchbar from '@/components/Searchbar.vue'
+import SearchBar from '@/components/SearchBar.vue'
 
 export default {
-
   components: {
-    Searchbar,
+    SearchBar,
   },
 
   data:() => ({

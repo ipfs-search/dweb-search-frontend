@@ -14,7 +14,7 @@
           solo
           validate-on-blur
           hide-details
-          @keyup.enter="onClickSearch"
+          @keyup.enter="search"
         >
           <template v-slot:append>
             <v-menu
@@ -23,7 +23,7 @@
             >
               <template v-slot:activator="{ on }">
                 <div class="mr-n3 grey--text d-flex align-center" v-on="on">
-                  <span>{{ contentType }}</span>
+                  <span>{{ selectedType }}</span>
                   <v-icon
                    class="d-inline-block">
                     mdi-menu-down
@@ -32,12 +32,13 @@
               </template>
               <v-list>
                 <v-list-item
-                  v-for="(item, index) in items"
-                  :key="index"
-                  @click="showSelectedContentType(index)"
+                  v-for="type in types"
+                  :key="type"
+                  @click="selectedType=type"
                 >
                   <v-list-item-title>
-                    {{ item.title }}
+                    <!-- TODO: capitalize first character -->
+                    {{ type }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -48,7 +49,7 @@
               style="margin-top: -2px;"
               size="34"
               color="white"
-              @click="onClickSearch"
+              @click="search"
             >
               mdi-magnify
             </v-icon>
@@ -61,45 +62,48 @@
 
 <script>
 export default {
+  data() {
+    return {
+      types: ['any', 'text', 'image', 'audio', 'video'],
+      selectedType: this.initialType,
+      query: this.initialQuery,
+    }
+  },
 
-  data: () => ({
-    query: null,
-    contentType: 'Any',
-    items: [
-      { title: 'Any' },
-      { title: 'Texts' },
-      { title: 'Images' },
-      { title: 'Audio' },
-      { title: 'Videos' },
-      { title: 'Directories' }
-    ]
-  }),
+  // Ref: https://vuejs.org/v2/guide/components-props.html#One-Way-Data-Flow
+  props: {
+    initialQuery: {
+      default: "",
+      type: String
+    },
+    initialType: {
+      default: "any",
+      type: String
+    }
+  },
+
+  watch: {
+    selectedType() {
+      // Search again when the selected type is changed.
+      return this.search();
+    }
+  },
 
   methods: {
-    showSelectedContentType (index) {
-      // console.log(index); // eslint-disable-line
-      this.contentType = this.items[index].title
-      this.onClickSearch();
-    },
-
-    onClickSearch () {
+    search() {
       if (this.query) {
-        // TODO: Add url encoder for query
-        this.$router.push({ path: `/result?query=${this.query}&type=${this.contentType}` }).catch(err => { console.log(err)})
+        this.$router.push({
+          path: '/search',
+          query: {
+            q: this.query,
+            type: this.selectedType
+          }
+        });
       }
     },
   },
 
   mounted() {
-    // We have to put this inside a store so we can use it everywhere
-    // Otherwise we have to do this in all the component where we need
-    // access to the query params
-    if (this.$route.query.query) {
-      this.query = this.$route.query.query;
-    }
-    if (this.$route.query.type) {
-      this.contentType = this.$route.query.type;
-    }
   }
 
 }
