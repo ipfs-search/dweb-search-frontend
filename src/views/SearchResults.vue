@@ -38,7 +38,10 @@
               </div>
             </div>
             <div class="flex-grow-1">
-              <SearchBar />
+              <SearchBar
+                v-bind:initialType="this.selectedType"
+                v-bind:initialQuery="this.query"
+              />
             </div>
             <div
               class="d-none d-lg-block"
@@ -481,7 +484,6 @@ export default {
   },
 
   data: () => ({
-    page: 1,
     sizeFilter: '0-10mb',
     lastSeenFilter: '<3hr',
 
@@ -503,6 +505,10 @@ export default {
       max_score: 0.0,
       hits: []
     },
+
+    query: "",
+    selectedType: "any",
+    page: 0,
 
     // results: [
     //   { id: "1", title: 'Beatles', subtitle: 'Hey Jude', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
@@ -532,18 +538,29 @@ export default {
     },
   },
 
-  mounted() {
-    // Once we enter this view we want retrieve data from the api with
-    // the params from the given url
-    const query = this.$route.query.q || "*";
-    const type = this.$route.query.type || "any";
-    const page = this.$route.query.page || 0;
+  beforeMount() {
+    // Get request parameters (passed down to components as props)
+    if (this.$route.query.q) {
+      this.query = this.$route.query.q;
+    }
+    if (this.$route.query.type) {
+      this.selectedType = this.$route.query.type;
+    }
+    if (this.$route.query.page) {
+      this.page = this.$route.query.page;
+    }
+  },
 
-    api.searchGet(query, type, page).then(results => {
+  mounted() {
+    // Perform API query
+    api.searchGet(this.query, this.type, this.page).then(results => {
       this.results = results;
+
+      this.query = "heej";
     }).catch(err => {
       console.error('Error from api.searchGet', err);
     });
+
   }
 }
 </script>
