@@ -250,28 +250,28 @@
             dense
           >
             <v-col
-              v-for="card in results"
-              :key="card.id"
+              v-for="hit in results.hits"
+              :key="hit.hash"
               cols="6" xs="4" sm="4" md="3" lg="2"
             >
               <v-card
                 @click="genericDialog()"
               >
                 <v-img
-                  :src="card.src"
+                  :src="hit.src"
                   class="white--text align-end"
                   :aspect-ratio="1"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 >
                   <v-icon size="64" color="white" style="opacity: 0.3; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">mdi-music</v-icon>
-                  <v-card-title class="text-subtitle-1 font-weight-bold" v-text="card.title"></v-card-title>
-                  <v-card-subtitle class="white--text text-body-2" v-text="card.subtitle"></v-card-subtitle>
+                  <v-card-title class="text-subtitle-1 font-weight-bold" v-html="hit.title"></v-card-title>
+                  <v-card-subtitle class="white--text text-body-2" v-html="hit.description"></v-card-subtitle>
                 </v-img>
 
                 <v-card-subtitle class="text-caption text-truncate">
                   <div class="my-n2">
-                    <span class="red--text">Last seen 2 months ago</span><br>
-                    <span>Size 478mb</span>
+                    <span class="red--text">Last seen {{ hit['last-seen'] }} </span><br>
+                    <span v-if="hit.size">Size {{ hit.size }}</span>
                   </div>
                 </v-card-subtitle>
               </v-card>
@@ -468,11 +468,12 @@
 
 
 <script>
-const IpfsSearchApi = require('ipfs-search-client');
-// import IpfsSearchApi from 'ipfs-search-client';
 import Searchbar from '@/components/Searchbar.vue'
 import DialogDetailText from '@/components/DialogDetailText.vue'
 import { showDialog } from '@/helpers/dialogHelper.js';
+
+const IpfsSearchApi = require('ipfs-search-client');
+const api = new IpfsSearchApi.DefaultApi();
 
 export default {
   components: {
@@ -497,14 +498,20 @@ export default {
       { title: '<7d' }
     ],
 
-    results: [
-      { id: "1", title: 'Beatles', subtitle: 'Hey Jude', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
-      { id: "2", title: 'Beatles', subtitle: 'Yesterday.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 3 },
-      { id: "3", title: 'Beatles', subtitle: 'The White Album', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
-      { id: "4", title: 'Beatles', subtitle: 'Goodnight.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
-      { id: "5", title: 'Beatles', subtitle: 'The White Album 2', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
-      { id: "6", title: 'Beatles', subtitle: 'The wallrus', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
-    ],
+    results: {
+      total: 0,
+      max_score: 0.0,
+      hits: []
+    },
+
+    // results: [
+    //   { id: "1", title: 'Beatles', subtitle: 'Hey Jude', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
+    //   { id: "2", title: 'Beatles', subtitle: 'Yesterday.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 3 },
+    //   { id: "3", title: 'Beatles', subtitle: 'The White Album', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
+    //   { id: "4", title: 'Beatles', subtitle: 'Goodnight.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
+    //   { id: "5", title: 'Beatles', subtitle: 'The White Album 2', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
+    //   { id: "6", title: 'Beatles', subtitle: 'The wallrus', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
+    // ],
   }),
 
   methods: {
@@ -523,40 +530,20 @@ export default {
     genericDialog() {
       showDialog(DialogDetailText, {});
     },
-
-    /*
-      We want to retrieve results for all of the types if no type is selected.
-      So first we have to find out whether a type is selected. If this is not the
-      case we have to iterate over the types and make queries for them.
-    */
-
-    getDataFromApi(query, type) {
-      const api = new IpfsSearchApi.DefaultApi();
-
-      const opts = {
-        type, // {{Type}} Resource type. Omit to return all types.
-        page: 0, // {{Integer}} Page number.
-      };
-      // eslint-disable-next-line no-unused-vars
-      api.searchGet(query, opts).then((data) => {
-        if (data) {
-          console.log('Yeeeh!', JSON.stringify(data, undefined, 2));
-        }
-      }).catch((err) => {
-        console.log('Error from api.searchGet: ', err);
-      });
-    }
-
   },
 
   mounted() {
     // Once we enter this view we want retrieve data from the api with
     // the params from the given url
-    // const query = this.$route.query.query;
-    // const type = this.$route.query.type;
-    // if (query) {
-    //   this.getDataFromApi(query, type);
-    // }
+    const query = this.$route.query.query || "*";
+    const type = this.$route.query.type || "any";
+    const page = this.$route.query.page || 0;
+
+    api.searchGet(query, type, page).then(results => {
+      this.results = results;
+    }).catch(err => {
+      console.error('Error from api.searchGet', err);
+    });
   }
 }
 </script>
