@@ -1,5 +1,8 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+
+// Faster builds
+// Ref: https://vuetifyjs.com/en/features/presets/#compilation-time
+import Vuetify from 'vuetify/lib/framework';
 
 Vue.use(Vuetify);
 

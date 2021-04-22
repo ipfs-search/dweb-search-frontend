@@ -1,7 +1,10 @@
 {
-  "name": "ipfs-search-vuetify-a-la-carte",
+  "name": "dweb-search-frontend",
   "version": "0.1.0",
-  "private": true,
+  "description": "Frontend for dweb-search, formerly ipfs-search.",
+  "repository": "github:ipfs-search/dweb-search-frontend",
+  "license": "AGPL-3.0",
+  "author": "Kees van Drongelen <kees@visualspace.nl>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
