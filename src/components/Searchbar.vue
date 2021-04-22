@@ -14,7 +14,7 @@
           solo
           validate-on-blur
           hide-details
-          @keyup.enter="onClickSearch"
+          @keyup.enter="search"
         >
           <template v-slot:append>
             <v-menu
@@ -23,7 +23,7 @@
             >
               <template v-slot:activator="{ on }">
                 <div class="mr-n3 grey--text d-flex align-center" v-on="on">
-                  <span>{{ contentType }}</span>
+                  <span>{{ selectedType }}</span>
                   <v-icon
                    class="d-inline-block">
                     mdi-menu-down
@@ -32,12 +32,13 @@
               </template>
               <v-list>
                 <v-list-item
-                  v-for="(item, index) in items"
-                  :key="index"
-                  @click="showSelectedContentType(index)"
+                  v-for="type in types"
+                  :key="type"
+                  @click="selectedType=type"
                 >
                   <v-list-item-title>
-                    {{ item.title }}
+                    <!-- TODO: capitalize first character -->
+                    {{ type }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -48,7 +49,7 @@
               style="margin-top: -2px;"
               size="34"
               color="white"
-              @click="onClickSearch"
+              @click="search"
             >
               mdi-magnify
             </v-icon>
@@ -60,32 +61,20 @@
 </template>
 
 <script>
-export default {
+const types = ['any', 'text', 'image', 'audio', 'video'];
 
+export default {
   data: () => ({
-    query: null,
-    contentType: 'Any',
-    items: [
-      { title: 'Any' },
-      { title: 'Texts' },
-      { title: 'Images' },
-      { title: 'Audio' },
-      { title: 'Videos' },
-      { title: 'Directories' }
-    ]
+    types: types,
+    selectedType: types[0],
+    query: ""
   }),
 
   methods: {
-    showSelectedContentType (index) {
-      // console.log(index); // eslint-disable-line
-      this.contentType = this.items[index].title
-      this.onClickSearch();
-    },
-
-    onClickSearch () {
+    search () {
       if (this.query) {
         // TODO: Add url encoder for query
-        this.$router.push({ path: `/result?query=${this.query}&type=${this.contentType}` }).catch(err => { console.log(err)})
+        this.$router.push({ path: `/result?query=${this.query}&type=${this.selectedType}` }).catch(err => { console.log(err)})
       }
     },
   },
@@ -98,7 +87,7 @@ export default {
       this.query = this.$route.query.query;
     }
     if (this.$route.query.type) {
-      this.contentType = this.$route.query.type;
+      this.selectedType = this.$route.query.type;
     }
   }
 
