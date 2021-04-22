@@ -2,10 +2,9 @@
   <div class="home">
     <v-app-bar
       app
-      color="primary"
       height="56"
       elevate-on-scroll
-      dark
+      light
     >
       <v-container
         class="px-0"
@@ -24,7 +23,7 @@
                 alt="DWEB Search Logo"
                 class="pl-1 mr-2"
                 contain
-                src="../assets/logo_white.svg"
+                src="../assets/logo_primary.svg"
                 :width="$vuetify.breakpoint.mdAndUp ? 32 : 24"
                 :height="$vuetify.breakpoint.mdAndUp ? 32 : 24"
               />

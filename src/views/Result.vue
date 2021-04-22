@@ -124,7 +124,7 @@
               Texts (230)
             </div>
             <div>
-              <a href="" class="text-subtitle-1 text-decoration-none">
+              <a class="text-subtitle-1 text-decoration-none">
                 view all
               </a>
             </div>
