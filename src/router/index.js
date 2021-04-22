@@ -11,12 +11,12 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/result',
-    name: 'Result',
+    path: '/search',
+    name: 'SearchResults',
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "result" */ '../views/Result.vue')
+    component: () => import(/* webpackChunkName: "search-results" */ '../views/SearchResults.vue')
   }
 ]
 
