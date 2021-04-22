@@ -74,7 +74,7 @@ export default {
     search () {
       if (this.query) {
         // TODO: Add url encoder for query
-        this.$router.push({ path: `/result?query=${this.query}&type=${this.selectedType}` }).catch(err => { console.log(err)})
+        this.$router.push({ path: `/result?query=${this.q}&type=${this.selectedType}` }).catch(err => { console.log(err)})
       }
     },
   },
@@ -83,8 +83,8 @@ export default {
     // We have to put this inside a store so we can use it everywhere
     // Otherwise we have to do this in all the component where we need
     // access to the query params
-    if (this.$route.query.query) {
-      this.query = this.$route.query.query;
+    if (this.$route.query.q) {
+      this.query = this.$route.query.q;
     }
     if (this.$route.query.type) {
       this.selectedType = this.$route.query.type;

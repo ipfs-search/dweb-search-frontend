@@ -535,7 +535,7 @@ export default {
   mounted() {
     // Once we enter this view we want retrieve data from the api with
     // the params from the given url
-    const query = this.$route.query.query || "*";
+    const query = this.$route.query.q || "*";
     const type = this.$route.query.type || "any";
     const page = this.$route.query.page || 0;
 
