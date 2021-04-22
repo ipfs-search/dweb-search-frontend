@@ -38,7 +38,7 @@
               </div>
             </div>
             <div class="flex-grow-1">
-              <searchbar />
+              <SearchBar />
             </div>
             <div
               class="d-none d-lg-block"
@@ -468,7 +468,7 @@
 
 
 <script>
-import Searchbar from '@/components/Searchbar.vue'
+import SearchBar from '@/components/SearchBar.vue'
 import DialogDetailText from '@/components/DialogDetailText.vue'
 import { showDialog } from '@/helpers/dialogHelper.js';
 
@@ -477,7 +477,7 @@ const api = new IpfsSearchApi.DefaultApi();
 
 export default {
   components: {
-    Searchbar,
+    SearchBar,
   },
 
   data: () => ({
