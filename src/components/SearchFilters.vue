@@ -9,29 +9,29 @@
         <v-col cols="12" xl="8" offset-xl="2" align="end" class="text--secondary text-body-2">
           <span class="hidden-sm-and-down text-body-2">Filter: </span>
 
-          <span>
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <span
-                  class="m-2 text-body-2"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  Size {{ sizeFilter }}<v-icon>mdi-menu-down</v-icon>
-                </span>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in sizeItems"
-                  :key="index"
-                  @click="setSizeFilter(index)"
-                >
-                  <v-list-item-title class="text-body-2">{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </span>
+          <v-select
+            :items="sizeOptions"
+            dense
+            label="Size"
+          />
 
+          <v-select
+            :items="lastSeenOptions"
+            dense
+            label="Last seen"
+          />
+
+          <SearchFilter
+            label="Last seen"
+            :options="sizeOptions"
+            v-model="sizeFilter"
+          />
+
+          <SearchFilter
+            label="Last seen"
+            :options="lastSeenOptions"
+            v-model="lastSeenFilter"
+          />
 
         </v-col>
       </v-row>
@@ -39,26 +39,42 @@
 </template>
 
 <script>
+import SearchFilter from './SearchFilter.vue';
 
 export default {
   components: {
+    SearchFilter,
   },
 
   data: () => ({
     sizeFilter: '0-10mb',
     lastSeenFilter: '<3hr',
 
-    sizeItems: [
-      { title: '0-10mb' },
-      { title: '10-100mb' },
-      { title: '100mb-1gb' },
-      { title: '1gb+' }
+    sizeOptions: [
+      {
+        text: '0-10mb', value: '0-10mb'
+      },
+      {
+        text: '10-100mb', value: '10-100mb'
+      },
+      {
+        text: '100mb-1gb', value: '100mb-1gb'
+      },
+      {
+        text: '1gb+', value: '1gb+'
+      },
     ],
 
-    lastSeenItems: [
-      { title: '<3hr' },
-      { title: '<24hr' },
-      { title: '<7d' }
+    lastSeenOptions: [
+      {
+        text: '<3hr', value: '<3hr'
+      },
+      {
+        text: '<24hr', value: '<24hr'
+      },
+      {
+        text: '<7d', value: '<7d'
+      },
     ],
   }),
 
@@ -67,9 +83,6 @@ export default {
       this.sizeFilter = this.sizeItems[index].title
     },
 
-    setLastSeenFilter (index) {
-      this.lastSeenFilter = this.lastSeenItems[index].title
-    },
   },
 }
 </script>
