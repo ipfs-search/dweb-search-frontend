@@ -53,73 +53,7 @@
       </v-container>
     </v-app-bar>
 
-    <!-- container with nested row and col components to layout filters
-      Filters are made with menu components that is triggered
-      via a click 'on'. The menu it self consists of list components
-      containing list-items which contains a list-item-title
-    -->
-    <v-container>
-      <v-row>
-        <v-col
-          cols="12"
-          xl="8"
-          offset-xl="2"
-          align="end"
-          class="text--secondary text-body-2"
-        >
-          <span class="hidden-sm-and-down text-body-2">Filter: </span>
-
-          <span>
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <span
-                  class="m-2 text-body-2"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  Size {{ sizeFilter }}<v-icon>mdi-menu-down</v-icon>
-                </span>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in sizeItems"
-                  :key="index"
-                  @click="sizeFilter = item"
-                >
-                  <v-list-item-title class="text-body-2">{{ item }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </span>
-
-          <span>
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <span
-                  class="m-2 text-body-2"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  Last seen {{ lastSeenFilter }}
-                  <v-icon>
-                    mdi-menu-down
-                  </v-icon>
-                </span>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in lastSeenItems"
-                  :key="index"
-                  @click="lastSeenFilter = item"
-                >
-                  <v-list-item-title class="text-body-2">{{ item }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </span>
-        </v-col>
-      </v-row>
-    </v-container>
+    <SearchFilters />
 
     <!-- TEXT FILES -->
     <v-container>
@@ -650,12 +584,14 @@
 import SearchMixin from '@/mixins/SearchMixin';
 import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 import SearchBar from '@/components/SearchBar.vue';
+import SearchFilters from '@/components/SearchFilters.vue';
 import DialogDetailText from '@/components/DialogDetailText.vue';
-import { showDialog } from '@/helpers/dialogHelper';
+import { showDialog } from '@/helpers/dialogHelper.js';
 
 export default {
   components: {
     SearchBar,
+    SearchFilters,
   },
 
   mixins: [SearchMixin, SearchNavigationMixin],
