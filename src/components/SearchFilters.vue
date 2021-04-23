@@ -7,31 +7,40 @@
     <v-container>
       <v-row>
         <v-col cols="12" xl="8" offset-xl="2" align="end" class="text--secondary text-body-2">
-          <span class="hidden-sm-and-down text-body-2">Filter: </span>
 
-          <v-select
-            :items="sizeOptions"
-            dense
-            label="Size"
-          />
+          <v-row>
+            <v-col>
+              <!-- <span class="hidden-sm-and-down text-body-2">Filter: </span> -->
+            </v-col>
 
-          <v-select
-            :items="lastSeenOptions"
-            dense
-            label="Last seen"
-          />
+            <v-col cols="2">
+              <v-select
+                :items="sizeOptions"
+                dense
+                label="Size"
+              />
+            </v-col>
 
-          <SearchFilter
-            label="Last seen"
-            :options="sizeOptions"
-            v-model="sizeFilter"
-          />
+            <v-col cols="2">
+              <v-select
+                :items="lastSeenOptions"
+                dense
+                label="Last seen"
+              />
+            </v-col>
+<!--
+            <SearchFilter
+              label="Last seen"
+              :options="sizeOptions"
+              v-model="sizeFilter"
+            />
 
-          <SearchFilter
-            label="Last seen"
-            :options="lastSeenOptions"
-            v-model="lastSeenFilter"
-          />
+            <SearchFilter
+              label="Last seen"
+              :options="lastSeenOptions"
+              v-model="lastSeenFilter"
+            /> -->
+          </v-row>
 
         </v-col>
       </v-row>
@@ -39,11 +48,11 @@
 </template>
 
 <script>
-import SearchFilter from './SearchFilter.vue';
+// import SearchFilter from './SearchFilter.vue';
 
 export default {
   components: {
-    SearchFilter,
+    // SearchFilter,
   },
 
   data: () => ({
