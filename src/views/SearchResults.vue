@@ -44,7 +44,6 @@
             <div class="flex-grow-1">
               <SearchBar
                 :initial-type="this.selectedType"
-                :initial-query="this.query"
               />
             </div>
             <div
@@ -682,7 +681,6 @@ export default {
       hits: [],
     },
 
-    query: '',
     selectedType: 'any',
     page: 0,
 
@@ -718,8 +716,15 @@ export default {
   },
 
   mounted() {
-    // Perform search on mount of results
+    // Set vuex query from route query parameters
+    this.$store.commit('search/setRouteParams', this.$route.query);
     this.$store.dispatch('search/search');
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    console.log('Updating route');
+    this.$store.dispatch('search/search');
+    next();
   },
 };
 </script>

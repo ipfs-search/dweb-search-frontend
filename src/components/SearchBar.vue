@@ -26,7 +26,7 @@
                   class="mr-n3 grey--text d-flex align-center"
                   v-on="on"
                 >
-                  <span>{{ selectedType }}</span>
+                  <span>{{ type }}</span>
                   <v-icon
                     class="d-inline-block"
                   >
@@ -36,13 +36,13 @@
               </template>
               <v-list>
                 <v-list-item
-                  v-for="type in types"
-                  :key="type"
-                  @click="selectedType=type"
+                  v-for="t in types"
+                  :key="t"
+                  @click="type=t"
                 >
                   <v-list-item-title>
                     <!-- TODO: capitalize first character -->
-                    {{ type }}
+                    {{ t }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -72,36 +72,37 @@ export default {
   data() {
     return {
       types: ['any', 'text', 'image', 'audio', 'video'],
-      selectedType: this.initialType,
-      query: this.initialQuery,
     };
   },
 
-  // Ref: https://vuejs.org/v2/guide/components-props.html#One-Way-Data-Flow
-  props: {
-    initialQuery: {
-      default: '',
-      type: String,
+  computed: {
+    // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
+    type: {
+      get() {
+        return this.$store.state.search.query.type;
+      },
+      set(value) {
+        this.$store.commit('search/setType', value);
+        this.search();
+      },
     },
-    initialType: {
-      default: 'any',
-      type: String,
-    },
-  },
-
-  watch: {
-    selectedType() {
-      // Search again when the selected type is changed.
-      return this.search();
+    query: {
+      get() {
+        return this.$store.state.search.query.user_query;
+      },
+      set(value) {
+        this.$store.commit('search/setUserQuery', value);
+      },
     },
   },
 
   methods: {
     // Changed URL when calling search().
     search() {
+      console.log(this.$store.getters['search/stateToQueryParams']);
       this.$router.push({
         path: '/search',
-        query: this.$store.getters.search.stateToQueryParams(),
+        query: this.$store.getters['search/stateToQueryParams'],
       });
     },
   },
