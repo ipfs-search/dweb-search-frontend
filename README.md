@@ -1,5 +1,5 @@
 # dweb-search-frontend
-[![Build Status](https://travis-ci.org/ipfs-search/dweb-search-frontend.svg?branch=master)](https://travis-ci.org/ipfs-search/dweb-search-frontend)
+[![Build Status](https://travis-ci.com/ipfs-search/dweb-search-frontend.svg?branch=master)](https://travis-ci.com/ipfs-search/dweb-search-frontend)
 [![Backers on Open Collective](https://opencollective.com/ipfs-search/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/ipfs-search/sponsors/badge.svg)](#sponsors)
 
