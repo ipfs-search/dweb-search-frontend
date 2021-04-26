@@ -55,7 +55,7 @@ export default {
     return {
       dialog: true,
       modalIsOpen: false,
-    }
+    };
   },
 
   methods: {
@@ -63,14 +63,14 @@ export default {
   },
 
   mounted() {
-    this.$set(this, 'modalIsOpen', true)
+    this.$set(this, 'modalIsOpen', true);
   },
 
   beforeDestroy() {
-    this.$set(this, 'modalIsOpen', false)
+    this.$set(this, 'modalIsOpen', false);
   },
 
-}
+};
 </script>
 
 <style lang="scss" scoped>

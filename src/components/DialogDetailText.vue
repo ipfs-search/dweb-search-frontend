@@ -139,7 +139,7 @@ export default {
     VideoPlayer,
   },
 
-  data () {
+  data() {
     return {
       videoOptions: {
         controls: true,
@@ -147,7 +147,7 @@ export default {
           {
             src: '//vjs.zencdn.net/v/oceans.mp4',
             type: 'video/mp4',
-          }
+          },
         ],
         fluid: true,
       },
@@ -198,7 +198,7 @@ export default {
           calories: 518,
         },
       ],
-    }
+    };
   },
 
   methods: {
@@ -221,7 +221,7 @@ export default {
     //   this.sound.stop();
     // },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

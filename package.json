@@ -2,8 +2,6 @@
   "name": "dweb-search-frontend",
   "version": "0.1.0",
   "description": "Frontend for dweb-search, formerly ipfs-search.",
-  "repository": "github:ipfs-search/dweb-search-frontend",
-  "license": "AGPL-3.0",
   "author": "Kees van Drongelen <kees@visualspace.nl>",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -25,11 +23,13 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.0",
-    "@vue/cli-plugin-eslint": "^4.4.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "^4.4.6",
     "@vue/cli-service": "^4.5.12",
+    "@vue/eslint-config-airbnb": "^5.0.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
@@ -44,7 +44,8 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/airbnb"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
@@ -55,5 +56,7 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "license": "AGPL-3.0",
+  "repository": "github:ipfs-search/dweb-search-frontend"
 }

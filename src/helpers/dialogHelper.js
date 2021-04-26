@@ -1,7 +1,7 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import vuetify from '../plugins/vuetify';
 
-import { createDialogContainer } from "./createDialogContainer";
+import { createDialogContainer } from './createDialogContainer';
 
 function hideDialog() {
   this.$destroy();
@@ -10,7 +10,7 @@ function hideDialog() {
 
 function showDialog(component, data) {
   const container = createDialogContainer();
-  document.getElementById("app").appendChild(container);
+  document.getElementById('app').appendChild(container);
 
   const ComponentClass = Vue.extend(component);
   const instance = new ComponentClass({
@@ -21,7 +21,6 @@ function showDialog(component, data) {
     },
   });
   instance.$mount('#dialog-container');
-
 }
 
 export {

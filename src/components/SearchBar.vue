@@ -67,26 +67,26 @@ export default {
       types: ['any', 'text', 'image', 'audio', 'video'],
       selectedType: this.initialType,
       query: this.initialQuery,
-    }
+    };
   },
 
   // Ref: https://vuejs.org/v2/guide/components-props.html#One-Way-Data-Flow
   props: {
     initialQuery: {
-      default: "",
-      type: String
+      default: '',
+      type: String,
     },
     initialType: {
-      default: "any",
-      type: String
-    }
+      default: 'any',
+      type: String,
+    },
   },
 
   watch: {
     selectedType() {
       // Search again when the selected type is changed.
       return this.search();
-    }
+    },
   },
 
   methods: {
@@ -96,17 +96,17 @@ export default {
           path: '/search',
           query: {
             q: this.query,
-            type: this.selectedType
-          }
+            type: this.selectedType,
+          },
         });
       }
     },
   },
 
   mounted() {
-  }
+  },
 
-}
+};
 </script>
 
 <style lang="scss" scoped>

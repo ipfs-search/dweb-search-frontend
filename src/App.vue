@@ -107,7 +107,7 @@
 export default {
   $el: '#app',
 
-  data:() => ({
+  data: () => ({
     links: [
       'Snapshots',
       'API',
@@ -119,10 +119,10 @@ export default {
   // eslint-disable-next-line
   mounted:function () {
     this.$nextTick(function () {
-      this.$el.removeAttribute('hidden')
-    })
-  }
-}
+      this.$el.removeAttribute('hidden');
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -135,4 +135,3 @@ export default {
     }
   }
 </style>
-

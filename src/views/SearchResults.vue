@@ -53,7 +53,6 @@
       </v-container>
     </v-app-bar>
 
-
     <!-- container with nested row and col components to layout filters
       Filters are made with menu components that is triggered
       via a click 'on'. The menu it self consists of list components
@@ -115,8 +114,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-
 
     <!-- TEXT FILES -->
     <v-container>
@@ -469,13 +466,13 @@
   </div>
 </template>
 
-
 <script>
-import SearchBar from '@/components/SearchBar.vue'
-import DialogDetailText from '@/components/DialogDetailText.vue'
+import SearchBar from '@/components/SearchBar.vue';
+import DialogDetailText from '@/components/DialogDetailText.vue';
 import { showDialog } from '@/helpers/dialogHelper.js';
 
 const IpfsSearchApi = require('ipfs-search-client');
+
 const api = new IpfsSearchApi.DefaultApi();
 
 export default {
@@ -491,23 +488,23 @@ export default {
       { title: '0-10mb' },
       { title: '10-100mb' },
       { title: '100mb-1gb' },
-      { title: '1gb+' }
+      { title: '1gb+' },
     ],
 
     lastSeenItems: [
       { title: '<3hr' },
       { title: '<24hr' },
-      { title: '<7d' }
+      { title: '<7d' },
     ],
 
     results: {
       total: 0,
       max_score: 0.0,
-      hits: []
+      hits: [],
     },
 
-    query: "",
-    selectedType: "any",
+    query: '',
+    selectedType: 'any',
     page: 0,
 
     // results: [
@@ -521,12 +518,12 @@ export default {
   }),
 
   methods: {
-    setSizeFilter (index) {
-      this.sizeFilter = this.sizeItems[index].title
+    setSizeFilter(index) {
+      this.sizeFilter = this.sizeItems[index].title;
     },
 
-    setLastSeenFilter (index) {
-      this.lastSeenFilter = this.lastSeenItems[index].title
+    setLastSeenFilter(index) {
+      this.lastSeenFilter = this.lastSeenItems[index].title;
     },
 
     goHome() {
@@ -553,16 +550,15 @@ export default {
 
   mounted() {
     // Perform API query
-    api.searchGet(this.query, this.type, this.page).then(results => {
+    api.searchGet(this.query, this.type, this.page).then((results) => {
       this.results = results;
 
-      this.query = "heej";
-    }).catch(err => {
+      this.query = 'heej';
+    }).catch((err) => {
       console.error('Error from api.searchGet', err);
     });
-
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

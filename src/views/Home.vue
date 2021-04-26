@@ -204,14 +204,14 @@
 
 <script>
 // @ is an alias to /src
-import SearchBar from '@/components/SearchBar.vue'
+import SearchBar from '@/components/SearchBar.vue';
 
 export default {
   components: {
     SearchBar,
   },
 
-  data:() => ({
+  data: () => ({
     links: [
       'Snapshots',
       'API',
@@ -219,7 +219,7 @@ export default {
       'Contact',
     ],
   }),
-}
+};
 </script>
 
 <style lang="scss" scoped>
