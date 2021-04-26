@@ -654,10 +654,6 @@ import SearchBar from '@/components/SearchBar.vue';
 import DialogDetailText from '@/components/DialogDetailText.vue';
 import { showDialog } from '@/helpers/dialogHelper';
 
-const IpfsSearchApi = require('ipfs-search-client');
-
-const api = new IpfsSearchApi.DefaultApi();
-
 export default {
   components: {
     SearchBar,
@@ -719,27 +715,11 @@ export default {
   },
 
   beforeMount() {
-    // Get request parameters (passed down to components as props)
-    if (this.$route.query.q) {
-      this.query = this.$route.query.q;
-    }
-    if (this.$route.query.type) {
-      this.selectedType = this.$route.query.type;
-    }
-    if (this.$route.query.page) {
-      this.page = this.$route.query.page;
-    }
   },
 
   mounted() {
-    // Perform API query
-    api.searchGet(this.query, this.type, this.page).then((results) => {
-      this.results = results;
-
-      this.query = 'heej';
-    }).catch((err) => {
-      console.error('Error from api.searchGet', err);
-    });
+    // Perform search on mount of results
+    this.$store.dispatch('search/search');
   },
 };
 </script>

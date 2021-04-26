@@ -1,4 +1,8 @@
-const searchApi = require('ipfs-search-client').DefaultApi();
+import { DefaultApi } from 'ipfs-search-client';
+
+// Causal chain for query: URL -> route -> store -> results view -> search()
+
+const api = new DefaultApi();
 
 const initialResults = {
   total: 0,
@@ -16,8 +20,36 @@ const initialQuery = {
   },
 };
 
-const getters = {
+function stateToQueryParams(state) {
+  // Return query params for consumption by $router.push({query})
+  // Inverse of setQueryFromParams()
 
+  const { query } = state;
+
+  return {
+    q: query.user_query,
+    last_seen: query.filters.lastSeen,
+    size: query.filters.size,
+    type: query.type,
+    page: query.page,
+  };
+}
+
+function queryParamsToState(params) {
+  // Inverse of getters.queryParams
+  return {
+    user_query: params.q || initialQuery.user_query,
+    type: params.type || initialQuery.type,
+    page: params.page || initialQuery.page,
+    filters: {
+      lastSeen: params.last_seen || initialQuery.filters.lastSeen,
+      size: params.size || initialQuery.filters.size,
+    },
+  };
+}
+
+const getters = {
+  stateToQueryParams,
 };
 
 function getLastSeenFilter(lastSeen) {
@@ -47,7 +79,7 @@ const actions = {
     // Compose querystring query
     const query = `${state.query.user_query} ${getFilters(state.query.filters)}`;
 
-    searchApi.searchGet(query, state.query.type, state.query.page).then((results) => {
+    api.searchGet(query, state.query.type, state.query.page).then((results) => {
       commit('setResults', results);
     }).catch((err) => {
       commit('setError');
@@ -58,6 +90,9 @@ const actions = {
 
 const mutations = {
   // Mutations relating to query composition
+  setRouteParams(state, params) {
+    state.query = queryParamsToState(params);
+  },
   setUserQuery(state, q) {
     state.query.user_query = q;
   },
@@ -97,7 +132,7 @@ const mutations = {
 };
 
 const state = () => ({
-  // Initial query values; to be set by $router.query.params from view.
+  // Initial query values; to be set from $router.query.params from view.
   // Note that these are raw values, the labels for options and the options are
   // not (currently) managed here.
   query: initialQuery,

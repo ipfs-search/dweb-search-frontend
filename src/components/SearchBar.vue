@@ -97,16 +97,12 @@ export default {
   },
 
   methods: {
+    // Changed URL when calling search().
     search() {
-      if (this.query) {
-        this.$router.push({
-          path: '/search',
-          query: {
-            q: this.query,
-            type: this.selectedType,
-          },
-        });
-      }
+      this.$router.push({
+        path: '/search',
+        query: this.$store.getters.search.stateToQueryParams(),
+      });
     },
   },
 

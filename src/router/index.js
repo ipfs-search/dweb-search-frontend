@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
@@ -24,6 +25,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.afterEach((to) => {
+  // Propagate queryset to search store; route is the single source of truth.
+
+  // Ref: https://github.com/vuejs/vuex-router-sync/blob/master/src/index.ts#L62
+  // Note that the reference has something about time traveling.
+
+  store.commit('search/setRouteParams', to.query);
 });
 
 export default router;
