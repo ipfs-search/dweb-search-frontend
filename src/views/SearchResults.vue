@@ -647,7 +647,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import SearchMixin from '@/mixins/SearchMixin';
+import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 import SearchBar from '@/components/SearchBar.vue';
 import DialogDetailText from '@/components/DialogDetailText.vue';
 import { showDialog } from '@/helpers/dialogHelper';
@@ -656,6 +657,8 @@ export default {
   components: {
     SearchBar,
   },
+
+  mixins: [SearchMixin, SearchNavigationMixin],
 
   data: () => ({
     sizeItems: [
@@ -672,42 +675,6 @@ export default {
     ],
   }),
 
-  computed: {
-    ...mapState('search', [
-      'results',
-      'query',
-    ]),
-    // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
-    lastSeenFilter: {
-      get() {
-        return this.$store.state.search.query.filters.lastSeen;
-      },
-      set(value) {
-        this.$store.commit('search/setLastSeenFilter', value);
-        this.search();
-      },
-    },
-    sizeFilter: {
-      get() {
-        return this.$store.state.search.query.filters.size;
-      },
-      set(value) {
-        console.log('doedoooo', value);
-        this.$store.commit('search/setSizeFilter', value);
-        this.search();
-      },
-    },
-    page: {
-      get() {
-        return this.$store.state.search.query.page;
-      },
-      set(value) {
-        this.$store.commit('search/setPage', value);
-        this.search();
-      },
-    },
-  },
-
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
@@ -716,27 +683,6 @@ export default {
     genericDialog() {
       showDialog(DialogDetailText, {});
     },
-    search() {
-      this.$router.push({
-        path: '/search',
-        query: this.$store.getters['search/stateToQueryParams'],
-      });
-    },
-  },
-
-  beforeMount() {
-  },
-
-  mounted() {
-    // Set vuex query from route query parameters
-    this.$store.commit('search/setRouteParams', this.$route.query);
-    this.$store.dispatch('search/search');
-  },
-
-  beforeRouteUpdate(to, from, next) {
-    // Perform search after update
-    this.$store.dispatch('search/search');
-    next();
   },
 };
 </script>

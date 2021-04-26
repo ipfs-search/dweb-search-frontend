@@ -68,47 +68,15 @@
 </template>
 
 <script>
+import SearchMixin from '@/mixins/SearchMixin';
+
 export default {
+  mixins: [SearchMixin],
   data() {
     return {
       types: ['any', 'text', 'image', 'audio', 'video'],
     };
   },
-
-  computed: {
-    // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
-    type: {
-      get() {
-        return this.$store.state.search.query.type;
-      },
-      set(value) {
-        this.$store.commit('search/setType', value);
-        this.search();
-      },
-    },
-    query: {
-      get() {
-        return this.$store.state.search.query.user_query;
-      },
-      set(value) {
-        this.$store.commit('search/setUserQuery', value);
-      },
-    },
-  },
-
-  methods: {
-    // Changed URL when calling search().
-    search() {
-      this.$router.push({
-        path: '/search',
-        query: this.$store.getters['search/stateToQueryParams'],
-      });
-    },
-  },
-
-  mounted() {
-  },
-
 };
 </script>
 
