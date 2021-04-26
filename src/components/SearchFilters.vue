@@ -81,16 +81,16 @@ export default {
 
     sizeOptions: [
       {
-        text: '0-10mb', value: '0-10mb',
+        text: '0-10mb', value: ['<=10485760'],
       },
       {
-        text: '10-100mb', value: '10-100mb',
+        text: '10-100mb', value: ['>10485760', '<=104857600'],
       },
       {
-        text: '100mb-1gb', value: '100mb-1gb',
+        text: '100mb-1gb', value: ['>104857600', '<=1073741824'],
       },
       {
-        text: '1gb+', value: '1gb+',
+        text: '1gb+', value: ['>1073741824'],
       },
     ],
 
