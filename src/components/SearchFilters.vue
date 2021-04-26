@@ -39,6 +39,7 @@
               dense
               solo
               label="Size"
+              v-model="sizeFilter"
             >
               <template v-slot:selection="{ item }">
                 <span class="m-2 text-body-2">Size {{ item.text }}</span>
@@ -52,6 +53,7 @@
               dense
               solo
               label="Last seen"
+              v-model="lastSeenFilter"
             >
               <template v-slot:selection="{ item }">
                 <span class="m-2 text-body-2">Last seen {{ item.text }}</span>
@@ -66,15 +68,16 @@
 
 <script>
 // import SearchFilter from './SearchFilter.vue';
+import SearchMixin from '@/mixins/SearchMixin';
 
 export default {
   components: {
     // SearchFilter,
   },
 
+  mixins: [SearchMixin],
+
   data: () => ({
-    sizeFilter: '0-10mb',
-    lastSeenFilter: '<3hr',
 
     sizeOptions: [
       {
@@ -93,22 +96,15 @@ export default {
 
     lastSeenOptions: [
       {
-        text: '<3hr', value: '<3hr',
+        text: '<3hr', value: '>now-3h',
       },
       {
-        text: '<24hr', value: '<24hr',
+        text: '<24hr', value: '>now-24h',
       },
       {
-        text: '<7d', value: '<7d',
+        text: '<7d', value: '>now-7d',
       },
     ],
   }),
-
-  methods: {
-    setSizeFilter(index) {
-      this.sizeFilter = this.sizeItems[index].title;
-    },
-
-  },
 };
 </script>
