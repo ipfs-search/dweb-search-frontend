@@ -8,4 +8,5 @@ export default new Vuex.Store({
   modules: {
     search,
   },
+  strict: true,
 });
