@@ -42,9 +42,7 @@
               </div>
             </div>
             <div class="flex-grow-1">
-              <SearchBar
-                :initial-type="this.selectedType"
-              />
+              <SearchBar />
             </div>
             <div
               class="d-none d-lg-block"
@@ -680,18 +678,6 @@ export default {
       max_score: 0.0,
       hits: [],
     },
-
-    selectedType: 'any',
-    page: 0,
-
-    // results: [
-    //   { id: "1", title: 'Beatles', subtitle: 'Hey Jude', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
-    //   { id: "2", title: 'Beatles', subtitle: 'Yesterday.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 3 },
-    //   { id: "3", title: 'Beatles', subtitle: 'The White Album', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
-    //   { id: "4", title: 'Beatles', subtitle: 'Goodnight.mp3', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
-    //   { id: "5", title: 'Beatles', subtitle: 'The White Album 2', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 3 },
-    //   { id: "6", title: 'Beatles', subtitle: 'The wallrus', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 3 },
-    // ],
   }),
 
   methods: {
