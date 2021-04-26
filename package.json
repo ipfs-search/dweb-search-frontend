@@ -44,13 +44,17 @@
     },
     "extends": [
       "plugin:vue/essential",
+      "plugin:vue/strongly-recommended",
       "eslint:recommended",
       "@vue/airbnb"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+        "no-console": "off",
+        "max-len": "warn"
+    }
   },
   "browserslist": [
     "> 1%",

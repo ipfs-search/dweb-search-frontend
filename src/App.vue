@@ -1,6 +1,9 @@
 <template>
-  <v-app dark hidden>
-    <slot name="header"></slot>
+  <v-app
+    dark
+    hidden
+  >
+    <slot name="header" />
     <!-- <v-app-bar
       app
       color="white"
@@ -71,7 +74,7 @@
       </v-container>
     </v-app-bar> -->
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
     <v-footer
       app
@@ -116,9 +119,8 @@ export default {
     ],
   }),
 
-  // eslint-disable-next-line
-  mounted:function () {
-    this.$nextTick(function () {
+  mounted() {
+    this.$nextTick(() => {
       this.$el.removeAttribute('hidden');
     });
   },

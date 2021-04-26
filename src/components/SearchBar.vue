@@ -22,10 +22,14 @@
               offset-y
             >
               <template v-slot:activator="{ on }">
-                <div class="mr-n3 grey--text d-flex align-center" v-on="on">
+                <div
+                  class="mr-n3 grey--text d-flex align-center"
+                  v-on="on"
+                >
                   <span>{{ selectedType }}</span>
                   <v-icon
-                   class="d-inline-block">
+                    class="d-inline-block"
+                  >
                     mdi-menu-down
                   </v-icon>
                 </div>
@@ -44,7 +48,10 @@
               </v-list>
             </v-menu>
           </template>
-          <template v-slot:append-outer v-if="$vuetify.breakpoint.smAndDown ? false : true">
+          <template
+            v-slot:append-outer
+            v-if="$vuetify.breakpoint.smAndDown ? false : true"
+          >
             <v-icon
               style="margin-top: -2px;"
               size="34"

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import vuetify from '../plugins/vuetify';
 
-import { createDialogContainer } from './createDialogContainer';
+import createDialogContainer from './createDialogContainer';
 
 function hideDialog() {
   this.$destroy();
