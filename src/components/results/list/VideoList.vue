@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Video ({{ results.hits.length }})
+      Video ({{ results.results.hits.length }})
     </template>
 
     <v-col

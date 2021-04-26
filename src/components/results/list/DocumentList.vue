@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Documents ({{ results.hits.length }})
+      Documents ({{ results.results.hits.length }})
     </template>
 
     <v-col
@@ -85,7 +85,6 @@ export default {
     goToDetailPage() {
       this.$router.push({ path: '/search/detail' });
     },
-
   },
 };
 </script>

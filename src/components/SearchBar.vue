@@ -74,7 +74,9 @@ export default {
   mixins: [SearchMixin],
   data() {
     return {
-      types: ['any', 'text', 'image', 'audio', 'video'],
+      // TODO: Keep these types in a central place
+      // TODO: Mapping between names/values (instead of only values)
+      types: ['any', 'text', 'images', 'audio', 'video'],
     };
   },
 };

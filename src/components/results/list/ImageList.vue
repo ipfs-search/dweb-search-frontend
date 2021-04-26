@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Images ({{ results.hits.length }})
+      Images ({{ results.results.hits.length }})
     </template>
 
     <v-col

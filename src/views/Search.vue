@@ -58,27 +58,34 @@
     <SearchFilters />
 
     <DocumentList
-      :results="results"
+      v-if="type == 'text' || type == 'any'"
+      :results="results.text"
     />
     <ImageList
-      :results="results"
+      v-if="type == 'images' || type == 'any'"
+      :results="results.images"
     />
     <AudioList
-      :results="results"
+      v-if="type == 'audio' || type == 'any'"
+      :results="results.audio"
     />
     <VideoList
-      :results="results"
+      v-if="type == 'video' || type == 'any'"
+      :results="results.video"
     />
     <DirectoryList
-      :results="results"
+      v-if="type == 'directories' || type == 'any'"
+      :results="results.directories"
     />
 
     <!-- PAGINATION -->
+    <!-- Note: pagination doesn't make sense in the combined view. -->
     <v-container>
       <template>
         <div class="my-16">
           <v-pagination
             v-model="page"
+            :length="results.page_count"
           />
         </div>
       </template>
@@ -117,6 +124,9 @@ export default {
     goHome() {
       this.$router.push({ path: '/' });
     },
+  },
+
+  mounted() {
   },
 };
 </script>

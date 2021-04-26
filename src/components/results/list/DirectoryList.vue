@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Directories ({{ results.hits.length }})
+      Directories ({{ results.results.hits.length }})
     </template>
 
     <v-col
