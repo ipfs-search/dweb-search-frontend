@@ -52,8 +52,8 @@
       "parser": "babel-eslint"
     },
     "rules": {
-        "no-console": "off",
-        "max-len": "warn"
+      "no-console": "off",
+      "max-len": "warn"
     }
   },
   "browserslist": [
