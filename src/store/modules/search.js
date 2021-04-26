@@ -40,7 +40,7 @@ function queryParamsToState(params) {
   return {
     user_query: params.q || initialQuery.user_query,
     type: params.type || initialQuery.type,
-    page: params.page || initialQuery.page,
+    page: Number(params.page) || initialQuery.page,
     filters: {
       lastSeen: params.last_seen || initialQuery.filters.lastSeen,
       size: params.size || initialQuery.filters.size,

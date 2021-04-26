@@ -99,7 +99,6 @@ export default {
   methods: {
     // Changed URL when calling search().
     search() {
-      console.log(this.$store.getters['search/stateToQueryParams']);
       this.$router.push({
         path: '/search',
         query: this.$store.getters['search/stateToQueryParams'],

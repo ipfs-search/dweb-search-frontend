@@ -84,9 +84,9 @@
                 <v-list-item
                   v-for="(item, index) in sizeItems"
                   :key="index"
-                  @click="setSizeFilter(index)"
+                  @click="sizeFilter = item"
                 >
-                  <v-list-item-title class="text-body-2">{{ item.title }}</v-list-item-title>
+                  <v-list-item-title class="text-body-2">{{ item }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -110,9 +110,9 @@
                 <v-list-item
                   v-for="(item, index) in lastSeenItems"
                   :key="index"
-                  @click="setLastSeenFilter(index)"
+                  @click="lastSeenFilter = item"
                 >
-                  <v-list-item-title class="text-body-2">{{ item.title }}</v-list-item-title>
+                  <v-list-item-title class="text-body-2">{{ item }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -647,6 +647,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SearchBar from '@/components/SearchBar.vue';
 import DialogDetailText from '@/components/DialogDetailText.vue';
 import { showDialog } from '@/helpers/dialogHelper';
@@ -657,44 +658,69 @@ export default {
   },
 
   data: () => ({
-    sizeFilter: '0-10mb',
-    lastSeenFilter: '<3hr',
-
     sizeItems: [
-      { title: '0-10mb' },
-      { title: '10-100mb' },
-      { title: '100mb-1gb' },
-      { title: '1gb+' },
+      '0-10mb',
+      '10-100mb',
+      '100mb-1gb',
+      '1gb+',
     ],
 
     lastSeenItems: [
-      { title: '<3hr' },
-      { title: '<24hr' },
-      { title: '<7d' },
+      '<3hr',
+      '<24hr',
+      '<7d',
     ],
-
-    results: {
-      total: 0,
-      max_score: 0.0,
-      hits: [],
-    },
   }),
 
+  computed: {
+    ...mapState('search', [
+      'results',
+      'query',
+    ]),
+    // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
+    lastSeenFilter: {
+      get() {
+        return this.$store.state.search.query.filters.lastSeen;
+      },
+      set(value) {
+        this.$store.commit('search/setLastSeenFilter', value);
+        this.search();
+      },
+    },
+    sizeFilter: {
+      get() {
+        return this.$store.state.search.query.filters.size;
+      },
+      set(value) {
+        console.log('doedoooo', value);
+        this.$store.commit('search/setSizeFilter', value);
+        this.search();
+      },
+    },
+    page: {
+      get() {
+        return this.$store.state.search.query.page;
+      },
+      set(value) {
+        this.$store.commit('search/setPage', value);
+        this.search();
+      },
+    },
+  },
+
   methods: {
-    setSizeFilter(index) {
-      this.sizeFilter = this.sizeItems[index].title;
-    },
-
-    setLastSeenFilter(index) {
-      this.lastSeenFilter = this.lastSeenItems[index].title;
-    },
-
     goHome() {
       this.$router.push({ path: '/' });
     },
 
     genericDialog() {
       showDialog(DialogDetailText, {});
+    },
+    search() {
+      this.$router.push({
+        path: '/search',
+        query: this.$store.getters['search/stateToQueryParams'],
+      });
     },
   },
 
@@ -708,7 +734,7 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    console.log('Updating route');
+    // Perform search after update
     this.$store.dispatch('search/search');
     next();
   },
