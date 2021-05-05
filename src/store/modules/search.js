@@ -52,24 +52,32 @@ const getters = {
   stateToQueryParams,
 };
 
-function getLastSeenFilter(lastSeen) {
+function getLastSeenFilters(lastSeen) {
   if (lastSeen) {
-    return `last-seen:${lastSeen}`;
+    return [`last-seen:${lastSeen}`];
   }
 
-  return '';
+  return [];
 }
 
-function getSizeFilter(size) {
+function getSizeFilters(size) {
   if (size) {
-    return `size:${size}`;
+    if (Array.isArray(size)) {
+      return size.map((value) => `size:${value}`);
+    }
+
+    // Singular value
+    return [`size:${size}`];
   }
 
-  return '';
+  return [];
 }
 
 function getFilters(filters) {
-  return `${getLastSeenFilter(filters.lastSeen)} ${getSizeFilter(filters.size)}`;
+  const lastSeenFilters = getLastSeenFilters(filters.lastSeen);
+  const sizeFilters = getSizeFilters(filters.size);
+  const fl = [...lastSeenFilters, ...sizeFilters];
+  return fl.join(' ');
 }
 
 const actions = {

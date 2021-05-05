@@ -586,7 +586,7 @@ import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 import SearchBar from '@/components/SearchBar.vue';
 import SearchFilters from '@/components/SearchFilters.vue';
 import DialogDetailText from '@/components/DialogDetailText.vue';
-import { showDialog } from '@/helpers/dialogHelper.js';
+import { showDialog } from '@/helpers/dialogHelper';
 
 export default {
   components: {
