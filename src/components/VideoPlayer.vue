@@ -1,6 +1,9 @@
 <template>
   <div>
-      <video ref="videoPlayer" class="video-js vjs-big-play-centered"></video>
+    <video
+      ref="videoPlayer"
+      class="video-js vjs-big-play-centered"
+    />
   </div>
 </template>
 
@@ -14,25 +17,25 @@ export default {
       type: Object,
       default() {
         return {};
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      player: null
-    }
+      player: null,
+    };
   },
   mounted() {
-    this.player = videojs(this.$refs.videoPlayer, this.options, function onPlayerReady() {
+    this.player = videojs(this.$refs.videoPlayer, this.options, () => {
       // console.log('onPlayerReady', this);
-    })
+    });
   },
   beforeDestroy() {
     if (this.player) {
-      this.player.dispose()
+      this.player.dispose();
     }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">

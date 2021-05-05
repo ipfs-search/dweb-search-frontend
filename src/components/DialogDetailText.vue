@@ -1,12 +1,11 @@
 <template>
   <dialog-detail-base-layout>
-
     <template v-slot:dialog-detail>
-
       <v-row>
         <v-col>
           <div class="text-caption mb-n7 text-truncate">
-            <span class="green--text">Last seen 1 day ago</span><span> | Size 478mb</span><span> | Mimetype text/html</span>
+            <span class="green--text">Last seen 1 day ago</span>
+            <span> | Size 478mb</span><span> | Mimetype text/html</span>
           </div>
         </v-col>
       </v-row>
@@ -27,7 +26,7 @@
                 <v-expansion-panel-header>
                   <template v-slot:default="{ open }">
                     <div>
-                      {{ `${open ? 'Hide' : 'Show'}`}} meta data
+                      {{ `${open ? 'Hide' : 'Show'}` }} meta data
                     </div>
                   </template>
                 </v-expansion-panel-header>
@@ -65,22 +64,41 @@
       <v-row>
         <v-col>
           <div class="text-body-1">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at. In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque veritatis, natus maxime! Cumque, voluptatem.</p>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
+              recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
+              In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
+              consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
+              veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
+              veritatis, natus maxime! Cumque, voluptatem.
+            </p>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
+              recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
+              In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
+              consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
+              veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
+              veritatis, natus maxime! Cumque, voluptatem.
+            </p>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
+              recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
+              In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
+              consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
+              veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
+              veritatis, natus maxime! Cumque, voluptatem.
+            </p>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
+              recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
+              In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
+              consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
+              veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
+              veritatis, natus maxime! Cumque, voluptatem.
+            </p>
           </div>
         </v-col>
       </v-row>
@@ -89,24 +107,53 @@
         <v-col>
           <div class="text-body-1">
             <v-card style="text-align: center">
-                <v-card-text>
-                    <v-btn outlined icon class="ma-2" @click.native="playing ? pause() : play()">
-                      <v-icon v-if="!playing || paused">mdi-play</v-icon>
-                      <v-icon v-else>mdi-pause</v-icon>
-                    </v-btn>
-                    <v-btn outlined icon class="ma-2" @click.native="stop()">
-                        <v-icon>mdi-stop</v-icon>
-                    </v-btn>
-                    <v-btn outlined icon class="ma-2" disabled>
-                        <v-icon>mdi-volume-high</v-icon>
-                    </v-btn>
-                    <v-btn outlined icon class="ma-2" disabled>
-                        <v-icon>mdi-refresh</v-icon>
-                    </v-btn>
-                    <v-btn outlined icon class="ma-2" disabled>
-                        <v-icon>mdi-download</v-icon>
-                    </v-btn>
-                </v-card-text>
+              <v-card-text>
+                <v-btn
+                  outlined
+                  icon
+                  class="ma-2"
+                  @click.native="playing ? pause() : play()"
+                >
+                  <v-icon v-if="!playing || paused">
+                    mdi-play
+                  </v-icon>
+                  <v-icon v-else>
+                    mdi-pause
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  outlined
+                  icon
+                  class="ma-2"
+                  @click.native="stop()"
+                >
+                  <v-icon>mdi-stop</v-icon>
+                </v-btn>
+                <v-btn
+                  outlined
+                  icon
+                  class="ma-2"
+                  disabled
+                >
+                  <v-icon>mdi-volume-high</v-icon>
+                </v-btn>
+                <v-btn
+                  outlined
+                  icon
+                  class="ma-2"
+                  disabled
+                >
+                  <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+                <v-btn
+                  outlined
+                  icon
+                  class="ma-2"
+                  disabled
+                >
+                  <v-icon>mdi-download</v-icon>
+                </v-btn>
+              </v-card-text>
             </v-card>
           </div>
         </v-col>
@@ -121,9 +168,7 @@
           </div>
         </v-col>
       </v-row>
-
     </template>
-
   </dialog-detail-base-layout>
 </template>
 
@@ -139,7 +184,7 @@ export default {
     VideoPlayer,
   },
 
-  data () {
+  data() {
     return {
       videoOptions: {
         controls: true,
@@ -147,7 +192,7 @@ export default {
           {
             src: '//vjs.zencdn.net/v/oceans.mp4',
             type: 'video/mp4',
-          }
+          },
         ],
         fluid: true,
       },
@@ -198,7 +243,7 @@ export default {
           calories: 518,
         },
       ],
-    }
+    };
   },
 
   methods: {
@@ -221,7 +266,7 @@ export default {
     //   this.sound.stop();
     // },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
