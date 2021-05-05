@@ -11,12 +11,15 @@ const routes = [
     component: Home,
   },
   {
+    // TODO: Pass query elements as props to Search view.
+    // https://router.vuejs.org/guide/essentials/passing-props.html#function-mode
     path: '/search',
-    name: 'SearchResults',
+    name: 'Search',
+
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-results" */ '../views/SearchResults.vue'),
+    component: () => import(/* webpackChunkName: "search-results" */ '../views/Search.vue'),
   },
 ];
 
