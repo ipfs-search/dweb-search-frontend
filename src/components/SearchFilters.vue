@@ -15,14 +15,15 @@
       >
         <v-container class="mx-0 px-0">
           <v-row class="d-flex align-center">
-            <v-col>
-              <div class="hidden-sm-and-down text-body-1">
+            <v-col class="hidden-sm-and-down">
+              <span class="text-body-1">
                 Filter:
-              </div>
+              </span>
             </v-col>
 
             <v-col
-              cols="2"
+              cols="6"
+              md="3"
             >
               <!--
                 Select component has everything setup for smooth interaction
@@ -56,7 +57,10 @@
               </v-select>
             </v-col>
 
-            <v-col cols="2">
+            <v-col
+              cols="6"
+              md="3"
+            >
               <v-select
                 :items="lastSeenOptions"
                 dense
