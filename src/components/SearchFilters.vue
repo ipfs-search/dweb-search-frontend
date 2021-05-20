@@ -45,14 +45,16 @@
               <v-select
                 :items="sizeOptions"
                 dense
-                solo
+                :outlined="$vuetify.breakpoint.smAndDown ? true : false"
+                :solo="$vuetify.breakpoint.smAndDown ? false : true"
                 label="Size"
                 height="38"
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="sizeFilter"
               >
                 <template v-slot:selection="{ item }">
-                  <span class="m-2 text-body-2">Size {{ item.text }}</span>
+                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
+                    ? '' : 'Size ' }}{{ item.text }}</span>
                 </template>
               </v-select>
             </v-col>
@@ -64,14 +66,16 @@
               <v-select
                 :items="lastSeenOptions"
                 dense
-                solo
+                :outlined="$vuetify.breakpoint.smAndDown ? true : false"
+                :solo="$vuetify.breakpoint.smAndDown ? false : true"
                 label="Last seen"
                 height="38"
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="lastSeenFilter"
               >
                 <template v-slot:selection="{ item }">
-                  <span class="m-2 text-body-2">Last seen {{ item.text }}</span>
+                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
+                    ? '' : 'Last seen ' }}{{ item.text }}</span>
                 </template>
               </v-select>
             </v-col>
