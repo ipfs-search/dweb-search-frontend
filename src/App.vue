@@ -21,7 +21,7 @@
         no-gutters
       >
         <v-col
-          class="primary lighten-1 white--text py-4 text-center text-caption"
+          class="ipfsPrimary lighten-1 white--text py-4 text-center text-caption"
           cols="12"
         >
           Funded through the <a href="https://nlnet.nl/project/IPFS-search/">NLNet/NGI0 Discovery Fund</a> and proudly sponsered by <a href="https://redpencil.io/">redpencil.io</a>
