@@ -4,9 +4,8 @@
       for layout logo and search bar using flex-->
     <v-app-bar
       app
-      color="primary"
+      color="ipfsPrimary lighten-1"
       height="56"
-      light
     >
       <v-container
         fluid
@@ -68,8 +67,8 @@
               Texts (230)
             </div>
             <div>
-              <a class="text-subtitle-1 text-decoration-none">
-                view all
+              <a class="text-subtitle-1 text-decoration-none text--secondary">
+                View all
               </a>
             </div>
           </v-subheader>
@@ -156,9 +155,9 @@
             <div>
               <a
                 href=""
-                class="text-subtitle-1 text-decoration-none"
+                class="text-subtitle-1 text-decoration-none text--secondary"
               >
-                view all
+                View all
               </a>
             </div>
           </v-subheader>
@@ -221,9 +220,9 @@
             <div>
               <a
                 href=""
-                class="text-subtitle-1 text-decoration-none"
+                class="text-subtitle-1 text-decoration-none text--secondary"
               >
-                view all
+                View all
               </a>
             </div>
           </v-subheader>
@@ -305,9 +304,9 @@
             <div>
               <a
                 href=""
-                class="text-subtitle-1 text-decoration-none"
+                class="text-subtitle-1 text-decoration-none text--secondary"
               >
-                view all
+                View all
               </a>
             </div>
           </v-subheader>
@@ -509,9 +508,9 @@
             <div>
               <a
                 href=""
-                class="text-subtitle-1 text-decoration-none"
+                class="text-subtitle-1 text-decoration-none text--secondary"
               >
-                view all
+                View all
               </a>
             </div>
           </v-subheader>
