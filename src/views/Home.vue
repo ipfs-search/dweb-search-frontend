@@ -111,7 +111,7 @@
                   <v-card-text class="text-center">
                     <v-icon
                       size="42px"
-                      class="ml-n4 secondary--text text--lighten-1"
+                      class="ml-n4 ipfsSecondary--text text--lighten-1"
                     >
                       mdi-wrench
                     </v-icon>
@@ -141,7 +141,7 @@
                   <v-card-text class="text-center">
                     <v-icon
                       size="42px"
-                      class="ml-n4 secondary--text text--lighten-1"
+                      class="ml-n4 ipfsSecondary--text text--lighten-1"
                     >
                       mdi-share-variant
                     </v-icon>
@@ -171,7 +171,7 @@
                   <v-card-text class="text-center">
                     <v-icon
                       size="42px"
-                      class="ml-n4 secondary--text text--lighten-1"
+                      class="ml-n4 ipfsSecondary--text text--lighten-1"
                     >
                       mdi-earth
                     </v-icon>
@@ -201,7 +201,7 @@
                   <v-card-text class="text-center">
                     <v-icon
                       size="42px"
-                      class="ml-n4 secondary--text text--lighten-1"
+                      class="ml-n4 ipfsSecondary--text text--lighten-1"
                     >
                       mdi-open-source-initiative
                     </v-icon>
@@ -232,7 +232,7 @@
                   <v-card-text class="text-center">
                     <v-icon
                       size="42px"
-                      class="ml-n4 secondary--text text--lighten-1"
+                      class="ml-n4 ipfsSecondary--text text--lighten-1"
                     >
                       mdi-account-multiple
                     </v-icon>
@@ -269,7 +269,7 @@
                   <v-card-text class="text-center">
                     <v-icon
                       size="42px"
-                      class="ml-n4 secondary--text text--lighten-1"
+                      class="ml-n4 ipfsSecondary--text text--lighten-1"
                     >
                       mdi-flash
                     </v-icon>
