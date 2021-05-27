@@ -88,14 +88,11 @@ import SearchMixin from '@/mixins/SearchMixin';
 import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 import SearchBar from '@/components/SearchBar.vue';
 import SearchFilters from '@/components/SearchFilters.vue';
-import DialogDetailText from '@/components/DialogDetailText.vue';
 import DocumentList from '@/components/results/list/DocumentList.vue';
 import ImageList from '@/components/results/list/ImageList.vue';
 import AudioList from '@/components/results/list/AudioList.vue';
 import VideoList from '@/components/results/list/VideoList.vue';
 import DirectoryList from '@/components/results/list/DirectoryList.vue';
-import DialogDetailVideo from '@/components/DialogDetailVideo.vue';
-import { showDialog } from '@/helpers/dialogHelper';
 
 export default {
   components: {
@@ -116,14 +113,6 @@ export default {
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
-    },
-
-    videoDialog() {
-      showDialog(DialogDetailVideo, {});
-    },
-
-    genericDialog() {
-      showDialog(DialogDetailText, {});
     },
   },
 };

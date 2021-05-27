@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import DialogDetailText from '@/components/DialogDetailText.vue';
+import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -56,6 +58,11 @@ export default {
     results: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    genericDialog() {
+      showDialog(DialogDetailText, {});
     },
   },
 };

@@ -11,7 +11,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="genericDialog()"
+        @click="videoDialog()"
       >
         <v-row>
           <v-col
@@ -70,7 +70,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="genericDialog()"
+        @click="videoDialog()"
       >
         <v-row>
           <v-col
@@ -129,7 +129,7 @@
       class="my-2"
     >
       <v-card
-        @click="genericDialog()"
+        @click="videoDialog()"
       >
         <v-row>
           <v-col
@@ -184,6 +184,8 @@
 </template>
 
 <script>
+import DialogDetailVideo from '@/components/DialogDetailVideo.vue';
+import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -194,6 +196,11 @@ export default {
     results: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    videoDialog() {
+      showDialog(DialogDetailVideo, {});
     },
   },
 };
