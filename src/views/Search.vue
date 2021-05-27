@@ -321,7 +321,7 @@
           class="my-2 mb-4"
         >
           <v-card
-            @click="genericDialog()"
+            @click="videoDialog()"
           >
             <v-row>
               <v-col
@@ -380,7 +380,7 @@
           class="my-2 mb-4"
         >
           <v-card
-            @click="genericDialog()"
+            @click="videoDialog()"
           >
             <v-row>
               <v-col
@@ -439,7 +439,7 @@
           class="my-2"
         >
           <v-card
-            @click="genericDialog()"
+            @click="videoDialog()"
           >
             <v-row>
               <v-col
@@ -601,6 +601,7 @@ import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 import SearchBar from '@/components/SearchBar.vue';
 import SearchFilters from '@/components/SearchFilters.vue';
 import DialogDetailText from '@/components/DialogDetailText.vue';
+import DialogDetailVideo from '@/components/DialogDetailVideo.vue';
 import { showDialog } from '@/helpers/dialogHelper';
 
 export default {
@@ -629,6 +630,10 @@ export default {
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
+    },
+
+    videoDialog() {
+      showDialog(DialogDetailVideo, {});
     },
 
     genericDialog() {
