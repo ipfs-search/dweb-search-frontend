@@ -1,6 +1,7 @@
 <template>
   <dialog-detail-base-layout>
     <template v-slot:dialog-detail>
+      <!-- Subheader -->
       <v-row>
         <v-col>
           <div class="text-caption mb-n7 text-truncate">
@@ -10,6 +11,7 @@
         </v-col>
       </v-row>
 
+      <!-- Title -->
       <v-row>
         <v-col>
           <div class="text-h5">
@@ -18,6 +20,7 @@
         </v-col>
       </v-row>
 
+      <!-- Meta data -->
       <v-row>
         <v-col>
           <div class="text-body-1 mt-n3">
@@ -61,6 +64,7 @@
         </v-col>
       </v-row>
 
+      <!-- Text -->
       <v-row>
         <v-col>
           <div class="text-body-1">
@@ -103,6 +107,7 @@
         </v-col>
       </v-row>
 
+      <!-- Audio -->
       <v-row>
         <v-col>
           <div class="text-body-1">
@@ -159,6 +164,7 @@
         </v-col>
       </v-row>
 
+      <!-- Video -->
       <v-row>
         <v-col>
           <div class="text-body-1">
