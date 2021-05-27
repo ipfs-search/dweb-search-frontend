@@ -613,18 +613,6 @@ export default {
   mixins: [SearchMixin, SearchNavigationMixin],
 
   data: () => ({
-    sizeItems: [
-      '0-10mb',
-      '10-100mb',
-      '100mb-1gb',
-      '1gb+',
-    ],
-
-    lastSeenItems: [
-      '<3hr',
-      '<24hr',
-      '<7d',
-    ],
   }),
 
   methods: {
