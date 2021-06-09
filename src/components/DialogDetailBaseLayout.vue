@@ -4,7 +4,8 @@
     scrollable
     :max-width="$vuetify.breakpoint.mdAndUp ? '70vw' : 'none'"
   >
-    <v-btn
+    <!-- remove me -->
+    <!-- <v-btn
       class="ml-4"
       style="position: absolute; top: 50%; transform: translateY(-50%); left: 0"
       fab
@@ -22,7 +23,7 @@
       <v-icon dark>
         mdi-arrow-right
       </v-icon>
-    </v-btn>
+    </v-btn> -->
 
     <v-card
       tile
@@ -63,6 +64,7 @@
         class="pa-0 mymodal"
         v-body-scroll-lock="modalIsOpen"
       >
+        <!-- entree point for slider -->
         <v-container class="py-3">
           <v-row>
             <v-col
