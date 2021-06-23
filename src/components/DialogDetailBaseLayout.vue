@@ -28,55 +28,143 @@
     <v-card
       tile
       flat
-      class="dialogCard"
       style="min-height: 100vh !important;"
     >
       <v-sheet
         elevation="2"
         style="z-index: 2 !important;"
       >
-        <v-card-title class="pa-0">
-          <v-container>
+        <v-card>
+          <v-card-title class="pa-0">
+            <v-container>
+              <v-row>
+                <v-col
+                  cols="12"
+                  xl="8"
+                  offset-xl="2"
+                  class="d-flex align-center justify-space-between py-2"
+                >
+                  <!-- <div class="text-body-1" style="width: 80%">
+                    placeholder title or logo
+                  </div> -->
+                  <div>&nbsp;</div>
+                  <v-btn
+                    icon
+                    @click="hideDialog()"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-title>
+        </v-card>
+      </v-sheet>
+
+      <!-- entree point for carousel -->
+      <!-- <v-container class="py-3">
+        <v-row>
+          <v-col
+            cols="12"
+            xl="8"
+            offset-xl="2"
+          >
+            <slot name="dialog-detail" />
+          </v-col>
+        </v-row>
+      </v-container> -->
+      <v-carousel
+        v-model="model"
+        hide-delimiters
+        height="100%"
+        light
+      >
+        <v-carousel-item
+          v-for="(result) in results"
+          :key="result"
+          eager
+        >
+          <v-container
+            class="py-3"
+          >
             <v-row>
               <v-col
                 cols="12"
                 xl="8"
                 offset-xl="2"
-                class="d-flex align-center justify-space-between py-2"
               >
-                <!-- <div class="text-body-1" style="width: 80%">
-                  placeholder title or logo
-                </div> -->
-                <div>&nbsp;</div>
-                <v-btn
-                  icon
-                  @click="hideDialog()"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                <v-sheet>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                  xxxx <br>
+                </v-sheet>
               </v-col>
             </v-row>
           </v-container>
-        </v-card-title>
-      </v-sheet>
-
-      <v-card-text
-        class="pa-0 mymodal"
-        v-body-scroll-lock="modalIsOpen"
-      >
-        <!-- entree point for slider -->
-        <v-container class="py-3">
-          <v-row>
-            <v-col
-              cols="12"
-              xl="8"
-              offset-xl="2"
-            >
-              <slot name="dialog-detail" />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-text>
+        </v-carousel-item>
+      </v-carousel>
     </v-card>
   </v-dialog>
 </template>
@@ -89,6 +177,12 @@ export default {
     return {
       dialog: true,
       modalIsOpen: false,
+      model: 0,
+      results: [
+        'first',
+        'second',
+        'thirth',
+      ],
     };
   },
 
@@ -111,4 +205,5 @@ export default {
 .mymodal {
   -webkit-overflow-scrolling: touch;
 }
+
 </style>
