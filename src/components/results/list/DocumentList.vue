@@ -10,7 +10,7 @@
       offset-xl="2"
     >
       <v-card
-        @click="documentDialog()"
+        @click="goToDetailPage()"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span class="green--text">Last seen 1 day ago</span>
@@ -87,6 +87,11 @@ export default {
     documentDialog() {
       showDialog(DialogDetailText, {});
     },
+
+    goToDetailPage() {
+      this.$router.push({ path: '/search/detail' });
+    },
+
   },
 };
 </script>
