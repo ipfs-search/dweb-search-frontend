@@ -18,18 +18,15 @@
           >
             <div
               class="d-flex align-center"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-6' : ''"
             >
               <v-img
-                alt="DWEB Search Logo"
-                class="pl-1 mr-2"
+                alt="IPFS-Search Logo"
                 contain
-                src="../assets/logo_primary.svg"
-                :width="$vuetify.breakpoint.mdAndUp ? 32 : 24"
-                :height="$vuetify.breakpoint.mdAndUp ? 32 : 24"
+                src="../assets/logo-black.png"
+                width="168"
+                :aspect-ratio="6.00840336"
               />
-              <h2 class="">
-                DWEB <span>SEARCH</span>
-              </h2>
             </div>
             <v-spacer />
             <v-btn
