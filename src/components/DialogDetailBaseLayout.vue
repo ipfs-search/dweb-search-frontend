@@ -4,27 +4,6 @@
     scrollable
     :max-width="$vuetify.breakpoint.mdAndUp ? '70vw' : 'none'"
   >
-    <!-- remove me -->
-    <!-- <v-btn
-      class="ml-4"
-      style="position: absolute; top: 50%; transform: translateY(-50%); left: 0"
-      fab
-    >
-      <v-icon dark>
-        mdi-arrow-left
-      </v-icon>
-    </v-btn>
-
-    <v-btn
-      class="mr-4"
-      style="position: absolute; top: 50%; transform: translateY(-50%); right: 0"
-      fab
-    >
-      <v-icon dark>
-        mdi-arrow-right
-      </v-icon>
-    </v-btn> -->
-
     <v-card
       tile
       flat
@@ -61,110 +40,22 @@
         </v-card>
       </v-sheet>
 
-      <!-- entree point for carousel -->
-      <!-- <v-container class="py-3">
-        <v-row>
-          <v-col
-            cols="12"
-            xl="8"
-            offset-xl="2"
-          >
-            <slot name="dialog-detail" />
-          </v-col>
-        </v-row>
-      </v-container> -->
-      <v-carousel
-        v-model="model"
-        hide-delimiters
-        height="100%"
-        light
+      <v-card-text
+        class="pa-0 mymodal"
+        v-body-scroll-lock="modalIsOpen"
       >
-        <v-carousel-item
-          v-for="(result) in results"
-          :key="result"
-          eager
-        >
-          <v-container
-            class="py-3"
-          >
-            <v-row>
-              <v-col
-                cols="12"
-                xl="8"
-                offset-xl="2"
-              >
-                <v-sheet>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                  xxxx <br>
-                </v-sheet>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-carousel-item>
-      </v-carousel>
+        <v-container class="py-3">
+          <v-row>
+            <v-col
+              cols="12"
+              xl="8"
+              offset-xl="2"
+            >
+              <slot name="dialog-detail" />
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
