@@ -21,23 +21,26 @@
             >
               <div
                 class="d-flex align-center"
+                style="cursor: pointer;"
                 @click="goHome"
-                style="cursor: pointer; min-width: 34px;"
               >
                 <v-img
-                  alt="DWEB Search Logo"
-                  class="pl-1 mr-2"
+                  v-if="$vuetify.breakpoint.mdAndUp"
+                  alt="ipfs-search.com logo"
                   contain
-                  src="../assets/logo_white.svg"
-                  width="32"
-                  height="32"
+                  src="../assets/logo-white.png"
+                  width="168"
+                  height="28"
+                  :aspect-ratio="6.00840336"
                 />
-                <h2
-                  dark
-                  class="white--text d-none d-lg-block"
-                >
-                  DWEB <span>SEARCH</span>
-                </h2>
+                <v-img
+                  v-if="$vuetify.breakpoint.smAndDown"
+                  alt="ipfs-search.com logo"
+                  contain
+                  src="../assets/logo-hexagon-white.png"
+                  width="28"
+                  height="28"
+                />
               </div>
             </div>
             <div class="flex-grow-1">

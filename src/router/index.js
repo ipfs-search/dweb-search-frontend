@@ -19,7 +19,16 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-results" */ '../views/Search.vue'),
+    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search.vue'),
+  },
+  {
+    path: '/search/detail',
+    name: 'Detail',
+
+    // route level code-splitting
+    // this generates a separate chunk (result.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "search-detail" */ '../views/Detail.vue'),
   },
 ];
 
