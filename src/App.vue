@@ -3,8 +3,6 @@
     dark
     hidden
   >
-    <slot name="header" />
-
     <v-main>
       <router-view />
     </v-main>
