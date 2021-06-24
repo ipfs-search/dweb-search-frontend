@@ -26,7 +26,7 @@
               >
                 <v-img
                   v-if="$vuetify.breakpoint.mdAndUp"
-                  alt="IPFS-Search Logo"
+                  alt="ipfs-search.com logo"
                   contain
                   src="../assets/logo-white.png"
                   width="168"
@@ -35,7 +35,7 @@
                 />
                 <v-img
                   v-if="$vuetify.breakpoint.smAndDown"
-                  alt="IPFS-Search Logo"
+                  alt="ipfs-search.com logo"
                   contain
                   src="../assets/logo-hexagon-white.png"
                   width="28"

@@ -21,7 +21,7 @@
               :class="$vuetify.breakpoint.mdAndUp ? 'ml-6' : ''"
             >
               <v-img
-                alt="IPFS-Search Logo"
+                alt="ipfs-search.com logo"
                 contain
                 src="../assets/logo-black.png"
                 width="168"

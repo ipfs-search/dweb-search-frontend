@@ -23,7 +23,7 @@
                 @click="goHome"
               >
                 <v-img
-                  alt="IPFS-Search Logo"
+                  alt="ipfs-search.com logo"
                   contain
                   src="../assets/logo-black.png"
                   width="168"
@@ -238,7 +238,6 @@
       </v-carousel>
     </div>
   </div>
-
 </template>
 
 <script>
