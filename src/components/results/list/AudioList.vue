@@ -13,7 +13,7 @@
         dense
       >
         <v-col
-          v-for="hit in results.hits"
+          v-for="hit in results.hits.slice(0, 6)"
           :key="hit.hash"
           cols="6"
           xs="4"
@@ -46,15 +46,21 @@
                 v-html="hit.title"
               />
               <v-card-subtitle
-                class="white--text text-body-2"
+                class="white--text text-body-2 text-truncate"
                 v-html="hit.description"
               />
             </v-img>
 
             <v-card-subtitle class="text-caption text-truncate">
-              <div class="my-n2">
-                <span class="red--text">Last seen {{ hit['last-seen'] }} </span><br>
-                <span v-if="hit.size">Size {{ hit.size }}</span>
+              <div
+                class="my-n2 d-block-inline text-truncate"
+              >
+                <span
+                  :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
+                >
+                  Last seen <timeago :datetime="hit['last-seen']" />
+                </span><br>
+                <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
               </div>
             </v-card-subtitle>
           </v-card>
@@ -65,6 +71,7 @@
 </template>
 
 <script>
+import durationToColor from '@/filters/durationToColor';
 import DialogDetailText from '@/components/DialogDetailText.vue';
 import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
@@ -72,6 +79,9 @@ import ListBase from './ListBase.vue';
 export default {
   components: {
     ListBase,
+  },
+  filters: {
+    durationToColor,
   },
   props: {
     results: {
