@@ -2,31 +2,31 @@
   <div>
     <!-- Content -->
     <div>
+      <!-- Subheader -->
+      <v-row>
+        <v-col>
+          <div class="text-caption mb-n7 text-truncate">
+            <span class="green--text">Last seen 1 day ago</span>
+            <span> | Size 478mb</span><span> | Mimetype text/html</span>
+          </div>
+        </v-col>
+      </v-row>
+
+      <!-- Title -->
+      <v-row>
+        <v-col>
+          <div class="text-h5 mb-n3">
+            Unlimited Music Now
+          </div>
+        </v-col>
+      </v-row>
+
       <v-row>
         <!-- Left - video or preview image with title and subcaption above -->
         <v-col
           cols="12"
           md="7"
         >
-          <!-- Subheader -->
-          <v-row>
-            <v-col>
-              <div class="text-caption mt-3 mb-n7 text-truncate">
-                <span class="green--text">Last seen 1 day ago</span>
-                <span> | Size 478mb</span><span> | Mimetype text/html</span>
-              </div>
-            </v-col>
-          </v-row>
-
-          <!-- Title -->
-          <v-row>
-            <v-col>
-              <div class="text-h5">
-                Unlimited Music Now
-              </div>
-            </v-col>
-          </v-row>
-
           <!-- Previewed video or image that goes along with the played audio track -->
           <v-row>
             <v-col>
@@ -46,55 +46,68 @@
           <v-list
             two-line
             class="mt-n2"
+            dense
           >
-            <v-list-item-group
-              v-model="model"
-              active-class="border"
-            >
-              <template v-for="(item, index) in items">
-                <v-subheader
-                  v-if="item.header"
-                  :key="item.header"
-                  v-text="item.header"
-                />
+            <template v-for="(item, index) in items">
+              <v-subheader
+                v-if="item.header"
+                :key="item.header"
+                v-text="item.header"
+              />
 
-                <v-divider
-                  v-else-if="item.divider"
-                  :key="index"
-                />
+              <v-divider
+                v-else-if="item.divider"
+                :key="index"
+              />
 
-                <v-list-item
-                  v-else
-                  :key="item.title"
-                  @click="startPlayer"
+              <v-list-item
+                class="d-flex"
+                v-else
+                :key="item.title"
+                @click="startPlayer(item.title)"
+                :class="{highlight:item.title === selected}"
+              >
+                <v-list-item-avatar
+                  size="48"
+                  tile
                 >
-                  <template v-slot:default="{ active }">
-                    <v-list-item-avatar
-                      tile
+                  <v-img :src="item.avatar">
+                    <v-icon
+                      v-if="(item.title === selected) && !paused"
+                      size="32"
+                      color="white"
+                      style="opacity: 0.9;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);"
                     >
-                      <v-img :src="item.avatar">
-                        <v-icon
-                          v-if="active"
-                          size="32"
-                          color="white"
-                          style="opacity: 0.9;
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);"
-                        >
-                          mdi-play
-                        </v-icon>
-                      </v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title v-html="item.title" />
-                      <v-list-item-subtitle v-html="item.subtitle" />
-                    </v-list-item-content>
-                  </template>
-                </v-list-item>
-              </template>
-            </v-list-item-group>
+                      mdi-play
+                    </v-icon>
+                    <v-icon
+                      v-if="(item.title === selected) && paused"
+                      size="32"
+                      color="white"
+                      style="opacity: 0.9;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);"
+                    >
+                      mdi-pause
+                    </v-icon>
+                  </v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title
+                    v-html="item.title"
+                  />
+                  <v-list-item-subtitle
+                    v-html="item.subtitle"
+                  />
+                </v-list-item-content>
+              </v-list-item>
+            </template>
           </v-list>
         </v-col>
       </v-row>
@@ -175,8 +188,20 @@
             </v-list-item-icon>
 
             <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-              <v-btn icon>
-                <v-icon>mdi-pause</v-icon>
+              <v-btn
+                icon
+                @click="pause()"
+              >
+                <v-icon
+                  v-if="!paused"
+                >
+                  mdi-pause
+                </v-icon>
+                <v-icon
+                  v-if="paused"
+                >
+                  mdi-play
+                </v-icon>
               </v-btn>
             </v-list-item-icon>
 
@@ -200,7 +225,9 @@
 </template>
 
 <script>
-// import VideoPlayer from '@/components/VideoPlayer.vue';
+import { Howl } from 'howler';
+
+const graveDigger = require('@/assets/examples_player_audio_rave_digger.mp3');
 
 export default {
 
@@ -210,11 +237,14 @@ export default {
 
   data() {
     return {
+      selected: undefined,
+      playing: false,
+      paused: false,
+      sound: null,
       playerActive: false,
       model: null,
       /* eslint-disable */
       items: [
-        { header: 'Today' },
         { divider: true, inset: false },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
@@ -248,27 +278,28 @@ export default {
         { divider: true, inset: false },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
+          title: 'Summer BBQ 1<span class="grey--text text--lighten-1">4</span>',
           subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
         },
         { divider: true, inset: false },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui oui',
+          title: 'Oui oui aa',
           subtitle: '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
         },
         { divider: true, inset: false },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
+          title: 'Summer BBQ 2<span class="grey--text text--lighten-1">4</span>',
           subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
         },
         { divider: true, inset: false },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui oui',
+          title: 'Oui oui oui',
           subtitle: '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
         },
+        { divider: true, inset: false },
       ],
       /* eslint-enable */
       desserts: [
@@ -317,13 +348,53 @@ export default {
   },
 
   methods: {
-    startPlayer() {
+    startPlayer(selected) {
+      this.selected = selected;
+      if (this.playing) {
+        this.sound.stop();
+        this.playing = false;
+        this.paused = false;
+      }
       this.playerActive = true;
+      this.play();
     },
+
+    play() {
+      if (this.playing) {
+        return null;
+      }
+      this.sound = new Howl({
+        src: [graveDigger],
+      });
+      this.playing = true;
+      this.sound.play();
+      return null;
+    },
+
+    pause() {
+      this.paused = !this.paused;
+      if (this.paused) {
+        this.sound.pause();
+      } else {
+        this.sound.play();
+      }
+    },
+
+    stop() {
+      this.playing = false;
+      this.sound.stop();
+    },
+  },
+
+  beforeDestroy() {
+    this.sound.stop();
+    this.sound = null;
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
+.highlight {
+  background: lighten(grey, 40%);
+}
 </style>
