@@ -46,7 +46,6 @@
           <v-list
             two-line
             class="mt-n2"
-            dense
           >
             <template v-for="(item, index) in items">
               <v-subheader
@@ -65,16 +64,16 @@
                 v-else
                 :key="item.title"
                 @click="startPlayer(item.title)"
-                :class="{highlight:item.title === selected}"
+                :class="item.title === selected ? 'highlight' : ''"
               >
                 <v-list-item-avatar
-                  size="48"
+                  size="42"
                   tile
                 >
                   <v-img :src="item.avatar">
                     <v-icon
                       v-if="(item.title === selected) && !paused"
-                      size="32"
+                      size="24"
                       color="white"
                       style="opacity: 0.9;
                         position: absolute;
@@ -86,7 +85,7 @@
                     </v-icon>
                     <v-icon
                       v-if="(item.title === selected) && paused"
-                      size="32"
+                      size="24"
                       color="white"
                       style="opacity: 0.9;
                         position: absolute;
@@ -101,6 +100,7 @@
                 <v-list-item-content>
                   <v-list-item-title
                     v-html="item.title"
+                    :class="item.title === selected ? 'ipfsSecondary--text text--darken-1' : ''"
                   />
                   <v-list-item-subtitle
                     v-html="item.subtitle"
@@ -173,7 +173,7 @@
         />
 
         <v-list>
-          <v-list-item>
+          <v-list-item dark>
             <v-list-item-content>
               <v-list-item-title>The Walker</v-list-item-title>
               <v-list-item-subtitle>Fitz & The Trantrums</v-list-item-subtitle>
@@ -226,8 +226,7 @@
 
 <script>
 import { Howl } from 'howler';
-
-const graveDigger = require('@/assets/examples_player_audio_rave_digger.mp3');
+import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
 
@@ -368,6 +367,7 @@ export default {
       });
       this.playing = true;
       this.sound.play();
+      console.log('HEEEE', this.sound.seek());
       return null;
     },
 
@@ -395,6 +395,6 @@ export default {
 
 <style lang="scss" scoped>
 .highlight {
-  background: lighten(grey, 40%);
+  background: rgba(100, 100, 100, 0.1);
 }
 </style>
