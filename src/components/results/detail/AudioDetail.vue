@@ -367,7 +367,6 @@ export default {
       });
       this.playing = true;
       this.sound.play();
-      console.log('HEEEE', this.sound.seek());
       return null;
     },
 
