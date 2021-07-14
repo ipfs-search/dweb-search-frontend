@@ -28,7 +28,7 @@
                   v-if="$vuetify.breakpoint.mdAndUp"
                   alt="ipfs-search.com logo"
                   contain
-                  src="../assets/logo-white.png"
+                  src="../assets/logo-white.svg"
                   width="168"
                   height="28"
                   :aspect-ratio="6.00840336"
@@ -37,7 +37,7 @@
                   v-if="$vuetify.breakpoint.smAndDown"
                   alt="ipfs-search.com logo"
                   contain
-                  src="../assets/logo-hexagon-white.png"
+                  src="../assets/logo-hexagon-white.svg"
                   width="28"
                   height="28"
                 />
