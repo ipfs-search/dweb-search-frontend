@@ -143,6 +143,45 @@
           </v-sheet>
         </v-carousel-item>
 
+        <v-carousel-item>
+          <v-sheet
+            :light="$vuetify.theme.dark ? false : true"
+            height="100%"
+            tile
+          >
+            <v-row
+              class="fill-height ma-0 pa-0"
+            >
+              <div
+                style="position: absolute;
+                  top: 0;
+                  left: 0;
+                  bottom: 0;
+                  right: 0;"
+              >
+                <div
+                  class="inline-block"
+                  style="height: 100% !important; overflow-y: auto !important;"
+                >
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        xl="8"
+                        offset-xl="2"
+                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
+                      >
+                        <audio-detail />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </div>
+              </div>
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+
+        <!-- Static carousel items from original swiper just for reference -->
         <v-carousel-item
           v-for="(color, i) in colors"
           :key="color"
@@ -169,13 +208,15 @@
 </template>
 
 <script>
-import VideoDetail from '@/components/results/detail/VideoDetail.vue';
+import AudioDetail from '@/components/results/detail/AudioDetail.vue';
 import TextDetail from '@/components/results/detail/TextDetail.vue';
+import VideoDetail from '@/components/results/detail/VideoDetail.vue';
 
 export default {
   components: {
-    VideoDetail,
+    AudioDetail,
     TextDetail,
+    VideoDetail,
   },
 
   data: () => ({
