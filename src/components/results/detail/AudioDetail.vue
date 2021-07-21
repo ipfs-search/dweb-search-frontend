@@ -3,23 +3,23 @@
     <!-- Content -->
     <div>
       <!-- Subheader -->
-      <v-row>
+      <!-- <v-row>
         <v-col>
           <div class="text-caption mb-n7 text-truncate">
-            <span class="green--text">Last seen 1 day ago</span>
+            <span class="">Last seen 1 day ago</span>
             <span> | Size 478mb</span><span> | Mimetype text/html</span>
           </div>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <!-- Title -->
-      <v-row>
+      <!-- <v-row>
         <v-col>
-          <div class="text-h5 mb-n3">
+          <div class="text-h6 mb-n3">
             Unlimited Music Now
           </div>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <v-row>
         <!-- Left - video or preview image with title and subcaption above -->
@@ -71,7 +71,7 @@
                   tile
                 >
                   <v-img :src="item.avatar">
-                    <v-icon
+                    <!-- <v-icon
                       v-if="(item.title === selected) && !paused"
                       size="24"
                       color="white"
@@ -81,7 +81,7 @@
                         left: 50%;
                         transform: translate(-50%, -50%);"
                     >
-                      mdi-play
+                      mdi-pause
                     </v-icon>
                     <v-icon
                       v-if="(item.title === selected) && paused"
@@ -93,14 +93,14 @@
                         left: 50%;
                         transform: translate(-50%, -50%);"
                     >
-                      mdi-pause
-                    </v-icon>
+                      mdi-play
+                    </v-icon> -->
                   </v-img>
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title
                     v-html="item.title"
-                    :class="item.title === selected ? 'ipfsSecondary--text text--darken-1' : ''"
+                    :class="item.title === selected ? 'ipfsSecondary--text text--lighten-1' : ''"
                   />
                   <v-list-item-subtitle
                     v-html="item.subtitle"
@@ -167,7 +167,8 @@
     >
       <v-card tile>
         <v-progress-linear
-          :value="0"
+          :value="progress"
+          color="white"
           class="my-0"
           height="3"
         />
@@ -176,13 +177,19 @@
           <v-list-item dark>
             <v-list-item-content>
               <v-list-item-title>The Walker</v-list-item-title>
-              <v-list-item-subtitle>Fitz & The Trantrums</v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Fitz & The Trantrums <span class="ml-4">{{ timer }} / {{ duration }}</span>
+              </v-list-item-subtitle>
             </v-list-item-content>
 
             <v-spacer />
 
             <v-list-item-icon>
-              <v-btn icon>
+              <v-btn
+                icon
+                disabled
+                @click="nothing"
+              >
                 <v-icon>mdi-rewind</v-icon>
               </v-btn>
             </v-list-item-icon>
@@ -190,7 +197,7 @@
             <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
               <v-btn
                 icon
-                @click="pause()"
+                @click="pause"
               >
                 <v-icon
                   v-if="!paused"
@@ -209,7 +216,11 @@
               class="ml-0"
               :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
             >
-              <v-btn icon>
+              <v-btn
+                icon
+                disabled
+                @click="nothing"
+              >
                 <v-icon>mdi-fast-forward</v-icon>
               </v-btn>
             </v-list-item-icon>
@@ -237,6 +248,9 @@ export default {
   data() {
     return {
       selected: undefined,
+      timer: '0:00',
+      duration: '0:00',
+      progress: 0,
       playing: false,
       paused: false,
       sound: null,
@@ -354,19 +368,33 @@ export default {
         this.playing = false;
         this.paused = false;
       }
-      this.playerActive = true;
+      if (!this.playerActive) {
+        this.playerActive = true;
+      }
       this.play();
     },
 
     play() {
+      const self = this;
       if (this.playing) {
         return null;
       }
       this.sound = new Howl({
         src: [graveDigger],
+        onplay() {
+          // Display the duration.
+          self.duration = self.formatTime(Math.round(self.sound.duration()));
+          // Start updating the progress of the track.
+          requestAnimationFrame(self.step.bind(self));
+        },
+        onseek() {
+          // Start updating the progress of the track.
+          requestAnimationFrame(self.step.bind(self));
+        },
       });
-      this.playing = true;
+
       this.sound.play();
+      this.playing = true;
       return null;
     },
 
@@ -383,11 +411,32 @@ export default {
       this.playing = false;
       this.sound.stop();
     },
+
+    step() {
+      // Determine our current seek position.
+      const seek = this.sound.seek() || 0;
+      this.timer = this.formatTime(Math.round(seek));
+      this.progress = (((seek / this.sound.duration()) * 100) || 0);
+
+      // If the sound is still playing, continue stepping.
+      if (this.sound.playing()) {
+        requestAnimationFrame(this.step.bind(this));
+      }
+    },
+
+    formatTime(secs) {
+      const minutes = Math.floor(secs / 60) || 0;
+      const seconds = (secs - minutes * 60) || 0;
+
+      return `${minutes} : ${(seconds < 10 ? '0' : '')}${seconds}`;
+    },
+
   },
 
   beforeDestroy() {
     this.sound.stop();
     this.sound = null;
+    this.playerActive = false;
   },
 };
 </script>
@@ -395,5 +444,6 @@ export default {
 <style lang="scss" scoped>
 .highlight {
   background: rgba(100, 100, 100, 0.1);
+  // border: 1px solid lighten(grey, 10);
 }
 </style>
