@@ -3,8 +3,8 @@
     <!-- Subheader -->
     <v-row>
       <v-col>
-        <div class="text-caption mb-n7 text-truncate">
-          <span class="green--text">Last seen 1 day ago</span>
+        <div class="text-caption mb-n8 text-truncate">
+          <span class="">Last seen 1 day ago</span>
           <span> | Size 478mb</span><span> | Mimetype text/html</span>
         </div>
       </v-col>
@@ -13,7 +13,7 @@
     <!-- Title -->
     <v-row>
       <v-col>
-        <div class="text-h5">
+        <div class="text-h6 font-weight-regular">
           Unlimited Music Now
         </div>
       </v-col>
