@@ -3,23 +3,23 @@
     <!-- Content -->
     <div>
       <!-- Subheader -->
-      <!-- <v-row>
+      <v-row>
         <v-col>
-          <div class="text-caption mb-n7 text-truncate">
+          <div class="text-caption mb-n8 text-truncate">
             <span class="">Last seen 1 day ago</span>
             <span> | Size 478mb</span><span> | Mimetype text/html</span>
           </div>
         </v-col>
-      </v-row> -->
+      </v-row>
 
       <!-- Title -->
-      <!-- <v-row>
+      <v-row>
         <v-col>
-          <div class="text-h6 mb-n3">
+          <div class="text-h6 font-weight-regular mb-n3">
             Unlimited Music Now
           </div>
         </v-col>
-      </v-row> -->
+      </v-row>
 
       <v-row>
         <!-- Left - video or preview image with title and subcaption above -->
@@ -33,7 +33,26 @@
               <v-img
                 src="https://picsum.photos/510/300?random"
                 aspect-ratio="1.7"
-              />
+              >
+                <v-btn
+                  large
+                  fab
+                  color="black"
+                  @click="startPlayer(items[0].title)"
+                  style="opacity: 0.5;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);"
+                >
+                  <v-icon
+                    size="42"
+                    color="white"
+                  >
+                    mdi-play
+                  </v-icon>
+                </v-btn>
+              </v-img>
             </v-col>
           </v-row>
         </v-col>
