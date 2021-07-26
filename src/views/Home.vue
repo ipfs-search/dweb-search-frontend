@@ -23,7 +23,7 @@
               <v-img
                 alt="ipfs-search.com logo"
                 contain
-                src="../assets/logo-black.png"
+                src="../assets/logo-black.svg"
                 width="168"
                 :aspect-ratio="6.00840336"
               />
@@ -93,6 +93,7 @@
           cols="12"
           xl="8"
           offset-xl="2"
+          :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
         >
           <v-container class="pa-0">
             <v-row align-center>
