@@ -221,8 +221,46 @@
           </v-sheet>
         </v-carousel-item>
 
+        <v-carousel-item>
+          <v-sheet
+            :light="$vuetify.theme.dark ? false : true"
+            height="100%"
+            tile
+          >
+            <v-row
+              class="fill-height ma-0 pa-0"
+            >
+              <div
+                style="position: absolute;
+                  top: 0;
+                  left: 0;
+                  bottom: 0;
+                  right: 0;"
+              >
+                <div
+                  class="inline-block"
+                  style="height: 100% !important; overflow-y: auto !important;"
+                >
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        xl="8"
+                        offset-xl="2"
+                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
+                      >
+                        <image-detail />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </div>
+              </div>
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+
         <!-- Static carousel items from original swiper just for reference -->
-        <v-carousel-item
+        <!-- <v-carousel-item
           v-for="(color, i) in colors"
           :key="color"
         >
@@ -241,7 +279,7 @@
               </div>
             </v-row>
           </v-sheet>
-        </v-carousel-item>
+        </v-carousel-item> -->
       </v-carousel>
     </div>
   </div>
@@ -249,16 +287,18 @@
 
 <script>
 import AudioDetail from '@/components/results/detail/AudioDetail.vue';
-import TextDetail from '@/components/results/detail/TextDetail.vue';
+import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
 import VideoDetail from '@/components/results/detail/VideoDetail.vue';
 import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
+import ImageDetail from '@/components/results/detail/ImageDetail.vue';
 
 export default {
   components: {
     AudioDetail,
-    TextDetail,
+    DocumentDetail,
     VideoDetail,
     DirectoryDetail,
+    ImageDetail,
   },
 
   data: () => ({
