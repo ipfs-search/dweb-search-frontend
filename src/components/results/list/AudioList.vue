@@ -22,7 +22,7 @@
           lg="2"
         >
           <v-card
-            @click="genericDialog()"
+            @click="goToDetailPage()"
           >
             <v-img
               :src="hit.src"
@@ -72,8 +72,6 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import DialogDetailText from '@/components/DialogDetailText.vue';
-import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -90,8 +88,8 @@ export default {
     },
   },
   methods: {
-    genericDialog() {
-      showDialog(DialogDetailText, {});
+    goToDetailPage() {
+      this.$router.push({ path: '/search/detail' });
     },
   },
 };

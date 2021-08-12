@@ -11,7 +11,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="videoDialog()"
+        @click="goToDetailPage()"
       >
         <v-row>
           <v-col
@@ -70,7 +70,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="videoDialog()"
+        @click="goToDetailPage()"
       >
         <v-row>
           <v-col
@@ -129,7 +129,7 @@
       class="my-2"
     >
       <v-card
-        @click="videoDialog()"
+        @click="goToDetailPage()"
       >
         <v-row>
           <v-col
@@ -184,8 +184,6 @@
 </template>
 
 <script>
-import DialogDetailVideo from '@/components/DialogDetailVideo.vue';
-import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -199,8 +197,8 @@ export default {
     },
   },
   methods: {
-    videoDialog() {
-      showDialog(DialogDetailVideo, {});
+    goToDetailPage() {
+      this.$router.push({ path: '/search/detail' });
     },
   },
 };
