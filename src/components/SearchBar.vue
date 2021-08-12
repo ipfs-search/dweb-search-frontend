@@ -76,7 +76,7 @@ export default {
     return {
       // TODO: Keep these types in a central place
       // TODO: Mapping between names/values (instead of only values)
-      types: ['any', 'text', 'images', 'audio', 'video'],
+      types: ['any', 'text', 'images', 'audio', 'video', 'directories'],
     };
   },
 };
