@@ -13,6 +13,7 @@
       color="white"
       fixed
       class="hidden-sm-and-down"
+      v-if="!(this.$route.name === 'Detail')"
     >
       <v-row
         justify="center"
