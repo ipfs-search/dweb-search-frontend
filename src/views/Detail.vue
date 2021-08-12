@@ -97,7 +97,7 @@
                         offset-xl="2"
                         :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
                       >
-                        <text-detail />
+                        <document-detail />
                       </v-col>
                     </v-row>
                   </v-container>
