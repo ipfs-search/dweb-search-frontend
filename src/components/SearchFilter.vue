@@ -37,6 +37,6 @@ export default {
     prop: 'value',
     event: 'change',
   },
-  props: ['text', 'value', 'options']
+  props: ['text', 'value', 'options'],
 };
 </script>
