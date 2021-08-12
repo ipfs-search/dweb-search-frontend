@@ -127,6 +127,7 @@ export default {
   },
 
   mounted() {
+    console.log(this.results.text);
   },
 };
 </script>
