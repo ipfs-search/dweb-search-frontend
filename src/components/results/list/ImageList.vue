@@ -19,7 +19,7 @@
           md="3"
           lg="2"
         >
-          <v-card @click="genericDialog()">
+          <v-card @click="goToDetailPage()">
             <v-img
               :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
               :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
@@ -47,8 +47,6 @@
 </template>
 
 <script>
-import DialogDetailText from '@/components/DialogDetailText.vue';
-import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -62,8 +60,8 @@ export default {
     },
   },
   methods: {
-    genericDialog() {
-      showDialog(DialogDetailText, {});
+    goToDetailPage() {
+      this.$router.push({ path: '/search/detail' });
     },
   },
 };

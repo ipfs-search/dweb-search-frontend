@@ -10,7 +10,7 @@
       offset-xl="2"
     >
       <v-card
-        @click="genericDialog()"
+        @click="goToDetailPage()"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span class="green--text">Last seen 1 day ago</span>
@@ -31,7 +31,7 @@
       offset-xl="2"
     >
       <v-card
-        @click="genericDialog()"
+        @click="goToDetailPage()"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span class="orange--text">Last seen 1 week ago</span>
@@ -51,7 +51,7 @@
       offset-xl="2"
     >
       <v-card
-        @click="genericDialog()"
+        @click="goToDetailPage()"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span class="red--text">Last seen 2 months ago</span>
@@ -69,8 +69,6 @@
 </template>
 
 <script>
-import DialogDetailText from '@/components/DialogDetailText.vue';
-import { showDialog } from '@/helpers/dialogHelper';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -84,8 +82,8 @@ export default {
     },
   },
   methods: {
-    genericDialog() {
-      showDialog(DialogDetailText, {});
+    goToDetailPage() {
+      this.$router.push({ path: '/search/detail' });
     },
   },
 };
