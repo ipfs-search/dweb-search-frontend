@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Documents ({{ results.results.hits.length }})
+      Documents ({{ results.results.total }})
     </template>
 
     <v-col

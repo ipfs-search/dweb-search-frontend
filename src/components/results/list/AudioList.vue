@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Audio ({{ results.results.hits.length }})
+      Audio ({{ results.results.total }})
     </template>
 
     <v-col
