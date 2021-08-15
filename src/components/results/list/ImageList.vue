@@ -20,24 +20,7 @@
           lg="2"
         >
           <v-card @click="goToDetailPage()">
-            <v-img
-              :src="`https://gateway.ipfs.io/ipfs/${hit.hash}`"
-              aspect-ratio="1"
-              class="grey lighten-2"
-            >
-              <template v-slot:placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  />
-                </v-row>
-              </template>
-            </v-img>
+            <Thumbnail :hit="hit" />
           </v-card>
         </v-col>
       </v-row>
@@ -46,11 +29,13 @@
 </template>
 
 <script>
+import Thumbnail from '@/components/Thumbnail.vue';
 import ListBase from './ListBase.vue';
 
 export default {
   components: {
     ListBase,
+    Thumbnail,
   },
   props: {
     results: {
@@ -58,6 +43,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    thumbnails: [],
+  }),
   methods: {
     goToDetailPage() {
       this.$router.push({ path: '/search/detail' });
