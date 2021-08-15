@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Thumbnail from '@/components/Thumbnail.vue';
+import Thumbnail from '@/components/thumbnails/ImageThumbnail.vue';
 import ListBase from './ListBase.vue';
 
 export default {
@@ -43,9 +43,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    thumbnails: [],
-  }),
   methods: {
     goToDetailPage() {
       this.$router.push({ path: '/search/detail' });

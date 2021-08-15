@@ -23,25 +23,7 @@
             lg="2"
             class="mb-sm-n2 mb-n10 mt-n2"
           >
-            <v-img
-              class="ma-3 mr-sm-0"
-              cover
-              aspect-ratio="1.778"
-              src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            >
-              <v-icon
-                size="64"
-                color="white"
-                style="opacity: 0.9;
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);"
-              >
-                mdi-play
-              </v-icon>
-            </v-img>
+            <Thumbnail :hit="hit" />
           </v-col>
           <v-col
             cols="12"
@@ -77,12 +59,14 @@
 </template>
 
 <script>
+import Thumbnail from '@/components/thumbnails/VideoThumbnail.vue';
 import durationToColor from '@/filters/durationToColor';
 import ListBase from './ListBase.vue';
 
 export default {
   components: {
     ListBase,
+    Thumbnail,
   },
   props: {
     results: {
