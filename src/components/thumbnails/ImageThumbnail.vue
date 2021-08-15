@@ -32,7 +32,7 @@ export default {
   }),
   methods: {
     thumbURL: (hash) => `http://localhost:8080/ipns/QmbpDuyXvYqsf1LCB5RraCqpZn1v1STGdX7Sf5YdxZaEc7/${hash}-${thumbWidth}-${thumbHeight}.jpg`,
-    altThumbURL: (hash) => `http://localhost:9614/thumbnail/ipfs/${hash}/${thumbWidth}/${thumbHeight}/`,
+    altThumbURL: (hash) => `http://localhost:9614/thumbnail/ipfs/${hash}/${thumbWidth}/${thumbHeight}/?type=image`,
   },
 };
 </script>
