@@ -8,7 +8,7 @@
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="hit in results.results.hits.slice(0, 3)"
+      v-for="hit in limit ? results.results.hits.slice(0, limit) : results.results.hits"
       :key="hit.hash"
     >
       <v-card
@@ -50,6 +50,11 @@ export default {
     results: {
       type: Object,
       required: true,
+    },
+    limit: {
+      type: Number,
+      required: false,
+      default: null,
     },
   },
   filters: {

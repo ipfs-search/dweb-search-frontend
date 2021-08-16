@@ -75,14 +75,8 @@ const mutations = {
   setType(state, type) {
     state.type = type;
   },
-  incrementPage(state) {
-    state.page += 1;
-  },
-  decrementPage(state) {
-    if (state.page >= 1) {
-      // Never decrease below 0
-      state.page -= 1;
-    }
+  setPage(state, page) {
+    state.page = page;
   },
   setLastSeenFilter(state, lastSeen) {
     state.filters.lastSeen = lastSeen;

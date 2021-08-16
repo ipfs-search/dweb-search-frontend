@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import Search from '../views/Search.vue';
 
 Vue.use(VueRouter);
 
@@ -15,11 +16,7 @@ const routes = [
     // https://router.vuejs.org/guide/essentials/passing-props.html#function-mode
     path: '/search',
     name: 'Search',
-
-    // route level code-splitting
-    // this generates a separate chunk (result.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search.vue'),
+    component: Search,
   },
   {
     path: '/search/detail',

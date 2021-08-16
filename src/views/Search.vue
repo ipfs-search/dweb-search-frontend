@@ -57,35 +57,66 @@
 
     <SearchFilters />
 
-    <DocumentList
-      v-if="results.text.results.total > 0 && (type == 'text' || type == 'any')"
-      :results="results.text"
-    />
-    <ImageList
-      v-if="results.images.results.total > 0 && (type == 'images' || type == 'any')"
-      :results="results.images"
-    />
-    <AudioList
-      v-if="results.audio.results.total > 0 && (type == 'audio' || type == 'any')"
-      :results="results.audio"
-    />
-    <VideoList
-      v-if="results.video.results.total > 0 && (type == 'video' || type == 'any')"
-      :results="results.video"
-    />
-    <DirectoryList
-      v-if="results.directories.results.total > 0 && (type == 'directories' || type == 'any')"
-      :results="results.directories"
-    />
+    <span v-if="type === 'any'">
+      <DocumentList
+        :results="results.text"
+        :limit="3"
+      />
+      <ImageList
+        :results="results.images"
+        :limit="6"
+      />
+      <AudioList
+        :results="results.audio"
+        :limit="6"
+      />
+      <VideoList
+        :results="results.video"
+        :limit="3"
+      />
+      <DirectoryList
+        :results="results.directories"
+        :limit="3"
+      />
+    </span>
 
-    <!-- PAGINATION -->
-    <!-- Note: pagination doesn't make sense in the combined view. -->
-    <v-container>
+    <span v-else-if="type === 'text'">
+      <DocumentList
+        :results="results.text"
+      />
+    </span>
+
+    <span v-else-if="type === 'images'">
+      <ImageList
+        :results="results.images"
+      />
+    </span>
+
+    <span v-else-if="type === 'audio'">
+      <AudioList
+        :results="results.audio"
+      />
+    </span>
+
+    <span v-else-if="type === 'video'">
+      <VideoList
+        :results="results.video"
+      />
+    </span>
+
+    <span v-else-if="type === 'directories'">
+      <DirectoryList
+        :results="results.directories"
+      />
+    </span>
+
+    <v-container v-if="type !== 'any'">
       <template>
         <div class="my-16">
           <v-pagination
             v-model="page"
-            :length="results.page_count"
+            :total-visible="7"
+            :length="page_count"
           />
         </div>
       </template>
@@ -120,6 +151,12 @@ export default {
   data: () => ({
   }),
 
+  computed: {
+    page_count() {
+      return Math.ceil(this.results[this.type].results.total / 15);
+    },
+  },
+
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
@@ -127,13 +164,11 @@ export default {
   },
 
   mounted() {
-    console.log(this.results.text);
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
   h2 {
     font-size: 120%;
     letter-spacing: 0.09em;

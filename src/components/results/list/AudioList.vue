@@ -13,7 +13,7 @@
         dense
       >
         <v-col
-          v-for="hit in results.results.hits.slice(0, 6)"
+          v-for="hit in limit ? results.results.hits.slice(0, limit) : results.results.hits"
           :key="hit.hash"
           cols="6"
           xs="4"
@@ -91,6 +91,11 @@ export default {
     results: {
       type: Object,
       required: true,
+    },
+    limit: {
+      type: Number,
+      required: false,
+      default: null,
     },
   },
   methods: {

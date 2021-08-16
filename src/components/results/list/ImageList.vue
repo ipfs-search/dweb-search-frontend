@@ -11,7 +11,7 @@
     >
       <v-row dense>
         <v-col
-          v-for="hit in results.results.hits.slice(0, 6)"
+          v-for="hit in limit ? results.results.hits.slice(0, limit) : results.results.hits"
           :key="hit.hash"
           class="d-flex child-flex"
           cols="6"
@@ -19,9 +19,11 @@
           md="3"
           lg="2"
         >
-          <v-card @click="goToDetailPage()">
-            <Thumbnail :hit="hit" />
-          </v-card>
+          <a :href="`https://gateway.ipfs.io/ipfs/${hit.hash}`" target="_new">
+            <v-card>
+              <Thumbnail :hit="hit" />
+            </v-card>
+          </a>
         </v-col>
       </v-row>
     </v-col>
@@ -42,11 +44,13 @@ export default {
       type: Object,
       required: true,
     },
+    limit: {
+      type: Number,
+      required: false,
+      default: null,
+    },
   },
   methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
-    },
   },
 };
 </script>

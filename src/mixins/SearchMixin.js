@@ -30,10 +30,10 @@ export default {
     },
     page: {
       get() {
-        return store.state.query.page;
+        return store.state.query.page + 1;
       },
       set(value) {
-        store.commit('query/setPage', value);
+        store.commit('query/setPage', value - 1);
         this.search();
       },
     },
@@ -43,6 +43,9 @@ export default {
       },
       set(value) {
         store.commit('query/setType', value);
+
+        // TODO: remember pages for various results
+        store.commit('query/setPage', 0);
         this.search();
       },
     },
