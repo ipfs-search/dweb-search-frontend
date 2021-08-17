@@ -6,55 +6,52 @@ import store from '@/store';
 
 export default {
   computed: {
-    ...mapState('search', [
+    ...mapState([
       'results',
-      'query',
     ]),
     // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
     lastSeenFilter: {
       get() {
-        return store.state.search.query.filters.lastSeen;
+        return store.state.query.filters.lastSeen;
       },
       set(value) {
-        store.commit('search/setLastSeenFilter', value);
+        store.commit('query/setLastSeenFilter', value);
         this.search();
       },
     },
     sizeFilter: {
       get() {
-        return store.state.search.query.filters.size;
+        return store.state.query.filters.size;
       },
       set(value) {
-        console.log('doedoooo', value);
-        store.commit('search/setSizeFilter', value);
+        store.commit('query/setSizeFilter', value);
         this.search();
       },
     },
     page: {
       get() {
-        return store.state.search.query.page;
+        return store.state.query.page;
       },
       set(value) {
-        store.commit('search/setPage', value);
+        store.commit('query/setPage', value);
         this.search();
       },
     },
-    // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
     type: {
       get() {
-        return store.state.search.query.type;
+        return store.state.query.type;
       },
       set(value) {
-        store.commit('search/setType', value);
+        store.commit('query/setType', value);
         this.search();
       },
     },
     query: {
       get() {
-        return store.state.search.query.user_query;
+        return store.state.query.user_query;
       },
       set(value) {
-        store.commit('search/setUserQuery', value);
+        store.commit('query/setUserQuery', value);
         // Note that we don't search every time query changes!
       },
     },
@@ -65,7 +62,7 @@ export default {
     search() {
       this.$router.push({
         path: '/search',
-        query: store.getters['search/stateToQueryParams'],
+        query: store.getters['query/stateToQueryParams'],
       });
     },
   },

@@ -25,11 +25,5 @@
 
 <script>
 export default {
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
-  },
 };
 </script>

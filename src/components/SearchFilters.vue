@@ -98,7 +98,6 @@ export default {
   mixins: [SearchMixin],
 
   data: () => ({
-
     sizeOptions: [
       {
         text: '0-10mb', value: ['<=10485760'],
@@ -112,6 +111,9 @@ export default {
       {
         text: '1gb+', value: ['>1073741824'],
       },
+      {
+        text: 'any', value: [],
+      },
     ],
 
     lastSeenOptions: [
@@ -123,6 +125,9 @@ export default {
       },
       {
         text: '<7d', value: '>now-7d',
+      },
+      {
+        text: 'any', value: 'any',
       },
     ],
   }),

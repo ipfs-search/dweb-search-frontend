@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Audio ({{ results.hits.length }})
+      Audio ({{ results.results.total }})
     </template>
 
     <v-col
@@ -13,7 +13,7 @@
         dense
       >
         <v-col
-          v-for="hit in results.hits.slice(0, 6)"
+          v-for="hit in results.results.hits.slice(0, 6)"
           :key="hit.hash"
           cols="6"
           xs="4"
@@ -58,7 +58,9 @@
                 <span
                   :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
                 >
-                  Last seen <timeago :datetime="hit['last-seen']" />
+                  <span v-if="hit['last-seen']">
+                    Last seen <timeago :datetime="hit['last-seen']" />
+                  </span>
                 </span><br>
                 <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
               </div>
