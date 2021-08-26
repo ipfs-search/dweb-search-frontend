@@ -54,9 +54,10 @@
               <span
                 :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
               >
-                <span v-if="hit['last-seen']">
-                  Last seen <timeago :datetime="hit['last-seen']" />
-                </span>
+                &#9679;
+              </span>
+              <span v-if="hit['last-seen']">
+                Last seen <timeago :datetime="hit['last-seen']" />
               </span><br>
               <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
             </v-card-subtitle>
