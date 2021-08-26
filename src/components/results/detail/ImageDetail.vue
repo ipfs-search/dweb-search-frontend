@@ -7,7 +7,11 @@
           <div class="image-wrapper">
             <div
               class="image-container"
-              :style="`background-image: url(https://picsum.photos/1500/900?random)`"
+              :style="`
+                background-image: url(https://picsum.photos/900/1500?random);
+                height: ${$vuetify.breakpoint.mdAndDown ? '100%' : '90%'};
+                width: ${$vuetify.breakpoint.mdAndDown ? '100%' : '90%'};
+              `"
             />
           </div>
         </div>
@@ -40,11 +44,9 @@ export default {
   left:0;
   right:0;
   bottom:0;
-  // Center content and make a fraction smaller on bigger devices
+  // Center and make content a fraction smaller on bigger devices
   // So that the whole image is visible
   .image-container {
-    height: 90%;
-    width: 90%;
     position: absolute;
     top: 50%;
     left: 50%;
