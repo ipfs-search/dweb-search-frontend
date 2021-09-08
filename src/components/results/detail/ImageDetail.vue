@@ -4,10 +4,16 @@
     <v-row>
       <v-col>
         <div>
-          <div
-            class="image-container"
-            :style="`background-image: url(https://picsum.photos/1500/900?image=${3 * 5 + 10})`"
-          />
+          <div class="image-wrapper">
+            <div
+              class="image-container"
+              :style="`
+                background-image: url(https://picsum.photos/900/1500?random);
+                height: ${$vuetify.breakpoint.mdAndDown ? '100%' : '90%'};
+                width: ${$vuetify.breakpoint.mdAndDown ? '100%' : '90%'};
+              `"
+            />
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -20,48 +26,7 @@ export default {
 
   data() {
     return {
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-        },
-      ],
+
     };
   },
 
@@ -72,14 +37,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.image-container {
+// Claim the biggest possible space
+.image-wrapper {
   position: absolute;
   top: 0;
   left:0;
   right:0;
   bottom:0;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center center;
+  // Center and make content a fraction smaller on bigger devices
+  // So that the whole image is visible
+  .image-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+  }
 }
 </style>

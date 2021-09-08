@@ -41,30 +41,34 @@
               >
                 mdi-music
               </v-icon>
-              <v-card-title
-                class="text-subtitle-1 font-weight-bold"
+
+              <v-card-text
+                class="text-subtitle-2"
                 v-html="hit.title"
               />
-              <v-card-subtitle
-                class="white--text text-body-2 text-truncate"
+              <!-- This is way to much information lets show this in detailed view -->
+              <!-- <v-card-text
+                class="white--text text-caption text-truncate"
                 v-html="hit.description"
-              />
+              /> -->
             </v-img>
 
-            <v-card-subtitle class="text-caption text-truncate">
+            <v-card-text class="text-caption text-truncate">
               <div
                 class="my-n2 d-block-inline text-truncate"
               >
                 <span
                   :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
                 >
-                  <span v-if="hit['last-seen']">
-                    Last seen <timeago :datetime="hit['last-seen']" />
-                  </span>
-                </span><br>
+                  &#9679;
+                </span>
+                <span v-if="hit['last-seen']">
+                  Last seen <timeago :datetime="hit['last-seen']" />
+                </span>
+                <br>
                 <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
               </div>
-            </v-card-subtitle>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
