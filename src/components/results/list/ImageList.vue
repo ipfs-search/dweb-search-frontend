@@ -19,11 +19,7 @@
           md="3"
           lg="2"
         >
-          <a :href="`https://gateway.ipfs.io/ipfs/${hit.hash}`" target="_new">
-            <v-card>
-              <Thumbnail :hit="hit" />
-            </v-card>
-          </a>
+          <ListItem :item="hit" />
         </v-col>
       </v-row>
     </v-col>
@@ -31,13 +27,13 @@
 </template>
 
 <script>
-import Thumbnail from '@/components/thumbnails/ImageThumbnail.vue';
+import ListItem from '../list-item/ImageListItem.vue';
 import ListBase from './ListBase.vue';
 
 export default {
   components: {
     ListBase,
-    Thumbnail,
+    ListItem,
   },
   props: {
     results: {

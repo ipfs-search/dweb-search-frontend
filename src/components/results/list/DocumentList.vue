@@ -11,43 +11,19 @@
       xl="8"
       offset-xl="2"
     >
-      <v-card
-        @click="goToDetailPage()"
-      >
-        <v-card-subtitle class="text-caption mb-n7 text-truncate">
-          <span
-            :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
-          >
-            &#9679;
-          </span>
-          <span v-if="hit['last-seen']">
-            Last seen <timeago :datetime="hit['last-seen']" />
-          </span><br>
-          <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
-        </v-card-subtitle>
-        <v-card-title
-          class="text-subtitle-1"
-          v-html="hit.title"
-        />
-        <v-card-subtitle
-          class="text-body-2"
-          v-html="hit.description"
-        />
-      </v-card>
+      <ListItem :item="hit" />
     </v-col>
   </ListBase>
 </template>
 
 <script>
-import durationToColor from '@/filters/durationToColor';
 import ListBase from './ListBase.vue';
+import ListItem from '../list-item/DocumentListItem.vue';
 
 export default {
   components: {
     ListBase,
-  },
-  filters: {
-    durationToColor,
+    ListItem,
   },
   props: {
     results: {
@@ -58,11 +34,6 @@ export default {
       type: Number,
       required: false,
       default: null,
-    },
-  },
-  methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
     },
   },
 };
