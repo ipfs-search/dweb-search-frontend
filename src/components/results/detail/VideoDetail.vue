@@ -123,7 +123,7 @@ export default {
         controls: true,
         sources: [
           {
-            src: '//vjs.zencdn.net/v/oceans.mp4',
+            src: `https://gateway.ipfs.io/ipfs/${this.file.hash}`,
             type: 'video/mp4',
           },
         ],

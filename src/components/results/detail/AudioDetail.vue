@@ -41,9 +41,10 @@
                   <!-- Title -->
                   <v-row>
                     <v-col>
-                      <div class="text-h6 font-weight-regular mb-n3">
-                        Unlimited Music Now
-                      </div>
+                      <div
+                        class="text-h6 font-weight-regular mb-n3"
+                        v-html="`${file.author} - ${file.title}`"
+                      />
                     </v-col>
                   </v-row>
 
@@ -221,9 +222,9 @@
                     <v-list>
                       <v-list-item dark>
                         <v-list-item-content>
-                          <v-list-item-title>The Walker</v-list-item-title>
+                          <v-list-item-title v-html="file.title" />
                           <v-list-item-subtitle>
-                            Fitz & The Trantrums <span class="ml-4">{{ timer }} / {{ duration }}</span>
+                            <span v-html="file.author" /> <span class="ml-4">{{ timer }} / {{ duration }}</span>
                           </v-list-item-subtitle>
                         </v-list-item-content>
 
@@ -233,7 +234,6 @@
                           <v-btn
                             icon
                             disabled
-                            @click="nothing"
                           >
                             <v-icon>mdi-rewind</v-icon>
                           </v-btn>
@@ -264,7 +264,6 @@
                           <v-btn
                             icon
                             disabled
-                            @click="nothing"
                           >
                             <v-icon>mdi-fast-forward</v-icon>
                           </v-btn>
@@ -288,7 +287,7 @@
 
 <script>
 import { Howl } from 'howler';
-import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
+// import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
 
@@ -296,6 +295,12 @@ export default {
     // VideoPlayer,
   },
 
+  props: {
+    file: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       selected: undefined,
@@ -431,7 +436,8 @@ export default {
         return null;
       }
       this.sound = new Howl({
-        src: [graveDigger],
+        src: [`https://gateway.ipfs.io/ipfs/${this.file.hash}`],
+        format: ['mp3'],
         onplay() {
           // Display the duration.
           self.duration = self.formatTime(Math.round(self.sound.duration()));

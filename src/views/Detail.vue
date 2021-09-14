@@ -161,8 +161,12 @@ export default {
         const { hash } = this.items.findIndex((item) => item.hash === this.fileHash) > -1
           ? this.items[index]
           : this.fileHash;
+        // FIXME:
         // !! note that here Vue router needs to be circumvented because it lacks functionality to
         // !! change the url without re-rendering the component associated with the route
+        // this thread describes the issue and has been closed after 5 years
+        // mentioning there is a solution in vue-router v4:
+        // https://github.com/vuejs/vue-router/issues/703
         if (hash !== undefined) {
           // eslint-disable-next-line no-restricted-globals
           history.replaceState(null, null, `${window.location.href.split('#')[0]}#${hash}`);
