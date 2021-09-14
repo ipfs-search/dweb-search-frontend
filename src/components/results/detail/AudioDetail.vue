@@ -66,11 +66,12 @@
                               fab
                               color="black"
                               @click="startPlayer(items[0].title)"
-                              style="opacity: 0.5;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);"
+                              style="
+                                opacity: 0.5;
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);"
                             >
                               <v-icon
                                 size="42"
@@ -287,6 +288,7 @@
 
 <script>
 import { Howl } from 'howler';
+import { getFileExtension } from '@/helpers/fileHelper';
 // import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
@@ -376,42 +378,6 @@ export default {
           name: 'Frozen Yogurt',
           calories: 159,
         },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-        },
       ],
     };
   },
@@ -437,7 +403,7 @@ export default {
       }
       this.sound = new Howl({
         src: [`https://gateway.ipfs.io/ipfs/${this.file.hash}`],
-        format: ['mp3'],
+        format: [getFileExtension(this.file.title)],
         onplay() {
           // Display the duration.
           self.duration = self.formatTime(Math.round(self.sound.duration()));
