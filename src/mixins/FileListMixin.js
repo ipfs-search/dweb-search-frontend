@@ -17,7 +17,7 @@ export default {
         name: 'Detail',
         query: {
           ...this.$route.query,
-          type: this.fileType,
+          detailType: this.fileType,
         },
         hash: `#${hash}`,
       });

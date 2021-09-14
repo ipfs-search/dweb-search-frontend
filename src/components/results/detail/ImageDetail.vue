@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    :light="$vuetify.theme.dark ? false : true"
+    :light="!$vuetify.theme.dark"
     height="100%"
     tile
   >

@@ -114,18 +114,12 @@ export default {
     VideoList,
     DirectoryList,
   },
-
   mixins: [SearchMixin, SearchNavigationMixin],
-
-  data: () => ({
-  }),
-
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
     },
   },
-
   mounted() {
     console.log(this.results.text);
   },

@@ -24,7 +24,7 @@ const routes = [
     path: '/search/detail',
     name: 'Detail',
     props: (route) => ({
-      fileType: route.query.type,
+      fileType: route.query.detailType,
       fileHash: route.hash.slice(1), // slice to remove '#'
     }),
     // route level code-splitting
@@ -38,6 +38,5 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
-
 });
 export default router;

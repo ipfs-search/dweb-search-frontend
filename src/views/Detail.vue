@@ -44,7 +44,7 @@
             <v-spacer />
             <v-btn
               icon
-              @click="$router.go(-1)"
+              @click="closeDetail"
             >
               <v-icon>
                 mdi-close
@@ -183,6 +183,14 @@ export default {
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
+    },
+    closeDetail() {
+      const { query } = this.$route;
+      delete query.detailType;
+      this.$router.replace({
+        name: 'Search',
+        query,
+      });
     },
   },
 };
