@@ -21,10 +21,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "search-list" */ '../views/Search.vue'),
   },
   {
-    path: '/search/detail',
+    path: '/search/detail/:fileType',
     name: 'Detail',
     props: (route) => ({
-      fileType: route.query.detailType,
+      fileType: route.params.fileType,
       fileHash: route.hash.slice(1), // slice to remove '#'
     }),
     // route level code-splitting

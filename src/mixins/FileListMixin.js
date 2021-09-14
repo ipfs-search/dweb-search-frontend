@@ -12,13 +12,12 @@ export default {
   },
   methods: {
     goToDetailPage(hash) {
-      console.log(hash);
       this.$router.push({
         name: 'Detail',
-        query: {
-          ...this.$route.query,
-          detailType: this.fileType,
+        params: {
+          fileType: this.fileType,
         },
+        query: this.$route.query,
         hash: `#${hash}`,
       });
     },
