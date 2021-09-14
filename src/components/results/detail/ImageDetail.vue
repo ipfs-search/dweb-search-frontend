@@ -32,7 +32,7 @@
                     <div>
                       <div
                         class="image-container"
-                        :style="`background-image: url(https://gateway.ipfs.io/ipfs/${this.detailCid})`"
+                        :style="`background-image: url(https://gateway.ipfs.io/ipfs/${this.file.hash})`"
                       />
                     </div>
                   </v-col>
@@ -50,7 +50,7 @@
 
 export default {
   props: {
-    detailCid: String,
+    file: Object,
   },
 };
 </script>

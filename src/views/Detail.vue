@@ -74,7 +74,8 @@
           :key="item.hash"
         >
           <ImageDetail
-            :detail-cid="item.hash"
+            v-if="fileType === 'images'"
+            :file="item"
           />
         </v-carousel-item>
         <!--        <v-carousel-item>-->
@@ -266,23 +267,45 @@ import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 
 export default {
   mixins: [SearchMixin, SearchNavigationMixin],
-  props: {
-    detailCid: {
-      type: String,
-      default: '!CID!',
-    },
-  },
   components: {
     ImageDetail,
   },
-  computed: {
-    // eslint-disable-next-line consistent-return,vue/return-in-computed-property
-    items() {
-      console.log(this.$route.query.type);
-      return this.$store.state.results[this.$route.query.type].results.hits;
+  props: {
+    fileType: {
+      type: String,
+      default: '',
     },
-    carouselIndex() {
-      return this.items.findIndex((item) => item.hash === this.detailCid);
+    fileHash: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    items() {
+      return this.$store.state.results[this.fileType].results.hits;
+    },
+    carouselIndex: {
+      get() {
+        return this.items.findIndex((item) => item.hash === this.fileHash);
+      },
+      set(index) {
+        const { hash } = this.items.findIndex((item) => item.hash === this.fileHash) > -1
+          ? this.items[index]
+          : this.fileHash;
+        // !! note that here Vue router needs to be circumvented because it lacks functionality to
+        // !! change the url without re-rendering the component associated with the route
+        if (hash !== undefined) {
+          // eslint-disable-next-line no-restricted-globals
+          history.replaceState(null, null, `${window.location.href.split('#')[0]}#${hash}`);
+        }
+        // I.e. the following snippet does not work properly:
+        /*
+        this.$router.replace({
+          ...this.$route,
+          hash: `#${hash}`,
+        });
+        */
+      },
     },
     detailType() {
       return this.$store.state.query.type;

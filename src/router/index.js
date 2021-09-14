@@ -13,7 +13,6 @@ const routes = [
   {
     // TODO: Pass query elements as props to Search view.
     // https://router.vuejs.org/guide/essentials/passing-props.html#function-mode
-    // Note: `props: true` should take care of this, but route params are now only used by the searchNavigationMixin
     path: '/search',
     name: 'Search',
     // route level code-splitting
@@ -25,8 +24,8 @@ const routes = [
     path: '/search/detail',
     name: 'Detail',
     props: (route) => ({
-      // ...route.query,
-      detailCid: route.hash.slice(1),
+      fileType: route.query.type,
+      fileHash: route.hash.slice(1),
     }),
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
@@ -39,6 +38,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
-});
 
+});
 export default router;
