@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    :light="$vuetify.theme.dark ? false : true"
+    :light="!$vuetify.theme.dark"
     height="100%"
     tile
   >
@@ -30,8 +30,8 @@
                 <v-row>
                   <v-col>
                     <div class="text-caption mb-n8 text-truncate">
-                      <span class="">Last seen 1 day ago</span>
-                      <span> | Size 478mb</span><span> | Mimetype text/html</span>
+                      <span class="">Last seen {{ this.file['last-seen'] }}</span>
+                      <span> | Size {{ this.file['size'] }}</span><span> | Mimetype {{ this.file['mimetype'] }}</span>
                     </div>
                   </v-col>
                 </v-row>
@@ -39,9 +39,10 @@
                 <!-- Title -->
                 <v-row>
                   <v-col>
-                    <div class="text-h6 font-weight-regular">
-                      Unlimited Music Now
-                    </div>
+                    <div
+                      class="text-h6 font-weight-regular"
+                      v-html="`${file.title}`"
+                    />
                   </v-col>
                 </v-row>
 
@@ -115,7 +116,9 @@ export default {
   components: {
     VideoPlayer,
   },
-
+  props: {
+    file: Object,
+  },
   data() {
     return {
       sheet: false,
