@@ -13,7 +13,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="goToDetailPage()"
+        @click="goToDetailPage(hit.hash)"
       >
         <v-row>
           <v-col
@@ -78,25 +78,19 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import ListBase from './ListBase.vue';
+import FileListMixin from '@/mixins/FileListMixin';
 
 export default {
-  components: {
-    ListBase,
-  },
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
+  mixins: [
+    FileListMixin,
+  ],
+  data() {
+    return {
+      fileType: 'video',
+    };
   },
   filters: {
     durationToColor,
-  },
-  methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
-    },
   },
 };
 </script>

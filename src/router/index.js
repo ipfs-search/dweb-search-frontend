@@ -25,7 +25,7 @@ const routes = [
     name: 'Detail',
     props: (route) => ({
       fileType: route.query.type,
-      fileHash: route.hash.slice(1),
+      fileHash: route.hash.slice(1), // slice to remove '#'
     }),
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route

@@ -12,7 +12,7 @@
       offset-xl="2"
     >
       <v-card
-        @click="goToDetailPage()"
+        @click="goToDetailPage(hit.hash)"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span
@@ -40,25 +40,19 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import ListBase from './ListBase.vue';
+import FileListMixin from '@/mixins/FileListMixin';
 
 export default {
-  components: {
-    ListBase,
-  },
+  mixins: [
+    FileListMixin,
+  ],
   filters: {
     durationToColor,
   },
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
-    },
+  data() {
+    return {
+      fileType: 'text',
+    };
   },
 };
 </script>

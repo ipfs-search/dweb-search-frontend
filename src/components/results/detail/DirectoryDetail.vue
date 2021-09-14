@@ -1,93 +1,125 @@
 <template>
-  <div>
-    <!-- Subheader -->
-    <v-row>
-      <v-col>
-        <div class="text-caption mb-n8 text-truncate">
-          <span class="">Last seen 1 day ago</span>
-          <span> | Size 478mb</span><span> | Mimetype text/html</span>
-        </div>
-      </v-col>
-    </v-row>
+  <v-sheet
+    :light="!$vuetify.theme.dark"
+    height="100%"
+    tile
+  >
+    <v-row
+      class="fill-height ma-0 pa-0"
+    >
+      <div
+        style="position: absolute;
+                          top: 0;
+                          left: 0;
+                          bottom: 0;
+                          right: 0;"
+      >
+        <div
+          class="inline-block"
+          style="height: 100% !important; overflow-y: auto !important;"
+        >
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                xl="8"
+                offset-xl="2"
+                :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
+              >
+                <!-- Subheader -->
+                <v-row>
+                  <v-col>
+                    <div class="text-caption mb-n8 text-truncate">
+                      <span class="">Last seen 1 day ago</span>
+                      <span> | Size 478mb</span><span> | Mimetype text/html</span>
+                    </div>
+                  </v-col>
+                </v-row>
 
-    <!-- Title -->
-    <v-row>
-      <v-col>
-        <div class="text-h6 font-weight-regular">
-          Unlimited Music Now
-        </div>
-      </v-col>
-    </v-row>
+                <!-- Title -->
+                <v-row>
+                  <v-col>
+                    <div class="text-h6 font-weight-regular">
+                      Unlimited Music Now
+                    </div>
+                  </v-col>
+                </v-row>
 
-    <!-- Content -->
-    <v-row>
-      <v-col>
-        <div class="text-body-1">
-          <v-treeview
-            v-model="tree"
-            :open="initiallyOpen"
-            :items="items"
-            activatable
-            item-key="name"
-            open-on-click
-          >
-            <template v-slot:prepend="{ item, open }">
-              <v-icon v-if="!item.file">
-                {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
-              </v-icon>
-              <v-icon v-else>
-                {{ files[item.file] }}
-              </v-icon>
-            </template>
-          </v-treeview>
-        </div>
-      </v-col>
-    </v-row>
-
-    <!-- Meta data -->
-    <v-row>
-      <v-col>
-        <div class="text-body-1 mt-n3">
-          <v-expansion-panels>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                <template v-slot:default="{ open }">
-                  <div>
-                    {{ `${open ? 'Hide' : 'Show'}` }} meta data
-                  </div>
-                </template>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="ml-n2 mr-0">
-                <v-simple-table>
-                  <template v-slot:default>
-                    <thead>
-                      <tr>
-                        <th class="text-left">
-                          Name
-                        </th>
-                        <th class="text-left">
-                          Calories
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="item in desserts"
-                        :key="item.name"
+                <!-- Content -->
+                <v-row>
+                  <v-col>
+                    <div class="text-body-1">
+                      <v-treeview
+                        v-model="tree"
+                        :open="initiallyOpen"
+                        :items="items"
+                        activatable
+                        item-key="name"
+                        open-on-click
                       >
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.calories }}</td>
-                      </tr>
-                    </tbody>
-                  </template>
-                </v-simple-table>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                        <template v-slot:prepend="{ item, open }">
+                          <v-icon v-if="!item.file">
+                            {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
+                          </v-icon>
+                          <v-icon v-else>
+                            {{ files[item.file] }}
+                          </v-icon>
+                        </template>
+                      </v-treeview>
+                    </div>
+                  </v-col>
+                </v-row>
+
+                <!-- Meta data -->
+                <v-row>
+                  <v-col>
+                    <div class="text-body-1 mt-n3">
+                      <v-expansion-panels>
+                        <v-expansion-panel>
+                          <v-expansion-panel-header>
+                            <template v-slot:default="{ open }">
+                              <div>
+                                {{ `${open ? 'Hide' : 'Show'}` }} meta data
+                              </div>
+                            </template>
+                          </v-expansion-panel-header>
+                          <v-expansion-panel-content class="ml-n2 mr-0">
+                            <v-simple-table>
+                              <template v-slot:default>
+                                <thead>
+                                  <tr>
+                                    <th class="text-left">
+                                      Name
+                                    </th>
+                                    <th class="text-left">
+                                      Calories
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr
+                                    v-for="item in desserts"
+                                    :key="item.name"
+                                  >
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.calories }}</td>
+                                  </tr>
+                                </tbody>
+                              </template>
+                            </v-simple-table>
+                          </v-expansion-panel-content>
+                        </v-expansion-panel>
+                      </v-expansion-panels>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-container>
         </div>
-      </v-col>
+      </div>
     </v-row>
-  </div>
+  </v-sheet>
 </template>
 
 <script>
@@ -206,10 +238,6 @@ export default {
       },
     ],
   }),
-
-  methods: {
-
-  },
 };
 </script>
 

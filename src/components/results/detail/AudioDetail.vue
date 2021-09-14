@@ -1,257 +1,289 @@
 <template>
-  <div>
-    <!-- Content -->
-    <div>
-      <!-- Subheader -->
-      <v-row>
-        <v-col>
-          <div class="text-caption mb-n8 text-truncate">
-            <span class="">Last seen 1 day ago</span>
-            <span> | Size 478mb</span><span> | Mimetype text/html</span>
-          </div>
-        </v-col>
-      </v-row>
-
-      <!-- Title -->
-      <v-row>
-        <v-col>
-          <div class="text-h6 font-weight-regular mb-n3">
-            Unlimited Music Now
-          </div>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <!-- Left - video or preview image with title and subcaption above -->
-        <v-col
-          cols="12"
-          md="7"
+  <v-sheet
+    :light="!$vuetify.theme.dark"
+    height="100%"
+    tile
+  >
+    <v-row
+      class="fill-height ma-0 pa-0"
+    >
+      <div
+        style="position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;"
+      >
+        <div
+          class="inline-block"
+          style="height: 100% !important; overflow-y: auto !important;"
         >
-          <!-- Previewed video or image that goes along with the played audio track -->
-          <v-row>
-            <v-col>
-              <v-img
-                src="https://picsum.photos/510/300?random"
-                aspect-ratio="1.7"
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                xl="8"
+                offset-xl="2"
+                :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
               >
-                <v-btn
-                  large
-                  fab
-                  color="black"
-                  @click="startPlayer(items[0].title)"
-                  style="opacity: 0.5;
+                <!-- Content -->
+                <div>
+                  <!-- Subheader -->
+                  <v-row>
+                    <v-col>
+                      <div class="text-caption mb-n8 text-truncate">
+                        <span class="">Last seen 1 day ago</span>
+                        <span> | Size 478mb</span><span> | Mimetype text/html</span>
+                      </div>
+                    </v-col>
+                  </v-row>
+
+                  <!-- Title -->
+                  <v-row>
+                    <v-col>
+                      <div class="text-h6 font-weight-regular mb-n3">
+                        Unlimited Music Now
+                      </div>
+                    </v-col>
+                  </v-row>
+
+                  <v-row>
+                    <!-- Left - video or preview image with title and subcaption above -->
+                    <v-col
+                      cols="12"
+                      md="7"
+                    >
+                      <!-- Previewed video or image that goes along with the played audio track -->
+                      <v-row>
+                        <v-col>
+                          <v-img
+                            src="https://picsum.photos/510/300?random"
+                            aspect-ratio="1.7"
+                          >
+                            <v-btn
+                              large
+                              fab
+                              color="black"
+                              @click="startPlayer(items[0].title)"
+                              style="opacity: 0.5;
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);"
-                >
-                  <v-icon
-                    size="42"
-                    color="white"
-                  >
-                    mdi-play
-                  </v-icon>
-                </v-btn>
-              </v-img>
-            </v-col>
-          </v-row>
-        </v-col>
+                            >
+                              <v-icon
+                                size="42"
+                                color="white"
+                              >
+                                mdi-play
+                              </v-icon>
+                            </v-btn>
+                          </v-img>
+                        </v-col>
+                      </v-row>
+                    </v-col>
 
-        <!-- Right - list with related audio files first one is playing -->
-        <v-col
-          cols="12"
-          md="5"
-        >
-          <v-list
-            two-line
-            class="mt-n2"
-          >
-            <template v-for="(item, index) in items">
-              <v-subheader
-                v-if="item.header"
-                :key="item.header"
-                v-text="item.header"
-              />
-
-              <v-divider
-                v-else-if="item.divider"
-                :key="index"
-              />
-
-              <v-list-item
-                class="d-flex"
-                v-else
-                :key="item.title"
-                @click="startPlayer(item.title)"
-                :class="item.title === selected ? 'highlight' : ''"
-              >
-                <v-list-item-avatar
-                  size="42"
-                  tile
-                >
-                  <v-img :src="item.avatar">
-                    <!-- <v-icon
-                      v-if="(item.title === selected) && !paused"
-                      size="24"
-                      color="white"
-                      style="opacity: 0.9;
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);"
+                    <!-- Right - list with related audio files first one is playing -->
+                    <v-col
+                      cols="12"
+                      md="5"
                     >
-                      mdi-pause
-                    </v-icon>
-                    <v-icon
-                      v-if="(item.title === selected) && paused"
-                      size="24"
-                      color="white"
-                      style="opacity: 0.9;
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);"
-                    >
-                      mdi-play
-                    </v-icon> -->
-                  </v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title
-                    v-html="item.title"
-                    :class="item.title === selected ? 'ipfsSecondary--text text--lighten-1' : ''"
-                  />
-                  <v-list-item-subtitle
-                    v-html="item.subtitle"
-                  />
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list>
-        </v-col>
-      </v-row>
+                      <v-list
+                        two-line
+                        class="mt-n2"
+                      >
+                        <template v-for="(item, index) in items">
+                          <v-subheader
+                            v-if="item.header"
+                            :key="item.header"
+                            v-text="item.header"
+                          />
 
-      <!-- Meta data -->
-      <v-row>
-        <v-col>
-          <div class="text-body-1 mt-n3">
-            <v-expansion-panels>
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <template v-slot:default="{ open }">
-                    <div>
-                      {{ `${open ? 'Hide' : 'Show'}` }} meta data
-                    </div>
-                  </template>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content class="ml-n2 mr-0">
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">
-                            Name
-                          </th>
-                          <th class="text-left">
-                            Calories
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="dessert in desserts"
-                          :key="dessert.name"
+                          <v-divider
+                            v-else-if="item.divider"
+                            :key="index"
+                          />
+
+                          <v-list-item
+                            class="d-flex"
+                            v-else
+                            :key="item.title"
+                            @click="startPlayer(item.title)"
+                            :class="item.title === selected ? 'highlight' : ''"
+                          >
+                            <v-list-item-avatar
+                              size="42"
+                              tile
+                            >
+                              <v-img :src="item.avatar">
+                                <!-- <v-icon
+                                  v-if="(item.title === selected) && !paused"
+                                  size="24"
+                                  color="white"
+                                  style="opacity: 0.9;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);"
+                                >
+                                  mdi-pause
+                                </v-icon>
+                                <v-icon
+                                  v-if="(item.title === selected) && paused"
+                                  size="24"
+                                  color="white"
+                                  style="opacity: 0.9;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);"
+                                >
+                                  mdi-play
+                                </v-icon> -->
+                              </v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-html="item.title"
+                                :class="item.title === selected ? 'ipfsSecondary--text text--lighten-1' : ''"
+                              />
+                              <v-list-item-subtitle
+                                v-html="item.subtitle"
+                              />
+                            </v-list-item-content>
+                          </v-list-item>
+                        </template>
+                      </v-list>
+                    </v-col>
+                  </v-row>
+
+                  <!-- Meta data -->
+                  <v-row>
+                    <v-col>
+                      <div class="text-body-1 mt-n3">
+                        <v-expansion-panels>
+                          <v-expansion-panel>
+                            <v-expansion-panel-header>
+                              <template v-slot:default="{ open }">
+                                <div>
+                                  {{ `${open ? 'Hide' : 'Show'}` }} meta data
+                                </div>
+                              </template>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content class="ml-n2 mr-0">
+                              <v-simple-table>
+                                <template v-slot:default>
+                                  <thead>
+                                    <tr>
+                                      <th class="text-left">
+                                        Name
+                                      </th>
+                                      <th class="text-left">
+                                        Calories
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr
+                                      v-for="dessert in desserts"
+                                      :key="dessert.name"
+                                    >
+                                      <td>{{ dessert.name }}</td>
+                                      <td>{{ dessert.calories }}</td>
+                                    </tr>
+                                  </tbody>
+                                </template>
+                              </v-simple-table>
+                            </v-expansion-panel-content>
+                          </v-expansion-panel>
+                        </v-expansion-panels>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </div>
+
+                <!-- Music player appears at bottom when click on a list item -->
+                <v-bottom-sheet
+                  v-model="playerActive"
+                  hide-overlay
+                  dark
+                  persistent
+                  no-click-animation
+                >
+                  <v-card tile>
+                    <v-progress-linear
+                      :value="progress"
+                      color="white"
+                      class="my-0"
+                      height="3"
+                    />
+
+                    <v-list>
+                      <v-list-item dark>
+                        <v-list-item-content>
+                          <v-list-item-title>The Walker</v-list-item-title>
+                          <v-list-item-subtitle>
+                            Fitz & The Trantrums <span class="ml-4">{{ timer }} / {{ duration }}</span>
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+
+                        <v-spacer />
+
+                        <v-list-item-icon>
+                          <v-btn
+                            icon
+                            disabled
+                            @click="nothing"
+                          >
+                            <v-icon>mdi-rewind</v-icon>
+                          </v-btn>
+                        </v-list-item-icon>
+
+                        <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
+                          <v-btn
+                            icon
+                            @click="pause"
+                          >
+                            <v-icon
+                              v-if="!paused"
+                            >
+                              mdi-pause
+                            </v-icon>
+                            <v-icon
+                              v-if="paused"
+                            >
+                              mdi-play
+                            </v-icon>
+                          </v-btn>
+                        </v-list-item-icon>
+
+                        <v-list-item-icon
+                          class="ml-0"
+                          :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
                         >
-                          <td>{{ dessert.name }}</td>
-                          <td>{{ dessert.calories }}</td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </div>
-        </v-col>
-      </v-row>
-    </div>
-
-    <!-- Music player appears at bottom when click on a list item -->
-    <v-bottom-sheet
-      v-model="playerActive"
-      hide-overlay
-      dark
-      persistent
-      no-click-animation
-    >
-      <v-card tile>
-        <v-progress-linear
-          :value="progress"
-          color="white"
-          class="my-0"
-          height="3"
-        />
-
-        <v-list>
-          <v-list-item dark>
-            <v-list-item-content>
-              <v-list-item-title>The Walker</v-list-item-title>
-              <v-list-item-subtitle>
-                Fitz & The Trantrums <span class="ml-4">{{ timer }} / {{ duration }}</span>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-spacer />
-
-            <v-list-item-icon>
-              <v-btn
-                icon
-                disabled
-                @click="nothing"
-              >
-                <v-icon>mdi-rewind</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-
-            <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-              <v-btn
-                icon
-                @click="pause"
-              >
-                <v-icon
-                  v-if="!paused"
-                >
-                  mdi-pause
-                </v-icon>
-                <v-icon
-                  v-if="paused"
-                >
-                  mdi-play
-                </v-icon>
-              </v-btn>
-            </v-list-item-icon>
-
-            <v-list-item-icon
-              class="ml-0"
-              :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
-            >
-              <v-btn
-                icon
-                disabled
-                @click="nothing"
-              >
-                <v-icon>mdi-fast-forward</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-bottom-sheet>
-    <v-sheet
-      v-if="playerActive"
-      height="100"
-    />
-  </div>
+                          <v-btn
+                            icon
+                            disabled
+                            @click="nothing"
+                          >
+                            <v-icon>mdi-fast-forward</v-icon>
+                          </v-btn>
+                        </v-list-item-icon>
+                      </v-list-item>
+                    </v-list>
+                  </v-card>
+                </v-bottom-sheet>
+                <v-sheet
+                  v-if="playerActive"
+                  height="100"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
+      </div>
+    </v-row>
+  </v-sheet>
 </template>
 
 <script>

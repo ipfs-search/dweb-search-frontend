@@ -77,158 +77,23 @@
             v-if="fileType === 'images'"
             :file="item"
           />
+          <DirectoryDetail
+            v-if="fileType === 'directories'"
+            :file="item"
+          />
+          <DocumentDetail
+            v-if="fileType === 'text'"
+            :file="item"
+          />
+          <AudioDetail
+            v-if="fileType === 'audio'"
+            :file="item"
+          />
+          <VideoDetail
+            v-if="fileType === 'video'"
+            :file="item"
+          />
         </v-carousel-item>
-        <!--        <v-carousel-item>-->
-        <!--          <v-sheet-->
-        <!--            height="100%"-->
-        <!--            tile-->
-        <!--            :light="$vuetify.theme.dark ? false : true"-->
-        <!--          >-->
-        <!--            <v-row-->
-        <!--              class="fill-height ma-0 pa-0"-->
-        <!--            >-->
-        <!--              <div-->
-        <!--                style="position: absolute;-->
-        <!--                  top: 0;-->
-        <!--                  left: 0;-->
-        <!--                  bottom: 0;-->
-        <!--                  right: 0;"-->
-        <!--              >-->
-        <!--                <div-->
-        <!--                  class="inline-block"-->
-        <!--                  style="height: 100% !important; overflow-y: auto !important;"-->
-        <!--                >-->
-        <!--                  <v-container>-->
-        <!--                    <v-row>-->
-        <!--                      <v-col-->
-        <!--                        cols="12"-->
-        <!--                        xl="8"-->
-        <!--                        offset-xl="2"-->
-        <!--                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"-->
-        <!--                      >-->
-        <!--                        <document-detail />-->
-        <!--                      </v-col>-->
-        <!--                    </v-row>-->
-        <!--                  </v-container>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </v-row>-->
-        <!--          </v-sheet>-->
-        <!--        </v-carousel-item>-->
-
-        <!--        <v-carousel-item>-->
-        <!--          <v-sheet-->
-        <!--            :light="$vuetify.theme.dark ? false : true"-->
-        <!--            height="100%"-->
-        <!--            tile-->
-        <!--          >-->
-        <!--            <v-row-->
-        <!--              class="fill-height ma-0 pa-0"-->
-        <!--            >-->
-        <!--              <div-->
-        <!--                style="position: absolute;-->
-        <!--                  top: 0;-->
-        <!--                  left: 0;-->
-        <!--                  bottom: 0;-->
-        <!--                  right: 0;"-->
-        <!--              >-->
-        <!--                <div-->
-        <!--                  class="inline-block"-->
-        <!--                  style="height: 100% !important; overflow-y: auto !important;"-->
-        <!--                >-->
-        <!--                  <v-container>-->
-        <!--                    <v-row>-->
-        <!--                      <v-col-->
-        <!--                        cols="12"-->
-        <!--                        xl="8"-->
-        <!--                        offset-xl="2"-->
-        <!--                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"-->
-        <!--                      >-->
-        <!--                        <video-detail />-->
-        <!--                      </v-col>-->
-        <!--                    </v-row>-->
-        <!--                  </v-container>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </v-row>-->
-        <!--          </v-sheet>-->
-        <!--        </v-carousel-item>-->
-
-        <!--        <v-carousel-item>-->
-        <!--          <v-sheet-->
-        <!--            :light="$vuetify.theme.dark ? false : true"-->
-        <!--            height="100%"-->
-        <!--            tile-->
-        <!--          >-->
-        <!--            <v-row-->
-        <!--              class="fill-height ma-0 pa-0"-->
-        <!--            >-->
-        <!--              <div-->
-        <!--                style="position: absolute;-->
-        <!--                  top: 0;-->
-        <!--                  left: 0;-->
-        <!--                  bottom: 0;-->
-        <!--                  right: 0;"-->
-        <!--              >-->
-        <!--                <div-->
-        <!--                  class="inline-block"-->
-        <!--                  style="height: 100% !important; overflow-y: auto !important;"-->
-        <!--                >-->
-        <!--                  <v-container>-->
-        <!--                    <v-row>-->
-        <!--                      <v-col-->
-        <!--                        cols="12"-->
-        <!--                        xl="8"-->
-        <!--                        offset-xl="2"-->
-        <!--                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"-->
-        <!--                      >-->
-        <!--                        <audio-detail />-->
-        <!--                      </v-col>-->
-        <!--                    </v-row>-->
-        <!--                  </v-container>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </v-row>-->
-        <!--          </v-sheet>-->
-        <!--        </v-carousel-item>-->
-
-        <!--        <v-carousel-item>-->
-        <!--          <v-sheet-->
-        <!--            :light="$vuetify.theme.dark ? false : true"-->
-        <!--            height="100%"-->
-        <!--            tile-->
-        <!--          >-->
-        <!--            <v-row-->
-        <!--              class="fill-height ma-0 pa-0"-->
-        <!--            >-->
-        <!--              <div-->
-        <!--                style="position: absolute;-->
-        <!--                  top: 0;-->
-        <!--                  left: 0;-->
-        <!--                  bottom: 0;-->
-        <!--                  right: 0;"-->
-        <!--              >-->
-        <!--                <div-->
-        <!--                  class="inline-block"-->
-        <!--                  style="height: 100% !important; overflow-y: auto !important;"-->
-        <!--                >-->
-        <!--                  <v-container>-->
-        <!--                    <v-row>-->
-        <!--                      <v-col-->
-        <!--                        cols="12"-->
-        <!--                        xl="8"-->
-        <!--                        offset-xl="2"-->
-        <!--                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"-->
-        <!--                      >-->
-        <!--                        <directory-detail />-->
-        <!--                      </v-col>-->
-        <!--                    </v-row>-->
-        <!--                  </v-container>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </v-row>-->
-        <!--          </v-sheet>-->
-        <!--        </v-carousel-item>-->
 
         <!-- Static carousel items from original swiper just for reference -->
         <!-- <v-carousel-item
@@ -257,10 +122,10 @@
 </template>
 
 <script>
-// import AudioDetail from '@/components/results/detail/AudioDetail.vue';
-// import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
-// import VideoDetail from '@/components/results/detail/VideoDetail.vue';
-// import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
+import AudioDetail from '@/components/results/detail/AudioDetail.vue';
+import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
+import VideoDetail from '@/components/results/detail/VideoDetail.vue';
+import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
 import ImageDetail from '@/components/results/detail/ImageDetail.vue';
 import SearchMixin from '@/mixins/SearchMixin';
 import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
@@ -268,7 +133,11 @@ import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 export default {
   mixins: [SearchMixin, SearchNavigationMixin],
   components: {
+    VideoDetail,
+    DocumentDetail,
+    AudioDetail,
     ImageDetail,
+    DirectoryDetail,
   },
   props: {
     fileType: {

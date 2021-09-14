@@ -20,7 +20,7 @@
           lg="2"
         >
           <v-card
-            @click.prevent="showDetail(hit.hash)"
+            @click="goToDetailPage(hit.hash)"
             :id="hit.hash"
           >
             <v-img
@@ -49,33 +49,16 @@
 </template>
 
 <script>
-import ListBase from './ListBase.vue';
+import FileListMixin from '@/mixins/FileListMixin';
 
 export default {
-  components: {
-    ListBase,
-  },
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
-  },
+  mixins: [
+    FileListMixin,
+  ],
   data() {
     return {
+      fileType: 'images',
     };
-  },
-  methods: {
-    showDetail(hash) {
-      this.$router.push({
-        name: 'Detail',
-        query: {
-          ...this.$route.query,
-          type: 'images',
-        },
-        hash: `#${hash}`,
-      });
-    },
   },
 };
 </script>
