@@ -26,128 +26,14 @@
                 offset-xl="2"
                 :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
               >
-                <!-- Subheader -->
-                <v-row>
-                  <v-col>
-                    <div class="text-caption mb-n8 text-truncate">
-                      <span class="">Last seen 1 day ago</span>
-                      <span> | Size 478mb</span><span> | Mimetype text/html</span>
-                    </div>
-                  </v-col>
-                </v-row>
-
-                <!-- Title -->
-                <v-row>
-                  <v-col>
-                    <div class="text-h6 font-weight-regular">
-                      Unlimited Music Now
-                    </div>
-                  </v-col>
-                </v-row>
-
+                <MediaHeader :file="file" />
                 <!-- Text -->
                 <v-row>
                   <v-col>
-                    <div class="text-body-1">
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum maxime officia
-                        recusandae! Cum id molestiae doloribus officia possimus optio omnis, consequuntur at.
-                        In aliquam saepe numquam enim pariatur sint quos. Lorem, ipsum dolor sit amet
-                        consectetur adipisicing elit. Dolore vel temporibus maxime dignissimos, deserunt animi
-                        veritatis nulla velit? Quidem pariatur repellendus ab excepturi voluptatem neque
-                        veritatis, natus maxime! Cumque, voluptatem.
-                      </p>
-                    </div>
+                    <PdfViewer
+                      v-if="true"
+                      :src="`https://gateway.ipfs.io/ipfs/${file.hash}`"
+                    />
                   </v-col>
                 </v-row>
 
@@ -204,7 +90,20 @@
 </template>
 <script>
 
+import MediaHeader from '@/components/results/detail/MediaHeader.vue';
+import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer.vue';
+
 export default {
+  components: {
+    MediaHeader,
+    PdfViewer,
+  },
+  props: {
+    file: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       desserts: [
