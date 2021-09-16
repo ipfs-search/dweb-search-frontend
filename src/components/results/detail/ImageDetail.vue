@@ -32,7 +32,7 @@
                     <div>
                       <div
                         class="image-container"
-                        :style="`background-image: url(https://gateway.ipfs.io/ipfs/${this.file.hash})`"
+                        :style="`background-image: url(https://gateway.ipfs.io/ipfs/${$props.file.hash})`"
                       />
                     </div>
                   </v-col>
@@ -40,7 +40,7 @@
               </v-col>
             </v-row>
             <MetaDataPanel
-              :file="file"
+              :file="$props.file"
               test-class="metadatapanel"
             />
           </v-container>
@@ -57,7 +57,10 @@ import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
 export default {
   components: { MetaDataPanel },
   props: {
-    file: Object,
+    file: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>

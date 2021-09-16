@@ -26,20 +26,20 @@
                 offset-xl="2"
                 :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="file" />
+                <MediaHeader :file="$props.file" />
                 <!-- Text -->
                 <v-row>
                   <v-col>
                     <PdfViewer
-                      v-if="file.mimetype.toLowerCase() === 'application/pdf'"
-                      :src="`https://gateway.ipfs.io/ipfs/${file.hash}`"
+                      v-if="$props.file.mimetype.toLowerCase() === 'application/pdf'"
+                      :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
                     />
                     <span v-else>File can not be displayed</span>
                   </v-col>
                 </v-row>
 
                 <MetaDataPanel
-                  :file="this.file"
+                  :file="$props.file"
                   test-class="metadatapanel"
                 />
               </v-col>

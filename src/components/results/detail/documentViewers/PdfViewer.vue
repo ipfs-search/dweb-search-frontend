@@ -2,16 +2,16 @@
   <div>
     <div class="text-center">
       <v-pagination
-        v-model="currentPage"
-        :length="pageCount"
+        v-model="$data.currentPage"
+        :length="$data.pageCount"
         :total-visible="7"
       />
     </div>
     <pdf
-      :src="src"
-      @num-pages="pageCount = $event"
-      @page-loaded="currentPage = $event"
-      :page="currentPage > 0 && currentPage"
+      :src="$props.src"
+      @num-pages="$data.pageCount = $event"
+      @page-loaded="$data.currentPage = $event"
+      :page="$data.currentPage > 0 && $data.currentPage"
     />
   </div>
 </template>

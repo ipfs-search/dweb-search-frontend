@@ -51,8 +51,8 @@
                     <div class="text-body-1">
                       <v-treeview
                         v-model="tree"
-                        :open="initiallyOpen"
-                        :items="items"
+                        :open="$data.initiallyOpen"
+                        :items="$data.items"
                         activatable
                         item-key="name"
                         open-on-click
@@ -62,7 +62,7 @@
                             {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
                           </v-icon>
                           <v-icon v-else>
-                            {{ files[item.file] }}
+                            {{ $data.files[item.file] }}
                           </v-icon>
                         </template>
                       </v-treeview>
@@ -71,7 +71,7 @@
                 </v-row>
 
                 <MetaDataPanel
-                  :file="this.file"
+                  :file="$props.file"
                   test-class="metadatapanel"
                 />
               </v-col>
@@ -92,7 +92,10 @@ export default {
     MetaDataPanel,
   },
   props: {
-    file: Object,
+    file: {
+      type: Object,
+      required: true,
+    },
   },
 
   data: () => ({

@@ -26,19 +26,19 @@
                 offset-xl="2"
                 :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="file" />
+                <MediaHeader :file="$props.file" />
                 <!-- Video -->
                 <v-row>
                   <v-col>
                     <div class="text-body-1">
                       <video-player
-                        :options="videoOptions"
+                        :options="$data.videoOptions"
                       />
                     </div>
                   </v-col>
                 </v-row>
                 <MetaDataPanel
-                  :file="this.file"
+                  :file="$props.file"
                   test-class="metadatapanel"
                 />
               </v-col>
@@ -62,7 +62,10 @@ export default {
     VideoPlayer,
   },
   props: {
-    file: Object,
+    file: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
