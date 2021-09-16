@@ -28,27 +28,11 @@
               >
                 <!-- Content -->
                 <div>
-                  <!-- Subheader -->
-                  <v-row>
-                    <v-col>
-                      <div class="text-caption mb-n8 text-truncate">
-                        <span class="">Last seen 1 day ago</span>
-                        <span> | Size 478mb</span><span> | Mimetype text/html</span>
-                      </div>
-                    </v-col>
-                  </v-row>
+                  <MediaHeader
+                    :file="file"
+                  />
 
-                  <!-- Title -->
-                  <v-row>
-                    <v-col>
-                      <div
-                        class="text-h6 font-weight-regular mb-n3"
-                        v-html="`${file.author} - ${file.title}`"
-                      />
-                    </v-col>
-                  </v-row>
-
-                  <v-row>
+                  <v-row test-class="audiovisual">
                     <!-- Left - video or preview image with title and subcaption above -->
                     <v-col
                       cols="12"
@@ -289,11 +273,13 @@
 <script>
 import { Howl } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
+import MediaHeader from '@/components/results/detail/MediaHeader.vue';
 // import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
 
   components: {
+    MediaHeader,
     // VideoPlayer,
   },
 
