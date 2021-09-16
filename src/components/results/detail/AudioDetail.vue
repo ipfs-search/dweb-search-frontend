@@ -143,49 +143,10 @@
                     </v-col>
                   </v-row>
 
-                  <!-- Meta data -->
-                  <v-row>
-                    <v-col>
-                      <div class="text-body-1 mt-n3">
-                        <v-expansion-panels>
-                          <v-expansion-panel>
-                            <v-expansion-panel-header>
-                              <template v-slot:default="{ open }">
-                                <div>
-                                  {{ `${open ? 'Hide' : 'Show'}` }} meta data
-                                </div>
-                              </template>
-                            </v-expansion-panel-header>
-                            <v-expansion-panel-content class="ml-n2 mr-0">
-                              <v-simple-table>
-                                <template v-slot:default>
-                                  <thead>
-                                    <tr>
-                                      <th class="text-left">
-                                        Name
-                                      </th>
-                                      <th class="text-left">
-                                        Calories
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr
-                                      v-for="dessert in desserts"
-                                      :key="dessert.name"
-                                    >
-                                      <td>{{ dessert.name }}</td>
-                                      <td>{{ dessert.calories }}</td>
-                                    </tr>
-                                  </tbody>
-                                </template>
-                              </v-simple-table>
-                            </v-expansion-panel-content>
-                          </v-expansion-panel>
-                        </v-expansion-panels>
-                      </div>
-                    </v-col>
-                  </v-row>
+                  <MetaDataPanel
+                    :file="file"
+                    test-class="metadatapanel"
+                  />
                 </div>
 
                 <!-- Music player appears at bottom when click on a list item -->
@@ -274,13 +235,14 @@
 import { Howl } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 import MediaHeader from '@/components/results/detail/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
 // import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
 
   components: {
+    MetaDataPanel,
     MediaHeader,
-    // VideoPlayer,
   },
 
   props: {
@@ -357,13 +319,6 @@ export default {
           subtitle: '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
         },
         { divider: true, inset: false },
-      ],
-      /* eslint-enable */
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-        },
       ],
     };
   },

@@ -39,6 +39,10 @@
                 </v-row>
               </v-col>
             </v-row>
+            <MetaDataPanel
+              :file="file"
+              test-class="metadatapanel"
+            />
           </v-container>
         </div>
       </div>
@@ -48,8 +52,10 @@
 
 <script>
 
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
+
 export default {
-  components: { },
+  components: { MetaDataPanel },
   props: {
     file: Object,
   },
