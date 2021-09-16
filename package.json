@@ -59,7 +59,12 @@
     },
     "rules": {
       "no-console": "off",
-      "max-len": "warn"
+      "max-len": "warn",
+      "import/extensions": ["error", "always", {
+        "js": "never",
+        "ts": "never",
+        "vue": "never"
+      }]
     }
   },
   "browserslist": [

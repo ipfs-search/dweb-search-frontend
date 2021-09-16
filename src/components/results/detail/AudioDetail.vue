@@ -49,7 +49,7 @@
                               large
                               fab
                               color="black"
-                              @click="startPlayer(items[0].title)"
+                              @click="startPlayer"
                               style="
                                 opacity: 0.5;
                                 position: absolute;
@@ -151,7 +151,7 @@
                 </div>
 
                 <v-sheet
-                  v-if="playerActive"
+                  v-if="true"
                   height="100"
                 />
               </v-col>
@@ -164,8 +164,8 @@
 </template>
 
 <script>
-import MediaHeader from '@/components/results/detail/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
+import MediaHeader from '@/components/results/detail/MediaHeader';
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 // import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
@@ -179,6 +179,11 @@ export default {
     file: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    startPlayer() {
+      this.$store.dispatch('player/selectAudioFile', this.file);
     },
   },
   data() {

@@ -7,6 +7,7 @@
       <router-view />
     </v-main>
 
+    <AudioPlayer />
     <v-footer
       app
       padless
@@ -31,7 +32,10 @@
 </template>
 
 <script>
+import AudioPlayer from '@/components/AudioPlayer';
+
 export default {
+  components: { AudioPlayer },
   $el: '#app',
 
   data: () => ({

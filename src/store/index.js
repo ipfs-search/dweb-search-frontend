@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import AudioPlayer from '@/components/AudioPlayer';
 import SearchQuery from './modules/SearchQuery';
 import SearchResults from './modules/SearchResults';
 
@@ -9,6 +10,7 @@ export default new Vuex.Store({
   modules: {
     // TOOD: Use central helper listing types, create store
     // for each dynimcally.
+    player: AudioPlayer,
     query: SearchQuery,
     // TODO: Rename 'results' to 'search' to cleanup weird results.results.
     results: {
