@@ -11,7 +11,6 @@
   "dependencies": {
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
-    "file-viewer": "^1.2.0",
     "howler": "^2.2.1",
     "ipfs-search-client": "^0.1.0",
     "masonry-layout": "^4.2.2",
@@ -60,11 +59,15 @@
     "rules": {
       "no-console": "off",
       "max-len": "warn",
-      "import/extensions": ["error", "always", {
-        "js": "never",
-        "ts": "never",
-        "vue": "never"
-      }]
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "js": "never",
+          "ts": "never",
+          "vue": "never"
+        }
+      ]
     }
   },
   "browserslist": [
