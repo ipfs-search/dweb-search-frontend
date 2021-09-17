@@ -41,20 +41,14 @@
           </v-container>
         </div>
       </div>
-      <MetaDataPanel
-        :file="$props.file"
-        test-class="metadatapanel"
-      />
     </v-row>
   </v-sheet>
 </template>
 
 <script>
 
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
-
 export default {
-  components: { MetaDataPanel },
+  components: { },
   props: {
     file: {
       type: Object,
