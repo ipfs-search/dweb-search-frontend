@@ -71,6 +71,7 @@
                   :hash="hit.hash"
                   :title="hit.title"
                 />
+                <AudioPlayButton :file="hit" />
               </div>
             </v-card-text>
           </v-card>
@@ -83,10 +84,11 @@
 <script>
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from '@/mixins/FileListMixin';
-import DownloadButton from '@/components/helpers/DownloadButton.vue';
+import DownloadButton from '@/components/helpers/DownloadButton';
+import AudioPlayButton from '@/components/helpers/AudioPlayButton';
 
 export default {
-  components: { DownloadButton },
+  components: { AudioPlayButton, DownloadButton },
   mixins: [
     FileListMixin,
   ],

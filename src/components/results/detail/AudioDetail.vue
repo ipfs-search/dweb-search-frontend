@@ -45,6 +45,7 @@
                             src="https://picsum.photos/510/300?random"
                             aspect-ratio="1.7"
                           >
+                            <!-- TODO: Generalize this button with components/helpers/AudioPlayButton -->
                             <v-btn
                               large
                               fab

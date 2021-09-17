@@ -91,6 +91,7 @@ export default {
   },
   methods: {
     load({ title, hash }) {
+      if (this.$data.interval) clearInterval(this.$data.interval);
       this.$data.duration = '0:00';
       this.$data.time = 0;
       this.sound = new Howl({
@@ -101,19 +102,12 @@ export default {
         autoplay: true,
       });
       this.sound.on('load', () => {
-        console.log('loaded a song with duration', this.sound.duration());
-        // TODO: add hooks to stop/start the interval timer
-        if (this.$data.interval) clearInterval(this.$data.interval);
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
       });
-      // });
     },
-
     updateProgress() {
-      if (this.sound && this.sound.state() === 'loaded') {
-        this.$data.time = this.sound.seek();
-      }
+      this.$data.time = this.sound.seek();
     },
     pause() {
       if (this.sound.playing()) {
