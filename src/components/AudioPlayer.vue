@@ -102,6 +102,7 @@ export default {
         autoplay: true,
       });
       this.sound.on('load', () => {
+        // TODO: the solution is maybe ideal, but not awesome. Think of something better
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
       });
@@ -127,11 +128,12 @@ export default {
     },
 
     stop() {
-      this.sound.stop();
+      if (this.sound && this.sound.playing()) this.sound.stop();
     },
 
     closePlayer() {
       if (this.sound) this.sound.unload();
+      clearInterval(this.$data.interval);
       this.$data.playerActive = false;
       this.$store.dispatch('player/selectAudioFile', undefined);
     },

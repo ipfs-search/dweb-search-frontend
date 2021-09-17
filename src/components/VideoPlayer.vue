@@ -35,6 +35,7 @@ export default {
   },
   beforeDestroy() {
     if (this.player) {
+      this.player.off('play');
       this.player.dispose();
     }
   },
