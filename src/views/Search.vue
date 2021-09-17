@@ -120,9 +120,6 @@ export default {
       this.$router.push({ path: '/' });
     },
   },
-  mounted() {
-    console.log(this.results.text);
-  },
 };
 </script>
 
