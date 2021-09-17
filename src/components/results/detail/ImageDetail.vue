@@ -29,30 +29,29 @@
                 <!-- Image -->
                 <v-row>
                   <v-col>
-                    <div>
-                      <div
-                        class="image-container"
-                        :style="`background-image: url(https://gateway.ipfs.io/ipfs/${$props.file.hash})`"
-                      />
-                    </div>
+                    <div
+                      class="image-container"
+                      :style="`background-image: url(https://gateway.ipfs.io/ipfs/${$props.file.hash})`"
+                    />
                   </v-col>
+                  <v-col />
                 </v-row>
               </v-col>
             </v-row>
-            <MetaDataPanel
-              :file="$props.file"
-              test-class="metadatapanel"
-            />
           </v-container>
         </div>
       </div>
+      <MetaDataPanel
+        :file="$props.file"
+        test-class="metadatapanel"
+      />
     </v-row>
   </v-sheet>
 </template>
 
 <script>
 
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 
 export default {
   components: { MetaDataPanel },
