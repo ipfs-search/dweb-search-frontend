@@ -60,7 +60,7 @@
       "no-console": "off",
       "max-len": "warn",
       "import/extensions": [
-        "error",
+        "warn",
         "always",
         {
           "js": "never",

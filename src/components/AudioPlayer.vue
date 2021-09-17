@@ -160,7 +160,7 @@ export default {
     },
   },
   watch: {
-    '$store.state.player.selectedAudioFile': function _(fileObject) {
+    '$store.state.player.selectedAudioFile': function select(fileObject) {
       if (this.sound) this.sound.unload();
       if (fileObject) {
         this.$data.file = fileObject;
