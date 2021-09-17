@@ -8,10 +8,10 @@
     >
       <v-card
         tile
-        v-if="$data.sound"
+        width="100%"
       >
         <v-progress-linear
-          :value="$data.progress"
+          :value="progress"
           color="white"
           class="my-0"
           height="3"
@@ -23,7 +23,7 @@
               <v-list-item-title v-html="$data.file.title" />
               <v-list-item-subtitle>
                 <span v-html="$data.file.author" />
-                <span class="ml-4">{{ $data.timer }} / {{ $data.duration }}</span>
+                <span class="ml-4">{{ timer }} / {{ $data.duration }}</span>
               </v-list-item-subtitle>
             </v-list-item-content>
 
@@ -71,8 +71,9 @@ import { Howl } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 
 function formatTime(secs) {
+  if (secs === undefined) return '-';
   const minutes = Math.floor(secs / 60) || 0;
-  const seconds = (secs - minutes * 60) || 0;
+  const seconds = Math.floor(secs - minutes * 60) || 0;
 
   return `${minutes} : ${(seconds < 10 ? '0' : '')}${seconds}`;
 }
@@ -81,11 +82,11 @@ export default {
   data() {
     return {
       file: {},
-      timer: '0:00',
       duration: '0:00',
       progress: 0,
       sound: null,
       playerActive: false,
+      interval: null,
     };
   },
   methods: {
@@ -97,8 +98,19 @@ export default {
         preload: 'metadata',
         autoplay: true,
       });
+      this.sound.on('load', () => {
+        console.log('loaded a song with duration', this.sound.duration());
+        // TODO: add hooks to stop/start the interval timer
+        this.$data.interval = setInterval(this.updateProgress, 100);
+        this.$data.duration = formatTime(this.sound.duration());
+      });
     },
 
+    updateProgress() {
+      if (this.sound && this.sound.state() === 'loaded') {
+        this.$data.progress = ((this.sound.seek() / this.sound.duration()) * 100);
+      }
+    },
     pause() {
       if (this.sound.playing()) {
         this.sound.pause();
@@ -107,30 +119,29 @@ export default {
       }
     },
 
+    seek() {
+      return this.sound && this.sound.seek();
+    },
+
     stop() {
       this.sound.stop();
     },
 
-    step() {
-      // Determine our current seek position.
-      const seek = this.sound.seek() || 0;
-      this.timer = formatTime(Math.round(seek));
-      this.progress = (((seek / this.sound.duration()) * 100) || 0);
-      if (this.$data.sound.playing()) setTimeout(this.step, 1000);
-    },
-
     closePlayer() {
-      if (this.$data.sound) this.$data.sound.unload();
+      if (this.sound) this.sound.unload();
       this.$data.playerActive = false;
       this.$store.dispatch('player/selectAudioFile', undefined);
     },
   },
   computed: {
+    timer() {
+      return formatTime(Math.round(this.$data.progress));
+    },
     paused() {
-      return !this.$data.sound.playing();
+      return !this.sound.playing();
     },
     loading() {
-      return this.$data.sound.state() === 'loading';
+      return this.sound.state() === 'loading';
     },
   },
   watch: {
@@ -146,7 +157,8 @@ export default {
     },
   },
   beforeDestroy() {
-    this.sound.unload();
+    clearInterval(this.$data.interval);
+    this.$data.sound.unload();
   },
 };
 </script>
