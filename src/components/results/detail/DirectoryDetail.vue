@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 
 export default {
 

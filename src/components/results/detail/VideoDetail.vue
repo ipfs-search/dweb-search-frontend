@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import VideoPlayer from '@/components/VideoPlayer.vue';
-import MediaHeader from '@/components/results/detail/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
+import VideoPlayer from '@/components/VideoPlayer';
+import MediaHeader from '@/components/results/detail/MediaHeader';
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 
 export default {
   components: {

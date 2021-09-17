@@ -87,7 +87,7 @@
 </template>
 
 <script>
-// import SearchFilter from './SearchFilter.vue';
+// import SearchFilter from './SearchFilter';
 import SearchMixin from '@/mixins/SearchMixin';
 
 export default {

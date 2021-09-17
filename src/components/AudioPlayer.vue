@@ -160,8 +160,8 @@ export default {
     },
   },
   watch: {
-    '$store.state.player.selectedAudioFile': function (fileObject) {
-      if (this.$data.sound) this.$data.sound.unload();
+    '$store.state.player.selectedAudioFile': function _(fileObject) {
+      if (this.sound) this.sound.unload();
       if (fileObject) {
         this.$data.file = fileObject;
         this.load(fileObject);
@@ -176,7 +176,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.$data.interval);
-    this.$data.sound.unload();
+    this.sound.unload();
     this.$root.$off('AudioPlayer/stop');
   },
 };

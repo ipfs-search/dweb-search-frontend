@@ -1,4 +1,4 @@
-import ListBase from '@/components/results/list/ListBase.vue';
+import ListBase from '@/components/results/list/ListBase';
 
 export default {
   components: {

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import DownloadButton from '@/components/helpers/DownloadButton.vue';
+import DownloadButton from '@/components/helpers/DownloadButton';
 
 export default {
   components: { DownloadButton },

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Home from '../views/Home';
 
 Vue.use(VueRouter);
 
@@ -18,7 +18,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search.vue'),
+    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search'),
   },
   {
     path: '/search/detail/:fileType',
@@ -30,7 +30,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-list" */ '../views/Detail.vue'),
+    component: () => import(/* webpackChunkName: "search-list" */ '../views/Detail'),
   },
 ];
 

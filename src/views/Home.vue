@@ -305,7 +305,7 @@
 
 <script>
 // @ is an alias to /src
-import SearchBar from '@/components/SearchBar.vue';
+import SearchBar from '@/components/SearchBar';
 
 export default {
   components: {

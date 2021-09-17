@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VBodyScrollLock from 'v-body-scroll-lock';
-import App from './App.vue';
+import App from './App';
 import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';

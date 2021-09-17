@@ -52,9 +52,9 @@
 </template>
 <script>
 
-import MediaHeader from '@/components/results/detail/MediaHeader.vue';
-import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer.vue';
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel.vue';
+import MediaHeader from '@/components/results/detail/MediaHeader';
+import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer';
+import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 
 export default {
   components: {
