@@ -149,11 +149,6 @@
                     </v-col>
                   </v-row>
                 </div>
-
-                <v-sheet
-                  v-if="true"
-                  height="100"
-                />
               </v-col>
             </v-row>
           </v-container>

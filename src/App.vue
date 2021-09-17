@@ -3,11 +3,11 @@
     dark
     hidden
   >
+    <AudioPlayer />
     <v-main>
       <router-view />
     </v-main>
 
-    <AudioPlayer />
     <v-footer
       app
       padless

@@ -1,76 +1,69 @@
 <template>
-  <v-bottom-sheet
-    v-model="playerActive"
-    hide-overlay
-    dark
-    persistent
-    no-click-animation
-  >
-    <v-card
-      tile
-      v-if="$data.sound"
+  <div>
+    <v-app-bar
+      v-if="$data.playerActive"
+      dark
+      bottom
+      app
     >
-      <v-progress-linear
-        :value="$data.progress"
-        color="white"
-        class="my-0"
-        height="3"
-      />
+      <v-card
+        tile
+        v-if="$data.sound"
+      >
+        <v-progress-linear
+          :value="$data.progress"
+          color="white"
+          class="my-0"
+          height="3"
+        />
 
-      <v-list>
-        <v-list-item dark>
-          <v-list-item-content>
-            <v-list-item-title v-html="$data.file.title" />
-            <v-list-item-subtitle>
-              <span v-html="$data.file.author" />
-              <span class="ml-4">{{ $data.timer }} / {{ $data.duration }}</span>
-            </v-list-item-subtitle>
-          </v-list-item-content>
+        <v-list>
+          <v-list-item dark>
+            <v-list-item-content>
+              <v-list-item-title v-html="$data.file.title" />
+              <v-list-item-subtitle>
+                <span v-html="$data.file.author" />
+                <span class="ml-4">{{ $data.timer }} / {{ $data.duration }}</span>
+              </v-list-item-subtitle>
+            </v-list-item-content>
 
-          <v-spacer />
+            <v-spacer />
 
-          <v-list-item-icon>
-            <v-btn
-              icon
-              disabled
-            >
-              <v-icon>mdi-rewind</v-icon>
-            </v-btn>
-          </v-list-item-icon>
-
-          <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-            <v-btn
-              icon
-              @click="pause"
-            >
-              <v-icon
-                v-if="$data.sound.playing"
+            <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
+              <v-progress-circular
+                indeterminate
+                v-if="loading"
+              />
+              <v-btn
+                v-else
+                icon
+                @click="pause"
               >
-                mdi-pause
-              </v-icon>
-              <v-icon
-                v-if="!$data.sound.playing"
-              >
-                mdi-play
-              </v-icon>
-            </v-btn>
-          </v-list-item-icon>
+                <v-icon v-if="!paused">
+                  mdi-pause
+                </v-icon>
+                <v-icon v-if="paused">
+                  mdi-play
+                </v-icon>
+              </v-btn>
+            </v-list-item-icon>
 
-          <v-list-item-icon
-            class="ml-0"
-            :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
-          >
-            <v-btn
-              icon
-              disabled
+            <v-list-item-icon
+              class="ml-0"
+              :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
             >
-              <v-icon>mdi-fast-forward</v-icon>
-            </v-btn>
-          </v-list-item-icon>
-        </v-list-item>
-      </v-list>
-    </v-card>
-  </v-bottom-sheet>
+              <v-btn
+                icon
+                @click="closePlayer"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
@@ -126,12 +119,30 @@ export default {
       if (this.$data.sound.playing()) setTimeout(this.step, 1000);
     },
 
+    closePlayer() {
+      if (this.$data.sound) this.$data.sound.unload();
+      this.$data.playerActive = false;
+      this.$store.dispatch('player/selectAudioFile', undefined);
+    },
+  },
+  computed: {
+    paused() {
+      return !this.$data.sound.playing();
+    },
+    loading() {
+      return this.$data.sound.state() === 'loading';
+    },
   },
   watch: {
-    '$store.state.player.selectedAudioFile': (fileObject) => {
-      if (this.sound) this.sound.unload();
-      this.$data.file = fileObject;
-      this.load(fileObject);
+    '$store.state.player.selectedAudioFile': function (fileObject) {
+      if (this.$data.sound) this.$data.sound.unload();
+      if (fileObject) {
+        this.$data.file = fileObject;
+        this.load(fileObject);
+        this.$data.playerActive = true;
+      } else {
+        this.$data.playerActive = false;
+      }
     },
   },
   beforeDestroy() {

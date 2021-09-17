@@ -1,5 +1,5 @@
-const AudioPlayer = {
-  // namespaced: true,
+const player = {
+  namespaced: true,
   state: () => ({
     selectedAudioFile: undefined,
   }),
@@ -23,4 +23,4 @@ const AudioPlayer = {
   },
 };
 
-export default AudioPlayer;
+export default player;

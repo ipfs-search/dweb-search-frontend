@@ -122,11 +122,11 @@
 </template>
 
 <script>
-import AudioDetail from '@/components/results/detail/AudioDetail.vue';
-import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
-import VideoDetail from '@/components/results/detail/VideoDetail.vue';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
-import ImageDetail from '@/components/results/detail/ImageDetail.vue';
+import AudioDetail from '@/components/results/detail/AudioDetail';
+import DocumentDetail from '@/components/results/detail/DocumentDetail';
+import VideoDetail from '@/components/results/detail/VideoDetail';
+import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
+import ImageDetail from '@/components/results/detail/ImageDetail';
 import SearchMixin from '@/mixins/SearchMixin';
 import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 
