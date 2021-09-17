@@ -127,6 +127,7 @@ export default {
     },
 
     stop() {
+      console.log('gotta stop now');
       this.sound.stop();
     },
 
@@ -169,9 +170,13 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$root.$on('AudioPlayer/stop', this.stop);
+  },
   beforeDestroy() {
     clearInterval(this.$data.interval);
     this.$data.sound.unload();
+    this.$root.$off('AudioPlayer/stop');
   },
 };
 </script>

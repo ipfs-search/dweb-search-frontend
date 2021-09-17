@@ -28,6 +28,10 @@ export default {
   mounted() {
     this.player = videojs(this.$refs.videoPlayer, this.options, () => {
       // console.log('onPlayerReady', this);
+      this.player.on('play', () => {
+        console.log('playing! ye');
+        this.$root.$emit('AudioPlayer/stop');
+      });
     });
   },
   beforeDestroy() {
