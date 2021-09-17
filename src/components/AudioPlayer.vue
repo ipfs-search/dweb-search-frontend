@@ -11,7 +11,7 @@
         width="100%"
       >
         <v-progress-linear
-          :value="progress"
+          v-model="progress"
           color="white"
           class="my-0"
           height="3"
@@ -83,7 +83,7 @@ export default {
     return {
       file: {},
       duration: '0:00',
-      progress: 0,
+      time: 0,
       sound: null,
       playerActive: false,
       interval: null,
@@ -91,6 +91,8 @@ export default {
   },
   methods: {
     load({ title, hash }) {
+      this.$data.duration = '0:00';
+      this.$data.time = 0;
       this.sound = new Howl({
         src: [`https://gateway.ipfs.io/ipfs/${hash}`],
         format: [getFileExtension(title)],
@@ -101,14 +103,16 @@ export default {
       this.sound.on('load', () => {
         console.log('loaded a song with duration', this.sound.duration());
         // TODO: add hooks to stop/start the interval timer
+        if (this.$data.interval) clearInterval(this.$data.interval);
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
       });
+      // });
     },
 
     updateProgress() {
       if (this.sound && this.sound.state() === 'loaded') {
-        this.$data.progress = ((this.sound.seek() / this.sound.duration()) * 100);
+        this.$data.time = this.sound.seek();
       }
     },
     pause() {
@@ -119,8 +123,13 @@ export default {
       }
     },
 
-    seek() {
-      return this.sound && this.sound.seek();
+    seek(percentage) {
+      console.log('seeking', percentage);
+      this.sound.pause();
+      // this.sound.seek((this.sound.duration * percentage) / 100);
+      this.sound.seek(this.sound.seek() + 1);
+      console.log(this.sound.seek());
+      this.sound.play();
     },
 
     stop() {
@@ -135,7 +144,17 @@ export default {
   },
   computed: {
     timer() {
-      return formatTime(Math.round(this.$data.progress));
+      return formatTime(this.$data.time);
+    },
+    progress: {
+      get() {
+        return (this.$data.time / this.sound.duration()) * 100;
+      },
+      set(percentage) {
+        if (this.sound && this.sound.state() === 'loaded') {
+          this.sound.seek((percentage * this.sound.duration()) / 100);
+        }
+      },
     },
     paused() {
       return !this.sound.playing();
