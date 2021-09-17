@@ -127,7 +127,6 @@ export default {
     },
 
     stop() {
-      console.log('gotta stop now');
       this.sound.stop();
     },
 
