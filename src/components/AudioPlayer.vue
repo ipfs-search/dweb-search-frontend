@@ -98,14 +98,20 @@ export default {
     };
   },
   methods: {
-    load({ title, hash }) {
+    load(fileObject) {
+      if (!fileObject || !fileObject.hash || !fileObject.title) return;
+
       if (this.$data.interval) clearInterval(this.$data.interval);
+      if (this.sound) this.sound.unload();
+      this.$data.playerActive = true;
+      this.$data.file = fileObject;
       this.$data.duration = '0:00';
       this.$data.time = 0;
       this.$data.loading = true;
+
       this.sound = new Howl({
-        src: [`https://gateway.ipfs.io/ipfs/${hash}`],
-        format: [getFileExtension(title)],
+        src: [`https://gateway.ipfs.io/ipfs/${fileObject.hash}`],
+        format: [getFileExtension(fileObject.title)],
         html5: true,
         preload: 'metadata',
         autoplay: true,
@@ -144,8 +150,10 @@ export default {
     closePlayer() {
       if (this.sound) this.sound.unload();
       clearInterval(this.$data.interval);
+      Object.keys(AudioEvents).forEach((event) => {
+        this.$root.$off(event);
+      });
       this.$data.playerActive = false;
-      this.$store.dispatch('player/selectAudioFile', undefined);
     },
   },
   computed: {
@@ -164,23 +172,15 @@ export default {
     },
   },
   mounted() {
-    // TODO: make this event registration generic, i.e. a loop, just like the deregistration below
+    this.$root.$on(AudioEvents.load, this.load);
     this.$root.$on(AudioEvents.stop, this.stop);
-    // selecting a file immediately plays it on the player
-    this.$root.$on(AudioEvents.load, (fileObject) => {
-      if (this.sound) this.sound.unload();
-      if (!fileObject) return;
-      this.$data.file = fileObject;
-      this.load(fileObject);
-      this.$data.playerActive = true;
-    });
+    // TODO: fix this, unclear why it doesn't work
+    // Object.keys(AudioEvents).forEach((event) => {
+    //   this.$root.$on(event, this[event]);
+    // });
   },
   beforeDestroy() {
-    clearInterval(this.$data.interval);
-    if (this.sound) this.sound.unload();
-    Object.keys(AudioEvents).forEach((event) => {
-      this.$root.$off(event);
-    });
+    this.closePlayer();
   },
 };
 </script>
