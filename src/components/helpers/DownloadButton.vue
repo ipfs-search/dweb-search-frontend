@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   props: {
     hash: {
@@ -25,20 +23,16 @@ export default {
   },
   methods: {
     download() {
-      axios({
-        method: 'get',
-        url: `https://gateway.ipfs.io/ipfs/${this.hash}`,
-        responseType: 'arraybuffer',
-      })
-        .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
+      fetch(`https://gateway.ipfs.io/ipfs/${this.hash}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', this.title);
-          document.body.appendChild(link);
+          link.download = this.title;
           link.click();
         })
-        .catch(() => console.log('error occured'));
+        .catch(console.error);
     },
   },
 };
