@@ -11,9 +11,10 @@
         width="100%"
       >
         <v-progress-linear
+          v-if="!$data.loading"
           v-model="progress"
           color="white"
-          class="my-0"
+          class="`my-0 progress-bar"
           height="3"
         />
 
@@ -105,7 +106,6 @@ export default {
         autoplay: true,
       });
       this.sound.on('load', () => {
-        // TODO: the solution is maybe ideal, but not awesome. Think of something better
         this.$data.loading = false;
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
@@ -175,8 +175,14 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.$data.interval);
-    this.sound.unload();
+    if (this.sound) this.sound.unload();
     this.$root.$off('AudioPlayer/stop');
   },
 };
 </script>
+
+<style>
+.progress-bar {
+  cursor: pointer
+}
+</style>
