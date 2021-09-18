@@ -32,17 +32,17 @@
             <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
               <v-progress-circular
                 indeterminate
-                v-if="loading"
+                v-if="$data.loading"
               />
               <v-btn
                 v-else
                 icon
                 @click="pause"
               >
-                <v-icon v-if="!paused">
+                <v-icon v-if="!$data.paused">
                   mdi-pause
                 </v-icon>
-                <v-icon v-if="paused">
+                <v-icon v-if="$data.paused">
                   mdi-play
                 </v-icon>
               </v-btn>
@@ -87,6 +87,8 @@ export default {
       sound: null,
       playerActive: false,
       interval: null,
+      loading: true,
+      paused: true,
     };
   },
   methods: {
@@ -94,6 +96,7 @@ export default {
       if (this.$data.interval) clearInterval(this.$data.interval);
       this.$data.duration = '0:00';
       this.$data.time = 0;
+      this.$data.loading = true;
       this.sound = new Howl({
         src: [`https://gateway.ipfs.io/ipfs/${hash}`],
         format: [getFileExtension(title)],
@@ -103,11 +106,13 @@ export default {
       });
       this.sound.on('load', () => {
         // TODO: the solution is maybe ideal, but not awesome. Think of something better
+        this.$data.loading = false;
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
       });
     },
     updateProgress() {
+      this.$data.paused = !this.sound.playing();
       this.$data.time = this.sound.seek();
     },
     pause() {
@@ -151,12 +156,6 @@ export default {
           this.sound.seek((percentage * this.sound.duration()) / 100);
         }
       },
-    },
-    paused() {
-      return !this.sound.playing();
-    },
-    loading() {
-      return this.sound.state() === 'loading';
     },
   },
   watch: {
