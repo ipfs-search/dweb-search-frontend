@@ -102,7 +102,10 @@ export default {
       if (!fileObject || !fileObject.hash || !fileObject.title) return;
 
       if (this.$data.interval) clearInterval(this.$data.interval);
-      if (this.sound) this.sound.unload();
+      if (this.sound) {
+        this.sound.off('load');
+        this.sound.unload();
+      }
       this.$data.playerActive = true;
       this.$data.file = fileObject;
       this.$data.duration = '0:00';
@@ -122,10 +125,12 @@ export default {
         this.$data.duration = formatTime(this.sound.duration());
       });
     },
+
     updateProgress() {
       this.$data.paused = !this.sound.playing();
       this.$data.time = this.sound.seek();
     },
+
     pause() {
       if (this.sound.playing()) {
         this.sound.pause();
@@ -134,21 +139,15 @@ export default {
       }
     },
 
-    seek(percentage) {
-      console.log('seeking', percentage);
-      this.sound.pause();
-      // this.sound.seek((this.sound.duration * percentage) / 100);
-      this.sound.seek(this.sound.seek() + 1);
-      console.log(this.sound.seek());
-      this.sound.play();
-    },
-
     stop() {
       if (this.sound && this.sound.playing()) this.sound.stop();
     },
 
     closePlayer() {
-      if (this.sound) this.sound.unload();
+      if (this.sound) {
+        this.sound.off('load');
+        this.sound.unload();
+      }
       clearInterval(this.$data.interval);
       Object.keys(AudioEvents).forEach((event) => {
         this.$root.$off(event);
