@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { AudioEvents } from '../AudioPlayer';
 
 export default {
   props: {
@@ -19,7 +20,7 @@ export default {
   },
   methods: {
     play() {
-      this.$store.dispatch('player/selectAudioFile', this.file);
+      this.$root.$emit(AudioEvents.load, this.file);
     },
   },
 };

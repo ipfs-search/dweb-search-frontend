@@ -71,8 +71,10 @@
 import { Howl } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 
-// eslint-disable-next-line camelcase
-export const audio_stop_event = 'AudioPlayer/stop';
+export const AudioEvents = {
+  stop: 'AudioPlayer/stop',
+  load: 'AudioPlayer/select',
+};
 
 function formatTime(secs) {
   if (secs === undefined) return '-';
@@ -161,25 +163,24 @@ export default {
       },
     },
   },
-  watch: {
-    '$store.state.player.selectedAudioFile': function select(fileObject) {
-      if (this.sound) this.sound.unload();
-      if (fileObject) {
-        this.$data.file = fileObject;
-        this.load(fileObject);
-        this.$data.playerActive = true;
-      } else {
-        this.$data.playerActive = false;
-      }
-    },
-  },
   mounted() {
-    this.$root.$on(audio_stop_event, this.stop);
+    // TODO: make this event registration generic, i.e. a loop, just like the deregistration below
+    this.$root.$on(AudioEvents.stop, this.stop);
+    // selecting a file immediately plays it on the player
+    this.$root.$on(AudioEvents.load, (fileObject) => {
+      if (this.sound) this.sound.unload();
+      if (!fileObject) return;
+      this.$data.file = fileObject;
+      this.load(fileObject);
+      this.$data.playerActive = true;
+    });
   },
   beforeDestroy() {
     clearInterval(this.$data.interval);
     if (this.sound) this.sound.unload();
-    this.$root.$off(audio_stop_event);
+    Object.keys(AudioEvents).forEach((event) => {
+      this.$root.$off(event);
+    });
   },
 };
 </script>

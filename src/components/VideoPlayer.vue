@@ -9,8 +9,7 @@
 
 <script>
 import videojs from 'video.js';
-// eslint-disable-next-line camelcase
-import { audio_stop_event } from './AudioPlayer';
+import { AudioEvents } from './AudioPlayer';
 
 export default {
   name: 'VideoPlayer',
@@ -29,9 +28,8 @@ export default {
   },
   mounted() {
     this.player = videojs(this.$refs.videoPlayer, this.options, () => {
-      // console.log('onPlayerReady', this);
       this.player.on('play', () => {
-        this.$root.$emit(audio_stop_event);
+        this.$root.$emit(AudioEvents.stop);
       });
     });
   },
