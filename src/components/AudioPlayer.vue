@@ -103,7 +103,7 @@ export default {
 
       if (this.$data.interval) clearInterval(this.$data.interval);
       if (this.sound) {
-        this.sound.off('load');
+        this.sound.off();
         this.sound.unload();
       }
       this.$data.playerActive = true;
@@ -145,13 +145,11 @@ export default {
 
     closePlayer() {
       if (this.sound) {
-        this.sound.off('load');
+        this.sound.off();
         this.sound.unload();
       }
       clearInterval(this.$data.interval);
-      Object.keys(AudioEvents).forEach((event) => {
-        this.$root.$off(event);
-      });
+      this.$root.$off(Object.values(AudioEvents));
       this.$data.playerActive = false;
     },
   },
@@ -171,12 +169,9 @@ export default {
     },
   },
   mounted() {
-    this.$root.$on(AudioEvents.load, this.load);
-    this.$root.$on(AudioEvents.stop, this.stop);
-    // TODO: fix this, unclear why it doesn't work
-    // Object.keys(AudioEvents).forEach((event) => {
-    //   this.$root.$on(event, this[event]);
-    // });
+    Object.keys(AudioEvents).forEach((event) => {
+      this.$root.$on(AudioEvents[event], this[event]);
+    });
   },
   beforeDestroy() {
     this.closePlayer();
