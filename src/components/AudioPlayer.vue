@@ -71,6 +71,9 @@
 import { Howl } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 
+// eslint-disable-next-line camelcase
+export const audio_stop_event = 'AudioPlayer/stop';
+
 function formatTime(secs) {
   if (secs === undefined) return '-';
   const minutes = Math.floor(secs / 60) || 0;
@@ -171,12 +174,12 @@ export default {
     },
   },
   mounted() {
-    this.$root.$on('AudioPlayer/stop', this.stop);
+    this.$root.$on(audio_stop_event, this.stop);
   },
   beforeDestroy() {
     clearInterval(this.$data.interval);
     if (this.sound) this.sound.unload();
-    this.$root.$off('AudioPlayer/stop');
+    this.$root.$off(audio_stop_event);
   },
 };
 </script>
