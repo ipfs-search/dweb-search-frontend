@@ -42,8 +42,8 @@ export default {
   },
   methods: {
     play() {
-      console.log(this.$route);
-      this.$root.$emit(AudioEvents.load, this.file);
+      console.log('sending audio file load event', this.$props.file);
+      this.$root.$emit(AudioEvents.load, this.$props.file);
     },
   },
 };

@@ -153,7 +153,6 @@ export default {
         this.sound.unload();
       }
       clearInterval(this.$data.interval);
-      this.$root.$off(Object.values(AudioEvents));
       this.$data.playerActive = false;
     },
   },
@@ -178,6 +177,7 @@ export default {
     });
   },
   beforeDestroy() {
+    this.$root.$off(Object.values(AudioEvents));
     this.closePlayer();
   },
 };
