@@ -8,11 +8,12 @@
       class="fill-height ma-0 pa-0"
     >
       <div
-        style="position: absolute;
-                            top: 0;
-                            left: 0;
-                            bottom: 0;
-                            right: 0;"
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;"
       >
         <div
           class="inline-block"
@@ -45,26 +46,7 @@
                             src="https://picsum.photos/510/300?random"
                             aspect-ratio="1.7"
                           >
-                            <!-- TODO: Generalize this button with components/helpers/AudioPlayButton -->
-                            <v-btn
-                              large
-                              fab
-                              color="black"
-                              @click="startPlayer"
-                              style="
-                                opacity: 0.5;
-                                position: absolute;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);"
-                            >
-                              <v-icon
-                                size="42"
-                                color="white"
-                              >
-                                mdi-play
-                              </v-icon>
-                            </v-btn>
+                            <AudioPlayButton :file="$props.file" />
                           </v-img>
                         </v-col>
                       </v-row>
@@ -162,11 +144,13 @@
 <script>
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
+import AudioPlayButton from '@/components/helpers/AudioPlayButton';
 // import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
 
   components: {
+    AudioPlayButton,
     MetaDataPanel,
     MediaHeader,
   },
@@ -175,11 +159,6 @@ export default {
     file: {
       type: Object,
       required: true,
-    },
-  },
-  methods: {
-    startPlayer() {
-      this.$root.$emit('player/selectAudioFile', this.file);
     },
   },
   data() {

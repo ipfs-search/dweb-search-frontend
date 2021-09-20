@@ -69,7 +69,7 @@
 
 <script>
 import { Howl } from 'howler';
-import { getFileExtension } from '@/helpers/fileHelper';
+// import { getFileExtension } from '@/helpers/fileHelper';
 
 export const AudioEvents = {
   stop: 'AudioPlayer/stop',
@@ -99,13 +99,17 @@ export default {
   },
   methods: {
     load(fileObject) {
-      if (!fileObject || !fileObject.hash || !fileObject.title) return;
+      if (!fileObject || !fileObject.hash || !fileObject.title) {
+        console.error('error loading audio file', fileObject);
+        return;
+      }
 
       if (this.$data.interval) clearInterval(this.$data.interval);
       if (this.sound) {
-        this.sound.off();
+        this.sound.off();// unregister any hooks
         this.sound.unload();
       }
+      console.log('loading file', fileObject);
       this.$data.playerActive = true;
       this.$data.file = fileObject;
       this.$data.duration = '0:00';
@@ -114,7 +118,7 @@ export default {
 
       this.sound = new Howl({
         src: [`https://gateway.ipfs.io/ipfs/${fileObject.hash}`],
-        format: [getFileExtension(fileObject.title)],
+        format: ['mp3'],
         html5: true,
         preload: 'metadata',
         autoplay: true,

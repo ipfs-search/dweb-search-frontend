@@ -81,6 +81,7 @@ export default {
       // TODO: Make pretty names (e.g. remove hyphens).
       // TODO: See if all fields are there.
       [
+        'title',
         'author',
         'creation_date',
         'description',
