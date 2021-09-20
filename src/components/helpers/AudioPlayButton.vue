@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     play() {
-      console.log('sending audio file load event', this.$props.file);
       this.$root.$emit(AudioEvents.load, this.$props.file);
     },
   },

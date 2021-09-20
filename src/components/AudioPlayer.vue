@@ -109,7 +109,6 @@ export default {
         this.sound.off();// unregister any hooks
         this.sound.unload();
       }
-      console.log('loading file', fileObject);
       this.$data.playerActive = true;
       this.$data.file = fileObject;
       this.$data.duration = '0:00';
