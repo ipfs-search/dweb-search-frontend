@@ -139,14 +139,15 @@ export default {
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
       });
-      this.sound.on('loaderror', this.soundError);
-      this.sound.on('playerror', this.soundError);
+      this.sound.on('loaderror', (source, message) => this.soundError(message));
+      this.sound.on('playerror', (source, message) => this.soundError(message));
     },
 
     soundError(error) {
       console.error('Sound error:', error, this.$data.file);
       this.$data.error = error;
     },
+
     updateProgress() {
       this.$data.paused = !this.sound.playing();
       this.$data.time = this.sound.seek();
