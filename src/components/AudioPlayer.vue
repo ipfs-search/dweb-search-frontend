@@ -106,8 +106,8 @@ export default {
   },
   methods: {
     load(fileObject) {
-      if (!fileObject || !fileObject.hash || !fileObject.title) {
-        console.error('error loading audio file', fileObject);
+      if (!fileObject || !fileObject.hash) {
+        this.soundError('No proper file specified');
         return;
       }
 
@@ -129,7 +129,7 @@ export default {
       }
       this.sound = new Howl({
         src: [`https://gateway.ipfs.io/ipfs/${fileObject.hash}`],
-        format: [],
+        format: [fileExtension],
         html5: true,
         preload: 'metadata',
         autoplay: true,
