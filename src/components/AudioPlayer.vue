@@ -31,9 +31,15 @@
             <v-spacer />
 
             <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
+              <v-icon
+                v-if="$data.error"
+                :title="$data.error"
+              >
+                mdi-alert
+              </v-icon>
               <v-progress-circular
                 indeterminate
-                v-if="$data.loading"
+                v-else-if="$data.loading"
               />
               <v-btn
                 v-else
@@ -43,7 +49,7 @@
                 <v-icon v-if="!$data.paused">
                   mdi-pause
                 </v-icon>
-                <v-icon v-if="$data.paused">
+                <v-icon v-else>
                   mdi-play
                 </v-icon>
               </v-btn>
@@ -68,7 +74,7 @@
 </template>
 
 <script>
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 
 export const AudioEvents = {
@@ -87,6 +93,7 @@ function formatTime(secs) {
 export default {
   data() {
     return {
+      error: false,
       file: {},
       duration: '0:00',
       time: 0,
@@ -109,15 +116,20 @@ export default {
         this.sound.off();// unregister any hooks
         this.sound.unload();
       }
+      this.$data.error = false;
       this.$data.playerActive = true;
       this.$data.file = fileObject;
       this.$data.duration = '0:00';
       this.$data.time = 0;
       this.$data.loading = true;
-
+      const fileExtension = getFileExtension(fileObject);
+      if (!Howler.codecs(fileExtension)) {
+        this.soundError('Unsupported/undetected file type');
+        return;
+      }
       this.sound = new Howl({
         src: [`https://gateway.ipfs.io/ipfs/${fileObject.hash}`],
-        format: [getFileExtension(fileObject)],
+        format: [],
         html5: true,
         preload: 'metadata',
         autoplay: true,
@@ -127,8 +139,14 @@ export default {
         this.$data.interval = setInterval(this.updateProgress, 100);
         this.$data.duration = formatTime(this.sound.duration());
       });
+      this.sound.on('loaderror', this.soundError);
+      this.sound.on('playerror', this.soundError);
     },
 
+    soundError(error) {
+      console.error('Sound error:', error, this.$data.file);
+      this.$data.error = error;
+    },
     updateProgress() {
       this.$data.paused = !this.sound.playing();
       this.$data.time = this.sound.seek();
