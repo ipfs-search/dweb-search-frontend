@@ -207,9 +207,6 @@ export default {
 </script>
 
 <style lang="scss">
-.audio-player {
-  padding: 0 !important;
-}
 .progress-bar {
   cursor: pointer
 }

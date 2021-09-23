@@ -67,11 +67,11 @@
                 </span>
                 <br>
                 <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
-                <DownloadButton
+                <!-- <DownloadButton
                   :hash="hit.hash"
                   :title="hit.title"
                 />
-                <AudioPlayButton :file="hit" />
+                <AudioPlayButton :file="hit" /> -->
               </div>
             </v-card-text>
           </v-card>
@@ -84,11 +84,11 @@
 <script>
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from '@/mixins/FileListMixin';
-import DownloadButton from '@/components/helpers/DownloadButton';
-import AudioPlayButton from '@/components/helpers/AudioPlayButton';
+// import DownloadButton from '@/components/helpers/DownloadButton';
+// import AudioPlayButton from '@/components/helpers/AudioPlayButton';
 
 export default {
-  components: { AudioPlayButton, DownloadButton },
+  // components: { AudioPlayButton, DownloadButton },
   mixins: [
     FileListMixin,
   ],

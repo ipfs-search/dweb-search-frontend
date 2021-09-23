@@ -60,10 +60,10 @@
                 Last seen <timeago :datetime="hit['last-seen']" />
               </span><br>
               <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
-              <DownloadButton
+              <!-- <DownloadButton
                 :hash="hit.hash"
                 :title="hit.title"
-              />
+              /> -->
             </v-card-subtitle>
             <v-card-title
               class="text-subtitle-1"
@@ -83,10 +83,10 @@
 <script>
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from '@/mixins/FileListMixin';
-import DownloadButton from '@/components/helpers/DownloadButton';
+// import DownloadButton from '@/components/helpers/DownloadButton';
 
 export default {
-  components: { DownloadButton },
+  // components: { DownloadButton },
   mixins: [
     FileListMixin,
   ],

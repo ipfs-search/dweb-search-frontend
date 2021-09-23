@@ -1,7 +1,7 @@
 <template>
   <v-btn
     icon
-    color="white"
+    color="grey"
     @click.stop="download"
   >
     <v-icon>mdi-download-circle-outline</v-icon>
