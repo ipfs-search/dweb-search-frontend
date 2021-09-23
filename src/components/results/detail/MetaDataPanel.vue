@@ -14,16 +14,6 @@
             <v-expansion-panel-content class="ml-n2 mr-0">
               <template v-slot:default>
                 <v-simple-table>
-                  <thead>
-                    <tr>
-                      <th class="text-left">
-                        Name
-                      </th>
-                      <th class="text-left">
-                        Calories
-                      </th>
-                    </tr>
-                  </thead>
                   <tbody>
                     <tr
                       v-for="item in metadata"
