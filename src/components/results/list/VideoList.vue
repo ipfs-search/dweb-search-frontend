@@ -13,7 +13,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="goToDetailPage()"
+        @click="goToDetailPage(hit.hash)"
       >
         <v-row>
           <v-col
@@ -60,6 +60,10 @@
                 Last seen <timeago :datetime="hit['last-seen']" />
               </span><br>
               <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
+              <DownloadButton
+                :hash="hit.hash"
+                :title="hit.title"
+              />
             </v-card-subtitle>
             <v-card-title
               class="text-subtitle-1"
@@ -78,25 +82,21 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import ListBase from './ListBase.vue';
+import FileListMixin from '@/mixins/FileListMixin';
+import DownloadButton from '@/components/helpers/DownloadButton';
 
 export default {
-  components: {
-    ListBase,
-  },
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
+  components: { DownloadButton },
+  mixins: [
+    FileListMixin,
+  ],
+  data() {
+    return {
+      fileType: 'video',
+    };
   },
   filters: {
     durationToColor,
-  },
-  methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
-    },
   },
 };
 </script>

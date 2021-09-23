@@ -44,7 +44,7 @@
             <v-spacer />
             <v-btn
               icon
-              @click="$router.go(-1)"
+              @click="closeDetail"
             >
               <v-icon>
                 mdi-close
@@ -64,199 +64,35 @@
               right: 0;"
     >
       <v-carousel
-        v-model="model"
+        v-model="carouselIndex"
         height="100%"
         hide-delimiters
         hide-delimiter-background
       >
-        <v-carousel-item>
-          <v-sheet
-            height="100%"
-            tile
-            :light="$vuetify.theme.dark ? false : true"
-          >
-            <v-row
-              class="fill-height ma-0 pa-0"
-            >
-              <div
-                style="position: absolute;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;"
-              >
-                <div
-                  class="inline-block"
-                  style="height: 100% !important; overflow-y: auto !important;"
-                >
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        xl="8"
-                        offset-xl="2"
-                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
-                      >
-                        <document-detail />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </div>
-              </div>
-            </v-row>
-          </v-sheet>
-        </v-carousel-item>
-
-        <v-carousel-item>
-          <v-sheet
-            :light="$vuetify.theme.dark ? false : true"
-            height="100%"
-            tile
-          >
-            <v-row
-              class="fill-height ma-0 pa-0"
-            >
-              <div
-                style="position: absolute;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;"
-              >
-                <div
-                  class="inline-block"
-                  style="height: 100% !important; overflow-y: auto !important;"
-                >
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        xl="8"
-                        offset-xl="2"
-                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
-                      >
-                        <video-detail />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </div>
-              </div>
-            </v-row>
-          </v-sheet>
-        </v-carousel-item>
-
-        <v-carousel-item>
-          <v-sheet
-            :light="$vuetify.theme.dark ? false : true"
-            height="100%"
-            tile
-          >
-            <v-row
-              class="fill-height ma-0 pa-0"
-            >
-              <div
-                style="position: absolute;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;"
-              >
-                <div
-                  class="inline-block"
-                  style="height: 100% !important; overflow-y: auto !important;"
-                >
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        xl="8"
-                        offset-xl="2"
-                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
-                      >
-                        <audio-detail />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </div>
-              </div>
-            </v-row>
-          </v-sheet>
-        </v-carousel-item>
-
-        <v-carousel-item>
-          <v-sheet
-            :light="$vuetify.theme.dark ? false : true"
-            height="100%"
-            tile
-          >
-            <v-row
-              class="fill-height ma-0 pa-0"
-            >
-              <div
-                style="position: absolute;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;"
-              >
-                <div
-                  class="inline-block"
-                  style="height: 100% !important; overflow-y: auto !important;"
-                >
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        xl="8"
-                        offset-xl="2"
-                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
-                      >
-                        <directory-detail />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </div>
-              </div>
-            </v-row>
-          </v-sheet>
-        </v-carousel-item>
-
-        <v-carousel-item>
-          <v-sheet
-            :light="$vuetify.theme.dark ? false : true"
-            height="100%"
-            tile
-          >
-            <v-row
-              class="fill-height ma-0 pa-0"
-            >
-              <div
-                style="position: absolute;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;"
-              >
-                <div
-                  class="inline-block"
-                  style="height: 100% !important; overflow-y: auto !important;"
-                >
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        xl="8"
-                        offset-xl="2"
-                        :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
-                      >
-                        <image-detail />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </div>
-              </div>
-            </v-row>
-          </v-sheet>
+        <v-carousel-item
+          v-for="item in items"
+          :key="item.hash"
+        >
+          <ImageDetail
+            v-if="fileType === 'images'"
+            :file="item"
+          />
+          <DirectoryDetail
+            v-if="fileType === 'directories'"
+            :file="item"
+          />
+          <DocumentDetail
+            v-if="fileType === 'text'"
+            :file="item"
+          />
+          <AudioDetail
+            v-if="fileType === 'audio'"
+            :file="item"
+          />
+          <VideoDetail
+            v-if="fileType === 'video'"
+            :file="item"
+          />
         </v-carousel-item>
 
         <!-- Static carousel items from original swiper just for reference -->
@@ -286,35 +122,78 @@
 </template>
 
 <script>
-import AudioDetail from '@/components/results/detail/AudioDetail.vue';
-import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
-import VideoDetail from '@/components/results/detail/VideoDetail.vue';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
-import ImageDetail from '@/components/results/detail/ImageDetail.vue';
+import AudioDetail from '@/components/results/detail/AudioDetail';
+import DocumentDetail from '@/components/results/detail/DocumentDetail';
+import VideoDetail from '@/components/results/detail/VideoDetail';
+import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
+import ImageDetail from '@/components/results/detail/ImageDetail';
+import SearchMixin from '@/mixins/SearchMixin';
+import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 
 export default {
+  mixins: [SearchMixin, SearchNavigationMixin],
   components: {
-    AudioDetail,
-    DocumentDetail,
     VideoDetail,
-    DirectoryDetail,
+    DocumentDetail,
+    AudioDetail,
     ImageDetail,
+    DirectoryDetail,
   },
-
-  data: () => ({
-    model: 0,
-    colors: [
-      'primary',
-      'secondary',
-      'yellow darken-2',
-      'red',
-      'orange',
-    ],
-  }),
-
+  props: {
+    fileType: {
+      type: String,
+      default: '',
+    },
+    fileHash: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    items() {
+      return this.$store.state.results[this.fileType].results.hits;
+    },
+    carouselIndex: {
+      get() {
+        return this.items.findIndex((item) => item.hash === this.fileHash);
+      },
+      set(index) {
+        const { hash } = this.items.findIndex((item) => item.hash === this.fileHash) > -1
+          ? this.items[index]
+          : this.fileHash;
+        // FIXME:
+        // !! note that here Vue router needs to be circumvented because it lacks functionality to
+        // !! change the url without re-rendering the component associated with the route
+        // this thread describes the issue and has been closed after 5 years
+        // mentioning there is a solution in vue-router v4:
+        // https://github.com/vuejs/vue-router/issues/703
+        if (hash !== undefined) {
+          // eslint-disable-next-line no-restricted-globals
+          history.replaceState(null, null, `${window.location.href.split('#')[0]}#${hash}`);
+        }
+        // I.e. the following snippet does not work properly:
+        /*
+        this.$router.replace({
+          ...this.$route,
+          hash: `#${hash}`,
+        });
+        */
+      },
+    },
+    detailType() {
+      return this.$store.state.query.type;
+    },
+  },
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
+    },
+    closeDetail() {
+      const { query } = this.$route;
+      this.$router.replace({
+        name: 'Search',
+        query,
+      });
     },
   },
 };

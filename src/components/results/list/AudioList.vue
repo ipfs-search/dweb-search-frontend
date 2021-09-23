@@ -22,7 +22,7 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage()"
+            @click="goToDetailPage(hit.hash)"
           >
             <v-img
               :src="hit.src"
@@ -67,6 +67,11 @@
                 </span>
                 <br>
                 <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
+                <DownloadButton
+                  :hash="hit.hash"
+                  :title="hit.title"
+                />
+                <AudioPlayButton :file="hit" />
               </div>
             </v-card-text>
           </v-card>
@@ -78,25 +83,22 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import ListBase from './ListBase.vue';
+import FileListMixin from '@/mixins/FileListMixin';
+import DownloadButton from '@/components/helpers/DownloadButton';
+import AudioPlayButton from '@/components/helpers/AudioPlayButton';
 
 export default {
-  components: {
-    ListBase,
-  },
+  components: { AudioPlayButton, DownloadButton },
+  mixins: [
+    FileListMixin,
+  ],
   filters: {
     durationToColor,
   },
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
-    },
+  data() {
+    return {
+      fileType: 'audio',
+    };
   },
 };
 </script>

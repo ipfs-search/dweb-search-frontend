@@ -19,7 +19,10 @@
           md="3"
           lg="2"
         >
-          <v-card @click="goToDetailPage()">
+          <v-card
+            @click="goToDetailPage(hit.hash)"
+            :id="hit.hash"
+          >
             <v-img
               :src="`https://gateway.ipfs.io/ipfs/${hit.hash}`"
               aspect-ratio="1"
@@ -46,22 +49,16 @@
 </template>
 
 <script>
-import ListBase from './ListBase.vue';
+import FileListMixin from '@/mixins/FileListMixin';
 
 export default {
-  components: {
-    ListBase,
-  },
-  props: {
-    results: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
-    },
+  mixins: [
+    FileListMixin,
+  ],
+  data() {
+    return {
+      fileType: 'images',
+    };
   },
 };
 </script>

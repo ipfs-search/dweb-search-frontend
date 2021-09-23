@@ -3,6 +3,7 @@
     dark
     hidden
   >
+    <AudioPlayer />
     <v-main>
       <router-view />
     </v-main>
@@ -31,7 +32,10 @@
 </template>
 
 <script>
+import AudioPlayer from '@/components/AudioPlayer';
+
 export default {
+  components: { AudioPlayer },
   $el: '#app',
 
   data: () => ({

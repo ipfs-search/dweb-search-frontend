@@ -1,59 +1,72 @@
 <template>
-  <div>
-    <!-- Image -->
-    <v-row>
-      <v-col>
-        <div>
-          <div class="image-wrapper">
-            <div
-              class="image-container"
-              :style="`
-                background-image: url(https://picsum.photos/900/1500?random);
-                height: ${$vuetify.breakpoint.mdAndDown ? '100%' : '90%'};
-                width: ${$vuetify.breakpoint.mdAndDown ? '100%' : '90%'};
-              `"
-            />
-          </div>
+  <v-sheet
+    :light="!$vuetify.theme.dark"
+    height="100%"
+    tile
+  >
+    <v-row
+      class="fill-height ma-0 pa-0"
+    >
+      <div
+        style="position: absolute;
+                  top: 0;
+                  left: 0;
+                  bottom: 0;
+                  right: 0;"
+      >
+        <div
+          class="inline-block"
+          style="height: 100% !important; overflow-y: auto !important;"
+        >
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                xl="8"
+                offset-xl="2"
+                :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
+              >
+                <!-- Image -->
+                <v-row>
+                  <v-col>
+                    <div
+                      class="image-container"
+                      :style="`background-image: url(https://gateway.ipfs.io/ipfs/${$props.file.hash})`"
+                    />
+                  </v-col>
+                  <v-col />
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-container>
         </div>
-      </v-col>
+      </div>
     </v-row>
-  </div>
+  </v-sheet>
 </template>
 
 <script>
 
 export default {
-
-  data() {
-    return {
-
-    };
-  },
-
-  methods: {
-
+  components: { },
+  props: {
+    file: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-// Claim the biggest possible space
-.image-wrapper {
+.image-container {
   position: absolute;
   top: 0;
   left:0;
   right:0;
   bottom:0;
-  // Center and make content a fraction smaller on bigger devices
-  // So that the whole image is visible
-  .image-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center center;
-  }
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
 }
 </style>

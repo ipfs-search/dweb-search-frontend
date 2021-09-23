@@ -58,23 +58,23 @@
     <SearchFilters />
 
     <DocumentList
-      v-if="results.text.results.total > 0 && (type == 'text' || type == 'any')"
+      v-if="results.text.results.total > 0 && (type === 'text' || type === 'any')"
       :results="results.text"
     />
     <ImageList
-      v-if="results.images.results.total > 0 && (type == 'images' || type == 'any')"
+      v-if="results.images.results.total > 0 && (type === 'images' || type === 'any')"
       :results="results.images"
     />
     <AudioList
-      v-if="results.audio.results.total > 0 && (type == 'audio' || type == 'any')"
+      v-if="results.audio.results.total > 0 && (type === 'audio' || type === 'any')"
       :results="results.audio"
     />
     <VideoList
-      v-if="results.video.results.total > 0 && (type == 'video' || type == 'any')"
+      v-if="results.video.results.total > 0 && (type === 'video' || type === 'any')"
       :results="results.video"
     />
     <DirectoryList
-      v-if="results.directories.results.total > 0 && (type == 'directories' || type == 'any')"
+      v-if="results.directories.results.total > 0 && (type === 'directories' || type === 'any')"
       :results="results.directories"
     />
 
@@ -96,13 +96,13 @@
 <script>
 import SearchMixin from '@/mixins/SearchMixin';
 import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
-import SearchBar from '@/components/SearchBar.vue';
-import SearchFilters from '@/components/SearchFilters.vue';
-import DocumentList from '@/components/results/list/DocumentList.vue';
-import ImageList from '@/components/results/list/ImageList.vue';
-import AudioList from '@/components/results/list/AudioList.vue';
-import VideoList from '@/components/results/list/VideoList.vue';
-import DirectoryList from '@/components/results/list/DirectoryList.vue';
+import SearchBar from '@/components/SearchBar';
+import SearchFilters from '@/components/SearchFilters';
+import DocumentList from '@/components/results/list/DocumentList';
+import ImageList from '@/components/results/list/ImageList';
+import AudioList from '@/components/results/list/AudioList';
+import VideoList from '@/components/results/list/VideoList';
+import DirectoryList from '@/components/results/list/DirectoryList';
 
 export default {
   components: {
@@ -114,20 +114,11 @@ export default {
     VideoList,
     DirectoryList,
   },
-
   mixins: [SearchMixin, SearchNavigationMixin],
-
-  data: () => ({
-  }),
-
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
     },
-  },
-
-  mounted() {
-    console.log(this.results.text);
   },
 };
 </script>

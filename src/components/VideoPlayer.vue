@@ -9,6 +9,7 @@
 
 <script>
 import videojs from 'video.js';
+import { AudioEvents } from './AudioPlayer';
 
 export default {
   name: 'VideoPlayer',
@@ -27,11 +28,14 @@ export default {
   },
   mounted() {
     this.player = videojs(this.$refs.videoPlayer, this.options, () => {
-      // console.log('onPlayerReady', this);
+      this.player.on('play', () => {
+        this.$root.$emit(AudioEvents.stop);
+      });
     });
   },
   beforeDestroy() {
     if (this.player) {
+      this.player.off('play');
       this.player.dispose();
     }
   },

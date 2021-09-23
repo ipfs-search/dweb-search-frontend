@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Home from '../views/Home';
 
 Vue.use(VueRouter);
 
@@ -15,20 +15,22 @@ const routes = [
     // https://router.vuejs.org/guide/essentials/passing-props.html#function-mode
     path: '/search',
     name: 'Search',
-
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search.vue'),
+    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search'),
   },
   {
-    path: '/search/detail',
+    path: '/search/detail/:fileType',
     name: 'Detail',
-
+    props: (route) => ({
+      fileType: route.params.fileType,
+      fileHash: route.hash.slice(1), // slice to remove '#'
+    }),
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-detail" */ '../views/Detail.vue'),
+    component: () => import(/* webpackChunkName: "search-list" */ '../views/Detail'),
   },
 ];
 
@@ -37,5 +39,4 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
 export default router;

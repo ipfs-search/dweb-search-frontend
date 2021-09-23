@@ -1,0 +1,39 @@
+<template>
+  <v-btn
+    icon
+    color="white"
+    @click.stop="download"
+  >
+    <v-icon>mdi-download-circle-outline</v-icon>
+  </v-btn>
+</template>
+
+<script>
+export default {
+  props: {
+    hash: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: false,
+      default: 'download',
+    },
+  },
+  methods: {
+    download() {
+      fetch(`https://gateway.ipfs.io/ipfs/${this.hash}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.title;
+          link.click();
+        })
+        .catch(console.error);
+    },
+  },
+};
+</script>
