@@ -19,7 +19,10 @@
           md="3"
           lg="2"
         >
-          <v-card @click="goToDetailPage()">
+          <v-card
+            @click.prevent="showDetail(hit.hash)"
+            :id="hit.hash"
+          >
             <v-img
               :src="`https://gateway.ipfs.io/ipfs/${hit.hash}`"
               aspect-ratio="1"
@@ -58,9 +61,20 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+    };
+  },
   methods: {
-    goToDetailPage() {
-      this.$router.push({ path: '/search/detail' });
+    showDetail(hash) {
+      this.$router.push({
+        name: 'Detail',
+        query: {
+          ...this.$route.query,
+          type: 'images',
+        },
+        hash: `#${hash}`,
+      });
     },
   },
 };

@@ -13,9 +13,9 @@ const routes = [
   {
     // TODO: Pass query elements as props to Search view.
     // https://router.vuejs.org/guide/essentials/passing-props.html#function-mode
+    // Note: `props: true` should take care of this, but route params are now only used by the searchNavigationMixin
     path: '/search',
     name: 'Search',
-
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -24,11 +24,14 @@ const routes = [
   {
     path: '/search/detail',
     name: 'Detail',
-
+    props: (route) => ({
+      // ...route.query,
+      detailCid: route.hash.slice(1),
+    }),
     // route level code-splitting
     // this generates a separate chunk (result.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-detail" */ '../views/Detail.vue'),
+    component: () => import(/* webpackChunkName: "search-list" */ '../views/Detail.vue'),
   },
 ];
 
