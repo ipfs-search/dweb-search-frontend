@@ -2,13 +2,18 @@
   <div>
     <v-app-bar
       v-if="$data.playerActive"
+      class="audio-player"
       dark
       bottom
+      height="98"
+      fixed
       app
     >
       <v-card
         tile
         width="100%"
+        height="98"
+        style="margin-left: 0 !important;"
       >
         <v-progress-linear
           v-if="!$data.loading"
@@ -201,7 +206,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.audio-player {
+  padding: 0 !important;
+}
 .progress-bar {
   cursor: pointer
 }
