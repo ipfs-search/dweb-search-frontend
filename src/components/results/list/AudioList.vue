@@ -46,11 +46,6 @@
                 class="text-subtitle-2"
                 v-html="hit.title"
               />
-              <!-- This is way to much information lets show this in detailed view -->
-              <!-- <v-card-text
-                class="white--text text-caption text-truncate"
-                v-html="hit.description"
-              /> -->
             </v-img>
 
             <v-card-text class="text-caption text-truncate">
@@ -67,11 +62,6 @@
                 </span>
                 <br>
                 <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
-                <!-- <DownloadButton
-                  :hash="hit.hash"
-                  :title="hit.title"
-                />
-                <AudioPlayButton :file="hit" /> -->
               </div>
             </v-card-text>
           </v-card>
@@ -84,11 +74,8 @@
 <script>
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from '@/mixins/FileListMixin';
-// import DownloadButton from '@/components/helpers/DownloadButton';
-// import AudioPlayButton from '@/components/helpers/AudioPlayButton';
 
 export default {
-  // components: { AudioPlayButton, DownloadButton },
   mixins: [
     FileListMixin,
   ],
