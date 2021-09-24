@@ -29,102 +29,37 @@
               >
                 <!-- Content -->
                 <div>
-                  <MediaHeader
-                    :file="$props.file"
-                  />
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="8"
+                      offset-md="2"
+                    >
+                      <MediaHeader
+                        :file="$props.file"
+                      />
+                    </v-col>
+                  </v-row>
 
                   <v-row test-class="audiovisual">
                     <!-- Left - video or preview image with title and subcaption above -->
                     <v-col
                       cols="12"
-                      md="7"
+                      md="8"
+                      offset-md="2"
                     >
-                      <!-- Previewed video or image that goes along with the played audio track -->
                       <v-row>
                         <v-col>
                           <v-img
-                            src="https://picsum.photos/510/300?random"
-                            aspect-ratio="1.7"
+                            src="https://picsum.photos/510?random"
+                            aspect-ratio="1"
+                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                           >
                             <AudioPlayButton :file="$props.file" />
                           </v-img>
                         </v-col>
                       </v-row>
-                    </v-col>
 
-                    <!--                    &lt;!&ndash; Right - list with related audio files first one is playing &ndash;&gt;-->
-                    <!--                    <v-col-->
-                    <!--                      cols="12"-->
-                    <!--                      md="5"-->
-                    <!--                    >-->
-                    <!--                      <v-list-->
-                    <!--                        two-line-->
-                    <!--                        class="mt-n2"-->
-                    <!--                      >-->
-                    <!--                        <template v-for="(item, index) in items">-->
-                    <!--                          <v-subheader-->
-                    <!--                            v-if="item.header"-->
-                    <!--                            :key="item.header"-->
-                    <!--                            v-text="item.header"-->
-                    <!--                          />-->
-
-                    <!--                          <v-divider-->
-                    <!--                            v-else-if="item.divider"-->
-                    <!--                            :key="index"-->
-                    <!--                          />-->
-
-                    <!--                          <v-list-item-->
-                    <!--                            class="d-flex"-->
-                    <!--                            v-else-->
-                    <!--                            :key="item.title"-->
-                    <!--                            @click="startPlayer(item.title)"-->
-                    <!--                            :class="item.title === selected ? 'highlight' : ''"-->
-                    <!--                          >-->
-                    <!--                            <v-list-item-avatar-->
-                    <!--                              size="42"-->
-                    <!--                              tile-->
-                    <!--                            >-->
-                    <!--                              <v-img :src="item.avatar">-->
-                    <!--                                &lt;!&ndash; <v-icon-->
-                    <!--                                  v-if="(item.title === selected) && !paused"-->
-                    <!--                                  size="24"-->
-                    <!--                                  color="white"-->
-                    <!--                                  style="opacity: 0.9;-->
-                    <!--                                    position: absolute;-->
-                    <!--                                    top: 50%;-->
-                    <!--                                    left: 50%;-->
-                    <!--                                    transform: translate(-50%, -50%);"-->
-                    <!--                                >-->
-                    <!--                                  mdi-pause-->
-                    <!--                                </v-icon>-->
-                    <!--                                <v-icon-->
-                    <!--                                  v-if="(item.title === selected) && paused"-->
-                    <!--                                  size="24"-->
-                    <!--                                  color="white"-->
-                    <!--                                  style="opacity: 0.9;-->
-                    <!--                                    position: absolute;-->
-                    <!--                                    top: 50%;-->
-                    <!--                                    left: 50%;-->
-                    <!--                                    transform: translate(-50%, -50%);"-->
-                    <!--                                >-->
-                    <!--                                  mdi-play-->
-                    <!--                                </v-icon> &ndash;&gt;-->
-                    <!--                              </v-img>-->
-                    <!--                            </v-list-item-avatar>-->
-                    <!--                            <v-list-item-content>-->
-                    <!--                              <v-list-item-title-->
-                    <!--                                v-html="item.title"-->
-                    <!--                                :class="item.title === selected ? 'ipfsSecondary&#45;&#45;text text&#45;&#45;lighten-1' : ''"-->
-                    <!--                              />-->
-                    <!--                              <v-list-item-subtitle-->
-                    <!--                                v-html="item.subtitle"-->
-                    <!--                              />-->
-                    <!--                            </v-list-item-content>-->
-                    <!--                          </v-list-item>-->
-                    <!--                        </template>-->
-                    <!--                      </v-list>-->
-                    <!--                    </v-col>-->
-                    <v-col>
                       <MetaDataPanel
                         :file="$props.file"
                         test-class="metadatapanel"
@@ -145,7 +80,6 @@
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 import AudioPlayButton from '@/components/helpers/AudioPlayButton';
-// import graveDigger from '@/assets/examples_player_audio_rave_digger.mp3';
 
 export default {
 

@@ -2,6 +2,7 @@
   <div>
     <v-app-bar
       app
+      class="px-4"
       height="56"
     >
       <v-container

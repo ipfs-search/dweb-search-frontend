@@ -4,6 +4,7 @@
       for layout logo and search bar using flex-->
     <v-app-bar
       app
+      class="px-4"
       color="ipfsPrimary lighten-1"
       height="56"
     >

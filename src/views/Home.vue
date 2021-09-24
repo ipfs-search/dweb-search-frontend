@@ -3,6 +3,7 @@
     <v-app-bar
       app
       height="56"
+      class="px-4"
       elevate-on-scroll
       light
     >

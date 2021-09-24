@@ -9,7 +9,6 @@
     </v-main>
 
     <v-footer
-      app
       padless
       color="white"
       fixed
