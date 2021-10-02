@@ -1,11 +1,11 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Documents ({{ results.results.total }})
+      Documents ({{ results.total }})
     </template>
 
     <v-col
-      v-for="hit in results.results.hits.slice(0, 3)"
+      v-for="hit in results.hits.slice(0, 3)"
       :key="hit.hash"
       cols="12"
       xl="8"

@@ -58,39 +58,24 @@
 
     <SearchFilters />
 
-    <DocumentList
-      v-if="results.text.results.total > 0 && (type === 'text' || type === 'any')"
-      :results="results.text"
-    />
-    <ImageList
-      v-if="results.images.results.total > 0 && (type === 'images' || type === 'any')"
-      :results="results.images"
-    />
-    <AudioList
-      v-if="results.audio.results.total > 0 && (type === 'audio' || type === 'any')"
-      :results="results.audio"
-    />
-    <VideoList
-      v-if="results.video.results.total > 0 && (type === 'video' || type === 'any')"
-      :results="results.video"
-    />
-    <DirectoryList
-      v-if="results.directories.results.total > 0 && (type === 'directories' || type === 'any')"
-      :results="results.directories"
-    />
+    <DocumentList />
+    <ImageList />
+    <AudioList />
+    <VideoList />
+    <DirectoryList />
 
     <!-- PAGINATION -->
     <!-- Note: pagination doesn't make sense in the combined view. -->
-    <v-container>
-      <template>
-        <div class="my-16">
-          <v-pagination
-            v-model="page"
-            :length="results.page_count"
-          />
-        </div>
-      </template>
-    </v-container>
+    <!--    <v-container>-->
+    <!--      <template>-->
+    <!--        <div class="my-16">-->
+    <!--          <v-pagination-->
+    <!--            v-model="page"-->
+    <!--            :length="results.page_count"-->
+    <!--          />-->
+    <!--        </div>-->
+    <!--      </template>-->
+    <!--    </v-container>-->
   </div>
 </template>
 

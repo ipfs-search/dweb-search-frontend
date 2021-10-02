@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-container
+    v-if="$parent.results.total > 0 &&
+      ($parent.queryFileType === $parent.fileType || $parent.queryFileType === 'any')"
+  >
     <v-row dense>
       <v-col
         cols="12"
@@ -8,8 +11,11 @@
       >
         <v-subheader class="text-subtitle-1 mt-n2 mb-n3 d-flex justify-space-between">
           <div><slot name="type" /></div>
-          <div>
-            <a class="text-subtitle-1 text-decoration-none text--secondary">
+          <div v-if="$parent.queryFileType === 'any'">
+            <a
+              class="text-subtitle-1 text-decoration-none text--secondary"
+              @click.prevent="$parent.setType"
+            >
               View all
             </a>
           </div>

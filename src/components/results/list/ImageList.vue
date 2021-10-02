@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Images ({{ results.results.total }})
+      Images ({{ results.total }})
     </template>
 
     <v-col
@@ -11,7 +11,7 @@
     >
       <v-row dense>
         <v-col
-          v-for="hit in results.results.hits.slice(0, 6)"
+          v-for="hit in results.hits.slice(0, 6)"
           :key="hit.hash"
           class="d-flex child-flex"
           cols="6"

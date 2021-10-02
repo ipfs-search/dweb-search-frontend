@@ -1,14 +1,14 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Directories ({{ results.results.total }})
+      Directories ({{ results.total }})
     </template>
 
     <v-col
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="hit in results.results.hits.slice(0, 3)"
+      v-for="hit in results.hits.slice(0, 3)"
       :key="hit.hash"
     >
       <v-card

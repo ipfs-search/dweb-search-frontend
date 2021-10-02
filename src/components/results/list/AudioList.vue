@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Audio ({{ results.results.total }})
+      Audio ({{ results.total }})
     </template>
 
     <v-col
@@ -13,7 +13,7 @@
         dense
       >
         <v-col
-          v-for="hit in results.results.hits.slice(0, 6)"
+          v-for="hit in results.hits.slice(0, 6)"
           :key="hit.hash"
           cols="6"
           xs="4"
