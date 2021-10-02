@@ -45,13 +45,10 @@ export default {
     loadMore() {
       this.$store.dispatch('query/incrementPage');
 
-      // this.$router.replace({
-      //   ...this.$route,
-      //   query: {
-      //     ...this.$route.query,
-      //     page: Math.min(this.results.page_count - 1, this.$route.query.page + 1),
-      //   },
-      // });
+      this.$router.replace({
+        ...this.$route,
+        query: this.$store.getters['query/stateToQueryParams'],
+      });
     },
   },
 };
