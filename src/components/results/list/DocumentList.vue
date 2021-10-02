@@ -5,7 +5,7 @@
     </template>
 
     <v-col
-      v-for="hit in results.hits.slice(0, 3)"
+      v-for="hit in showedHits"
       :key="hit.hash"
       cols="12"
       xl="8"
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       fileType: 'text',
+      shortList: 3,
     };
   },
 };

@@ -8,7 +8,7 @@
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="hit in results.hits.slice(0, 3)"
+      v-for="hit in showedHits"
       :key="hit.hash"
     >
       <v-card
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       fileType: 'directories',
+      shortList: 3,
     };
   },
 };

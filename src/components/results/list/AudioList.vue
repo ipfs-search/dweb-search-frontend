@@ -13,7 +13,7 @@
         dense
       >
         <v-col
-          v-for="hit in results.hits.slice(0, 6)"
+          v-for="hit in showedHits"
           :key="hit.hash"
           cols="6"
           xs="4"
@@ -85,6 +85,7 @@ export default {
   data() {
     return {
       fileType: 'audio',
+      shortList: 6,
     };
   },
 };

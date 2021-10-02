@@ -21,13 +21,13 @@ export default {
         });
       },
     },
+    showedHits() {
+      if (this.queryFileType === this.$data.fileType) {
+        return this.results.hits;
+      }
+      return this.results.hits.slice(0, this.shortList);
+    },
   },
-  // props: {
-  //   results: {
-  //     type: Object,
-  //     required: true,
-  //   },
-  // },
   methods: {
     goToDetailPage(hash) {
       this.$router.push({
