@@ -11,7 +11,6 @@ const initialResults = {
 const mutations = {
   // Mutations relating to search results
   setLoading(state) {
-    state.results = initialResults;
     state.loading = true;
     state.error = false;
   },
@@ -21,7 +20,13 @@ const mutations = {
   },
   setResults(state, results) {
     state.loading = false;
-    state.results = results;
+    state.results = {
+      ...results,
+      hits: [
+        ...state.results.hits,
+        ...results.hits,
+      ],
+    };
   },
 };
 

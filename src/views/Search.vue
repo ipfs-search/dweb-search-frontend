@@ -63,19 +63,6 @@
     <AudioList />
     <VideoList />
     <DirectoryList />
-
-    <!-- PAGINATION -->
-    <!-- Note: pagination doesn't make sense in the combined view. -->
-    <!--    <v-container>-->
-    <!--      <template>-->
-    <!--        <div class="my-16">-->
-    <!--          <v-pagination-->
-    <!--            v-model="page"-->
-    <!--            :length="results.page_count"-->
-    <!--          />-->
-    <!--        </div>-->
-    <!--      </template>-->
-    <!--    </v-container>-->
   </div>
 </template>
 

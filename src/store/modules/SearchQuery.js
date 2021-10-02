@@ -73,6 +73,7 @@ const mutations = {
     state.user_query = q;
   },
   setType(state, type) {
+    if (state.type !== type) state.page = 0;
     state.type = type;
   },
   incrementPage(state) {
@@ -92,6 +93,16 @@ const mutations = {
   },
 };
 
+const actions = {
+  incrementPage({
+    rootState, state, commit, dispatch,
+  }) {
+    if (rootState.results[state.type].results.page_count > state.page + 1) {
+      commit('incrementPage');
+      dispatch(`results/${state.type}/getResults`, null, { root: true });
+    }
+  },
+};
 const state = () => ({ ...initialQuery }); // Copy fields, prevent reference.
 
 export default {
@@ -99,4 +110,5 @@ export default {
   state,
   getters,
   mutations,
+  actions,
 };

@@ -26,6 +26,23 @@
     <v-row dense>
       <slot />
     </v-row>
+    <!--     PAGINATION -->
+    <!--     Note: pagination doesn't make sense in the combined view. -->
+    <div
+      class="my-16"
+      v-if="$parent.queryFileType !== 'any'"
+    >
+      <v-btn
+        class="mx-2"
+        fab
+        dark
+        @click.prevent="$parent.loadMore"
+      >
+        <v-icon dark>
+          mdi-chevron-down
+        </v-icon>
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
