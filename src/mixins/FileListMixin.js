@@ -63,9 +63,8 @@ export default {
     /**
      * TODO FIXME: Issues w/ infinite scrolling:
      * - async; on scroll gets registered and fires 10 pageloads at once; make async/blocking
-     * - duplicate results
+     * - duplicate results from API
      * - deeplink page N, load N pages - and scroll to position
-     * -> history navigation is messed up
      * - occasional CORS errors from API - setup local proxy or something
      */
     onScroll() {
@@ -94,6 +93,9 @@ export default {
   mounted() {
     store.dispatch(`results/${this.fileType}/resetResults`);
     store.dispatch(`results/${this.fileType}/getResults`);
+    if (this.queryFileType === this.fileType && this.infinite) {
+      document.addEventListener('scroll', this.onScroll, true);
+    }
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.onScroll, true);

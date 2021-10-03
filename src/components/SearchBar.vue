@@ -36,7 +36,7 @@
               </template>
               <v-list>
                 <v-list-item
-                  v-for="t in types"
+                  v-for="t in searchTypes"
                   :key="t"
                   @click="type=t"
                 >
@@ -69,15 +69,41 @@
 
 <script>
 import SearchMixin from '@/mixins/SearchMixin';
+import store from '@/store';
+import { searchTypes } from '@/helpers/typeHelper';
 
 export default {
+  created() {
+    this.searchTypes = searchTypes;
+  },
   mixins: [SearchMixin],
-  data() {
-    return {
-      // TODO: Keep these types in a central place
-      // TODO: Mapping between names/values (instead of only values)
-      types: ['any', 'text', 'images', 'audio', 'video', 'directories'],
-    };
+  computed: {
+    type: {
+      get() {
+        return store.state.query.type;
+      },
+      set(value) {
+        store.commit('query/setType', value);
+        this.search();
+      },
+    },
+    query: {
+      get() {
+        return store.state.query.user_query;
+      },
+      set(value) {
+        store.commit('query/setUserQuery', value);
+        // Note that we don't search every time query changes!
+      },
+    },
+  },
+  watch: {
+    '$route.query': function (after, before) {
+      console.log('watching the query', after, before);
+      store.commit('query/setRouteParams', this.$route.query);
+      // store.dispatch(`results/${this.type}/resetResults`);
+      // store.dispatch(`results/${this.type}/getResults`);
+    },
   },
 };
 </script>
