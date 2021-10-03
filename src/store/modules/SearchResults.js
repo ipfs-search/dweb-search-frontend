@@ -101,7 +101,7 @@ export default (type) => ({
      * @param rootGetters
      * @param commit
      */
-    getResults({ rootState, rootGetters, commit }) {
+    getResults({ rootGetters, commit }, page = 0) {
       commit('setLoading');
 
       const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
@@ -109,9 +109,8 @@ export default (type) => ({
       api.searchGet(
         rootGetters['query/apiQueryString'] + typeFilter,
         type === 'directories' ? 'directory' : 'file', // Legacy API workaround; only accepts file and directory
-        rootState.query.page,
+        page,
       ).then((results) => {
-        console.log(results);
         commit('setResults', results);
       }).catch((err) => {
         commit('setError');

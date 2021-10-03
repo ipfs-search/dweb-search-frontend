@@ -88,8 +88,12 @@ export default {
     },
     results() {
       // make sure that after loading the results, the page is filled until the bottom, if possible
-      // if (this.infinite) this.onScroll();
+      if (this.fileType === this.queryFileType && this.infinite) this.onScroll();
     },
+  },
+  mounted() {
+    store.dispatch(`results/${this.fileType}/resetResults`);
+    store.dispatch(`results/${this.fileType}/getResults`);
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.onScroll, true);

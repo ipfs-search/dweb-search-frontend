@@ -113,7 +113,7 @@ const actions = {
     if (page_count > page) {
       dispatch(`results/${state.type}/resetResults`, null, { root: true });
       commit('setPage', page);
-      dispatch(`results/${state.type}/getResults`, null, { root: true });
+      dispatch(`results/${state.type}/getResults`, page, { root: true });
     }
   },
   /**
@@ -133,7 +133,7 @@ const actions = {
       commit('incrementPage');
       // eslint-disable-next-line camelcase
       if (hits.length / page_size <= state.page) {
-        dispatch(`results/${state.type}/getResults`, null, { root: true });
+        dispatch(`results/${state.type}/getResults`, state.page, { root: true });
       }
     }
   },
