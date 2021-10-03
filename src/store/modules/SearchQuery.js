@@ -76,6 +76,9 @@ const mutations = {
     if (state.type !== type) state.page = 0;
     state.type = type;
   },
+  setPage(state, page) {
+    state.page = page;
+  },
   incrementPage(state) {
     state.page += 1;
   },
@@ -94,12 +97,44 @@ const mutations = {
 };
 
 const actions = {
+  /**
+   * sets the page and changes the results for this filetype (i.e. jump to page)
+   * @param rootState
+   * @param commit
+   * @param dispatch
+   * @param page: zero-based page index
+   */
+  setPage({
+    rootState, state, commit, dispatch,
+  }, page = 0) {
+    // eslint-disable-next-line camelcase
+    const { page_count } = rootState.results[state.type].results;
+    // eslint-disable-next-line camelcase
+    if (page_count > page) {
+      dispatch(`results/${state.type}/resetResults`, null, { root: true });
+      commit('setPage', page);
+      dispatch(`results/${state.type}/getResults`, null, { root: true });
+    }
+  },
+  /**
+   * increments the page and fetches and appends the results for this page (for infinite scrolling)
+   * @param rootState
+   * @param state
+   * @param commit
+   * @param dispatch
+   */
   incrementPage({
     rootState, state, commit, dispatch,
   }) {
-    if (rootState.results[state.type].results.page_count > state.page + 1) {
+    // eslint-disable-next-line camelcase
+    const { hits, page_count, page_size } = rootState.results[state.type].results;
+    // eslint-disable-next-line camelcase
+    if (page_count > state.page + 1) {
       commit('incrementPage');
-      dispatch(`results/${state.type}/getResults`, null, { root: true });
+      // eslint-disable-next-line camelcase
+      if (hits.length / page_size <= state.page) {
+        dispatch(`results/${state.type}/getResults`, null, { root: true });
+      }
     }
   },
 };

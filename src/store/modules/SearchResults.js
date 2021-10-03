@@ -18,6 +18,9 @@ const mutations = {
     state.loading = false;
     state.error = true;
   },
+  clearResults(state) {
+    state.results = initialResults;
+  },
   setResults(state, results) {
     state.loading = false;
     state.results = {
@@ -85,6 +88,19 @@ export default (type) => ({
   namespaced: true,
   state,
   actions: {
+    /**
+     * flush results and set initial results
+     * @param commit
+     */
+    resetResults({ commit }) {
+      commit('clearResults');
+    },
+    /**
+     * receive results and append them to the state
+     * @param rootState
+     * @param rootGetters
+     * @param commit
+     */
     getResults({ rootState, rootGetters, commit }) {
       commit('setLoading');
 
@@ -95,6 +111,7 @@ export default (type) => ({
         type === 'directories' ? 'directory' : 'file', // Legacy API workaround; only accepts file and directory
         rootState.query.page,
       ).then((results) => {
+        console.log(results);
         commit('setResults', results);
       }).catch((err) => {
         commit('setError');

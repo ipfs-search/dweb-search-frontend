@@ -3,6 +3,18 @@
     v-if="$parent.results.total > 0 &&
       ($parent.queryFileType === $parent.fileType || $parent.queryFileType === 'any')"
   >
+    <!--     PAGINATION -->
+    <!--    N.b. duplicate code with below-->
+    <div
+      class="my-16"
+      v-if="$parent.queryFileType !== 'any' && !$parent.infinite"
+    >
+      <v-pagination
+        v-model="$parent.page"
+        :length="$parent.results.page_count"
+        total-visible="9"
+      />
+    </div>
     <v-row dense>
       <v-col
         cols="12"
@@ -27,21 +39,16 @@
       <slot />
     </v-row>
     <!--     PAGINATION -->
-    <!--     Note: pagination doesn't make sense in the combined view. -->
+    <!--    N.b. duplicate code with above - thanks Vue v. 2-->
     <div
       class="my-16"
-      v-if="$parent.queryFileType !== 'any'"
+      v-if="$parent.queryFileType !== 'any' && !$parent.infinite"
     >
-      <v-btn
-        class="mx-2"
-        fab
-        dark
-        @click.prevent="$parent.loadMore"
-      >
-        <v-icon dark>
-          mdi-chevron-down
-        </v-icon>
-      </v-btn>
+      <v-pagination
+        v-model="$parent.page"
+        :length="$parent.results.page_count"
+        total-visible="9"
+      />
     </div>
   </v-container>
 </template>

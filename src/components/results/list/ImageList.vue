@@ -11,8 +11,8 @@
     >
       <v-row dense>
         <v-col
-          v-for="hit in showedHits"
-          :key="hit.hash"
+          v-for="(hit, index) in showedHits"
+          :key="index"
           class="d-flex child-flex"
           cols="6"
           sm="4"
@@ -59,6 +59,7 @@ export default {
     return {
       fileType: 'images',
       shortList: 6,
+      infinite: true,
     };
   },
 };

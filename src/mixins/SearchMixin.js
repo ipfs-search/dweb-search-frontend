@@ -28,15 +28,15 @@ export default {
         this.search();
       },
     },
-    page: {
-      get() {
-        return store.state.query.page;
-      },
-      set(value) {
-        store.commit('query/setPage', value);
-        this.search();
-      },
-    },
+    // page: {
+    //   get() {
+    //     return store.state.query.page;
+    //   },
+    //   set(value) {
+    //     store.commit('query/setPage', value);
+    //     this.search();
+    //   },
+    // },
     type: {
       get() {
         return store.state.query.type;

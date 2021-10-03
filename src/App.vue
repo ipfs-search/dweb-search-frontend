@@ -45,7 +45,6 @@ export default {
       'Contact',
     ],
   }),
-
   mounted() {
     this.$nextTick(() => {
       this.$el.removeAttribute('hidden');

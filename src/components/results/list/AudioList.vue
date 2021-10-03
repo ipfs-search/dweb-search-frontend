@@ -13,8 +13,8 @@
         dense
       >
         <v-col
-          v-for="hit in showedHits"
-          :key="hit.hash"
+          v-for="(hit, index) in showedHits"
+          :key="index"
           cols="6"
           xs="4"
           sm="4"

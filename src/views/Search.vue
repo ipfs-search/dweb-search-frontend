@@ -92,6 +92,7 @@ export default {
     goHome() {
       this.$router.push({ path: '/' });
     },
+
   },
 };
 </script>

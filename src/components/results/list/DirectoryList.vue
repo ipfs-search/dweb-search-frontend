@@ -8,8 +8,8 @@
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="hit in showedHits"
-      :key="hit.hash"
+      v-for="(hit, index) in showedHits"
+      :key="index"
     >
       <v-card
         @click="goToDetailPage(hit.hash)"
