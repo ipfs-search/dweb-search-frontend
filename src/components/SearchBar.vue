@@ -92,11 +92,13 @@ export default {
   },
   methods: {
     enterSearchPhrase() {
+      console.debug('entering search phrase into query', this.$data.searchPhrase);
       this.search({ q: this.$data.searchPhrase });
     },
   },
   watch: {
     '$route.query': function () {
+      console.debug('committing route query to store', this.$route.query);
       store.commit('query/setRouteParams', this.$route.query);
     },
   },
