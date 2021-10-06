@@ -71,8 +71,8 @@
         hide-delimiter-background
       >
         <v-carousel-item
-          v-for="item in items"
-          :key="item.hash"
+          v-for="(item, index) in items"
+          :key="index"
         >
           <ImageDetail
             v-if="fileType === 'images'"

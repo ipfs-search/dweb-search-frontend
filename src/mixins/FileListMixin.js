@@ -110,9 +110,8 @@ export default {
         .then(() => {
           if (pager === page) {
             this.onScroll();
-            const { offsetHeight } = document.documentElement;
             window.scrollTo({
-              top: offsetHeight - window.innerHeight - infiniteScrollMargin,
+              top: document.documentElement.offsetHeight - window.innerHeight - infiniteScrollMargin,
               left: 0,
               behavior: 'smooth',
             });
