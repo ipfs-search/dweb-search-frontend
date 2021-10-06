@@ -58,11 +58,11 @@
 
     <SearchFilters />
 
-    <DocumentList />
-    <ImageList />
-    <AudioList />
-    <VideoList />
-    <DirectoryList />
+    <DocumentList v-if="listType(this.Types.text)" />
+    <ImageList v-if="listType(this.Types.images)" />
+    <AudioList v-if="listType(this.Types.audio)" />
+    <VideoList v-if="listType(this.Types.video)" />
+    <DirectoryList v-if="listType(this.Types.directories)" />
   </div>
 </template>
 
@@ -77,7 +77,12 @@ import AudioList from '@/components/results/list/AudioList';
 import VideoList from '@/components/results/list/VideoList';
 import DirectoryList from '@/components/results/list/DirectoryList';
 
+const { Types } = require('@/helpers/typeHelper');
+
 export default {
+  created() {
+    this.Types = Types;
+  },
   components: {
     SearchBar,
     SearchFilters,
@@ -92,7 +97,9 @@ export default {
     goHome() {
       this.$router.push({ path: '/' });
     },
-
+    listType(t) {
+      return [t, 'any', undefined].includes(this.$route.query.type);
+    },
   },
 };
 </script>

@@ -9,31 +9,22 @@ export default {
     results() {
       return store.state.results[this.$data.fileType].results;
     },
-    queryFileType: {
-      get() {
-        return store.state.query.type;
-      },
-      set(value) {
-        store.commit('query/setType', value);
-        this.$router.push({
-          path: '/search',
-          query: store.getters['query/stateToQueryParams'],
-        });
-      },
-    },
     showedHits() {
-      if (this.queryFileType === this.$data.fileType) {
+      if (this.$route.query.type === this.$data.fileType) {
         return this.results.hits;
       }
       return this.results.hits.slice(0, this.shortList);
     },
+    // finite
     page: {
-      get: () => store.state.query.page + 1,
+      get() { return Number(this.$route.query.page); },
       set(value) {
-        store.dispatch('query/setPage', value - 1);
         this.$router.push({
           ...this.$route,
-          query: store.getters['query/stateToQueryParams'],
+          query: {
+            ...this.$route.query,
+            page: value,
+          },
         });
       },
     },
@@ -49,10 +40,9 @@ export default {
         hash: `#${hash}`,
       });
     },
-    setType() {
-      this.queryFileType = this.$data.fileType;
-    },
+    // infinite
     appendNextPage() {
+      // TODO: bring appendNextPage logic out of query store module
       store.dispatch('query/incrementPage');
 
       this.$router.replace({
@@ -62,11 +52,11 @@ export default {
     },
     /**
      * TODO FIXME: Issues w/ infinite scrolling:
-     * - async; on scroll gets registered and fires 10 pageloads at once; make async/blocking
-     * - duplicate results from API
      * - deeplink page N, load N pages - and scroll to position
-     * - occasional CORS errors from API - setup local proxy or something
+     * - async; on scroll gets registered and fires 10 pageloads at once; make async/blocking
+     * - occasional CORS errors from API - setup local proxy or something, unclear why it is occasional only
      */
+    // infinite
     onScroll() {
       const { scrollTop, offsetHeight } = document.documentElement;
       const nearBottom = window.innerHeight + 200 > offsetHeight - scrollTop;
@@ -77,24 +67,53 @@ export default {
     },
   },
   watch: {
-    queryFileType(next, previous) {
-      if (previous === this.fileType && this.infinite) {
-        document.removeEventListener('scroll', this.onScroll, true);
-      }
-      if (next === this.fileType && this.infinite) {
-        document.addEventListener('scroll', this.onScroll, true);
-      }
+    /**
+     * when route changes due to inpage navigation, update the event listeners for the filelist
+     */
+    // infinite
+    '$route.query.type': {
+      handler(next, previous) {
+        if (previous === this.fileType && this.infinite) {
+          document.removeEventListener('scroll', this.onScroll, true);
+        }
+        if (next === this.fileType && this.infinite) {
+          document.addEventListener('scroll', this.onScroll, true);
+        }
+      },
+      immediate: true,
     },
-    results() {
-      // make sure that after loading the results, the page is filled until the bottom, if possible
-      if (this.fileType === this.queryFileType && this.infinite) this.onScroll();
+    '$store.state.query': {
+      handler({ page }) {
+        if (!this.infinite) store.dispatch(`results/${this.fileType}/resetResults`);
+        store.dispatch(`results/${this.fileType}/getResults`, page);
+      },
+      deep: true,
     },
   },
   mounted() {
+    const { page } = store.state.query;
+    const { onScroll, fileType } = this;
+
+    /**
+     * get all pages of results up to the query parameter page
+     * TODO: make multipage fetching parallel;
+     * N.b.: not possible now because of getResults design;
+     * results would not be commited in consistent order
+     * @param pager
+     */
+    function recursiveGetResults(pager = 1) {
+      store.dispatch(`results/${fileType}/getResults`, pager)
+        .then(() => {
+          if (pager === page) {
+            onScroll();
+          } else (recursiveGetResults(pager + 1));
+        });
+    }
     store.dispatch(`results/${this.fileType}/resetResults`);
-    store.dispatch(`results/${this.fileType}/getResults`);
-    if (this.queryFileType === this.fileType && this.infinite) {
-      document.addEventListener('scroll', this.onScroll, true);
+    if (this.infinite) {
+      recursiveGetResults();
+    } else {
+      store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
     }
   },
   beforeDestroy() {

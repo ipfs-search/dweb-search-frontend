@@ -1,7 +1,9 @@
 const initialQuery = {
+  // TODO: rename user_query to something consistent, non-snake_case, and less confusing
+  // such as 'q' or searchPhrase
   user_query: '',
   type: 'any',
-  page: 0,
+  page: 1,
   filters: {
     lastSeen: null,
     size: null,
@@ -102,22 +104,25 @@ const actions = {
    * @param rootState
    * @param commit
    * @param dispatch
-   * @param page: zero-based page index
+   * @param page: one-based page index
    */
   setPage({
-    rootState, state, commit, dispatch,
-  }, page = 0) {
+    rootState, state, commit,
+  }, page = 1) {
     // eslint-disable-next-line camelcase
     const { page_count } = rootState.results[state.type].results;
     // eslint-disable-next-line camelcase
     if (page_count > page) {
-      dispatch(`results/${state.type}/resetResults`, null, { root: true });
+      // dispatch(`results/${state.type}/resetResults`, null, { root: true });
       commit('setPage', page);
-      dispatch(`results/${state.type}/getResults`, page, { root: true });
+      // dispatch(`results/${state.type}/getResults`, page, { root: true });
     }
   },
   /**
    * increments the page and fetches and appends the results for this page (for infinite scrolling)
+   * TODO: move incrementPage logic out of searchQuery module
+   * - the change of the query should be implied from route change by watch function
+   * - that would leave only the fetching of the results, which is not the query module logic
    * @param rootState
    * @param state
    * @param commit

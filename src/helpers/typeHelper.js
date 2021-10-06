@@ -11,7 +11,16 @@ export const searchTypes = [
   ...fileTypes,
 ];
 
+export const Types = {
+  text: 'text',
+  images: 'images',
+  audio: 'audio',
+  video: 'video',
+  directories: 'directories',
+};
+
 export default {
   fileTypes,
   searchTypes,
+  Types,
 };

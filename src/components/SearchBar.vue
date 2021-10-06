@@ -3,7 +3,7 @@
     <v-container class="d-flex justify-center">
       <div class="search flex-grow-1">
         <v-text-field
-          v-model="query"
+          v-model="searchPhrase"
           placeholder="Search"
           light
           rounded
@@ -14,7 +14,7 @@
           solo
           validate-on-blur
           hide-details
-          @keyup.enter="search"
+          @keyup.enter="enterSearchPhrase"
         >
           <template v-slot:append>
             <v-menu
@@ -56,7 +56,7 @@
               style="margin-top: -2px;"
               size="34"
               color="white"
-              @click="search"
+              @click="enterSearchPhrase"
             >
               mdi-magnify
             </v-icon>
@@ -77,32 +77,27 @@ export default {
     this.searchTypes = searchTypes;
   },
   mixins: [SearchMixin],
+  data() {
+    return {
+      searchPhrase: store.state.query.user_query,
+    };
+  },
   computed: {
     type: {
-      get() {
-        return store.state.query.type;
-      },
-      set(value) {
-        store.commit('query/setType', value);
-        this.search();
-      },
-    },
-    query: {
-      get() {
-        return store.state.query.user_query;
-      },
-      set(value) {
-        store.commit('query/setUserQuery', value);
-        // Note that we don't search every time query changes!
+      get: () => store.state.query.type,
+      set(newType) {
+        this.search({ type: newType });
       },
     },
   },
+  methods: {
+    enterSearchPhrase() {
+      this.search({ q: this.$data.searchPhrase });
+    },
+  },
   watch: {
-    '$route.query': function (after, before) {
-      console.log('watching the query', after, before);
+    '$route.query': function () {
       store.commit('query/setRouteParams', this.$route.query);
-      // store.dispatch(`results/${this.type}/resetResults`);
-      // store.dispatch(`results/${this.type}/getResults`);
     },
   },
 };
