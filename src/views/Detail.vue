@@ -129,10 +129,14 @@ import VideoDetail from '@/components/results/detail/VideoDetail';
 import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
 import ImageDetail from '@/components/results/detail/ImageDetail';
 import SearchMixin from '@/mixins/SearchMixin';
-import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
+import store from '@/store';
+import FileListMixin from '@/mixins/FileListMixin';
 
 export default {
-  mixins: [SearchMixin, SearchNavigationMixin],
+  beforeCreate() {
+    store.commit('query/setRouteParams', this.$route.query);
+  },
+  mixins: [SearchMixin, FileListMixin],
   components: {
     VideoDetail,
     DocumentDetail,

@@ -53,9 +53,8 @@ export default {
     },
     /**
      * TODO FIXME: Issues w/ infinite scrolling:
-     * - deeplink page N - scroll to position
      * - duplicate results from API
-     * - async; on scroll gets registered and fires 10 pageloads at once; make async/blocking
+     * - async; on scroll gets registered and fires some pageloads at once; make async/blocking
      * - occasional CORS errors from API - setup local proxy or something, unclear why it is occasional only
      */
     // infinite
