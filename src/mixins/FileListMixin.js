@@ -2,6 +2,11 @@ import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 
 const infiniteScrollMargin = 200;
+const scrollDown = () => window.scrollTo({
+  top: document.documentElement.offsetHeight - window.innerHeight - infiniteScrollMargin,
+  left: 0,
+  behavior: 'smooth',
+});
 /**
  * this mixin makes file lists load their results and allows navigation
  */
@@ -63,9 +68,11 @@ export default {
      * FIXME - async; on scroll gets registered and fires some pageloads at once; make async/blocking
      * TODO - occasional CORS errors from API - setup local proxy or something,
      *      (unclear why it is occasional only)
+     * TODO: split infinite scrolling logic and paged into 2 different mixins
+     * TODO: make the page in the url reflect the part of the page in focus (i.e. offsetheight/scrolltop)
      */
     // infinite
-    onScroll() {
+    infiniteScroll() {
       const { scrollTop, offsetHeight } = document.documentElement;
       const nearBottom = window.innerHeight + infiniteScrollMargin > offsetHeight - scrollTop;
 
@@ -82,10 +89,10 @@ export default {
     '$route.query.type': {
       handler(next, previous) {
         if (previous === this.fileType && this.infinite) {
-          document.removeEventListener('scroll', this.onScroll, true);
+          document.removeEventListener('scroll', this.infiniteScroll, true);
         }
         if (next === this.fileType && this.infinite) {
-          document.addEventListener('scroll', this.onScroll, true);
+          document.addEventListener('scroll', this.infiniteScroll, true);
         }
       },
       immediate: true,
@@ -96,20 +103,15 @@ export default {
         if ((query.page !== previousQuery.page && !this.infinite) || Number(query.page) === 1) {
           store.dispatch(`results/${this.fileType}/resetResults`);
         }
-        store.dispatch(`results/${this.fileType}/getResults`, query.page);
+        store.dispatch(`results/${this.fileType}/getResults`, query.page)
+          .then(() => { if (this.infinite) this.infiniteScroll(); });
       },
       deep: true,
     },
   },
   mounted() {
     const { page } = store.state.query;
-    // const { onScroll, fileType } = this;
 
-    const scrollDown = () => window.scrollTo({
-      top: document.documentElement.offsetHeight - window.innerHeight - infiniteScrollMargin,
-      left: 0,
-      behavior: 'smooth',
-    });
     /**
      * get all pages of results up to the query parameter page
      * TODO: make multipage fetching parallel;
@@ -117,22 +119,23 @@ export default {
      * results would not be commited in consistent order
      * @param pager
      */
-    this.recursiveGetResults = function (pager = 1) {
+    let recursiveGetResults = function (pager = 1) {
       store.dispatch(`results/${this.fileType}/getResults`, pager)
         .then(() => {
           if (pager === page) {
-            this.onScroll();
+            this.infiniteScroll();
             scrollDown();
           } else (this.recursiveGetResults(pager + 1));
         });
     };
+    recursiveGetResults = recursiveGetResults.bind(this);
     // store.dispatch(`results/${this.fileType}/resetResults`);
     if (this.infinite) {
       const { results } = store.state.results[this.fileType];
       const loadedPages = Math.ceil(results.hits.length / (results.page_size || 1));
       console.debug(this.fileType, results, loadedPages);
       if (page > loadedPages) {
-        this.recursiveGetResults(loadedPages + 1);
+        recursiveGetResults(loadedPages + 1);
       } else {
         scrollDown();
       }
@@ -141,6 +144,6 @@ export default {
     }
   },
   beforeDestroy() {
-    document.removeEventListener('scroll', this.onScroll, true);
+    document.removeEventListener('scroll', this.infiniteScroll, true);
   },
 };
