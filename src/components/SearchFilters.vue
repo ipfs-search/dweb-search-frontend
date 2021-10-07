@@ -148,7 +148,7 @@ export default {
         text: '<7d', value: '>now-7d',
       },
       {
-        text: 'any', value: 'any',
+        text: 'any', value: null,
       },
     ],
   }),

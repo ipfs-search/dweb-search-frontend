@@ -129,7 +129,6 @@ export default {
             });
         };
         recursiveGetResults = recursiveGetResults.bind(this);
-        // store.dispatch(`results/${this.fileType}/resetResults`);
         if (this.infinite) {
           const { results } = store.state.results[this.fileType];
           const loadedPages = Math.ceil(results.hits.length / (results.page_size || 1));
@@ -142,10 +141,7 @@ export default {
         } else {
           store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
         }
-        // store.dispatch(`results/${this.fileType}/getResults`, query.page)
-        //   .then(() => { if (this.infinite) this.infiniteScroll(); });
       },
-      // immediate: true,
     },
   },
   data() {
