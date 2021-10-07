@@ -6,7 +6,7 @@
     <!--    N.b. duplicate code with below-->
     <div
       class="my-16"
-      v-if="queryFileType !== 'any' && !$parent.infinite"
+      v-if="!anyFileType && infinite"
     >
       <v-pagination
         v-model="$parent.page"
@@ -22,7 +22,7 @@
       >
         <v-subheader class="text-subtitle-1 mt-n2 mb-n3 d-flex justify-space-between">
           <div><slot name="type" /></div>
-          <div v-if="queryFileType === 'any'">
+          <div v-if="anyFileType ">
             <a
               class="text-subtitle-1 text-decoration-none text--secondary"
               @click.prevent="setFileType"
@@ -41,7 +41,7 @@
     <!--    N.b. duplicate code with above - thanks Vue v. 2-->
     <div
       class="my-16"
-      v-if="queryFileType !== 'any' && !$parent.infinite"
+      v-if="!anyFileType && infinite"
     >
       <v-pagination
         v-model="$parent.page"
@@ -58,9 +58,14 @@ import SearchMixin from '@/mixins/SearchMixin';
 export default {
   mixins: [SearchMixin],
   computed: {
-    queryFileType() {
-      return this.$route.query.type;
+    anyFileType() {
+      return this.$route.query.type === 'any' || this.$route.query.type === undefined;
     },
+  },
+  data() {
+    return {
+      infinite: this.$parent.infinite === true,
+    };
   },
   methods: {
     setFileType() {
