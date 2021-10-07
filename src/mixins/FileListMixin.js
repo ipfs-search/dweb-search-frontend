@@ -131,7 +131,7 @@ export default {
           if (pager === page) {
             this.infiniteScroll();
             scrollDown();
-          } else (this.recursiveGetResults(pager + 1));
+          } else (recursiveGetResults(pager + 1));
         });
     };
     recursiveGetResults = recursiveGetResults.bind(this);
