@@ -69,6 +69,7 @@
         height="100%"
         hide-delimiters
         hide-delimiter-background
+        :continuous="false"
       >
         <v-carousel-item
           v-for="(item, index) in items"
@@ -131,10 +132,15 @@ import ImageDetail from '@/components/results/detail/ImageDetail';
 import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
 import FileListMixin from '@/mixins/FileListMixin';
+import { Types } from '@/helpers/typeHelper';
 
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
+    // TODO: less hacky way to set image type to infinite
+    if (this.$route.query.type === Types.images) {
+      this.infinite = true;
+    }
   },
   mixins: [SearchMixin, FileListMixin],
   components: {
@@ -166,7 +172,8 @@ export default {
         const { hash } = this.items.findIndex((item) => item.hash === this.fileHash) > -1
           ? this.items[index]
           : this.fileHash;
-        // FIXME:
+        console.debug('index of hash', hash, index);
+        // FIXME: vue-router bug that makes component re-render upon hash change
         // !! note that here Vue router needs to be circumvented because it lacks functionality to
         // !! change the url without re-rendering the component associated with the route
         // this thread describes the issue and has been closed after 5 years

@@ -2,6 +2,7 @@ import { DefaultApi } from 'ipfs-search-client';
 
 const api = new DefaultApi();
 
+// TODO: keep track in store of which page(s) have been loaded, and logic to prevent reloading
 const initialResults = {
   total: 0,
   max_score: 0.0,

@@ -2,7 +2,7 @@
 
 // import store from '@/store';
 
-// TOdo: delete this file
+// Todo: delete this file
 // Leaving this file here for now, for reference in code reviewing last refactor
 export default {
 

@@ -120,7 +120,7 @@ const actions = {
   },
   /**
    * increments the page and fetches and appends the results for this page (for infinite scrolling)
-   * TODO: move incrementPage logic out of searchQuery module
+   * TODO: move incrementPage logic out of searchQuery module (see FileListMixin)
    * - the change of the query should be implied from route change by watch function
    * - that would leave only the fetching of the results, which is not the query module logic
    * @param rootState
