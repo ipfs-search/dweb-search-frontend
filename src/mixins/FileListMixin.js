@@ -98,16 +98,22 @@ export default {
       immediate: true,
     },
     '$store.state.query': {
-      handler(query, previousQuery) {
-        console.debug('receiving results for updated query', query, previousQuery);
-        if ((query.page !== previousQuery.page && !this.infinite) || Number(query.page) === 1) {
+      handler(query) {
+        console.debug('receiving results for updated query', query);
+        if ((query.page !== this.currentPage && !(this.infinite === true)) || Number(query.page) === 1) {
           store.dispatch(`results/${this.fileType}/resetResults`);
         }
         store.dispatch(`results/${this.fileType}/getResults`, query.page)
           .then(() => { if (this.infinite) this.infiniteScroll(); });
+        this.currentPage = query.page;
       },
       deep: true,
     },
+  },
+  data() {
+    return {
+      currentPage: store.state.query.page,
+    };
   },
   mounted() {
     const { page } = store.state.query;
