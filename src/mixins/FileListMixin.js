@@ -15,6 +15,13 @@ export default {
     ListBase,
   },
   computed: {
+    stateQuery() {
+      // eslint-disable-next-line camelcase
+      const { filters, type, user_query } = store.state.query;
+      return {
+        ...filters.size, lastSeen: filters.last_seen, type, user_query,
+      };
+    },
     results() {
       return store.state.results[this.$data.fileType].results;
     },
@@ -97,57 +104,59 @@ export default {
       },
       immediate: true,
     },
-    '$store.state.query': {
-      handler(query) {
-        console.debug('receiving results for updated query', query);
-        if ((query.page !== this.currentPage && !(this.infinite === true)) || Number(query.page) === 1) {
+    stateQuery: {
+      handler(query, lastQuery) {
+        console.debug('Retrieving results for updated query', query, lastQuery);
+        if (!(this.infinite === true) || Number(query.page) === 1) {
           store.dispatch(`results/${this.fileType}/resetResults`);
         }
-        store.dispatch(`results/${this.fileType}/getResults`, query.page)
-          .then(() => { if (this.infinite) this.infiniteScroll(); });
-        this.currentPage = query.page;
+        const { page } = store.state.query;
+
+        /**
+         * get all pages of results up to the query parameter page
+         * TODO: make multipage fetching parallel;
+         * N.b.: not possible now because of getResults design;
+         * results would not be commited in consistent order
+         * @param pager
+         */
+        let recursiveGetResults = function (pager = 1) {
+          store.dispatch(`results/${this.fileType}/getResults`, pager)
+            .then(() => {
+              if (pager === page) {
+                this.infiniteScroll();
+                scrollDown();
+              } else (recursiveGetResults(pager + 1));
+            });
+        };
+        recursiveGetResults = recursiveGetResults.bind(this);
+        // store.dispatch(`results/${this.fileType}/resetResults`);
+        if (this.infinite) {
+          const { results } = store.state.results[this.fileType];
+          const loadedPages = Math.ceil(results.hits.length / (results.page_size || 1));
+          console.debug(this.fileType, results, loadedPages);
+          if (page > loadedPages) {
+            recursiveGetResults(loadedPages + 1);
+          } else {
+            scrollDown();
+          }
+        } else {
+          store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
+        }
+        // store.dispatch(`results/${this.fileType}/getResults`, query.page)
+        //   .then(() => { if (this.infinite) this.infiniteScroll(); });
       },
-      deep: true,
+      // immediate: true,
     },
   },
   data() {
     return {
-      currentPage: store.state.query.page,
     };
   },
-  mounted() {
-    const { page } = store.state.query;
-
-    /**
-     * get all pages of results up to the query parameter page
-     * TODO: make multipage fetching parallel;
-     * N.b.: not possible now because of getResults design;
-     * results would not be commited in consistent order
-     * @param pager
-     */
-    let recursiveGetResults = function (pager = 1) {
-      store.dispatch(`results/${this.fileType}/getResults`, pager)
-        .then(() => {
-          if (pager === page) {
-            this.infiniteScroll();
-            scrollDown();
-          } else (recursiveGetResults(pager + 1));
-        });
-    };
-    recursiveGetResults = recursiveGetResults.bind(this);
-    // store.dispatch(`results/${this.fileType}/resetResults`);
-    if (this.infinite) {
-      const { results } = store.state.results[this.fileType];
-      const loadedPages = Math.ceil(results.hits.length / (results.page_size || 1));
-      console.debug(this.fileType, results, loadedPages);
-      if (page > loadedPages) {
-        recursiveGetResults(loadedPages + 1);
-      } else {
-        scrollDown();
-      }
-    } else {
-      store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
-    }
+  beforeCreate() {
+  },
+  created() {
+    console.debug('FileListMixin created: committing route query to store', this.$route.query);
+    store.commit('query/setRouteParams', this.$route.query);
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.infiniteScroll, true);

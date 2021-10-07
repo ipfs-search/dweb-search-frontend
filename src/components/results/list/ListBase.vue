@@ -6,7 +6,7 @@
     <!--    N.b. duplicate code with below-->
     <div
       class="my-16"
-      v-if="!anyFileType && infinite"
+      v-if="!anyFileType && !infinite"
     >
       <v-pagination
         v-model="$parent.page"
@@ -41,7 +41,7 @@
     <!--    N.b. duplicate code with above - thanks Vue v. 2-->
     <div
       class="my-16"
-      v-if="!anyFileType && infinite"
+      v-if="!anyFileType && !infinite"
     >
       <v-pagination
         v-model="$parent.page"
