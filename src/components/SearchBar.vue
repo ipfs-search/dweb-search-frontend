@@ -95,7 +95,11 @@ export default {
   },
   methods: {
     enterSearchPhrase() {
-      console.debug('entering search phrase into query', this.$data.searchPhrase);
+      console.debug('Entering search phrase:', this.$data.searchPhrase);
+      if (this.$route.query.q === this.$data.searchPhrase) {
+        console.debug('No need to push the same query:', this.$data.searchPhrase);
+        return;
+      }
       this.search({ q: this.$data.searchPhrase });
     },
   },
