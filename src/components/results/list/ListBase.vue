@@ -10,7 +10,7 @@
     >
       <v-pagination
         v-model="$parent.page"
-        :length="$parent.results.page_count"
+        :length="this.$data.paginationLength"
         total-visible="9"
       />
     </div>
@@ -45,7 +45,7 @@
     >
       <v-pagination
         v-model="$parent.page"
-        :length="$parent.results.page_count"
+        :length="this.$data.paginationLength"
         total-visible="9"
       />
     </div>
@@ -63,8 +63,12 @@ export default {
     },
   },
   data() {
+    const maxPages = 100;
     return {
       infinite: this.$parent.infinite === true,
+      paginationLength: this.$parent.results.page_count > maxPages
+        ? maxPages
+        : this.$parent.results.page_count,
     };
   },
   methods: {
