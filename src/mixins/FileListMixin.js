@@ -15,6 +15,12 @@ export default {
     ListBase,
   },
   computed: {
+    loadingError() {
+      return this.$store.state.results[this.fileType].error;
+    },
+    loading() {
+      return this.$store.state.results[this.fileType].loading;
+    },
     stateQuery() {
       // eslint-disable-next-line camelcase
       const { filters, type, user_query } = store.state.query;
@@ -147,8 +153,6 @@ export default {
   data() {
     return {
     };
-  },
-  beforeCreate() {
   },
   created() {
     console.debug('FileListMixin created: committing route query to store', this.$route.query);

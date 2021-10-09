@@ -1,7 +1,5 @@
 <template>
-  <v-container
-    v-if="$parent.results.total > 0"
-  >
+  <v-container>
     <!--     PAGINATION -->
     <!--    N.b. duplicate code with below-->
     <div
@@ -10,10 +8,11 @@
     >
       <v-pagination
         v-model="$parent.page"
-        :length="this.$data.paginationLength"
+        :length="page_count"
         total-visible="9"
       />
     </div>
+    <!--    results section -->
     <v-row dense>
       <v-col
         cols="12"
@@ -34,7 +33,27 @@
       </v-col>
     </v-row>
 
-    <v-row dense>
+    <v-row
+      dense
+      justify="center"
+      v-if="this.$parent.loading"
+    >
+      <v-progress-circular
+        indeterminate
+      />
+    </v-row>
+    <v-row
+      dense
+      justify="center"
+      v-else-if="this.$parent.loadingError"
+    >
+      <!--      TODO: Styling of loading error message -->
+      <i>Error loading results...</i>
+    </v-row>
+    <v-row
+      dense
+      v-else-if="$parent.results.total > 0"
+    >
       <slot />
     </v-row>
     <!--     PAGINATION -->
@@ -45,7 +64,7 @@
     >
       <v-pagination
         v-model="$parent.page"
-        :length="this.$data.paginationLength"
+        :length="page_count"
         total-visible="9"
       />
     </div>
@@ -55,6 +74,8 @@
 <script>
 import SearchMixin from '@/mixins/SearchMixin';
 
+const maxPages = 100; // << this is the limit of the api
+
 export default {
   mixins: [SearchMixin],
   computed: {
@@ -63,13 +84,20 @@ export default {
     },
   },
   data() {
-    const maxPages = 100;
     return {
       infinite: this.$parent.infinite === true,
-      paginationLength: this.$parent.results.page_count > maxPages
-        ? maxPages
-        : this.$parent.results.page_count,
+      page_count: 0,
     };
+  },
+  watch: {
+    '$parent.results.page_count': {
+      handler(next) {
+        if (next > 0) {
+          this.page_count = Math.min(next, maxPages);
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     setFileType() {
