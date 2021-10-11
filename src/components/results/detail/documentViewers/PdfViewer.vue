@@ -1,5 +1,31 @@
 <template>
   <div>
+    <v-alert
+      border="left"
+      color="red lighten-2"
+      v-if="error"
+    >
+      <i>Error loading preview</i>
+    </v-alert>
+    <v-alert
+      border="left"
+      color="blue lighten-4"
+      v-if="loading"
+    >
+      <i>Loading preview</i>
+      <v-progress-linear
+        :value="$data.progress * 100"
+      />
+    </v-alert>
+    <pdf
+      :src="$props.src"
+      @num-pages="$data.pageCount = $event"
+      @page-loaded="$data.currentPage = $event"
+      @loaded="$data.loading = false"
+      @progress="$data.progress = $event"
+      @error="$data.error = $event"
+      :page="$data.currentPage > 0 && $data.currentPage"
+    />
     <div class="text-center">
       <v-pagination
         v-model="$data.currentPage"
@@ -7,12 +33,6 @@
         :total-visible="7"
       />
     </div>
-    <pdf
-      :src="$props.src"
-      @num-pages="$data.pageCount = $event"
-      @page-loaded="$data.currentPage = $event"
-      :page="$data.currentPage > 0 && $data.currentPage"
-    />
   </div>
 </template>
 
@@ -29,6 +49,9 @@ export default {
     return {
       currentPage: 1,
       pageCount: 0,
+      loading: true,
+      progress: 0,
+      error: false,
     };
   },
   props: {
