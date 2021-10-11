@@ -161,15 +161,14 @@ export default {
       handler(query, lastQuery) {
         // It is tricky to watch changes on some nested properties on vuex module objects
         // because this is triggered even an action is called that commits already present values.
-        // This first routine checks for this condition
         if (lastQuery
           && Object.keys(query).filter((key) => key !== 'page')
             .every((key) => query[key] === lastQuery[key])
           && Object.keys(lastQuery).filter((key) => key !== 'page')
             .every((key) => query[key] === lastQuery[key])
         ) {
-          console.debug('FileListMixin watch stateQuery: registered page change', query.page, lastQuery.page);
           if (!(this.infinite === true)) {
+            console.debug('FileListMixin watch stateQuery: registered page change', query.page, lastQuery.page);
             store.dispatch(`results/${this.fileType}/resetResults`);
             store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
           }
@@ -186,7 +185,7 @@ export default {
           store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
         }
       },
-      immediate: true,
+      // immediate: true,
     },
   },
   beforeDestroy() {

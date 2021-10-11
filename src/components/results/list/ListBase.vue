@@ -34,16 +34,7 @@
     </v-row>
 
     <v-row
-      dense
-      justify="center"
-      v-if="this.$parent.loading && !this.$parent.infinite"
-    >
-      <v-progress-circular
-        indeterminate
-      />
-    </v-row>
-    <v-row
-      v-else-if="this.$parent.loadingError"
+      v-if="this.$parent.loadingError"
     >
       <v-col
         cols="12"
@@ -57,6 +48,15 @@
           <i>Error loading results...</i>
         </v-alert>
       </v-col>
+    </v-row>
+    <v-row
+      dense
+      justify="center"
+      v-if="this.$parent.loading && !this.$parent.infinite"
+    >
+      <v-progress-circular
+        indeterminate
+      />
     </v-row>
     <v-row
       dense
