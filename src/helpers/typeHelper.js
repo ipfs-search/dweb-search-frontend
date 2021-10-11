@@ -12,6 +12,7 @@ export const searchTypes = [
 ];
 
 export const Types = {
+  any: 'any',
   text: 'text',
   images: 'images',
   audio: 'audio',

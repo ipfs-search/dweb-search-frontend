@@ -1,5 +1,6 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
+import { Types } from '@/helpers/typeHelper';
 
 const infiniteScrollMargin = 200;
 const scrollDown = () => window.scrollTo({
@@ -65,6 +66,9 @@ export default {
     // infinite
     appendNextPage() {
       // TODO: bring appendNextPage logic out of query store module
+      // this is not the correct way to go about;
+      // we should just be setting here the page in the route,
+      // and let the store figure out the rest
       store.dispatch('query/incrementPage');
 
       this.$router.replace({
@@ -79,6 +83,7 @@ export default {
      * TODO - occasional CORS errors from API - setup local proxy or something,
      *      (unclear why it is occasional only)
      * TODO: split infinite scrolling logic and paged into 2 different mixins
+     *
      * TODO: make the page in the url reflect the part of the page in focus (i.e. offsetheight/scrolltop)
      */
     // infinite
@@ -132,10 +137,10 @@ export default {
             });
         };
         recursiveGetResults = recursiveGetResults.bind(this);
-        if (this.infinite) {
+        if (this.infinite && query.type !== Types.any) {
           const { results } = store.state.results[this.fileType];
           const loadedPages = Math.ceil(results.hits.length / (results.page_size || 1));
-          console.debug(this.fileType, results, loadedPages);
+          console.debug('Infinite loading', this.fileType, results, loadedPages);
           if (page > loadedPages) {
             recursiveGetResults(loadedPages + 1);
           } else {

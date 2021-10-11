@@ -42,13 +42,22 @@
         indeterminate
       />
     </v-row>
-    <v-alert
-      border="left"
-      color="red lighten-2"
+    <v-row
       v-else-if="this.$parent.loadingError"
     >
-      <i>Error loading results...</i>
-    </v-alert>
+      <v-col
+        cols="12"
+        xl="8"
+        offset-xl="2"
+      >
+        <v-alert
+          border="left"
+          color="red lighten-2"
+        >
+          <i>Error loading results...</i>
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-row
       dense
       v-else-if="$parent.results.total > 0"
