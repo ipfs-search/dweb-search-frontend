@@ -60,9 +60,6 @@ export default {
         },
         query: this.$route.query,
         hash: `#${hash}`,
-        props: {
-          infinite: this.infinite,
-        },
       });
     },
     // infinite
@@ -149,10 +146,6 @@ export default {
         }
       },
     },
-  },
-  data() {
-    return {
-    };
   },
   created() {
     console.debug('FileListMixin created: committing route query to store', this.$route.query);

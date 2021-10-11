@@ -22,7 +22,17 @@ const mutations = {
   clearResults(state) {
     state.results = initialResults;
   },
-  setResults(state, results) {
+  prependResults(state, results) {
+    state.loading = false;
+    state.results = {
+      ...results,
+      hits: [
+        ...results.hits,
+        ...state.results.hits,
+      ],
+    };
+  },
+  appendResults(state, results) {
     state.loading = false;
     state.results = {
       ...results,
@@ -97,13 +107,18 @@ export default (type) => ({
       commit('clearResults');
     },
     /**
-     * receive results and append them to the state
+     * receive results and append (or prepend) them to the state
+     * TODO: seperate concerns for getResults action; API call should live somewhere else
+     * - that way, the code is more flexible in choosing what to do with the retrieved results
      * @param rootState
      * @param rootGetters
      * @param commit
      */
-    getResults({ rootGetters, commit }, page = 1) {
+    getResults({ rootGetters, commit }, options) {
       commit('setLoading');
+
+      const page = (typeof options === 'object') ? options.page : options;
+      const prepend = (typeof options === 'object') ? options.prepend : false;
 
       const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
 
@@ -113,7 +128,11 @@ export default (type) => ({
         page - 1,
       ).then((results) => {
         if (results.error) throw results.error;
-        commit('setResults', results);
+        if (prepend) {
+          commit('prependResults', results);
+        } else {
+          commit('appendResults', results);
+        }
       }).catch((err) => {
         commit('setError');
         console.error('Error from searchApi.searchGet', err);
