@@ -13,7 +13,7 @@
         dense
       >
         <v-col
-          v-for="(hit, index) in showedHits"
+          v-for="(hit, index) in shownHits"
           :key="index"
           cols="6"
           xs="4"

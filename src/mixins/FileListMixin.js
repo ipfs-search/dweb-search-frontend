@@ -1,17 +1,41 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
-import { Types } from '@/helpers/typeHelper';
 
 const infiniteScrollMargin = 200;
-const scrollDown = () => window.scrollTo({
-  top: document.documentElement.offsetHeight - window.innerHeight - infiniteScrollMargin,
-  left: 0,
-  behavior: 'smooth',
-});
 /**
  * this mixin makes file lists load their results and allows navigation
  */
 export default {
+  beforeCreate() {
+    /**
+     * get all pages of results up to the query parameter page
+     * TODO: make multipage fetching parallel;
+     * N.b.: not possible now because of getResults design
+     * @param pager
+     */
+    this.getInfiniteResults = function (pager = 1) {
+      const { page } = store.state.query;
+      return store.dispatch(`results/${this.fileType}/getResults`, pager)
+        .then(() => {
+          if (pager === page) {
+            this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1));
+            return true;
+          }
+          return this.getInfiniteResults(pager + 1);
+        });
+      // TODO: Error handling in multiple page loading
+    };
+    const scrollQueryPage = this.$route.query.page;
+    this.scrollDown = () => window.scrollTo({
+      top: scrollQueryPage > 1 ? Math.floor((document.documentElement.offsetHeight / this.loadedPages) * scrollQueryPage) : 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  },
+  created() {
+    console.debug('FileListMixin created: committing route query to store', this.$route.query);
+    store.commit('query/setRouteParams', this.$route.query);
+  },
   components: {
     ListBase,
   },
@@ -23,16 +47,22 @@ export default {
       return this.$store.state.results[this.fileType].loading;
     },
     stateQuery() {
-      // eslint-disable-next-line camelcase
-      const { filters, type, user_query } = store.state.query;
+      const {
+        // eslint-disable-next-line camelcase
+        filters, type, user_query, page,
+      } = store.state.query;
       return {
-        ...filters.size, lastSeen: filters.last_seen, type, user_query,
+        ...filters.size,
+        lastSeen: filters.lastSeen,
+        type,
+        user_query,
+        page,
       };
     },
     results() {
       return store.state.results[this.$data.fileType].results;
     },
-    showedHits() {
+    shownHits() {
       if (this.$route.query.type === this.$data.fileType) {
         return this.results.hits;
       }
@@ -63,37 +93,47 @@ export default {
         hash: `#${hash}`,
       });
     },
-    // infinite
     appendNextPage() {
-      // TODO: bring appendNextPage logic out of query store module
-      // this is not the correct way to go about;
-      // we should just be setting here the page in the route,
-      // and let the store figure out the rest
-      store.dispatch('query/incrementPage');
-
-      this.$router.replace({
-        ...this.$route,
-        query: store.getters['query/stateToQueryParams'],
-      });
+      // Naive page loaded tracker; note that it does not guarantee correct order of loaded pages
+      // Also does not deal well with errors coming back from API
+      if (!this.loadingNextPage) {
+        this.loadedPages += 1;
+        return store.dispatch(`results/${this.fileType}/getResults`, {
+          page: this.loadedPages,
+        })
+          .then(() => {
+            this.loadingNextPage = false;
+          });
+      }
+      return null;
     },
     /**
-     * Issues w/ infinite scrolling:
+     * See if the the page scrolled so far down that empty space opens up at the bottom, and trigger
+     * appendPage if this is the case;
+     *
      * FIXME - duplicate results from API
-     * FIXME - async; on scroll gets registered and fires some pageloads at once; make async/blocking
      * TODO - occasional CORS errors from API - setup local proxy or something,
      *      (unclear why it is occasional only)
      * TODO: split infinite scrolling logic and paged into 2 different mixins
-     *
-     * TODO: make the page in the url reflect the part of the page in focus (i.e. offsetheight/scrolltop)
      */
-    // infinite
     infiniteScroll() {
       const { scrollTop, offsetHeight } = document.documentElement;
       const nearBottom = window.innerHeight + infiniteScrollMargin > offsetHeight - scrollTop;
 
-      if (nearBottom) {
-        this.appendNextPage();
+      const scrollPage = Math.floor(this.loadedPages * (scrollTop / offsetHeight)) + 1;
+      if (store.state.query.page !== scrollPage) {
+        this.$router.replace({
+          ...this.$route,
+          query: {
+            ...this.$route.query,
+            page: scrollPage,
+          },
+        });
       }
+      if (nearBottom) {
+        return this.appendNextPage();
+      }
+      return null;
     },
   },
   watch: {
@@ -101,7 +141,7 @@ export default {
      * when route changes due to inpage navigation, update the event listeners for the filelist
      */
     // infinite
-    '$route.query.type': {
+    '$store.state.query.type': {
       handler(next, previous) {
         if (previous === this.fileType && this.infinite) {
           document.removeEventListener('scroll', this.infiniteScroll, true);
@@ -113,48 +153,41 @@ export default {
       immediate: true,
     },
     stateQuery: {
+      /**
+       * this watcher gets triggered on a change of one of the search parameters, other than the page
+       * @param query
+       * @param lastQuery
+       */
       handler(query, lastQuery) {
-        console.debug('Retrieving results for updated query', query, lastQuery);
-        if (!(this.infinite === true) || Number(query.page) === 1) {
-          store.dispatch(`results/${this.fileType}/resetResults`);
-        }
-        const { page } = store.state.query;
-
-        /**
-         * get all pages of results up to the query parameter page
-         * TODO: make multipage fetching parallel;
-         * N.b.: not possible now because of getResults design;
-         * results would not be commited in consistent order
-         * @param pager
-         */
-        let recursiveGetResults = function (pager = 1) {
-          store.dispatch(`results/${this.fileType}/getResults`, pager)
-            .then(() => {
-              if (pager === page) {
-                this.infiniteScroll();
-                scrollDown();
-              } else (recursiveGetResults(pager + 1));
-            });
-        };
-        recursiveGetResults = recursiveGetResults.bind(this);
-        if (this.infinite && query.type !== Types.any) {
-          const { results } = store.state.results[this.fileType];
-          const loadedPages = Math.ceil(results.hits.length / (results.page_size || 1));
-          console.debug('Infinite loading', this.fileType, results, loadedPages);
-          if (page > loadedPages) {
-            recursiveGetResults(loadedPages + 1);
-          } else {
-            scrollDown();
+        // It is tricky to watch changes on some nested properties on vuex module objects
+        // because this is triggered even an action is called that commits already present values.
+        // This first routine checks for this condition
+        if (lastQuery
+          && Object.keys(query).filter((key) => key !== 'page')
+            .every((key) => query[key] === lastQuery[key])
+          && Object.keys(lastQuery).filter((key) => key !== 'page')
+            .every((key) => query[key] === lastQuery[key])
+        ) {
+          console.debug('FileListMixin watch stateQuery: registered page change', query.page, lastQuery.page);
+          if (!(this.infinite === true)) {
+            store.dispatch(`results/${this.fileType}/resetResults`);
+            store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
           }
+          return;
+        }
+        console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
+        store.dispatch(`results/${this.fileType}/resetResults`);
+
+        if (this.infinite) {
+          this.getInfiniteResults()
+            .then(this.infiniteScroll)
+            .then(this.scrollDown);
         } else {
           store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
         }
       },
+      immediate: true,
     },
-  },
-  created() {
-    console.debug('FileListMixin created: committing route query to store', this.$route.query);
-    store.commit('query/setRouteParams', this.$route.query);
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.infiniteScroll, true);

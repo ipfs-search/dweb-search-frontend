@@ -36,7 +36,7 @@
     <v-row
       dense
       justify="center"
-      v-if="this.$parent.loading"
+      v-if="this.$parent.loading && !this.$parent.infinite"
     >
       <v-progress-circular
         indeterminate

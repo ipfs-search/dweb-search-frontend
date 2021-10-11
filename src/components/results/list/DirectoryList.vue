@@ -8,7 +8,7 @@
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="(hit, index) in showedHits"
+      v-for="(hit, index) in shownHits"
       :key="index"
     >
       <v-card

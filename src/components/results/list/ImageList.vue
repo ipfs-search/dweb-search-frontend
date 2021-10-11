@@ -8,10 +8,11 @@
       cols="12"
       xl="8"
       offset-xl="2"
+      id="resultsList"
     >
       <v-row dense>
         <v-col
-          v-for="(hit, index) in showedHits"
+          v-for="(hit, index) in shownHits"
           :key="index"
           class="d-flex child-flex"
           cols="6"
