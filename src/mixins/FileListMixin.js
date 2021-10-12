@@ -16,10 +16,15 @@ export default {
       this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
 
       while (this.loadedPages < page && (!this.results.page_count || this.loadedPages < this.results.page_count)) {
+        let error;
         // eslint-disable-next-line no-await-in-loop
-        await this.appendNextPage();
+        await this.appendNextPage()
+          .catch((e) => {
+            console.error(e);
+            error = e;
+          });
+        if (error) break;
       }
-      // TODO: Error handling in multiple page loading
     };
     const scrollQueryPage = this.$route.query.page;
     this.scrollDown = () => window.scrollTo({
@@ -94,18 +99,20 @@ export default {
       // it has some protection against loading pages before another page load finished
       // Also does not deal well with errors coming back from API
       // It assumes they all come back properly and counts the pages
-      if (this.loadingNextPage || (this.results.page_count && this.loadedPages >= this.results.page_count)) return null;
+      if (this.loadingNextPage || (this.results.page_count && this.loadedPages >= this.results.page_count)) {
+        return Promise.reject(Error('No more pages to load or already loading next page'));
+      }
 
       this.loadingNextPage = true;
       return store.dispatch(`results/${this.fileType}/getResults`, {
         page: this.loadedPages + 1,
       })
-        .then((results) => {
+        .then((results, error) => {
           if (results.hits && results.hits.length > 0) {
             this.loadedPages += 1;
-            console.debug('now we have loadedPages', this.loadedPages);
+          } else {
+            throw Error('Error loading files', error);
           }
-          console.debug('appendNextPage success for page', this.loadedPages, results);
           this.loadingNextPage = false;
           return results;
         });
