@@ -1,5 +1,6 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
+import { maxPages } from '@/helpers/ApiHelper';
 
 const infiniteScrollMargin = 200;
 /**
@@ -15,7 +16,9 @@ export default {
       const { page } = store.state.query;
       this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
 
-      while (this.loadedPages < page && (!this.results.page_count || this.loadedPages < this.results.page_count)) {
+      while (this.loadedPages < page
+      && (!this.results.page_count || this.loadedPages < this.results.page_count)
+      && this.loadedPages < maxPages) {
         let error;
         // eslint-disable-next-line no-await-in-loop
         await this.appendNextPage()

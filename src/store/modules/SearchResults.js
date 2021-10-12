@@ -1,4 +1,5 @@
 import { DefaultApi } from 'ipfs-search-client';
+import { maxPages } from '@/helpers/ApiHelper';
 
 const api = new DefaultApi();
 
@@ -114,13 +115,15 @@ export default (type) => ({
      * @param rootGetters
      * @param commit
      */
-    getResults({ rootGetters, commit }, options) {
+    getResults({ rootGetters, commit }, options = 1) {
       commit('setLoading');
 
       const page = (typeof options === 'object') ? options.page : options;
       const prepend = (typeof options === 'object') ? options.prepend : false;
 
       const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
+
+      if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
       return api.searchGet(
         rootGetters['query/apiQueryString'] + typeFilter,

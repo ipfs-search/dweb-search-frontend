@@ -81,8 +81,7 @@
 
 <script>
 import SearchMixin from '@/mixins/SearchMixin';
-
-const maxPages = 100; // << this is the limit of the api
+import { maxPages } from '@/helpers/ApiHelper';
 
 export default {
   mixins: [SearchMixin],
