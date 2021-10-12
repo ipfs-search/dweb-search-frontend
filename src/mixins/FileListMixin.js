@@ -168,14 +168,11 @@ export default {
             .every((key) => query[key] === lastQuery[key])
         ) {
           if (!(this.infinite === true)) {
-            console.debug('FileListMixin watch stateQuery: registered page change', query.page, lastQuery.page);
+            console.debug('FileListMixin watch: page change or initial page load', query.page, lastQuery.page);
             store.dispatch(`results/${this.fileType}/resetResults`);
-            store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
           }
-          return;
         }
         console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
-        store.dispatch(`results/${this.fileType}/resetResults`);
 
         if (this.infinite) {
           this.getInfiniteResults()
