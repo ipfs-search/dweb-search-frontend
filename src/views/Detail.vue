@@ -143,7 +143,6 @@ export default {
       },
       set(index) {
         // TODO: Fix issues with duplicate results
-        console.debug('shifting to carouselIndex', index);
         this.$router.replace({
           ...this.$route,
           query: {

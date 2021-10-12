@@ -185,7 +185,6 @@ export default {
           store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
         }
       },
-      // immediate: true,
     },
   },
   beforeDestroy() {
