@@ -133,6 +133,7 @@ export default (type) => ({
         } else {
           commit('appendResults', results);
         }
+        return results;
       }).catch((err) => {
         commit('setError');
         console.error('Error from searchApi.searchGet', err);

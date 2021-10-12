@@ -9,20 +9,16 @@ export default {
   beforeCreate() {
     /**
      * get all pages of results up to the query parameter page
-     * TODO: make multipage fetching parallel;
-     * N.b.: not possible now because of getResults design
      * @param pager
      */
-    this.getInfiniteResults = function (pager = 1) {
+    this.getInfiniteResults = async function () {
       const { page } = store.state.query;
-      return store.dispatch(`results/${this.fileType}/getResults`, pager)
-        .then(() => {
-          if (pager >= page) {
-            this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1));
-            return true;
-          }
-          return this.getInfiniteResults(pager + 1);
-        });
+      this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
+
+      while (this.loadedPages < page && (!this.results.page_count || this.loadedPages < this.results.page_count)) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.appendNextPage();
+      }
       // TODO: Error handling in multiple page loading
     };
     const scrollQueryPage = this.$route.query.page;
@@ -97,16 +93,22 @@ export default {
       // Naive page loaded tracker; note that it does not guarantee correct order of loaded pages
       // it has some protection against loading pages before another page load finished
       // Also does not deal well with errors coming back from API
-      if (!this.loadingNextPage) {
-        this.loadedPages += 1;
-        return store.dispatch(`results/${this.fileType}/getResults`, {
-          page: this.loadedPages,
-        })
-          .then(() => {
-            this.loadingNextPage = false;
-          });
-      }
-      return null;
+      // It assumes they all come back properly and counts the pages
+      if (this.loadingNextPage || (this.results.page_count && this.loadedPages >= this.results.page_count)) return null;
+
+      this.loadingNextPage = true;
+      return store.dispatch(`results/${this.fileType}/getResults`, {
+        page: this.loadedPages + 1,
+      })
+        .then((results) => {
+          if (results.hits && results.hits.length > 0) {
+            this.loadedPages += 1;
+            console.debug('now we have loadedPages', this.loadedPages);
+          }
+          console.debug('appendNextPage success for page', this.loadedPages, results);
+          this.loadingNextPage = false;
+          return results;
+        });
     },
     /**
      * See if the the page scrolled so far down that empty space opens up at the bottom, and trigger
@@ -131,7 +133,7 @@ export default {
           },
         });
       }
-      if (nearBottom) {
+      if (nearBottom && !this.loadingNextPage) {
         return this.appendNextPage();
       }
       return null;
