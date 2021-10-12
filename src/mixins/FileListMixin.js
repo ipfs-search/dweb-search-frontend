@@ -17,7 +17,7 @@ export default {
       const { page } = store.state.query;
       return store.dispatch(`results/${this.fileType}/getResults`, pager)
         .then(() => {
-          if (pager === page) {
+          if (pager >= page) {
             this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1));
             return true;
           }
@@ -95,6 +95,7 @@ export default {
     },
     appendNextPage() {
       // Naive page loaded tracker; note that it does not guarantee correct order of loaded pages
+      // it has some protection against loading pages before another page load finished
       // Also does not deal well with errors coming back from API
       if (!this.loadingNextPage) {
         this.loadedPages += 1;
@@ -159,20 +160,18 @@ export default {
        * @param lastQuery
        */
       handler(query, lastQuery) {
-        // It is tricky to watch changes on some nested properties on vuex module objects
-        // because this is triggered even an action is called that commits already present values.
         if (lastQuery
           && Object.keys(query).filter((key) => key !== 'page')
             .every((key) => query[key] === lastQuery[key])
           && Object.keys(lastQuery).filter((key) => key !== 'page')
             .every((key) => query[key] === lastQuery[key])
+          && this.infinite && query.page !== lastQuery.page
         ) {
-          if (!(this.infinite === true)) {
-            console.debug('FileListMixin watch: page change or initial page load', query.page, lastQuery.page);
-            store.dispatch(`results/${this.fileType}/resetResults`);
-          }
+          return;
         }
+
         console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
+        store.dispatch(`results/${this.fileType}/resetResults`);
 
         if (this.infinite) {
           this.getInfiniteResults()
