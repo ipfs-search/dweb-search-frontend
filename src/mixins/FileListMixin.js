@@ -5,37 +5,9 @@ import { maxPages } from '@/helpers/ApiHelper';
 const infiniteScrollMargin = 200;
 /**
  * this mixin makes file lists load their results and allows navigation
+ * TODO: split infinite scrolling logic and paged into 2 different mixins
  */
 export default {
-  beforeCreate() {
-    /**
-     * get all pages of results up to the query parameter page
-     * @param pager
-     */
-    this.getInfiniteResults = async function () {
-      const { page } = store.state.query;
-      this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
-
-      while (this.loadedPages < page
-      && (!this.results.page_count || this.loadedPages < this.results.page_count)
-      && this.loadedPages < maxPages) {
-        let error;
-        // eslint-disable-next-line no-await-in-loop
-        await this.appendNextPage()
-          .catch((e) => {
-            console.error(e);
-            error = e;
-          });
-        if (error) break;
-      }
-    };
-    const scrollQueryPage = this.$route.query.page;
-    this.scrollDown = () => window.scrollTo({
-      top: scrollQueryPage > 1 ? Math.floor((document.documentElement.offsetHeight / this.loadedPages) * scrollQueryPage) : 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  },
   created() {
     console.debug('FileListMixin created: committing route query to store', this.$route.query);
     store.commit('query/setRouteParams', this.$route.query);
@@ -97,37 +69,77 @@ export default {
         hash: `#${hash}`,
       });
     },
+
+    /**
+     * get all pages of results up to the query parameter page
+     * @param pager
+     */
+    async getInfiniteResults() {
+      const { page } = store.state.query;
+      this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
+
+      let errorCounter = 100;
+      while (
+        this.loadedPages < page
+        // prevent loading the total amount of pages:
+        && (!this.results.page_count || this.loadedPages < this.results.page_count)
+        // prevent loading beyond API limit:
+        && this.loadedPages < maxPages
+        && errorCounter
+      ) {
+        let error = false;
+        // eslint-disable-next-line no-await-in-loop
+        await this.appendNextPage()
+          .catch((e) => {
+            console.error(e);
+            error = true;
+          });
+        if (error) errorCounter -= 1;
+      }
+      if (errorCounter === 0) {
+        console.error('Error limit reached in loading infinite results');
+      }
+    },
+
+    scrollDown() {
+      const scrollQueryPage = this.$route.query.page;
+      window.scrollTo({
+        top: scrollQueryPage > 1 ? Math.floor((document.documentElement.offsetHeight / this.loadedPages) * scrollQueryPage) : 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    },
+
     appendNextPage() {
       // Naive page loaded tracker; note that it does not guarantee correct order of loaded pages
       // it has some protection against loading pages before another page load finished
       // Also does not deal well with errors coming back from API
       // It assumes they all come back properly and counts the pages
-      if (this.loadingNextPage || (this.results.page_count && this.loadedPages >= this.results.page_count)) {
-        return Promise.reject(Error('No more pages to load or already loading next page'));
+      if (this.loadingNextPage) {
+        return Promise.reject(Error('Already loading next page'));
       }
-
+      if (this.loadedPages >= this.results?.page_count) {
+        return Promise.reject(Error('No more pages to load'));
+      }
       this.loadingNextPage = true;
       return store.dispatch(`results/${this.fileType}/getResults`, {
         page: this.loadedPages + 1,
       })
         .then((results, error) => {
-          if (results.hits && results.hits.length > 0) {
+          this.loadingNextPage = false;
+          if (results?.hits?.length > 0) {
             this.loadedPages += 1;
           } else {
             throw Error('Error loading files', error);
           }
-          this.loadingNextPage = false;
-          return results;
+          return Promise.resolve(results);
         });
     },
+
     /**
      * See if the the page scrolled so far down that empty space opens up at the bottom, and trigger
      * appendPage if this is the case;
      *
-     * FIXME - duplicate results from API
-     * TODO - occasional CORS errors from API - setup local proxy or something,
-     *      (unclear why it is occasional only)
-     * TODO: split infinite scrolling logic and paged into 2 different mixins
      */
     infiniteScroll() {
       const { scrollTop, offsetHeight } = document.documentElement;
