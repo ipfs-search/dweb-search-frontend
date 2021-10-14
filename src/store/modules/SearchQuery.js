@@ -74,10 +74,10 @@ const mutations = {
   setUserQuery(state, q) {
     state.user_query = q;
   },
-  setType(state, type) {
-    if (state.type !== type) state.page = 0;
-    state.type = type;
-  },
+  // setType(state, type) {
+  //   if (state.type !== type) state.page = 0;
+  //   state.type = type;
+  // },
   setPage(state, page) {
     state.page = page;
   },
