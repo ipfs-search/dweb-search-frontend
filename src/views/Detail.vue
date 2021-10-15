@@ -69,10 +69,11 @@
         height="100%"
         hide-delimiters
         hide-delimiter-background
+        :continuous="false"
       >
         <v-carousel-item
-          v-for="item in items"
-          :key="item.hash"
+          v-for="(item, index) in items"
+          :key="index"
         >
           <ImageDetail
             v-if="fileType === 'images'"
@@ -95,28 +96,6 @@
             :file="item"
           />
         </v-carousel-item>
-
-        <!-- Static carousel items from original swiper just for reference -->
-        <!-- <v-carousel-item
-          v-for="(color, i) in colors"
-          :key="color"
-        >
-          <v-sheet
-            :color="color"
-            height="100%"
-            tile
-          >
-            <v-row
-              class="fill-height ma-0 pa-0"
-              align="center"
-              justify="center"
-            >
-              <div class="text-h2">
-                Slide {{ i + 1 }}
-              </div>
-            </v-row>
-          </v-sheet>
-        </v-carousel-item> -->
       </v-carousel>
     </div>
   </div>
@@ -128,12 +107,16 @@ import DocumentDetail from '@/components/results/detail/DocumentDetail';
 import VideoDetail from '@/components/results/detail/VideoDetail';
 import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
 import ImageDetail from '@/components/results/detail/ImageDetail';
-import SearchMixin from '@/mixins/SearchMixin';
-import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
+import store from '@/store';
 
 export default {
-  mixins: [SearchMixin, SearchNavigationMixin],
+  beforeCreate() {
+    store.commit('query/setRouteParams', this.$route.query);
+    this.primaryPage = Number(this.$route.query.page) || 0;
+  },
+  mixins: [],
   components: {
+    // TODO: make detail pages hese seperate pages in stead of loading all types at once.
     VideoDetail,
     DocumentDetail,
     AudioDetail,
@@ -159,30 +142,39 @@ export default {
         return this.items.findIndex((item) => item.hash === this.fileHash);
       },
       set(index) {
-        const { hash } = this.items.findIndex((item) => item.hash === this.fileHash) > -1
-          ? this.items[index]
-          : this.fileHash;
-        // FIXME:
-        // !! note that here Vue router needs to be circumvented because it lacks functionality to
-        // !! change the url without re-rendering the component associated with the route
-        // this thread describes the issue and has been closed after 5 years
-        // mentioning there is a solution in vue-router v4:
-        // https://github.com/vuejs/vue-router/issues/703
-        if (hash !== undefined) {
-          // eslint-disable-next-line no-restricted-globals
-          history.replaceState(null, null, `${window.location.href.split('#')[0]}#${hash}`);
-        }
-        // I.e. the following snippet does not work properly:
-        /*
+        // TODO: Fix issues with duplicate results
         this.$router.replace({
           ...this.$route,
-          hash: `#${hash}`,
+          query: {
+            ...this.$route.query,
+            page: this.primaryPage + Math.floor(index / this.$store.state.results[this.fileType].results.page_size),
+          },
+          hash: `#${this.items[index].hash}`,
         });
-        */
       },
     },
     detailType() {
       return this.$store.state.query.type;
+    },
+  },
+  watch: {
+    carouselIndex: {
+      handler(index) {
+        const page = Number(this.$route.query.page);
+        if (index === this.items.length - 1) {
+          console.debug('last item: loading items for page', page + 1);
+          this.$store.dispatch(`results/${this.$props.fileType}/getResults`, page + 1);
+        } else if (index === 0 && page > 1) {
+          console.debug('first item: loading items for page', page - 1);
+          this.$store.dispatch(`results/${this.$props.fileType}/getResults`, {
+            page: page - 1,
+            prepend: true,
+          }).then(() => {
+            this.primaryPage -= 1;
+          });
+        }
+      },
+      immediate: true,
     },
   },
   methods: {

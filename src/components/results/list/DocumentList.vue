@@ -1,12 +1,12 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Documents ({{ results.results.total }})
+      Documents ({{ results.total }})
     </template>
 
     <v-col
-      v-for="hit in results.results.hits.slice(0, 3)"
-      :key="hit.hash"
+      v-for="(hit, index) in shownHits"
+      :key="index"
       cols="12"
       xl="8"
       offset-xl="2"
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       fileType: 'text',
+      shortList: 3,
     };
   },
 };

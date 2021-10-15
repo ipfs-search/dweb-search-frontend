@@ -1,7 +1,9 @@
 const initialQuery = {
+  // TODO: rename user_query to something consistent, non-snake_case, and less confusing
+  // such as 'q' or searchPhrase
   user_query: '',
   type: 'any',
-  page: 0,
+  page: 1,
   filters: {
     lastSeen: null,
     size: null,
@@ -72,8 +74,12 @@ const mutations = {
   setUserQuery(state, q) {
     state.user_query = q;
   },
-  setType(state, type) {
-    state.type = type;
+  // setType(state, type) {
+  //   if (state.type !== type) state.page = 0;
+  //   state.type = type;
+  // },
+  setPage(state, page) {
+    state.page = page;
   },
   incrementPage(state) {
     state.page += 1;
@@ -92,6 +98,51 @@ const mutations = {
   },
 };
 
+const actions = {
+  /**
+   * sets the page and changes the results for this filetype (i.e. jump to page)
+   * @param rootState
+   * @param commit
+   * @param dispatch
+   * @param page: one-based page index
+   */
+  setPage({
+    rootState, state, commit,
+  }, page = 1) {
+    // eslint-disable-next-line camelcase
+    const { page_count } = rootState.results[state.type].results;
+    // eslint-disable-next-line camelcase
+    if (page_count > page) {
+      // dispatch(`results/${state.type}/resetResults`, null, { root: true });
+      commit('setPage', page);
+      // dispatch(`results/${state.type}/getResults`, page, { root: true });
+    }
+  },
+  /**
+   * increments the page and fetches and appends the results for this page (for infinite scrolling)
+   * TODO: move incrementPage logic out of searchQuery module (see FileListMixin)
+   * - the change of the query should be implied from route change by watch function
+   * - that would leave only the fetching of the results, which is not the query module logic
+   * @param rootState
+   * @param state
+   * @param commit
+   * @param dispatch
+   */
+  incrementPage({
+    rootState, state, commit, dispatch,
+  }) {
+    // eslint-disable-next-line camelcase
+    const { hits, page_count, page_size } = rootState.results[state.type].results;
+    // eslint-disable-next-line camelcase
+    if (page_count > state.page + 1) {
+      commit('incrementPage');
+      // eslint-disable-next-line camelcase
+      if (hits.length / page_size <= state.page) {
+        dispatch(`results/${state.type}/getResults`, state.page, { root: true });
+      }
+    }
+  },
+};
 const state = () => ({ ...initialQuery }); // Copy fields, prevent reference.
 
 export default {
@@ -99,4 +150,5 @@ export default {
   state,
   getters,
   mutations,
+  actions,
 };

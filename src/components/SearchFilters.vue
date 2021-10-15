@@ -89,6 +89,7 @@
 <script>
 // import SearchFilter from './SearchFilter';
 import SearchMixin from '@/mixins/SearchMixin';
+import store from '@/store';
 
 export default {
   components: {
@@ -97,6 +98,26 @@ export default {
 
   mixins: [SearchMixin],
 
+  computed: {
+    lastSeenFilter: {
+      get() {
+        return store.state.query.filters.lastSeen;
+      },
+      set(value) {
+        // store.commit('query/setLastSeenFilter', value);
+        this.search({ last_seen: value });
+      },
+    },
+    sizeFilter: {
+      get() {
+        return store.state.query.filters.size;
+      },
+      set(value) {
+        // store.commit('query/setSizeFilter', value);
+        this.search({ size: value });
+      },
+    },
+  },
   data: () => ({
     sizeOptions: [
       {
@@ -127,7 +148,7 @@ export default {
         text: '<7d', value: '>now-7d',
       },
       {
-        text: 'any', value: 'any',
+        text: 'any', value: null,
       },
     ],
   }),

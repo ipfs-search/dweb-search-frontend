@@ -58,45 +58,16 @@
 
     <SearchFilters />
 
-    <DocumentList
-      v-if="results.text.results.total > 0 && (type === 'text' || type === 'any')"
-      :results="results.text"
-    />
-    <ImageList
-      v-if="results.images.results.total > 0 && (type === 'images' || type === 'any')"
-      :results="results.images"
-    />
-    <AudioList
-      v-if="results.audio.results.total > 0 && (type === 'audio' || type === 'any')"
-      :results="results.audio"
-    />
-    <VideoList
-      v-if="results.video.results.total > 0 && (type === 'video' || type === 'any')"
-      :results="results.video"
-    />
-    <DirectoryList
-      v-if="results.directories.results.total > 0 && (type === 'directories' || type === 'any')"
-      :results="results.directories"
-    />
-
-    <!-- PAGINATION -->
-    <!-- Note: pagination doesn't make sense in the combined view. -->
-    <v-container>
-      <template>
-        <div class="my-16">
-          <v-pagination
-            v-model="page"
-            :length="results.page_count"
-          />
-        </div>
-      </template>
-    </v-container>
+    <DocumentList v-if="listType(this.Types.text)" />
+    <ImageList v-if="listType(this.Types.images)" />
+    <AudioList v-if="listType(this.Types.audio)" />
+    <VideoList v-if="listType(this.Types.video)" />
+    <DirectoryList v-if="listType(this.Types.directories)" />
   </div>
 </template>
 
 <script>
 import SearchMixin from '@/mixins/SearchMixin';
-import SearchNavigationMixin from '@/mixins/SearchNavigationMixin';
 import SearchBar from '@/components/SearchBar';
 import SearchFilters from '@/components/SearchFilters';
 import DocumentList from '@/components/results/list/DocumentList';
@@ -105,7 +76,12 @@ import AudioList from '@/components/results/list/AudioList';
 import VideoList from '@/components/results/list/VideoList';
 import DirectoryList from '@/components/results/list/DirectoryList';
 
+const { Types } = require('@/helpers/typeHelper');
+
 export default {
+  created() {
+    this.Types = Types;
+  },
   components: {
     SearchBar,
     SearchFilters,
@@ -115,10 +91,13 @@ export default {
     VideoList,
     DirectoryList,
   },
-  mixins: [SearchMixin, SearchNavigationMixin],
+  mixins: [SearchMixin],
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
+    },
+    listType(t) {
+      return [t, 'any', undefined].includes(this.$route.query.type);
     },
   },
 };

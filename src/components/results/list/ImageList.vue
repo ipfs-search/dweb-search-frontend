@@ -1,18 +1,19 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Images ({{ results.results.total }})
+      Images ({{ results.total }})
     </template>
 
     <v-col
       cols="12"
       xl="8"
       offset-xl="2"
+      id="resultsList"
     >
       <v-row dense>
         <v-col
-          v-for="hit in results.results.hits.slice(0, 6)"
-          :key="hit.hash"
+          v-for="(hit, index) in shownHits"
+          :key="index"
           class="d-flex child-flex"
           cols="6"
           sm="4"
@@ -58,6 +59,8 @@ export default {
   data() {
     return {
       fileType: 'images',
+      shortList: 6,
+      infinite: true,
     };
   },
 };

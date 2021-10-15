@@ -1,7 +1,9 @@
 import { DefaultApi } from 'ipfs-search-client';
+import { maxPages } from '@/helpers/ApiHelper';
 
 const api = new DefaultApi();
 
+// TODO: keep track in store of which page(s) have been loaded, and logic to prevent reloading
 const initialResults = {
   total: 0,
   max_score: 0.0,
@@ -11,7 +13,6 @@ const initialResults = {
 const mutations = {
   // Mutations relating to search results
   setLoading(state) {
-    state.results = initialResults;
     state.loading = true;
     state.error = false;
   },
@@ -19,9 +20,28 @@ const mutations = {
     state.loading = false;
     state.error = true;
   },
-  setResults(state, results) {
+  clearResults(state) {
+    state.results = initialResults;
+  },
+  prependResults(state, results) {
     state.loading = false;
-    state.results = results;
+    state.results = {
+      ...results,
+      hits: [
+        ...results.hits,
+        ...state.results.hits,
+      ],
+    };
+  },
+  appendResults(state, results) {
+    state.loading = false;
+    state.results = {
+      ...results,
+      hits: [
+        ...state.results.hits,
+        ...results.hits,
+      ],
+    };
   },
 };
 
@@ -80,17 +100,43 @@ export default (type) => ({
   namespaced: true,
   state,
   actions: {
-    getResults({ rootState, rootGetters, commit }) {
+    /**
+     * flush results and set initial results
+     * @param commit
+     */
+    resetResults({ commit }) {
+      commit('clearResults');
+    },
+    /**
+     * receive results and append (or prepend) them to the state
+     * TODO: seperate concerns for getResults action; API call should live somewhere else
+     * - that way, the code is more flexible in choosing what to do with the retrieved results
+     * @param rootState
+     * @param rootGetters
+     * @param commit
+     */
+    getResults({ rootGetters, commit }, options = 1) {
       commit('setLoading');
+
+      const page = (typeof options === 'object') ? options.page : options;
+      const prepend = (typeof options === 'object') ? options.prepend : false;
 
       const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
 
-      api.searchGet(
+      if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
+
+      return api.searchGet(
         rootGetters['query/apiQueryString'] + typeFilter,
         type === 'directories' ? 'directory' : 'file', // Legacy API workaround; only accepts file and directory
-        rootState.query.page,
+        page - 1,
       ).then((results) => {
-        commit('setResults', results);
+        if (results.error) throw results.error;
+        if (prepend) {
+          commit('prependResults', results);
+        } else {
+          commit('appendResults', results);
+        }
+        return results;
       }).catch((err) => {
         commit('setError');
         console.error('Error from searchApi.searchGet', err);

@@ -1,15 +1,15 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Directories ({{ results.results.total }})
+      Directories ({{ results.total }})
     </template>
 
     <v-col
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="hit in results.results.hits.slice(0, 3)"
-      :key="hit.hash"
+      v-for="(hit, index) in shownHits"
+      :key="index"
     >
       <v-card
         @click="goToDetailPage(hit.hash)"
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       fileType: 'directories',
+      shortList: 3,
     };
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Audio ({{ results.results.total }})
+      Audio ({{ results.total }})
     </template>
 
     <v-col
@@ -13,8 +13,8 @@
         dense
       >
         <v-col
-          v-for="hit in results.results.hits.slice(0, 6)"
-          :key="hit.hash"
+          v-for="(hit, index) in shownHits"
+          :key="index"
           cols="6"
           xs="4"
           sm="4"
@@ -85,6 +85,7 @@ export default {
   data() {
     return {
       fileType: 'audio',
+      shortList: 6,
     };
   },
 };
