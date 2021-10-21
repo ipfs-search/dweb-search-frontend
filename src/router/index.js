@@ -16,8 +16,6 @@ const routes = [
     path: '/search',
     name: 'Search',
     // route level code-splitting
-    // this generates a separate chunk (result.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "search-list" */ '../views/Search'),
   },
   {
@@ -28,9 +26,7 @@ const routes = [
       fileHash: route.hash.slice(1), // slice to remove '#'
     }),
     // route level code-splitting
-    // this generates a separate chunk (result.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "search-list" */ '../views/Detail'),
+    component: () => import(/* webpackChunkName: "search-detail" */ '../views/Detail'),
   },
 ];
 
