@@ -42,10 +42,14 @@
               >
                 mdi-alert
               </v-icon>
-              <v-progress-circular
-                indeterminate
+              <v-btn
+                icon
                 v-else-if="$data.loading"
-              />
+              >
+                <v-progress-circular
+                  indeterminate
+                />
+              </v-btn>
               <v-btn
                 v-else
                 icon
