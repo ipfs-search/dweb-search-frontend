@@ -31,14 +31,14 @@
             </div>
             <v-spacer />
             <v-btn
-
-              v-for="link in links"
-              :key="link"
+              v-for="(link, i) in links"
+              :key="i"
+              :href="link.href"
               text
               small
               class="my-2 mx-1 hidden-sm-and-down"
             >
-              {{ link }}
+              {{ link.title }}
             </v-btn>
 
             <v-menu
@@ -61,8 +61,11 @@
                 <v-list-item
                   v-for="(link, i) in links"
                   :key="i"
+                  :href="link.href"
                 >
-                  <v-list-item-title>{{ link }}</v-list-item-title>
+                  <v-list-item-title>
+                    {{ link.title }}
+                  </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -315,10 +318,26 @@ export default {
 
   data: () => ({
     links: [
-      'Snapshots',
-      'API',
-      'Code',
-      'Contact',
+      {
+        title: 'Blog',
+        href: 'https://blog.ipfs-search.com/',
+      },
+      {
+        title: 'API',
+        href: 'https://api.ipfs-search.com/',
+      },
+      {
+        title: 'Docs',
+        href: 'https://ipfs-search.readthedocs.io/en/latest/',
+      },
+      {
+        title: 'Code',
+        href: 'https://github.com/ipfs-search/',
+      },
+      {
+        title: 'Contact',
+        href: 'mailto:info@ipfs-search.com',
+      },
     ],
   }),
 };

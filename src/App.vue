@@ -38,12 +38,6 @@ export default {
   $el: '#app',
 
   data: () => ({
-    links: [
-      'Snapshots',
-      'API',
-      'Code',
-      'Contact',
-    ],
   }),
 
   methods: {
