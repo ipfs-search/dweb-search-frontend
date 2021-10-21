@@ -1,17 +1,5 @@
 <template>
   <v-container>
-    <!--     PAGINATION -->
-    <!--    N.b. duplicate code with below-->
-    <div
-      class="my-16"
-      v-if="!anyFileType && !infinite"
-    >
-      <v-pagination
-        v-model="$parent.page"
-        :length="page_count"
-        total-visible="9"
-      />
-    </div>
     <!--    results section -->
     <v-row dense>
       <v-col
@@ -65,7 +53,6 @@
       <slot />
     </v-row>
     <!--     PAGINATION -->
-    <!--    N.b. duplicate code with above - thanks Vue v. 2-->
     <div
       class="my-16"
       v-if="!anyFileType && !infinite"
@@ -76,10 +63,6 @@
         total-visible="9"
       />
     </div>
-    <div
-      v-if="anyFileType && !infinite"
-      class="my-16"
-    />
   </v-container>
 </template>
 
