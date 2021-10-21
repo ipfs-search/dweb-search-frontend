@@ -76,6 +76,10 @@
         total-visible="9"
       />
     </div>
+    <div
+      v-if="anyFileType && !infinite"
+      class="my-16"
+    />
   </v-container>
 </template>
 
