@@ -319,6 +319,10 @@ export default {
   data: () => ({
     links: [
       {
+        title: 'Donate',
+        href: 'https://opencollective.com/ipfs-search#category-CONTRIBUTE',
+      },
+      {
         title: 'Blog',
         href: 'https://blog.ipfs-search.com/',
       },

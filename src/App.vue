@@ -16,7 +16,6 @@
       class="hidden-sm-and-down"
       v-if="!(this.$route.name === 'Detail')"
     >
-
       <v-card
         flat
         tile
@@ -73,6 +72,10 @@ export default {
       {
         icon: 'mdi-github',
         href: 'https://github.com/ipfs-search/ipfs-search',
+      },
+      {
+        icon: 'mdi-hand-coin',
+        href: 'https://opencollective.com/ipfs-search#category-CONTRIBUTE',
       },
       {
         icon: 'mdi-email',
