@@ -3,7 +3,7 @@
    "image": "node:16",
    "command": "npm ci && npm run build",
    "publicDir": "dist",
-   "baseDir": "frontend",
+   "baseDir": ".",
    "environment": {
    }
  }
