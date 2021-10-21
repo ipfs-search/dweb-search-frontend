@@ -4,6 +4,7 @@
     hidden
   >
     <AudioPlayer />
+
     <v-main>
       <router-view />
     </v-main>
@@ -15,6 +16,28 @@
       class="hidden-sm-and-down"
       v-if="!(this.$route.name === 'Detail')"
     >
+
+      <v-card
+        flat
+        tile
+        class="lighten-1 text-center"
+        width="100%"
+      >
+        <v-card-text>
+          <v-btn
+            v-for="(link, i) in footer_links"
+            :key="i"
+            :href="link.href"
+            class="mx-4"
+            icon
+          >
+            <v-icon size="24px">
+              {{ link.icon }}
+            </v-icon>
+          </v-btn>
+        </v-card-text>
+      </v-card>
+
       <v-row
         justify="center"
         no-gutters
@@ -38,6 +61,24 @@ export default {
   $el: '#app',
 
   data: () => ({
+    footer_links: [
+      {
+        icon: 'mdi-mastodon',
+        href: 'https://mastodon.social/@ipfssearch',
+      },
+      {
+        icon: 'mdi-twitter',
+        href: 'https://twitter.com/SearchIpfs',
+      },
+      {
+        icon: 'mdi-github',
+        href: 'https://github.com/ipfs-search/ipfs-search',
+      },
+      {
+        icon: 'mdi-email',
+        href: 'mailto:info@ipfs-search.com',
+      },
+    ],
   }),
 
   methods: {
