@@ -143,11 +143,19 @@ export default {
       },
       set(index) {
         // TODO: Fix issues with duplicate results
+
+        // TODO: Change page_size to pageSize in store.
+        // eslint-disable-next-line camelcase
+        const { page_size } = this.$store.state.results[this.fileType].results;
+
+        // eslint-disable-next-line camelcase
+        const page = this.primaryPage + Math.floor(index / page_size);
+
         this.$router.replace({
           ...this.$route,
           query: {
             ...this.$route.query,
-            page: this.primaryPage + Math.floor(index / this.$store.state.results[this.fileType].results.page_size),
+            ...page,
           },
           hash: `#${this.items[index].hash}`,
         });
