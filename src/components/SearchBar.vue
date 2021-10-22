@@ -105,7 +105,9 @@ export default {
   },
   watch: {
     '$route.query': () => {
-      console.debug('SearchBar watch route.query: committing route query to store', this.$route.query);
+      console.debug(
+        'SearchBar watch route.query: committing route query to store', this.$route.query,
+      );
       store.commit('query/setRouteParams', this.$route.query);
     },
   },

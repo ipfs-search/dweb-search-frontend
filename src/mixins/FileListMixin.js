@@ -207,7 +207,9 @@ export default {
           return;
         }
 
-        console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
+        console.debug(
+          'FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery,
+        );
         store.dispatch(`results/${this.fileType}/resetResults`);
 
         if (this.infinite) {

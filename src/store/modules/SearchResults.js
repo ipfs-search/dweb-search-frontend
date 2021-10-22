@@ -127,7 +127,8 @@ export default (type) => ({
 
       return api.searchGet(
         rootGetters['query/apiQueryString'] + typeFilter,
-        type === 'directories' ? 'directory' : 'file', // Legacy API workaround; only accepts file and directory
+        // Legacy API workaround; only accepts file and directory
+        type === 'directories' ? 'directory' : 'file',
         page - 1,
       ).then((results) => {
         if (results.error) throw results.error;
