@@ -16,7 +16,7 @@
         style="margin-left: 0 !important;"
       >
         <v-progress-linear
-          v-if="!$data.loading"
+          v-if="!$data.player.loading"
           v-model="progress"
           color="white"
           class="`my-0 progress-bar"
@@ -29,7 +29,7 @@
               <v-list-item-title v-html="$data.file.title" />
               <v-list-item-subtitle>
                 <span v-html="$data.file.author" />
-                <span class="ml-4">{{ timer }} / {{ $data.duration }}</span>
+                <span class="ml-4">{{ timer }} / {{ duration }}</span>
               </v-list-item-subtitle>
             </v-list-item-content>
 
@@ -44,7 +44,7 @@
               </v-icon>
               <v-btn
                 icon
-                v-else-if="$data.loading"
+                v-else-if="$data.player.loading"
               >
                 <v-progress-circular
                   indeterminate
@@ -55,7 +55,7 @@
                 icon
                 @click="pause"
               >
-                <v-icon v-if="!$data.paused">
+                <v-icon v-if="$data.player.playing">
                   mdi-pause
                 </v-icon>
                 <v-icon v-else>
@@ -83,7 +83,8 @@
 </template>
 
 <script>
-import { Howl, Howler } from 'howler';
+import { Howler } from 'howler';
+import { audioPlayer } from '@/plugins/howler.js';
 import { getFileExtension } from '@/helpers/fileHelper';
 
 export const AudioEvents = {
@@ -104,13 +105,8 @@ export default {
     return {
       error: false,
       file: {},
-      duration: '0:00',
-      time: 0,
-      sound: null,
+      player: audioPlayer,
       playerActive: false,
-      interval: null,
-      loading: true,
-      paused: true,
     };
   },
   methods: {
@@ -120,36 +116,20 @@ export default {
         return;
       }
 
-      if (this.$data.interval) clearInterval(this.$data.interval);
-      if (this.sound) {
-        this.sound.off();// unregister any hooks
-        this.sound.unload();
-      }
       this.$data.error = false;
       this.$data.playerActive = true;
       this.$data.file = fileObject;
-      this.$data.duration = '0:00';
-      this.$data.time = 0;
-      this.$data.loading = true;
       const fileExtension = getFileExtension(fileObject);
       if (!Howler.codecs(fileExtension)) {
         this.soundError('Unsupported/undetected file type');
         return;
       }
-      this.sound = new Howl({
+      this.$data.player.sound = {
         src: [`https://gateway.ipfs.io/ipfs/${fileObject.hash}`],
         format: [fileExtension],
-        html5: true,
-        preload: 'metadata',
-        autoplay: true,
-      });
-      this.sound.on('load', () => {
-        this.$data.loading = false;
-        this.$data.interval = setInterval(this.updateProgress, 100);
-        this.$data.duration = formatTime(this.sound.duration());
-      });
-      this.sound.on('loaderror', (source, message) => this.soundError(message));
-      this.sound.on('playerror', (source, message) => this.soundError(message));
+      };
+      this.player.on('loaderror', (source, message) => this.soundError(message));
+      this.player.on('playerror', (source, message) => this.soundError(message));
     },
 
     soundError(error) {
@@ -157,43 +137,39 @@ export default {
       this.$data.error = error;
     },
 
-    updateProgress() {
-      this.$data.paused = !this.sound.playing();
-      this.$data.time = this.sound.seek();
+    play() {
+      this.player.play();
     },
-
     pause() {
-      if (this.sound.playing()) {
-        this.sound.pause();
+      if (this.player.playing) {
+        this.player.pause();
       } else {
-        this.sound.play();
+        this.player.play();
       }
     },
-
     stop() {
-      if (this.sound && this.sound.playing()) this.sound.stop();
+      this.player.stop();
     },
 
     closePlayer() {
-      if (this.sound) {
-        this.sound.off();
-        this.sound.unload();
-      }
-      clearInterval(this.$data.interval);
+      this.player.close();
       this.$data.playerActive = false;
     },
   },
   computed: {
     timer() {
-      return formatTime(this.$data.time);
+      return formatTime(this.player.time);
+    },
+    duration() {
+      return formatTime(this.player.duration);
     },
     progress: {
       get() {
-        return (this.$data.time / this.sound.duration()) * 100;
+        return (this.player.time / this.player.duration) * 100;
       },
       set(percentage) {
-        if (this.sound && this.sound.state() === 'loaded') {
-          this.sound.seek((percentage * this.sound.duration()) / 100);
+        if (this.player.loaded) {
+          this.player.seek((percentage * this.player.duration) / 100);
         }
       },
     },
