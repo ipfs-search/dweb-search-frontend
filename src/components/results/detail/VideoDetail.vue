@@ -54,18 +54,16 @@
 import VideoPlayer from '@/components/VideoPlayer';
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
+  mixins: [
+    DetailMixin,
+  ],
   components: {
     MetaDataPanel,
     MediaHeader,
     VideoPlayer,
-  },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
   },
   data() {
     return {
@@ -74,8 +72,8 @@ export default {
         controls: true,
         sources: [
           {
-            src: `https://gateway.ipfs.io/ipfs/${this.file.hash}`,
-            type: 'video/mp4',
+            src: this.resourceURL,
+            type: 'video/mp4', // TODO; use mimetype from result here!
           },
         ],
         fluid: true,

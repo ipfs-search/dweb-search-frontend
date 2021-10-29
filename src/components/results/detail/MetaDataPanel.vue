@@ -57,13 +57,12 @@
 </template>
 
 <script>
+import DetailMixin from '@/mixins/DetailMixin';
+
 export default {
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
+  mixins: [
+    DetailMixin,
+  ],
   computed: {
     metadata() {
       const metadata = [];
