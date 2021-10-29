@@ -58,6 +58,7 @@
 
 <script>
 import DetailMixin from '@/mixins/DetailMixin';
+import getResourceURL from '@/helpers/resourceURL';
 
 export default {
   mixins: [
@@ -89,7 +90,7 @@ export default {
         this.file.references.forEach((reference) => {
           references.push({
             name: reference.name,
-            url: `https://gateway.ipfs.io/ipfs/${reference.parent_hash}`,
+            url: getResourceURL(reference.parent_hash),
           });
         });
       }

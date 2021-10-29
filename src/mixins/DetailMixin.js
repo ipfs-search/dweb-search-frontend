@@ -1,3 +1,5 @@
+import getResourceURL from '@/helpers/resourceURL';
+
 export default {
   props: {
     file: {
@@ -6,6 +8,6 @@ export default {
     },
   },
   computed: {
-    resourceURL() { return `https://gateway.ipfs.io/ipfs/${this.file.hash}`; },
+    resourceURL() { return getResourceURL(this.file.hash); },
   },
 };
