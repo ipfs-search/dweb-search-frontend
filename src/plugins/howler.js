@@ -1,9 +1,12 @@
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
+import { getFileExtension } from '@/helpers/fileHelper';
 
 /**
  * abstract from howl player, to make properties observable for Vue
  */
 class AudioPlayer {
+  autoPlay = true;
+
   loading = false;
 
   loaded = false;
@@ -14,20 +17,33 @@ class AudioPlayer {
 
   time;
 
+  sourceFile;
+
   #howl;
 
   #interval;
 
-  set sound(values) {
-    console.debug('registering new howl player for ', values);
+  set sound(file) {
+    console.debug('registering new howl player for ', file);
+    if (!file || !file.hash) {
+      throw Error('No proper file specified');
+    }
+    const fileExtension = getFileExtension(file);
+    if (!Howler.codecs(fileExtension)) {
+      throw Error('Unsupported/undetected file type');
+    }
+
     this.unregister();// unregister any hooks
     clearInterval(this.#interval);
     this.loading = true;
+    this.sourceFile = file;
+
     this.#howl = new Howl({
+      src: [`https://gateway.ipfs.io/ipfs/${file.hash}`],
+      format: [fileExtension],
       html5: true,
       preload: 'metadata',
-      autoplay: true,
-      ...values,
+      autoplay: this.autoPlay,
     });
     this.#howl.on('load', () => {
       this.loading = false;
@@ -46,6 +62,7 @@ class AudioPlayer {
     this.#howl.on('play', () => {
       this.playing = true;
     });
+    return this.#howl;
   }
 
   get sound() {
@@ -80,9 +97,11 @@ class AudioPlayer {
     if (this.#howl) {
       this.#howl.off();
       this.#howl.unload();
+      this.playing = false;
       this.loading = false;
       this.loaded = false;
       this.duration = null;
+      this.sourceFile = null;
     }
   }
 

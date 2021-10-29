@@ -1,13 +1,79 @@
 <template>
+  <!--  TODO: make these buttons into a generalized reusable component and reduce this to ~12 lines or so -->
   <v-btn
-    v-if="$route.name === 'Search'"
-    icon
-    color="white"
-    @click.stop="play"
+    v-if="!currentlyLoadedInPlayer"
+    large
+    fab
+    color="black"
+    @click.stop="loadSoundFile($props.file)"
+    style="
+      opacity: 0.5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    "
   >
-    <v-icon>mdi-play-circle-outline</v-icon>
+    <v-icon
+      size="42"
+      color="white"
+    >
+      mdi-play
+    </v-icon>
   </v-btn>
-
+  <v-icon
+    v-else-if="currentlyLoadedInPlayer && $data.error"
+    large
+    fab
+    color="black"
+    style="
+      opacity: 0.5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    "
+    :title="$data.error"
+  >
+    mdi-alert
+  </v-icon>
+  <v-btn
+    large
+    fab
+    color="black"
+    icon
+    v-else-if="currentlyLoadedInPlayer && loading"
+    style="
+      opacity: 0.5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    "
+  >
+    <v-progress-circular
+      indeterminate
+    />
+  </v-btn>
+  <v-btn
+    v-else-if="currentlyLoadedInPlayer && playing"
+    large
+    fab
+    color="black"
+    icon
+    @click="pause"
+    style="
+      opacity: 0.5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    "
+  >
+    <v-icon>
+      mdi-pause
+    </v-icon>
+  </v-btn>
   <v-btn
     v-else
     large
@@ -19,7 +85,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);"
+      transform: translate(-50%, -50%);
+    "
   >
     <v-icon
       size="42"
@@ -31,18 +98,21 @@
 </template>
 
 <script>
-import { AudioEvents } from '../AudioPlayer';
+import AudioControlsMixin from '../../mixins/AudioControlsMixin';
 
 export default {
+  mixins: [
+    AudioControlsMixin,
+  ],
   props: {
     file: {
       type: Object,
       required: true,
     },
   },
-  methods: {
-    play() {
-      this.$root.$emit(AudioEvents.load, this.$props.file);
+  computed: {
+    currentlyLoadedInPlayer() {
+      return this.$props.file.hash === this.sourceFile?.hash;
     },
   },
 };
