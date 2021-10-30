@@ -32,11 +32,12 @@
                   <v-col>
                     <div class="text-body-1">
                       <video-player
-                        :options="$data.videoOptions"
+                        :options="videoOptions"
                       />
                     </div>
                   </v-col>
                 </v-row>
+
                 <MetaDataPanel
                   :file="$props.file"
                   test-class="metadatapanel"
@@ -65,20 +66,19 @@ export default {
     MediaHeader,
     VideoPlayer,
   },
-  data() {
-    return {
-      sheet: false,
-      videoOptions: {
+  computed: {
+    videoOptions() {
+      return {
         controls: true,
         sources: [
           {
             src: this.resourceURL,
-            type: 'video/mp4', // TODO; use mimetype from result here!
+            type: this.file.mimetype,
           },
         ],
         fluid: true,
-      },
-    };
+      };
+    },
   },
 };
 </script>
