@@ -71,7 +71,4 @@ export default {
     loaded: () => audioPlayer.loaded,
     sourceFile: () => audioPlayer.sourceFile,
   },
-  beforeDestroy() {
-    audioPlayer.close();
-  },
 };
