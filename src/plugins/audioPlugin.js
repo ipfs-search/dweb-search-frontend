@@ -5,19 +5,19 @@ import { getFileExtension } from '@/helpers/fileHelper';
  * abstract from howl player, to make properties observable for Vue
  */
 class AudioPlayer {
-  autoPlay = true;
-
   loading = false;
 
   loaded = false;
 
   playing = false;
 
-  duration;
+  duration = 0;
 
-  time;
+  time = 0;
 
   sourceFile;
+
+  autoPlay = true;
 
   #howl;
 
@@ -44,25 +44,19 @@ class AudioPlayer {
       html5: true,
       preload: 'metadata',
       autoplay: this.autoPlay,
+      onend: () => { this.playing = false; },
+      onstop: () => { this.playing = false; },
+      onpause: () => { this.playing = false; },
+      onplay: () => { this.playing = true; },
+      onload: () => {
+        this.loading = false;
+        this.loaded = true;
+        this.#interval = setInterval(() => {
+          this.time = this.#howl.seek();
+        }, 100);
+        this.duration = this.#howl.duration();
+      },
     });
-    this.#howl.on('load', () => {
-      this.loading = false;
-      this.loaded = true;
-      this.#interval = setInterval(() => {
-        this.time = this.#howl.seek();
-      }, 100);
-      this.duration = this.#howl.duration();
-    });
-    this.#howl.on('pause', () => {
-      this.playing = false;
-    });
-    this.#howl.on('stop', () => {
-      this.playing = false;
-    });
-    this.#howl.on('play', () => {
-      this.playing = true;
-    });
-    return this.#howl;
   }
 
   get sound() {
@@ -70,25 +64,25 @@ class AudioPlayer {
   }
 
   play() {
-    if (this.#howl && this.loading === false) {
+    if (this.#howl && this.loaded) {
       this.#howl.play();
     }
   }
 
   pause() {
-    if (this.#howl && this.loading === false) {
+    if (this.#howl && this.loaded) {
       this.#howl.pause();
     }
   }
 
   stop() {
-    if (this.#howl && this.loading === false) {
+    if (this.#howl && this.loaded) {
       this.#howl.stop();
     }
   }
 
   seek(progress) {
-    if (this.#howl && this.loading === false) {
+    if (this.#howl && this.loaded) {
       this.#howl.seek(progress);
     }
   }
@@ -100,7 +94,8 @@ class AudioPlayer {
       this.playing = false;
       this.loading = false;
       this.loaded = false;
-      this.duration = null;
+      this.time = 0;
+      this.duration = 0;
       this.sourceFile = null;
     }
   }

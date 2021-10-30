@@ -1,4 +1,4 @@
-import { audioPlayer } from '@/plugins/howler.js';
+import { audioPlayer } from '@/plugins/audioPlugin.js';
 
 export default {
   data() {
