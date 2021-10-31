@@ -23,7 +23,7 @@ class AudioPlayer {
 
   #interval;
 
-  set sound(file) {
+  load(file, options) {
     console.debug('registering new howl player for ', file);
     if (!file || !file.hash) {
       throw Error('No proper file specified');
@@ -56,6 +56,7 @@ class AudioPlayer {
         }, 100);
         this.duration = this.#howl.duration();
       },
+      ...options,
     });
   }
 

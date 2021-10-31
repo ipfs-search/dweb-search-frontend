@@ -10,15 +10,17 @@ export default {
   methods: {
     loadSoundFile(soundFile) {
       try {
-        audioPlayer.sound = soundFile;
-        audioPlayer.on('loaderror', (source, message) => this.soundError(message));
-        audioPlayer.on('playerror', (source, message) => this.soundError(message));
+        audioPlayer.load(soundFile, {
+          onloaderror: (source, message) => this.soundError(message),
+          onplayerror: (source, message) => this.soundError(message),
+        });
       } catch (e) {
         this.soundError(e);
       }
     },
     soundError(error) {
-      console.error('Sound error:', error, this.sourceFile);
+      console.error('Sound error:', error);
+      console.debug(audioPlayer);
       this.$data.error = error;
     },
     play() {

@@ -1,7 +1,23 @@
 <template>
   <!--  TODO: make these buttons into a generalized reusable component and reduce this to ~12 lines or so -->
+  <v-icon
+    v-if="$data.error"
+    large
+    fab
+    color="black"
+    style="
+      opacity: 0.5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    "
+    :title="$data.error"
+  >
+    mdi-alert
+  </v-icon>
   <v-btn
-    v-if="!currentlyLoadedInPlayer"
+    v-else-if="!currentlyLoadedInPlayer"
     large
     fab
     color="black"
@@ -21,22 +37,6 @@
       mdi-play
     </v-icon>
   </v-btn>
-  <v-icon
-    v-else-if="currentlyLoadedInPlayer && $data.error"
-    large
-    fab
-    color="black"
-    style="
-      opacity: 0.5;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    "
-    :title="$data.error"
-  >
-    mdi-alert
-  </v-icon>
   <v-btn
     large
     fab
