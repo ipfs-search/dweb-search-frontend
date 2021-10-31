@@ -91,14 +91,14 @@
 <script>
 
 import AudioControlsMixin from '../mixins/AudioControlsMixin';
-import { audioPlayer } from '@/plugins/audioPlugin.js';
+// import { audioPlayer } from '@/plugins/audioPlugin.js';
 
 export default {
   mixins: [
     AudioControlsMixin,
   ],
   beforeDestroy() {
-    audioPlayer.close();
+    this.audioPlayer.close();
   },
 };
 </script>

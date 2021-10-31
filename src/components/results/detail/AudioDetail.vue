@@ -55,7 +55,34 @@
                             aspect-ratio="1"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                           >
-                            <AudioPlayButton :file="$props.file" />
+                            <AudioDetailButton
+                              v-if="$data.error"
+                              :title="$data.error"
+                            >
+                              mdi-alert
+                            </AudioDetailButton>
+                            <AudioDetailButton
+                              v-else-if="!currentlyLoadedInPlayer"
+                              @click="loadSoundFile($props.file)"
+                            >
+                              mdi-play
+                            </AudioDetailButton>
+                            <AudioDetailButton
+                              v-else-if="currentlyLoadedInPlayer && loading"
+                              loading
+                            />
+                            <AudioDetailButton
+                              v-else-if="currentlyLoadedInPlayer && playing"
+                              @click="pause"
+                            >
+                              mdi-pause
+                            </AudioDetailButton>
+                            <AudioDetailButton
+                              v-else
+                              @click="play"
+                            >
+                              mdi-play
+                            </AudioDetailButton>
                           </v-img>
                         </v-col>
                       </v-row>
@@ -79,38 +106,29 @@
 <script>
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
-import AudioPlayButton from '@/components/helpers/AudioPlayButton';
+import AudioDetailButton from '@/components/helpers/AudioDetailButton';
+import AudioControlsMixin from '../../../mixins/AudioControlsMixin';
 
 export default {
-
   components: {
-    AudioPlayButton,
+    AudioDetailButton,
     MetaDataPanel,
     MediaHeader,
   },
-
+  mixins: [
+    AudioControlsMixin,
+  ],
   props: {
     file: {
       type: Object,
       required: true,
     },
   },
-  data() {
-    return {
-      /* eslint-disable */
-      // items: [
-      //   { divider: true, inset: false },
-      //   {
-      //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      //     title: 'Brunch this weekend?',
-      //     subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your
-      //     neighborhood doing errands this weekend. Do you want to hang out?`,
-      //   },
-      //   { divider: true, inset: false },
-      // ],
-    };
+  computed: {
+    currentlyLoadedInPlayer() {
+      return this.$props.file.hash === this.sourceFile?.hash;
+    },
   },
-
 };
 </script>
 

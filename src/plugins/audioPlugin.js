@@ -2,7 +2,9 @@ import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 
 /**
- * abstract from howl player, to make properties observable for Vue
+ * abstract from howl player, to make properties observable for Vue.
+ * N.b. to make these properties observable, they must have public setters.
+ * This can be spoofed, but it gets a bit hacky.
  */
 class AudioPlayer {
   loading = false;
@@ -17,12 +19,16 @@ class AudioPlayer {
 
   sourceFile;
 
-  autoPlay = true;
-
   #howl;
 
   #interval;
 
+  /**
+   * load a sound file from ipfs into the Howl audio player and attach necessary hooks.
+   *
+   * @param file: required object {hash, ...}
+   * @param options: optional extra options to pass to howl player or overrides.
+   */
   load(file, options) {
     console.debug('registering new howl player for ', file);
     if (!file || !file.hash) {
@@ -43,7 +49,7 @@ class AudioPlayer {
       format: [fileExtension],
       html5: true,
       preload: 'metadata',
-      autoplay: this.autoPlay,
+      autoplay: true,
       onend: () => { this.playing = false; },
       onstop: () => { this.playing = false; },
       onpause: () => { this.playing = false; },
@@ -107,7 +113,11 @@ class AudioPlayer {
     }
   }
 
+  /**
+   * destructor method
+   */
   close() {
+    console.debug('closing the audio player');
     this.unregister();
     clearInterval(this.#interval);
   }

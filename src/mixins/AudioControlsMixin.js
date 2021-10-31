@@ -4,7 +4,7 @@ export default {
   data() {
     return {
       error: null,
-      player: audioPlayer,
+      audioPlayer,
     };
   },
   methods: {
@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     playerActive() {
-      return audioPlayer.sourceFile && audioPlayer.sound;
+      return this.audioPlayer.sourceFile && this.audioPlayer.sound;
     },
     timer() {
       return this.formatTime(audioPlayer.time);
