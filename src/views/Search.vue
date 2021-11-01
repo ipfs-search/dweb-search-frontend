@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import SearchMixin from '@/mixins/SearchMixin';
 import SearchBar from '@/components/SearchBar';
 import SearchFilters from '@/components/SearchFilters';
 import DocumentList from '@/components/results/list/DocumentList';
@@ -91,7 +90,6 @@ export default {
     VideoList,
     DirectoryList,
   },
-  mixins: [SearchMixin],
   methods: {
     goHome() {
       this.$router.push({ path: '/' });

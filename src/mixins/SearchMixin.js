@@ -1,24 +1,4 @@
-// import { mapState } from 'vuex';
-
-// Mixin providing attributes and search() from the store.
-
 export default {
-  computed: {
-    // ...mapState([
-    //   'results',
-    // ]),
-    // https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
-    // page: {
-    //   get() {
-    //     return store.state.query.page;
-    //   },
-    //   set(value) {
-    //     store.commit('query/setPage', value);
-    //     this.search();
-    //   },
-    // },
-  },
-
   methods: {
     /**
      * // TODO: move this file to helper and remove this file
@@ -27,6 +7,7 @@ export default {
      * @param newQuery
      */
     search(newQuery, page = 1) {
+      console.log('router', this.$router);
       this.$router.push({
         name: 'Search',
         query: {
