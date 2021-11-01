@@ -11,19 +11,18 @@ const routes = [
     component: Home,
   },
   {
-    // TODO: Pass query elements as props to Search view.
-    // https://router.vuejs.org/guide/essentials/passing-props.html#function-mode
     path: '/search',
     name: 'Search',
+    props: (route) => ({ query: route.query }),
     // route level code-splitting
     component: () => import(/* webpackChunkName: "search-list" */ '../views/Search'),
   },
   {
-    path: '/search/detail/:fileType',
+    path: '/search/detail/:fileType/:fileHash',
     name: 'Detail',
     props: (route) => ({
-      fileType: route.params.fileType,
-      fileHash: route.hash.slice(1), // slice to remove '#'
+      ...route.params,
+      query: route.query,
     }),
     // route level code-splitting
     component: () => import(/* webpackChunkName: "search-detail" */ '../views/Detail'),

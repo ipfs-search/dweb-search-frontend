@@ -114,7 +114,6 @@ export default {
     store.commit('query/setRouteParams', this.$route.query);
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
-  mixins: [],
   components: {
     // TODO: make detail pages hese seperate pages in stead of loading all types at once.
     VideoDetail,
@@ -157,7 +156,10 @@ export default {
             ...this.$route.query,
             ...page,
           },
-          hash: `#${this.items[index].hash}`,
+          params: {
+            ...this.$route.params,
+            fileHash: this.items[index].hash,
+          },
         });
       },
     },
