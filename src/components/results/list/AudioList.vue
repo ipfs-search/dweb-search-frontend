@@ -22,7 +22,7 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(hit.hash)"
+            @click="goToDetailPage(index)"
           >
             <v-img
               :src="hit.src"

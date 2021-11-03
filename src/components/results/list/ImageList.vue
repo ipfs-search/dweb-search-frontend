@@ -21,7 +21,7 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(hit.hash)"
+            @click="goToDetailPage(index)"
             :id="hit.hash"
           >
             <v-img
@@ -60,7 +60,7 @@ export default {
     return {
       fileType: 'images',
       shortList: 6,
-      infinite: true,
+      // infinite: true,
     };
   },
 };

@@ -59,12 +59,13 @@ export default {
     },
   },
   methods: {
-    goToDetailPage(hash) {
+    goToDetailPage(index) {
       this.$router.push({
         name: 'Detail',
         params: {
           fileType: this.$data.fileType,
-          fileHash: hash,
+          fileHash: this.shownHits[index].hash,
+          selectedIndex: index,
         },
         query: this.$route.query,
       });

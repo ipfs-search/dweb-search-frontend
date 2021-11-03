@@ -107,7 +107,15 @@ export default {
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
   created() {
-    this.$data.carouselIndex = this.items.findIndex((item) => item.hash === this.fileHash);
+    console.debug('index:', this.selectedIndex);
+    if (this.selectedIndex > -1 && this.items[this.selectedIndex].hash === this.fileHash) {
+      this.$data.carouselIndex = this.selectedIndex;
+    } else {
+      const index = this.items.findIndex((item) => item.hash === this.fileHash);
+      if (index > -1) {
+        this.$data.carouselIndex = index;
+      }
+    }
     /*
     // fetch requested detail page directly from the api if not available in paginated results
 
@@ -133,11 +141,15 @@ export default {
       type: String,
       default: '',
     },
+    selectedIndex: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {
       item: null,
-      carouselIndex: -1,
+      carouselIndex: 0,
     };
   },
   computed: {
