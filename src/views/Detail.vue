@@ -82,6 +82,11 @@
           />
         </v-carousel-item>
       </v-carousel>
+      <component
+        :is="componentType"
+        v-else-if="item"
+        :file="item"
+      />
     </div>
   </div>
 </template>
@@ -94,6 +99,7 @@ import DocumentDetail from '../components/results/detail/DocumentDetail';
 import DirectoryDetail from '../components/results/detail/DirectoryDetail';
 import VideoDetail from '../components/results/detail/VideoDetail';
 import AudioDetail from '../components/results/detail/AudioDetail';
+import { apiSearch } from '../helpers/ApiHelper';
 
 export default {
   beforeCreate() {
@@ -109,6 +115,11 @@ export default {
       type: String,
       default: '',
     },
+  },
+  data() {
+    return {
+      item: null,
+    };
   },
   computed: {
     componentType() {
@@ -132,7 +143,19 @@ export default {
     },
     carouselIndex: {
       get() {
-        return this.items.findIndex((item) => item.hash === this.fileHash);
+        const index = this.items.findIndex((item) => item.hash === this.fileHash);
+        if (index === -1) {
+          console.debug(`No items matching ${this.fileHash}; requesting directly from API`);
+          // eslint-disable-next-line vue/no-async-in-computed-properties
+          apiSearch(this.$props.fileHash, this.$props.fileType)
+            .then((results) => {
+              if (results.error) throw results.error;
+              console.debug('results', results);
+              this.$data.item = results?.hits[0];
+            })
+            .catch(console.error);
+        }
+        return index;
       },
       set(index) {
         // TODO: Fix issues with duplicate results

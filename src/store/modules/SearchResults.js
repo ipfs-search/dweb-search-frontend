@@ -1,7 +1,4 @@
-import { DefaultApi } from 'ipfs-search-client';
-import { maxPages } from '@/helpers/ApiHelper';
-
-const api = new DefaultApi();
+import { apiSearch } from '../../helpers/ApiHelper';
 
 // TODO: keep track in store of which page(s) have been loaded, and logic to prevent reloading
 const initialResults = {
@@ -51,51 +48,6 @@ const state = () => ({
   results: initialResults,
 });
 
-const legacyTypes = {
-  text: [
-    // eBook types
-    'application/x-mobipocket-ebook',
-    'application/epub+zip',
-    'application/vnd.amazon.ebook',
-    // Scanned documents
-    'image/vnd.djvu',
-    'application/pdf',
-    // HTML/plain text
-    'text/html',
-    'text/plain',
-    // Text editors
-    'application/postscript',
-    'application/rtf',
-    // Open Office et al.
-    'application/vnd.oasis.opendocument.text',
-    'application/vnd.sun.xml.writer',
-    'application/vnd.stardivision.writer',
-    'application/x-starwriter',
-    // MS Word
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    // Misc
-    'application/x-abiword',
-  ],
-  audio: [
-    'audio*',
-    // 'application/ogg',
-  ],
-  video: [
-    'video*',
-    // 'application/mp4'
-  ],
-  images: [
-    'image*',
-  ],
-};
-
-function legacyTypeFilter(typeList) {
-  // Add quotes for literals, leave wildcards as-is
-  const t = typeList.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ');
-  return ` metadata.Content-Type:(${t})`;
-}
-
 export default (type) => ({
   namespaced: true,
   state,
@@ -111,9 +63,8 @@ export default (type) => ({
      * receive results and append (or prepend) them to the state
      * TODO: seperate concerns for getResults action; API call should live somewhere else
      * - that way, the code is more flexible in choosing what to do with the retrieved results
-     * @param rootState
-     * @param rootGetters
-     * @param commit
+     * @param {rootGetters, commit}
+     * @param options/page: page number or {page, prepend}
      */
     getResults({ rootGetters, commit }, options = 1) {
       commit('setLoading');
@@ -121,26 +72,17 @@ export default (type) => ({
       const page = (typeof options === 'object') ? options.page : options;
       const prepend = (typeof options === 'object') ? options.prepend : false;
 
-      const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
-
-      if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
-
-      return api.searchGet(
-        rootGetters['query/apiQueryString'] + typeFilter,
-        type === 'directories' ? 'directory' : 'file', // Legacy API workaround; only accepts file and directory
-        page - 1,
-      ).then((results) => {
-        if (results.error) throw results.error;
-        if (prepend) {
-          commit('prependResults', results);
-        } else {
-          commit('appendResults', results);
-        }
-        return results;
-      }).catch((err) => {
-        commit('setError');
-        console.error('Error from searchApi.searchGet', err);
-      });
+      apiSearch(rootGetters['query/apiQueryString'], type, page - 1)
+        .then((results) => {
+          if (prepend) {
+            commit('prependResults', results);
+          } else {
+            commit('appendResults', results);
+          }
+        })
+        .catch(() => {
+          commit('setError');
+        });
     },
   },
   mutations,
