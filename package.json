@@ -67,7 +67,7 @@
           "vue": "never"
         }
       ]
-    },
+    }
   },
   "browserslist": [
     "> 1%",
