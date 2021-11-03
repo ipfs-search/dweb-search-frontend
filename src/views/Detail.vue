@@ -65,6 +65,7 @@
               right: 0;"
     >
       <v-carousel
+        v-if="carouselIndex > -1"
         v-model="carouselIndex"
         height="100%"
         hide-delimiters
@@ -74,39 +75,14 @@
         <v-carousel-item
           v-for="(item, index) in items"
           :key="index"
-        >
-          <ImageDetail
-            v-if="fileType === 'images'"
-            :file="item"
-          />
-          <DirectoryDetail
-            v-if="fileType === 'directories'"
-            :file="item"
-          />
-          <DocumentDetail
-            v-if="fileType === 'text'"
-            :file="item"
-          />
-          <AudioDetail
-            v-if="fileType === 'audio'"
-            :file="item"
-          />
-          <VideoDetail
-            v-if="fileType === 'video'"
-            :file="item"
-          />
-        </v-carousel-item>
+        />
       </v-carousel>
     </div>
   </div>
 </template>
 
 <script>
-import AudioDetail from '@/components/results/detail/AudioDetail';
-import DocumentDetail from '@/components/results/detail/DocumentDetail';
-import VideoDetail from '@/components/results/detail/VideoDetail';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
-import ImageDetail from '@/components/results/detail/ImageDetail';
+import DetailTypes from '@/helpers/typeHelper';
 import store from '@/store';
 
 export default {
@@ -115,12 +91,7 @@ export default {
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
   components: {
-    // TODO: make detail pages hese seperate pages in stead of loading all types at once.
-    VideoDetail,
-    DocumentDetail,
-    AudioDetail,
-    ImageDetail,
-    DirectoryDetail,
+
   },
   props: {
     fileType: {
@@ -131,6 +102,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  beforeMount() {
+    console.log(this);
   },
   computed: {
     items() {
