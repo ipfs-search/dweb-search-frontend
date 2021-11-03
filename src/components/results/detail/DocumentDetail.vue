@@ -57,6 +57,9 @@ import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 
 export default {
+  created() {
+    console.debug('document detail created', this);
+  },
   components: {
     MetaDataPanel,
     MediaHeader,

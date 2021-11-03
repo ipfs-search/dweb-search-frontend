@@ -26,17 +26,8 @@ export const Types = {
   directories: 'directories',
 };
 
-const DetailTypes = {
-  [Types.video]: VideoDetail,
-  [Types.text]: DocumentDetail,
-  [Types.images]: ImageDetail,
-  [Types.directories]: DirectoryDetail,
-  [Types.audio]: AudioDetail,
-};
-
 export default {
   fileTypes,
   searchTypes,
   Types,
-  DetailTypes,
 };

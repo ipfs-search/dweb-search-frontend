@@ -95,22 +95,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      /* eslint-disable */
-      // items: [
-      //   { divider: true, inset: false },
-      //   {
-      //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      //     title: 'Brunch this weekend?',
-      //     subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your
-      //     neighborhood doing errands this weekend. Do you want to hang out?`,
-      //   },
-      //   { divider: true, inset: false },
-      // ],
-    };
-  },
-
 };
 </script>
 
