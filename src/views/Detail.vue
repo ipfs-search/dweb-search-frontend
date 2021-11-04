@@ -106,7 +106,8 @@ export default {
   async beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
     store.dispatch(`results/${router.currentRoute.params.fileType}/resetResults`);
-    await store.dispatch(`results/${router.currentRoute.params.fileType}/getResults`, store.state.query.page || 1);
+    await store.dispatch(`results/${router.currentRoute.params.fileType}/getResults`, store.state.query.page || 1)
+      .then((r) => console.log('received paginated results', r));
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
   created() {
