@@ -108,16 +108,18 @@ import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 import AudioDetailButton from '@/components/helpers/AudioDetailButton';
 import AudioControlsMixin from '../../../mixins/AudioControlsMixin';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
+  mixins: [
+    DetailMixin,
+    AudioControlsMixin,
+  ],
   components: {
     AudioDetailButton,
     MetaDataPanel,
     MediaHeader,
   },
-  mixins: [
-    AudioControlsMixin,
-  ],
   props: {
     file: {
       type: Object,

@@ -31,7 +31,7 @@
                   <v-col>
                     <div
                       class="image-container"
-                      :style="`background-image: url(https://gateway.ipfs.io/ipfs/${$props.file.hash})`"
+                      :style="{'background-image': `url(${resourceURL})`}"
                     />
                   </v-col>
                   <v-col />
@@ -46,15 +46,12 @@
 </template>
 
 <script>
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
-  components: { },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
+  mixins: [
+    DetailMixin,
+  ],
 };
 </script>
 

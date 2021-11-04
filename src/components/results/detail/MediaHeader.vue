@@ -31,15 +31,13 @@
 
 <script>
 import DownloadButton from '@/components/helpers/DownloadButton';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
+  mixins: [
+    DetailMixin,
+  ],
   components: { DownloadButton },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
 };
 </script>
 

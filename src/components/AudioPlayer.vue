@@ -86,7 +86,7 @@
 </template>
 
 <script>
-
+import getResourceURL from '@/helpers/resourceURL';
 import AudioControlsMixin from '../mixins/AudioControlsMixin';
 // import { audioPlayer } from '@/plugins/audioPlugin.js';
 

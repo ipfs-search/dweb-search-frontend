@@ -32,11 +32,12 @@
                   <v-col>
                     <div class="text-body-1">
                       <video-player
-                        :options="$data.videoOptions"
+                        :options="videoOptions"
                       />
                     </div>
                   </v-col>
                 </v-row>
+
                 <MetaDataPanel
                   :file="$props.file"
                   test-class="metadatapanel"
@@ -54,33 +55,30 @@
 import VideoPlayer from '@/components/VideoPlayer';
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
+  mixins: [
+    DetailMixin,
+  ],
   components: {
     MetaDataPanel,
     MediaHeader,
     VideoPlayer,
   },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      sheet: false,
-      videoOptions: {
+  computed: {
+    videoOptions() {
+      return {
         controls: true,
         sources: [
           {
-            src: `https://gateway.ipfs.io/ipfs/${this.file.hash}`,
-            type: 'video/mp4',
+            src: this.resourceURL,
+            type: this.file.mimetype,
           },
         ],
         fluid: true,
-      },
-    };
+      };
+    },
   },
 };
 </script>
