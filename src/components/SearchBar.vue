@@ -26,7 +26,7 @@
                   class="mr-n3 grey--text d-flex align-center"
                   v-on="on"
                 >
-                  <span>{{ type }}</span>
+                  <span class="text-capitalize">{{ type }}</span>
                   <v-icon
                     class="d-inline-block"
                   >
@@ -40,7 +40,9 @@
                   :key="t"
                   @click="type=t"
                 >
-                  <v-list-item-title>
+                  <v-list-item-title
+                    class="text-capitalize"
+                  >
                     <!-- TODO: capitalize first character -->
                     {{ t }}
                   </v-list-item-title>

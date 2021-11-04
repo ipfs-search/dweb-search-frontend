@@ -31,10 +31,13 @@
                 <!-- Content -->
                 <v-row>
                   <v-col>
-                    <!-- TODO: styling/positioning of directory detail iframe-->
                     <iframe
-                      style="width: 100%; height: 800px"
-                      :src="resourceURL"
+                      style="
+                        width: 100%;
+                        height: calc(100vh - 200px);
+                        border: 1px solid #BDBDBD;
+                      "
+                      :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
                     />
                   </v-col>
                 </v-row>

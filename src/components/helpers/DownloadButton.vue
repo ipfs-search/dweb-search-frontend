@@ -4,7 +4,7 @@
     color="grey"
     @click.stop="download"
   >
-    <v-icon>mdi-download-circle-outline</v-icon>
+    <v-icon>mdi-tray-arrow-down</v-icon>
   </v-btn>
 </template>
 
