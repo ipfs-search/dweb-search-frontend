@@ -34,7 +34,7 @@
                       v-if="$props.file.mimetype.toLowerCase() === 'application/pdf'"
                       :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
                     />
-                    <span v-else>File can not be displayed</span>
+                    <span v-else v-html="file.description"/>
                   </v-col>
                 </v-row>
 
