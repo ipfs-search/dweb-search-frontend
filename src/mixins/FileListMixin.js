@@ -1,6 +1,7 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import { maxPages } from '@/helpers/ApiHelper';
+import getResourceURL from '@/helpers/resourceURL';
 
 const infiniteScrollMargin = 200;
 /**
@@ -59,6 +60,7 @@ export default {
     },
   },
   methods: {
+    getResourceURL,
     goToDetailPage(hash) {
       this.$router.push({
         name: 'Detail',

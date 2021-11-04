@@ -57,13 +57,13 @@
 </template>
 
 <script>
+import DetailMixin from '@/mixins/DetailMixin';
+import getResourceURL from '@/helpers/resourceURL';
+
 export default {
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
+  mixins: [
+    DetailMixin,
+  ],
   computed: {
     metadata() {
       const metadata = [];
@@ -90,7 +90,7 @@ export default {
         this.file.references.forEach((reference) => {
           references.push({
             name: reference.name,
-            url: `https://gateway.ipfs.io/ipfs/${reference.parent_hash}`,
+            url: getResourceURL(reference.parent_hash),
           });
         });
       }
