@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import getResourceURL from '@/helpers/resourceURL';
+
 export default {
   props: {
     hash: {
@@ -23,7 +25,9 @@ export default {
   },
   methods: {
     download() {
-      fetch(`https://gateway.ipfs.io/ipfs/${this.hash}`)
+      const rURL = getResourceURL(this.hash);
+
+      fetch(rURL)
         .then((response) => response.blob())
         .then((blob) => {
           const url = window.URL.createObjectURL(blob);

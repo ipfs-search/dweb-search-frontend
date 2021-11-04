@@ -80,20 +80,16 @@
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 import AudioPlayButton from '@/components/helpers/AudioPlayButton';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
-
+  mixins: [
+    DetailMixin,
+  ],
   components: {
     AudioPlayButton,
     MetaDataPanel,
     MediaHeader,
-  },
-
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
   },
   data() {
     return {

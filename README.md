@@ -8,7 +8,7 @@ New frontend repository for dweb-search, formerly ipfs-search.
 The most recent version is automatically deployed on IPFS through Fleek: https://dweb-search-frontend.on.fleek.co/
 
 ## Dependencies
-* NodeJS
+* [NodeJS 16 Gallium (LTS)](https://nodejs.org/)
 * [VueJS](https://vuejs.org/)
 * [VuetifyJS](https://vuetifyjs.com/)
 

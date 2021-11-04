@@ -58,18 +58,15 @@
 <script>
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 import MediaHeader from '@/components/results/detail/MediaHeader';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
-
+  mixins: [
+    DetailMixin,
+  ],
   components: {
     MetaDataPanel,
     MediaHeader,
-  },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
   },
 };
 </script>
