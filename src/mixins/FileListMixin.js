@@ -64,9 +64,9 @@ export default {
         name: 'Detail',
         params: {
           fileType: this.$data.fileType,
+          fileHash: hash,
         },
         query: this.$route.query,
-        hash: `#${hash}`,
       });
     },
 
