@@ -23,8 +23,9 @@
     <v-row>
       <v-col>
         <div
+          v-if="$props.file.title"
           class="text-h6 font-weight-regular"
-          v-html="`${$props.file.title || '(no title)'}`"
+          v-html="$props.file.title"
         />
       </v-col>
     </v-row>
