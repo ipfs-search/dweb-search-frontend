@@ -32,7 +32,7 @@
                   <v-col>
                     <PdfViewer
                       v-if="$props.file.mimetype.toLowerCase() === 'application/pdf'"
-                      :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
+                      :src="fileResource"
                     />
                     <span v-else>File can not be displayed</span>
                   </v-col>
@@ -55,8 +55,10 @@
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
+  mixins: [DetailMixin],
   components: {
     MetaDataPanel,
     MediaHeader,

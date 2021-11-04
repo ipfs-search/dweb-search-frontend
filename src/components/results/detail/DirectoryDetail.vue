@@ -34,7 +34,7 @@
                     <!-- TODO: styling/positioning of directory detail iframe-->
                     <iframe
                       style="width: 100%; height: 800px"
-                      :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
+                      :src="fileResource"
                     />
                   </v-col>
                 </v-row>
@@ -55,18 +55,13 @@
 <script>
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 import MediaHeader from '@/components/results/detail/MediaHeader';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
-
+  mixins: [DetailMixin],
   components: {
     MetaDataPanel,
     MediaHeader,
-  },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
   },
 };
 </script>

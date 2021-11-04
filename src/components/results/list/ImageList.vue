@@ -25,7 +25,7 @@
             :id="hit.hash"
           >
             <v-img
-              :src="`https://gateway.ipfs.io/ipfs/${hit.hash}`"
+              :src="resourceURL(hit.hash)"
               aspect-ratio="1"
               class="grey lighten-2"
             >
@@ -51,6 +51,7 @@
 
 <script>
 import FileListMixin from '@/mixins/FileListMixin';
+import { resourceURL } from '@/helpers/resourceHelper';
 
 export default {
   mixins: [
@@ -61,6 +62,7 @@ export default {
       fileType: 'images',
       shortList: 6,
       infinite: true,
+      resourceURL,
     };
   },
 };

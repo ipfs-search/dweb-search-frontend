@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { resourceURL } from '@/helpers/resourceHelper';
+
 export default {
   props: {
     file: {
@@ -90,7 +92,7 @@ export default {
         this.file.references.forEach((reference) => {
           references.push({
             name: reference.name,
-            url: `https://gateway.ipfs.io/ipfs/${reference.parent_hash}`,
+            url: resourceURL(reference.parent_hash),
           });
         });
       }

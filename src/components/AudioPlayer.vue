@@ -85,6 +85,7 @@
 <script>
 import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
+import { resourceURL } from '@/helpers/resourceHelper';
 
 export const AudioEvents = {
   stop: 'AudioPlayer/stop',
@@ -137,7 +138,7 @@ export default {
         return;
       }
       this.sound = new Howl({
-        src: [`https://gateway.ipfs.io/ipfs/${fileObject.hash}`],
+        src: [resourceURL(fileObject.hash)],
         format: [fileExtension],
         html5: true,
         preload: 'metadata',

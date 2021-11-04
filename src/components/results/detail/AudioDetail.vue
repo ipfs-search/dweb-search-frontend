@@ -80,37 +80,15 @@
 import MediaHeader from '@/components/results/detail/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
 import AudioPlayButton from '@/components/helpers/AudioPlayButton';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
-
+  mixins: [DetailMixin],
   components: {
     AudioPlayButton,
     MetaDataPanel,
     MediaHeader,
   },
-
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      /* eslint-disable */
-      // items: [
-      //   { divider: true, inset: false },
-      //   {
-      //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      //     title: 'Brunch this weekend?',
-      //     subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your
-      //     neighborhood doing errands this weekend. Do you want to hang out?`,
-      //   },
-      //   { divider: true, inset: false },
-      // ],
-    };
-  },
-
 };
 </script>
 
