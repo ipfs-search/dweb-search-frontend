@@ -94,6 +94,7 @@
 
 <script>
 import store from '@/store';
+import router from '@/router';
 import { Types } from '../helpers/typeHelper';
 import ImageDetail from '../components/results/detail/ImageDetail';
 import DocumentDetail from '../components/results/detail/DocumentDetail';
@@ -102,13 +103,15 @@ import VideoDetail from '../components/results/detail/VideoDetail';
 import AudioDetail from '../components/results/detail/AudioDetail';
 
 export default {
-  beforeCreate() {
+  async beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
+    store.dispatch(`results/${router.currentRoute.params.fileType}/resetResults`);
+    await store.dispatch(`results/${router.currentRoute.params.fileType}/getResults`, store.state.query.page || 1);
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
   created() {
-    console.debug('index:', this.selectedIndex);
-    if (this.selectedIndex > -1 && this.items[this.selectedIndex].hash === this.fileHash) {
+    // take index parameter from route props, if available. Else fallback on hash match.
+    if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
       this.$data.carouselIndex = this.selectedIndex;
     } else {
       const index = this.items.findIndex((item) => item.hash === this.fileHash);
