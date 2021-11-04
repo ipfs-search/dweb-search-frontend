@@ -45,11 +45,8 @@
               <v-btn
                 icon
                 v-else-if="loading"
-              >
-                <v-progress-circular
-                  indeterminate
-                />
-              </v-btn>
+                loading
+              />
               <v-btn
                 v-else-if="playing"
                 icon
