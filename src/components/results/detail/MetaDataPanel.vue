@@ -67,7 +67,6 @@ export default {
   computed: {
     metadata() {
       const metadata = [];
-      // TODO: filters on size, firstseen, lastseen, etc.
       // TODO: Make pretty names (e.g. remove hyphens).
       // TODO: See if all fields are there.
       [
