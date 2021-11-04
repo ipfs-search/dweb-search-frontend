@@ -87,13 +87,11 @@
 </template>
 
 <script>
-// import SearchFilter from './SearchFilter';
 import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
 
 export default {
   components: {
-    // SearchFilter,
   },
 
   mixins: [SearchMixin],

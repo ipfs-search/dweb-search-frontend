@@ -88,7 +88,10 @@ export default {
       const references = [];
       if (this.file.references) {
         this.file.references.forEach((reference) => {
-          references.push({ name: reference.name, url: `https://gateway.ipfs.io/ipfs/${reference.parent_hash}` });
+          references.push({
+            name: reference.name,
+            url: `https://gateway.ipfs.io/ipfs/${reference.parent_hash}`,
+          });
         });
       }
       return references;
