@@ -8,8 +8,10 @@
             Last seen <timeago :datetime="$props.file['last-seen']" />
           </span>
           <span v-if="$props.file.size"> | Size {{ $props.file.size | prettyBytes }}</span>
-          <span> | Mimetype {{ $props.file['mimetype'] }}</span>
+          <span v-if="$props.file['mimetype']"> | Mimetype {{ $props.file['mimetype'] }}</span>
           <DownloadButton
+            class="ml-1"
+            v-if="$props.file.size"
             :hash="$props.file.hash"
             :title="$props.file.title"
           />
