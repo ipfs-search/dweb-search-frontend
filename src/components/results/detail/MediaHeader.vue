@@ -15,6 +15,11 @@
             :hash="$props.file.hash"
             :title="$props.file.title"
           />
+          <CopyHashButton
+            class="ml-1"
+            v-if="$props.file.size"
+            :hash="$props.file.hash"
+          />
         </div>
       </v-col>
     </v-row>
@@ -34,13 +39,14 @@
 
 <script>
 import DownloadButton from '@/components/helpers/DownloadButton';
+import CopyHashButton from '@/components/helpers/CopyHashButton';
 import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
   mixins: [
     DetailMixin,
   ],
-  components: { DownloadButton },
+  components: { DownloadButton, CopyHashButton },
 };
 </script>
 
