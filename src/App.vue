@@ -9,11 +9,16 @@
       <router-view />
     </v-main>
 
-    <v-footer
+    <!-- This is a replacement for the footer, it'll dissapear on scroll -->
+    <v-app-bar
       padless
       color="white"
+      bottom
       fixed
-      class="hidden-sm-and-down"
+      class="hidden-xs-and-down"
+      hide-on-scroll
+      scroll-threshold="300"
+      height="105"
       v-if="!(this.$route.name === 'Detail')"
     >
       <v-card
@@ -22,7 +27,9 @@
         class="lighten-1 text-center"
         width="100%"
       >
-        <v-card-text>
+        <v-card-text
+          class="py-1"
+        >
           <v-btn
             v-for="(link, i) in footer_links"
             :key="i"
@@ -35,22 +42,24 @@
             </v-icon>
           </v-btn>
         </v-card-text>
-      </v-card>
-
-      <v-row
-        justify="center"
-        no-gutters
-      >
-        <v-col
+        <v-card-text
           class="ipfsPrimary lighten-1 white--text py-4 text-center text-caption"
-          cols="12"
         >
           Funded through the
-          <a href="https://nlnet.nl/project/IPFS-search/">NLNet/NGI0 Discovery Fund</a>
-          and proudly sponsered by <a href="https://redpencil.io/">redpencil.io</a>
-        </v-col>
-      </v-row>
-    </v-footer>
+          <a
+            href="https://nlnet.nl/project/IPFS-search/"
+          >
+            NLNet/NGI0 Discovery Fund
+          </a>
+          and proudly sponsered by
+          <a
+            href="https://redpencil.io/"
+          >
+            redpencil.io
+          </a>
+        </v-card-text>
+      </v-card>
+    </v-app-bar>
   </v-app>
 </template>
 
