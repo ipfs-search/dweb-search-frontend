@@ -33,6 +33,7 @@
     "@vue/eslint-config-airbnb": "^5.0.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.19.0",
@@ -54,6 +55,16 @@
     ],
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "settings": {
+      "import/resolver": {
+        "alias": {
+          "map": [
+            ["@", "./src"]
+          ],
+          "extensions": [".ts", ".js", ".jsx", ".json"]
+        }
+      }
     },
     "rules": {
       "no-console": "off",
