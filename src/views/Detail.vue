@@ -65,7 +65,7 @@
               right: 0;"
     >
       <v-carousel
-        v-if="carouselIndex > -1"
+        v-if="!singleItem"
         v-model="carouselIndex"
         height="100%"
         hide-delimiters
@@ -84,9 +84,9 @@
         </v-carousel-item>
       </v-carousel>
       <component
+        v-else
         :is="componentType"
-        v-else-if="item"
-        :file="item"
+        :file="singleItem"
       />
     </div>
   </div>
@@ -101,40 +101,42 @@ import DocumentDetail from '../components/results/detail/DocumentDetail';
 import DirectoryDetail from '../components/results/detail/DirectoryDetail';
 import VideoDetail from '../components/results/detail/VideoDetail';
 import AudioDetail from '../components/results/detail/AudioDetail';
+import { apiMetadataQuery, apiSearchQueryString } from '../helpers/ApiHelper';
 
 export default {
-  async beforeCreate() {
+  beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
-    store.dispatch(`results/${router.currentRoute.params.fileType}/resetResults`);
-    await store.dispatch(`results/${router.currentRoute.params.fileType}/getResults`, store.state.query.page || 1)
-      .then((r) => console.log('received paginated results', r));
+    store.commit(`results/${router.currentRoute.params.fileType}/clearResults`);
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
   created() {
-    // take index parameter from route props, if available. Else fallback on hash match.
-    if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
-      this.$data.carouselIndex = this.selectedIndex;
-    } else {
-      const index = this.items.findIndex((item) => item.hash === this.fileHash);
-      if (index > -1) {
-        this.$data.carouselIndex = index;
-      }
-    }
-    /*
-    // fetch requested detail page directly from the api if not available in paginated results
-
-    if (index === -1) {
-      console.debug(`No items matching ${this.fileHash}; requesting directly from API`);
-      // eslint-disable-next-line vue/no-async-in-computed-properties
-      apiSearch(this.$props.fileHash, this.$props.fileType)
-        .then((results) => {
-          if (results.error) throw results.error;
-          console.debug('results', results);
-          this.$data.item = results?.hits[0];
-        })
-        .catch(console.error);
-    }
-    */
+    this.$data.singleItem = { hash: this.fileHash };
+    // TODO: remove reloading of the results when they are already in the store
+    apiSearchQueryString()
+      .then((results) => {
+        store.commit(`results/${this.fileType}/appendResults`, results);
+        console.debug('received results for query string', results);
+        this.$data.items = results.hits;
+        // take index parameter from route props, if available. Else fallback on hash match.
+        if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
+          this.$data.carouselIndex = this.selectedIndex;
+          this.singleItem = undefined;
+        } else {
+          const index = this.items.findIndex((item) => item.hash === this.fileHash);
+          if (index > -1) {
+            this.$data.carouselIndex = index;
+            this.singleItem = undefined;
+          } else {
+            console.debug(`No items matching ${this.fileHash}; requesting metadata.`);
+            apiMetadataQuery(this.fileHash)
+              .then((metadata) => {
+                this.singleItem = metadata;
+              });
+          }
+        }
+        return results;
+      })
+      .catch((error) => store.commit(`results/${this.fileType}/setError`, error));
   },
   props: {
     fileType: {
@@ -152,7 +154,8 @@ export default {
   },
   data() {
     return {
-      item: null,
+      singleItem: undefined,
+      items: [],
       carouselIndex: 0,
     };
   },
@@ -173,36 +176,46 @@ export default {
           return null;
       }
     },
-    items() {
-      return store.state.results[this.fileType].results.hits;
-    },
     detailComponent() {
       return store.state.query.type;
     },
   },
   watch: {
+    /**
+     * handle previous/next page loading
+     */
     carouselIndex: {
       handler(index) {
         // load next page if end of page is reached
-        // TODO: refactor getResults to have more consistent behavior and update this watch
         const page = Number(this.$route.query.page);
         if (index === this.items.length - 1) {
           console.debug('last carousel item: loading items for page', page + 1);
-          store.dispatch(`results/${this.$props.fileType}/getResults`, page + 1);
+          apiSearchQueryString(page)
+            .then((results) => {
+              if (results.length > 0) {
+                store.commit(`results/${this.fileType}/appendResults`, results);
+              } else {
+                console.debug('no more results for query');
+              }
+            });
         } else if (index === 0 && page > 1) {
           console.debug('first carousel item: loading items for page', page - 1);
-          store.dispatch(`results/${this.$props.fileType}/getResults`, {
-            page: page - 1,
-            prepend: true,
-          }).then(() => {
-            this.primaryPage -= 1;
-          });
+          apiSearchQueryString(page - 2)
+            .then((results) => {
+              store.commit(`results/${this.fileType}/prependResults`, results);
+              this.primaryPage -= 1;
+            });
         }
       },
       immediate: true,
     },
   },
   methods: {
+    /**
+     * handle route setting when caroussel index changes
+     * Note that the case is different than with the watch above, which fires upon page load as well
+     * @param index
+     */
     onCarouselIndexChange(index) {
       // change the fileHash and the page number in the url
       console.debug('carousel index change: update url');

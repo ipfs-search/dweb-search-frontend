@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
-import MediaHeader from '@/components/results/detail/MediaHeader';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 
 export default {
 

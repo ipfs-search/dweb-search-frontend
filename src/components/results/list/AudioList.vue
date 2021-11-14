@@ -22,7 +22,7 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(index)"
+            @click="goToDetailPage(hit.hash)"
           >
             <v-img
               :src="hit.src"
@@ -73,7 +73,7 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './FileListMixin';
 
 export default {
   mixins: [

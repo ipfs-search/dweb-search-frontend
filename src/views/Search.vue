@@ -80,6 +80,7 @@ const { Types } = require('@/helpers/typeHelper');
 export default {
   created() {
     this.Types = Types;
+    this.$store.commit('query/setRouteParams', this.$route.query);
   },
   components: {
     SearchBar,

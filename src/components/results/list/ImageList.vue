@@ -21,11 +21,11 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(index)"
+            @click="goToDetailPage(hit.hash)"
             :id="hit.hash"
           >
             <v-img
-              :src="`https://gateway.ipfs.io/ipfs/${hit.hash}`"
+              :src="getResourceURL(hit.hash)"
               aspect-ratio="1"
               class="grey lighten-2"
             >
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './FileListMixin';
 
 export default {
   mixins: [
@@ -60,7 +60,7 @@ export default {
     return {
       fileType: 'images',
       shortList: 6,
-      // infinite: true,
+      infinite: true,
     };
   },
 };

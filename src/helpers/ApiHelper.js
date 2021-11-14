@@ -1,4 +1,6 @@
 import { DefaultApi } from 'ipfs-search-client';
+import store from '../store';
+import router from '../router';
 
 export const api = new DefaultApi();
 // the page limit of the API
@@ -49,6 +51,34 @@ export function legacyTypeFilter(typeList) {
   return ` metadata.Content-Type:(${t})`;
 }
 
+/**
+ * gets metadata from api and normalizes it to the format from the search API
+ * @param hash
+ * @returns {Promise<{author: *, mimetype: *, creation_date: *, title, hash: *}>}
+ */
+export function apiMetadataQuery(hash) {
+// TODO: better normalization. Might be better to do at the API side.
+// TODO: consistent file-data format throughout frontend code
+  return api.metadatahashGet(hash)
+    .then(({ metadata }) => {
+      console.debug('received metadata:', metadata);
+      return {
+        hash,
+        author: metadata.Author[0],
+        title: metadata.title[0] || metadata.resourceName[0],
+        mimetype: metadata['Content-Type'][0],
+        creation_date: metadata['Creation-Date'][0],
+      };
+    });
+}
+
+/**
+ * perform search query on the API. Note that page is 0-based
+ * @param query
+ * @param type
+ * @param page: 0 based page number
+ * @returns {Promise<never>|Promise<SearchResultList>}
+ */
 export function apiSearch(query, type, page = 0) {
   if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
@@ -69,10 +99,27 @@ export function apiSearch(query, type, page = 0) {
   });
 }
 
+/**
+ * shorthand function for api search on the querystring from the query store
+ *
+ * @param fileType
+ * @param page
+ * @returns {Promise<never>|Promise<SearchResultList>}
+ */
+export function apiSearchQueryString(page = undefined) {
+  return apiSearch(
+    store.getters['query/apiQueryString'],
+    router.currentRoute.params.fileType,
+    page ?? (Number(router.currentRoute?.query?.page) || 0),
+  );
+}
+
 export default {
   maxPages,
   api,
   legacyTypeFilter,
   legacyTypes,
+  apiMetadataQuery,
   apiSearch,
+  apiSearchQueryString,
 };

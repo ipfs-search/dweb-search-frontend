@@ -31,7 +31,8 @@
                 <v-row>
                   <v-col>
                     <PdfViewer
-                      v-if="$props.file.mimetype.toLowerCase() === 'application/pdf'"
+                      v-if="$props.file.mimetype
+                        && $props.file.mimetype.toLowerCase() === 'application/pdf'"
                       :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
                     />
                     <span v-else>File can not be displayed</span>
@@ -52,9 +53,9 @@
 </template>
 <script>
 
-import MediaHeader from '@/components/results/detail/MediaHeader';
-import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer';
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
+import PdfViewer from '@/components/results/detail/helpers/PdfViewer';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 
 export default {
   components: {

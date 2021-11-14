@@ -113,7 +113,7 @@ const actions = {
     const { page_count } = rootState.results[state.type].results;
     // eslint-disable-next-line camelcase
     if (page_count > page) {
-      // dispatch(`results/${state.type}/resetResults`, null, { root: true });
+      // commit(`results/${state.type}/clearResults`, null, { root: true });
       commit('setPage', page);
       // dispatch(`results/${state.type}/getResults`, page, { root: true });
     }

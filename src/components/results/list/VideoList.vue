@@ -13,7 +13,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="goToDetailPage(index)"
+        @click="goToDetailPage(hit.hash)"
       >
         <v-row>
           <v-col
@@ -27,19 +27,19 @@
               class="ma-3 mr-sm-0"
               cover
               aspect-ratio="1.778"
-              src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+              :src="hit.src"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
               <v-icon
                 size="64"
                 color="white"
-                style="opacity: 0.9;
+                style="opacity: 0.3;
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);"
               >
-                mdi-play
+                mdi-video
               </v-icon>
             </v-img>
           </v-col>
@@ -78,7 +78,7 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './FileListMixin';
 
 export default {
   mixins: [

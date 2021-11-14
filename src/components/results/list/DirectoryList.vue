@@ -12,7 +12,7 @@
       :key="index"
     >
       <v-card
-        @click="goToDetailPage(index)"
+        @click="goToDetailPage(hit.hash)"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span
@@ -40,7 +40,7 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './FileListMixin';
 
 export default {
   mixins: [

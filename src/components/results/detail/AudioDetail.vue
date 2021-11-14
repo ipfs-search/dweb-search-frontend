@@ -77,8 +77,8 @@
 </template>
 
 <script>
-import MediaHeader from '@/components/results/detail/MediaHeader';
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import AudioPlayButton from '@/components/helpers/AudioPlayButton';
 
 export default {

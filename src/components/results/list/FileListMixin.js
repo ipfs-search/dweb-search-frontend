@@ -8,10 +8,6 @@ const infiniteScrollMargin = 200;
  * TODO: split infinite scrolling logic and paged into 2 different mixins
  */
 export default {
-  created() {
-    console.debug('FileListMixin created: committing route query to store', this.$route.query);
-    store.commit('query/setRouteParams', this.$route.query);
-  },
   components: {
     ListBase,
   },
