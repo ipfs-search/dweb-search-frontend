@@ -94,37 +94,30 @@
 
 <script>
 import store from '@/store';
-import router from '@/router';
 import { Types } from '../helpers/typeHelper';
 import ImageDetail from '../components/results/detail/ImageDetail';
 import DocumentDetail from '../components/results/detail/DocumentDetail';
 import DirectoryDetail from '../components/results/detail/DirectoryDetail';
 import VideoDetail from '../components/results/detail/VideoDetail';
 import AudioDetail from '../components/results/detail/AudioDetail';
-import { apiMetadataQuery, apiSearchQueryString } from '../helpers/ApiHelper';
+import { apiMetadataQuery } from '../helpers/ApiHelper';
 
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
-    store.commit(`results/${router.currentRoute.params.fileType}/clearResults`);
     this.primaryPage = Number(this.$route.query.page) || 0;
   },
   created() {
     this.$data.singleItem = { hash: this.fileHash };
-    // TODO: remove reloading of the results when they are already in the store
-    apiSearchQueryString({ type: this.fileType })
-      .then((results) => {
-        store.commit(`results/${this.fileType}/appendResults`, results);
-        console.debug('received results for query string', results);
-        // take index parameter from route props, if available. Else fallback on hash match.
-        if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
-          this.$data.carouselIndex = this.selectedIndex;
-          this.singleItem = undefined;
-        } else {
+    if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
+      this.$data.carouselIndex = this.selectedIndex;
+    } else {
+      store.dispatch(`results/${this.fileType}/fetchPage`, this.$route.query.page)
+        .then(() => {
+          // take index parameter from route props, if available. Else fallback on hash match.
           const index = this.items.findIndex((item) => item.hash === this.fileHash);
           if (index > -1) {
             this.$data.carouselIndex = index;
-            this.singleItem = undefined;
           } else {
             console.debug(`No items matching ${this.fileHash}; requesting metadata.`);
             apiMetadataQuery(this.fileHash)
@@ -132,10 +125,9 @@ export default {
                 this.singleItem = metadata;
               });
           }
-        }
-        return results;
-      })
-      .catch((error) => store.commit(`results/${this.fileType}/setError`, error));
+        })
+        .catch(console.error);
+    }
   },
   props: {
     fileType: {
@@ -184,25 +176,18 @@ export default {
      */
     carouselIndex: {
       handler(index) {
-        // load next page if end of page is reached
         const page = Number(this.$route.query.page);
-        if (index === this.items.length - 1) {
+        if (index === this.items.length - 1 || this.items[index + 1] === undefined) {
           console.debug('last carousel item: loading items for page', page + 1);
-          apiSearchQueryString({ page })
+          store.dispatch(`results/${this.fileType}/fetchPage`, { page })
             .then((results) => {
               console.log(`results for page ${page + 1}`, results);
-              if (results.hits.length > 0) {
-                store.commit(`results/${this.fileType}/appendResults`, results);
-              } else {
-                console.debug('no more results for query', results);
-              }
             });
-        } else if (index === 0 && page > 1) {
+        } else if (index === ((page - 1) * 15) && page > 1 && this.items[index - 1] === undefined) {
           console.debug('first carousel item: loading items for page', page - 1);
-          apiSearchQueryString({ page: page - 2 })
+          store.dispatch(`results/${this.fileType}/fetchPage`, { page: page - 2 })
             .then((results) => {
-              store.commit(`results/${this.fileType}/prependResults`, results);
-              this.primaryPage -= 1;
+              console.log(`results for page ${page + 1}`, results);
             });
         }
       },

@@ -1,7 +1,4 @@
 import { DefaultApi } from 'ipfs-search-client';
-import store from '../store';
-import router from '../router';
-import { fileTypes } from '@/helpers/typeHelper';
 
 export const api = new DefaultApi();
 
@@ -79,9 +76,11 @@ export function apiMetadataQuery(hash) {
  * @param query
  * @param type
  * @param page: 0 based page number
+ * @param pageSize: forward compatible parameter, currently unused
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
-export function apiSearch(query, type, page = 0) {
+// eslint-disable-next-line no-unused-vars
+export function apiSearch(query, type, page = 0, pageSize = 15) {
   if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
   console.debug('Api Search for', query, type, page);
@@ -103,25 +102,6 @@ export function apiSearch(query, type, page = 0) {
   });
 }
 
-/**
- * shorthand function for api search on the querystring from the query store.
- * fileType is derived from the current route
- *
- * @param {page, type}
- * @returns {Promise<never>|Promise<SearchResultList>}
- */
-export function apiSearchQueryString(options = {}) {
-  const { page, type } = options;
-  if (!(type ?? fileTypes.includes(router.currentRoute.query.type))) {
-    throw Error('apiSearchQueryString: trying to request results without type');
-  }
-  return apiSearch(
-    store.getters['query/apiQueryString'],
-    type ?? router.currentRoute.query.type,
-    page ?? Number(router.currentRoute?.query?.page || 0),
-  );
-}
-
 export default {
   maxPages,
   api,
@@ -129,5 +109,4 @@ export default {
   legacyTypes,
   apiMetadataQuery,
   apiSearch,
-  apiSearchQueryString,
 };

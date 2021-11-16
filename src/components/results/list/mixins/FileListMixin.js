@@ -1,6 +1,5 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
-import { apiSearchQueryString } from '@/helpers/ApiHelper';
 import getResourceURL from '@/helpers/resourceURL';
 
 /**
@@ -12,21 +11,21 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      results: [],
     };
   },
   computed: {
+    loading() {
+      return this.$store.state.results[this.fileType].loading;
+    },
     loadingError() {
       return this.$store.state.results[this.fileType].error;
     },
-    results() {
-      return store.state.results[this.$data.fileType].results;
-    },
     shownHits() {
       if (this.$route.query.type === this.$data.fileType) {
-        return this.results.hits;
+        return this.results;
       }
-      return this.results.hits.slice(0, this.shortList);
+      return this.results.slice(0, this.shortList);
     },
     page: {
       get() { return Number(this.$route.query.page); },
@@ -77,18 +76,16 @@ export default {
         // }
 
         console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
-        store.commit(`results/${this.fileType}/clearResults`);
 
         // if (this.infinite) {
         //   this.getInfiniteResults()
         //     .then(this.infiniteScroll)
         //     .then(this.scrollDown);
         // } else {
-        this.loading = true;
-        apiSearchQueryString({ type: this.fileType })
+        store.dispatch(`results/${this.fileType}/fetchPage`,
+          { page: Number(query.page) - 1 || 0 })
           .then((results) => {
-            store.commit(`results/${this.fileType}/appendResults`, results);
-            this.loading = false;
+            this.$data.results = results;
           })
           .catch(console.error);
         // }

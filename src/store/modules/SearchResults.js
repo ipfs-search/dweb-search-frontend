@@ -1,6 +1,5 @@
-// import { apiSearch } from '../../helpers/ApiHelper';
+import { apiSearch } from '@/helpers/ApiHelper';
 
-// TODO: keep track in store of which page(s) have been loaded, and logic to prevent reloading
 const initialResults = {
   total: 0,
   max_score: 0.0,
@@ -9,72 +8,66 @@ const initialResults = {
 
 const mutations = {
   // Mutations relating to search results
-  setError(state) {
-    state.error = true;
+  setLoading(state, loading = true) {
+    state.loading = loading;
   },
-  clearResults(state) {
-    state.results = initialResults;
+  setError(state, error) {
+    state.loading = false;
+    state.error = error;
   },
-  prependResults(state, results) {
+  setResults(state, { results, index }) {
+    state.loading = false;
+    const { hits } = state.results;
+
+    // splice behaves weird beyond the length of the array, so if needed, lengthen it
+    if (index >= hits.length) hits[index] = undefined;
+    hits.splice(index, results.hits.length, ...results.hits);
+
     state.results = {
       ...results,
-      hits: [
-        ...results.hits,
-        ...state.results.hits,
-      ],
-    };
-  },
-  appendResults(state, results) {
-    state.results = {
-      ...results,
-      hits: [
-        ...state.results.hits,
-        ...results.hits,
-      ],
+      hits,
     };
   },
 };
 
-const state = () => ({
-  error: false,
-  results: initialResults,
-});
-
-export default () => ({
-  namespaced: true,
-  state,
-  actions: {
-    /**
-     * receive results and append (or prepend) them to the state
-     * @Deprecated
-     * TODO: seperate concerns for getResults action; API call should live somewhere else
-     * - that way, the code is more flexible in choosing what to do with the retrieved results
-     * @param {rootGetters, commit}
-     * @param options/page: page number or {page, prepend}
-     */
-    /*
-    getResults({ rootGetters, commit }, options = 1) {
-      // I am phasing out the loading state because it may lead to mutex issues (there is no lock).
-      // also I don't think it is actually being used anywhere
-      // commit('setLoading');
-
-      const page = (typeof options === 'object') ? options.page : options;
-      const prepend = (typeof options === 'object') ? options.prepend : false;
-
-      apiSearch(rootGetters['query/apiQueryString'], type, page - 1)
-        .then((results) => {
-          if (prepend) {
-            commit('prependResults', results);
-          } else {
-            commit('appendResults', results);
-          }
-        })
-        .catch(() => {
-          commit('setError');
-        });
-    },
-
-     */
+const getters = {
+  getPage: (state) => (page, pageSize = 15) => {
+    const pageResults = state.results?.hits?.slice(page * pageSize, (page + 1) * pageSize);
+    return pageResults;
   },
+};
+
+export default (fileType) => ({
+  namespaced: true,
+  state: () => ({
+    error: false,
+    loading: false,
+    results: initialResults,
+  }),
   mutations,
+  getters,
+  actions: {
+    async fetchPage({ state, commit, rootGetters }, { page = 0, pageSize = 15 }) {
+      let pageResults = state.results?.hits?.slice(page * pageSize, (page + 1) * pageSize);
+
+      if (pageResults === undefined
+        || pageResults?.length === 0
+        || pageResults?.includes(undefined)) {
+        commit('setLoading');
+
+        const apiQueryString = rootGetters['query/apiQueryString'];
+
+        await apiSearch(apiQueryString, fileType, page, pageSize)
+          .then((results) => {
+            commit('setResults', { results, index: page * pageSize });
+            pageResults = results.hits;
+          })
+          .catch((error) => {
+            commit('setError', { error, page, pageSize });
+          });
+      }
+
+      return pageResults;
+    },
+  },
 });

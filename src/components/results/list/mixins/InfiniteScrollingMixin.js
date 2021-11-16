@@ -69,7 +69,7 @@ export default {
         return Promise.reject(Error('No more pages to load'));
       }
       this.loadingNextPage = true;
-      return apiSearch(store.getters['query/apiQueryString'], this.fileType, this.loadedPages)
+      return apiSearch(store.getters['query/apiQueryString'], this.fileType, this.loadedPages, pageSize)
         .then((results) => {
           store.commit(`results/${this.fileType}/clearResults`);
           store.commit(`results/${this.fileType}/appendResults`, results);
