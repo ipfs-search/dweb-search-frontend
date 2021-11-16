@@ -3,6 +3,7 @@ import store from '../store';
 import router from '../router';
 
 export const api = new DefaultApi();
+
 // the page limit of the API
 export const maxPages = 100;
 
@@ -100,10 +101,11 @@ export function apiSearch(query, type, page = 0) {
 }
 
 /**
- * shorthand function for api search on the querystring from the query store
+ * shorthand function for api search on the querystring from the query store.
+ * fileType is derived from the current route
  *
  * @param fileType
- * @param page
+ * @param page: 0 based page number
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
 export function apiSearchQueryString(page = undefined) {

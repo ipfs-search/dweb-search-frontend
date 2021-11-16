@@ -1,6 +1,6 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
-import { maxPages } from '@/helpers/ApiHelper';
+import { apiSearch, apiSearchQueryString, maxPages } from '@/helpers/ApiHelper';
 
 const infiniteScrollMargin = 200;
 /**
@@ -119,18 +119,17 @@ export default {
         return Promise.reject(Error('No more pages to load'));
       }
       this.loadingNextPage = true;
-      return store.dispatch(`results/${this.fileType}/getResults`, {
-        page: this.loadedPages + 1,
-      })
-        .then((results, error) => {
+      return apiSearch(store.getters['query/apiQueryString'], this.fileType, this.loadedPages)
+        .then((results) => {
+          store.commit(`results/${this.fileType}/clearResults`);
+          store.commit(`results/${this.fileType}/appendResults`, results);
           this.loadingNextPage = false;
           if (results?.hits?.length > 0) {
             this.loadedPages += 1;
-          } else {
-            throw Error('Error loading files', error);
           }
           return Promise.resolve(results);
-        });
+        })
+        .catch(console.error);
     },
 
     /**
@@ -192,14 +191,18 @@ export default {
         }
 
         console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
-        store.dispatch(`results/${this.fileType}/resetResults`);
+        store.commit(`results/${this.fileType}/clearResults`);
 
         if (this.infinite) {
           this.getInfiniteResults()
             .then(this.infiniteScroll)
             .then(this.scrollDown);
         } else {
-          store.dispatch(`results/${this.fileType}/getResults`, store.state.query.page || 1);
+          apiSearchQueryString()
+            .then((results) => {
+              store.commit(`results/${this.fileType}/appendResults`, results);
+            })
+            .catch(console.error);
         }
       },
     },
