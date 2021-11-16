@@ -58,7 +58,7 @@
 <script>
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
-import DetailMixin from '@/mixins/DetailMixin';
+import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 
 export default {
   mixins: [

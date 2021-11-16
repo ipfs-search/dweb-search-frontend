@@ -108,7 +108,7 @@ import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import AudioDetailButton from '@/components/helpers/AudioDetailButton';
 import AudioControlsMixin from '@/mixins/AudioControlsMixin';
-import DetailMixin from '@/mixins/DetailMixin';
+import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 
 export default {
   mixins: [

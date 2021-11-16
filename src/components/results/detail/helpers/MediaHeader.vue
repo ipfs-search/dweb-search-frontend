@@ -34,7 +34,7 @@
 
 <script>
 import DownloadButton from '@/components/helpers/DownloadButton';
-import DetailMixin from '@/mixins/DetailMixin';
+import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 
 export default {
   mixins: [

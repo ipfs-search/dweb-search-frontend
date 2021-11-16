@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import FileListMixin from './FileListMixin';
+import FileListMixin from './mixins/FileListMixin';
 
 export default {
   mixins: [

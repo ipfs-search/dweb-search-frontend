@@ -40,7 +40,7 @@
     <v-row
       dense
       justify="center"
-      v-if="this.$parent.loading && !this.$parent.infinite"
+      v-if="this.$parent.loading && !infinite"
     >
       <v-progress-circular
         indeterminate
@@ -53,13 +53,15 @@
       <slot />
     </v-row>
     <!--     PAGINATION -->
+    <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->
     <div
       class="my-16"
+      style="margin-bottom: 135px !important"
       v-if="!anyFileType && !infinite"
     >
       <v-pagination
         v-model="$parent.page"
-        :length="page_count"
+        :length="pageCount"
         total-visible="9"
       />
     </div>
@@ -80,14 +82,14 @@ export default {
   data() {
     return {
       infinite: this.$parent.infinite === true,
-      page_count: 0,
+      pageCount: 0,
     };
   },
   watch: {
     '$parent.results.page_count': {
-      handler(next) {
-        if (next > 0) {
-          this.page_count = Math.min(next, maxPages);
+      handler(pageCount) {
+        if (pageCount > 0) {
+          this.pageCount = Math.min(pageCount, maxPages);
         }
       },
       immediate: true,

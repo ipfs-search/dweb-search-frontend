@@ -10,12 +10,14 @@ export default {
   components: {
     ListBase,
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     loadingError() {
       return this.$store.state.results[this.fileType].error;
-    },
-    loading() {
-      return this.$store.state.results[this.fileType].loading;
     },
     results() {
       return store.state.results[this.$data.fileType].results;
@@ -55,14 +57,14 @@ export default {
 
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       /**
        * This watcher retrieves new data for the query, and gets triggered on
        * a change of one of the search parameters
        * @param query
        * @param lastQuery
        */
-      // TODO: override logic for infinite scrolling
+      // TODO: inject/override logic for infinite scrolling
       handler(query, lastQuery) {
         // if (lastQuery
         //   && Object.keys(query).filter((key) => key !== 'page')
@@ -82,9 +84,11 @@ export default {
         //     .then(this.infiniteScroll)
         //     .then(this.scrollDown);
         // } else {
+        this.loading = true;
         apiSearchQueryString({ type: this.fileType })
           .then((results) => {
             store.commit(`results/${this.fileType}/appendResults`, results);
+            this.loading = false;
           })
           .catch(console.error);
         // }

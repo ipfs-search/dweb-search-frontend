@@ -116,7 +116,6 @@ export default {
       .then((results) => {
         store.commit(`results/${this.fileType}/appendResults`, results);
         console.debug('received results for query string', results);
-        this.$data.items = results.hits;
         // take index parameter from route props, if available. Else fallback on hash match.
         if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
           this.$data.carouselIndex = this.selectedIndex;
@@ -155,7 +154,6 @@ export default {
   data() {
     return {
       singleItem: undefined,
-      items: [],
       carouselIndex: 0,
     };
   },
@@ -176,6 +174,9 @@ export default {
           return null;
       }
     },
+    items() {
+      return store.state.results?.[this.fileType]?.results?.hits;
+    },
   },
   watch: {
     /**
@@ -189,10 +190,11 @@ export default {
           console.debug('last carousel item: loading items for page', page + 1);
           apiSearchQueryString({ page })
             .then((results) => {
-              if (results.length > 0) {
+              console.log(`results for page ${page + 1}`, results);
+              if (results.hits.length > 0) {
                 store.commit(`results/${this.fileType}/appendResults`, results);
               } else {
-                console.debug('no more results for query');
+                console.debug('no more results for query', results);
               }
             });
         } else if (index === 0 && page > 1) {
