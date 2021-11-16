@@ -17,19 +17,6 @@ export default {
     loading() {
       return this.$store.state.results[this.fileType].loading;
     },
-    stateQuery() {
-      const {
-        // eslint-disable-next-line camelcase
-        filters, type, user_query, page,
-      } = store.state.query;
-      return {
-        ...filters.size,
-        lastSeen: filters.lastSeen,
-        type,
-        user_query,
-        page,
-      };
-    },
     results() {
       return store.state.results[this.$data.fileType].results;
     },
@@ -68,39 +55,39 @@ export default {
 
   },
   watch: {
-    stateQuery: {
+    "$route.query": {
       /**
        * This watcher retrieves new data for the query, and gets triggered on
-       * a change of one of the search parameters, other than the page.
+       * a change of one of the search parameters
        * @param query
        * @param lastQuery
        */
-      // TODO: remove remaining logic for infinite scrolling of standard filelist mixin
+      // TODO: override logic for infinite scrolling
       handler(query, lastQuery) {
-        if (lastQuery
-          && Object.keys(query).filter((key) => key !== 'page')
-            .every((key) => query[key] === lastQuery[key])
-          && Object.keys(lastQuery).filter((key) => key !== 'page')
-            .every((key) => query[key] === lastQuery[key])
-          && this.infinite && query.page !== lastQuery.page
-        ) {
-          return;
-        }
+        // if (lastQuery
+        //   && Object.keys(query).filter((key) => key !== 'page')
+        //     .every((key) => query[key] === lastQuery[key])
+        //   && Object.keys(lastQuery).filter((key) => key !== 'page')
+        //     .every((key) => query[key] === lastQuery[key])
+        //   && this.infinite && query.page !== lastQuery.page
+        // ) {
+        //   return;
+        // }
 
         console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
         store.commit(`results/${this.fileType}/clearResults`);
 
-        if (this.infinite) {
-          this.getInfiniteResults()
-            .then(this.infiniteScroll)
-            .then(this.scrollDown);
-        } else {
-          apiSearchQueryString({ type: this.fileType })
-            .then((results) => {
-              store.commit(`results/${this.fileType}/appendResults`, results);
-            })
-            .catch(console.error);
-        }
+        // if (this.infinite) {
+        //   this.getInfiniteResults()
+        //     .then(this.infiniteScroll)
+        //     .then(this.scrollDown);
+        // } else {
+        apiSearchQueryString({ type: this.fileType })
+          .then((results) => {
+            store.commit(`results/${this.fileType}/appendResults`, results);
+          })
+          .catch(console.error);
+        // }
       },
       immediate: true,
     },
