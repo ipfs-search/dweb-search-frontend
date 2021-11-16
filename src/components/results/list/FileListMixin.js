@@ -1,6 +1,7 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import { apiSearch, apiSearchQueryString, maxPages } from '@/helpers/ApiHelper';
+import getResourceURL from '@/helpers/resourceURL';
 
 const infiniteScrollMargin = 200;
 /**
@@ -55,6 +56,7 @@ export default {
     },
   },
   methods: {
+    getResourceURL,
     goToDetailPage(index) {
       this.$router.push({
         name: 'Detail',
@@ -99,9 +101,21 @@ export default {
     },
 
     scrollDown() {
+      // Scroll down to the current page.
       const scrollQueryPage = this.$route.query.page;
+
+      function getTop() {
+        const { offsetHeight } = document.documentElement;
+
+        if (scrollQueryPage > 1) {
+          return Math.floor((offsetHeight / this.loadedPages) * scrollQueryPage);
+        }
+
+        return 0;
+      }
+
       window.scrollTo({
-        top: scrollQueryPage > 1 ? Math.floor((document.documentElement.offsetHeight / this.loadedPages) * scrollQueryPage) : 0,
+        top: getTop(),
         left: 0,
         behavior: 'smooth',
       });
@@ -175,7 +189,8 @@ export default {
     },
     stateQuery: {
       /**
-       * this watcher gets triggered on a change of one of the search parameters, other than the page
+       * This watcher gets triggered on a change of one of the search parameters,
+       * other than the page.
        * @param query
        * @param lastQuery
        */

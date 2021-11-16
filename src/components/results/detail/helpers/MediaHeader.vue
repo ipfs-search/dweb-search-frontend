@@ -8,8 +8,10 @@
             Last seen <timeago :datetime="$props.file['last-seen']" />
           </span>
           <span v-if="$props.file.size"> | Size {{ $props.file.size | prettyBytes }}</span>
-          <span> | Mimetype {{ $props.file['mimetype'] }}</span>
+          <span v-if="$props.file['mimetype']"> | Mimetype {{ $props.file['mimetype'] }}</span>
           <DownloadButton
+            class="ml-1"
+            v-if="$props.file.size"
             :hash="$props.file.hash"
             :title="$props.file.title"
           />
@@ -21,8 +23,9 @@
     <v-row>
       <v-col>
         <div
+          v-if="$props.file.title"
           class="text-h6 font-weight-regular"
-          v-html="`${$props.file.title || '(no title)'}`"
+          v-html="$props.file.title"
         />
       </v-col>
     </v-row>
@@ -31,15 +34,13 @@
 
 <script>
 import DownloadButton from '@/components/helpers/DownloadButton';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
+  mixins: [
+    DetailMixin,
+  ],
   components: { DownloadButton },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
 };
 </script>
 

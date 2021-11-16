@@ -1,5 +1,6 @@
 <template>
   <ListBase>
+
     <template v-slot:type>
       Video ({{ results.total }})
     </template>

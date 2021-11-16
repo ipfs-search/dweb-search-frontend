@@ -55,7 +55,34 @@
                             aspect-ratio="1"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                           >
-                            <AudioPlayButton :file="$props.file" />
+                            <AudioDetailButton
+                              v-if="$data.error"
+                              :title="$data.error"
+                            >
+                              mdi-alert
+                            </AudioDetailButton>
+                            <AudioDetailButton
+                              v-else-if="!currentlyLoadedInPlayer"
+                              @click="loadSoundFile($props.file)"
+                            >
+                              mdi-play
+                            </AudioDetailButton>
+                            <AudioDetailButton
+                              v-else-if="currentlyLoadedInPlayer && loading"
+                              loading
+                            />
+                            <AudioDetailButton
+                              v-else-if="currentlyLoadedInPlayer && playing"
+                              @click="pause"
+                            >
+                              mdi-pause
+                            </AudioDetailButton>
+                            <AudioDetailButton
+                              v-else
+                              @click="play"
+                            >
+                              mdi-play
+                            </AudioDetailButton>
                           </v-img>
                         </v-col>
                       </v-row>
@@ -79,20 +106,29 @@
 <script>
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
-import AudioPlayButton from '@/components/helpers/AudioPlayButton';
+import AudioDetailButton from '@/components/helpers/AudioDetailButton';
+import AudioControlsMixin from '@/mixins/AudioControlsMixin';
+import DetailMixin from '@/mixins/DetailMixin';
 
 export default {
-
+  mixins: [
+    DetailMixin,
+    AudioControlsMixin,
+  ],
   components: {
-    AudioPlayButton,
+    AudioDetailButton,
     MetaDataPanel,
     MediaHeader,
   },
-
   props: {
     file: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    currentlyLoadedInPlayer() {
+      return this.$props.file.hash === this.sourceFile?.hash;
     },
   },
 };

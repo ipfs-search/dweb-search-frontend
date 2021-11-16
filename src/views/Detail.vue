@@ -176,9 +176,6 @@ export default {
           return null;
       }
     },
-    detailComponent() {
-      return store.state.query.type;
-    },
   },
   watch: {
     /**
