@@ -9,7 +9,6 @@ export default {
      * @param newQuery
      */
     search(newQuery, page = 1) {
-      console.log('router', this.$router);
       this.$router.push({
         name: 'Search',
         query: {

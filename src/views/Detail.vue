@@ -187,7 +187,7 @@ export default {
         const page = Number(this.$route.query.page);
         if (index === this.items.length - 1) {
           console.debug('last carousel item: loading items for page', page + 1);
-          apiSearchQueryString(page)
+          apiSearchQueryString({ page })
             .then((results) => {
               if (results.length > 0) {
                 store.commit(`results/${this.fileType}/appendResults`, results);
@@ -197,7 +197,7 @@ export default {
             });
         } else if (index === 0 && page > 1) {
           console.debug('first carousel item: loading items for page', page - 1);
-          apiSearchQueryString(page - 2)
+          apiSearchQueryString({ page: page - 2 })
             .then((results) => {
               store.commit(`results/${this.fileType}/prependResults`, results);
               this.primaryPage -= 1;

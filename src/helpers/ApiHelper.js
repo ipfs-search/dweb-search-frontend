@@ -1,6 +1,7 @@
 import { DefaultApi } from 'ipfs-search-client';
 import store from '../store';
 import router from '../router';
+import { fileTypes } from '@/helpers/typeHelper';
 
 export const api = new DefaultApi();
 
@@ -83,6 +84,8 @@ export function apiMetadataQuery(hash) {
 export function apiSearch(query, type, page = 0) {
   if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
+  console.debug('Api Search for', query, type, page);
+
   const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
   const apiType = type === 'directories' ? 'directory' : 'file'; // Legacy API workaround; only accepts file and directory
 
@@ -108,10 +111,13 @@ export function apiSearch(query, type, page = 0) {
  * @param page: 0 based page number
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
-export function apiSearchQueryString(page = undefined) {
+export function apiSearchQueryString({ page = undefined, type = undefined }) {
+  if (!(type ?? fileTypes.includes(router.currentRoute.query.type))) {
+    throw Error('apiSearchQueryString: trying to request results without type');
+  }
   return apiSearch(
     store.getters['query/apiQueryString'],
-    router.currentRoute.params.fileType,
+    type ?? router.currentRoute.query.type,
     page ?? (Number(router.currentRoute?.query?.page) || 0),
   );
 }

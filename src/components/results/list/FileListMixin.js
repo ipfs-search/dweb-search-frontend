@@ -213,13 +213,14 @@ export default {
             .then(this.infiniteScroll)
             .then(this.scrollDown);
         } else {
-          apiSearchQueryString()
+          apiSearchQueryString({ type: this.fileType })
             .then((results) => {
               store.commit(`results/${this.fileType}/appendResults`, results);
             })
             .catch(console.error);
         }
       },
+      immediate: true,
     },
   },
   beforeDestroy() {
