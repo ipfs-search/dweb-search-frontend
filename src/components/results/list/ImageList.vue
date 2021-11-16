@@ -21,7 +21,7 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(hit.hash)"
+            @click="goToDetailPage(index)"
             :id="hit.hash"
           >
             <v-img

@@ -14,7 +14,7 @@
       class="my-2 mb-4"
     >
       <v-card
-        @click="goToDetailPage(hit.hash)"
+        @click="goToDetailPage(index)"
       >
         <v-row>
           <v-col

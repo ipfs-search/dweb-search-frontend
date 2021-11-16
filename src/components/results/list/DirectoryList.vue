@@ -12,7 +12,7 @@
       :key="index"
     >
       <v-card
-        @click="goToDetailPage(hit.hash)"
+        @click="goToDetailPage(index)"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span
