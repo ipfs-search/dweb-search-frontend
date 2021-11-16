@@ -1,3 +1,5 @@
+import store from '@/store';
+
 export default {
   methods: {
     /**
@@ -16,6 +18,7 @@ export default {
           page,
         },
       });
+      store.commit('query/setRouteParams', this.$route.query);
     },
   },
 

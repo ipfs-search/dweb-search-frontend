@@ -43,7 +43,6 @@
                   <v-list-item-title
                     class="text-capitalize"
                   >
-                    <!-- TODO: capitalize first character -->
                     {{ t }}
                   </v-list-item-title>
                 </v-list-item>
@@ -103,14 +102,6 @@ export default {
         return;
       }
       this.search({ q: this.$data.searchPhrase });
-    },
-  },
-  watch: {
-    '$route.query': () => {
-      console.debug(
-        'SearchBar watch route.query: committing route query to store', this.$route.query,
-      );
-      store.commit('query/setRouteParams', this.$route.query);
     },
   },
 };
