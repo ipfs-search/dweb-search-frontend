@@ -39,7 +39,6 @@ export default {
       }
       return this.results.hits.slice(0, this.shortList);
     },
-    // finite
     page: {
       get() { return Number(this.$route.query.page); },
       set(value) {
@@ -71,11 +70,12 @@ export default {
   watch: {
     stateQuery: {
       /**
-       * This watcher gets triggered on a change of one of the search parameters,
-       * other than the page.
+       * This watcher retrieves new data for the query, and gets triggered on
+       * a change of one of the search parameters, other than the page.
        * @param query
        * @param lastQuery
        */
+      // TODO: remove remaining logic for infinite scrolling of standard filelist mixin
       handler(query, lastQuery) {
         if (lastQuery
           && Object.keys(query).filter((key) => key !== 'page')

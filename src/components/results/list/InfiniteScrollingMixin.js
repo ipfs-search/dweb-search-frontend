@@ -111,13 +111,12 @@ export default {
     /**
      * when route changes due to inpage navigation, update the event listeners for the filelist
      */
-    // infinite
     '$store.state.query.type': {
       handler(next, previous) {
-        if (previous === this.fileType && this.infinite) {
+        if (previous === this.fileType) {
           document.removeEventListener('scroll', this.infiniteScroll, true);
         }
-        if (next === this.fileType && this.infinite) {
+        if (next === this.fileType) {
           document.addEventListener('scroll', this.infiniteScroll, true);
         }
       },
