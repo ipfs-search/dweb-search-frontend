@@ -59,17 +59,17 @@ export function legacyTypeFilter(typeList) {
  * @returns {Promise<{author: *, mimetype: *, creation_date: *, title, hash: *}>}
  */
 export function apiMetadataQuery(hash) {
-// TODO: better normalization. Might be better to do at the API side.
+// TODO: better normalization. Examine format returning from API
 // TODO: consistent file-data format throughout frontend code
   return api.metadatahashGet(hash)
     .then(({ metadata }) => {
       console.debug('received metadata:', metadata);
       return {
         hash,
-        author: metadata.Author[0],
-        title: metadata.title[0] || metadata.resourceName[0],
-        mimetype: metadata['Content-Type'][0],
-        creation_date: metadata['Creation-Date'][0],
+        author: metadata.Author?.[0],
+        title: metadata.title?.[0] || metadata.resourceName?.[0],
+        mimetype: metadata['Content-Type']?.[0],
+        creation_date: metadata['Creation-Date']?.[0],
       };
     });
 }
@@ -107,18 +107,18 @@ export function apiSearch(query, type, page = 0) {
  * shorthand function for api search on the querystring from the query store.
  * fileType is derived from the current route
  *
- * @param fileType
- * @param page: 0 based page number
+ * @param {page, type}
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
-export function apiSearchQueryString({ page = undefined, type = undefined }) {
+export function apiSearchQueryString(options = {}) {
+  const { page, type } = options;
   if (!(type ?? fileTypes.includes(router.currentRoute.query.type))) {
     throw Error('apiSearchQueryString: trying to request results without type');
   }
   return apiSearch(
     store.getters['query/apiQueryString'],
     type ?? router.currentRoute.query.type,
-    page ?? (Number(router.currentRoute?.query?.page) || 0),
+    page ?? Number(router.currentRoute?.query?.page || 0),
   );
 }
 

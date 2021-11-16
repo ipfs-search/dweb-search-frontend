@@ -112,7 +112,7 @@ export default {
   created() {
     this.$data.singleItem = { hash: this.fileHash };
     // TODO: remove reloading of the results when they are already in the store
-    apiSearchQueryString()
+    apiSearchQueryString({ type: this.fileType })
       .then((results) => {
         store.commit(`results/${this.fileType}/appendResults`, results);
         console.debug('received results for query string', results);
