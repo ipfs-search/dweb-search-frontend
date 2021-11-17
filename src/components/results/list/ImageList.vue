@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Images ({{ results.total }})
+      Images ({{ resultsTotal }})
     </template>
 
     <v-col
@@ -21,6 +21,7 @@
           lg="2"
         >
           <v-card
+            v-if="hit"
             @click="goToDetailPage(index)"
             :id="hit.hash"
           >

@@ -2,7 +2,7 @@
   <ListBase>
 
     <template v-slot:type>
-      Video ({{ results.total }})
+      Video ({{ resultsTotal }})
     </template>
 
     <v-col

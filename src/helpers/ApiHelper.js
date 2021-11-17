@@ -4,6 +4,7 @@ export const api = new DefaultApi();
 
 // the page limit of the API
 export const maxPages = 100;
+export const pageSize = 15;
 
 export const legacyTypes = {
   text: [
@@ -80,7 +81,7 @@ export function apiMetadataQuery(hash) {
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
 // eslint-disable-next-line no-unused-vars
-export function apiSearch(query, type, page = 0, pageSize = 15) {
+export function apiSearch(query, type, page = 0, perPage = pageSize) {
   if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
   console.debug('Api Search for', query, type, page);
@@ -104,6 +105,7 @@ export function apiSearch(query, type, page = 0, pageSize = 15) {
 
 export default {
   maxPages,
+  pageSize,
   api,
   legacyTypeFilter,
   legacyTypes,

@@ -22,7 +22,7 @@
     </v-row>
 
     <v-row
-      v-if="this.$parent.loadingError"
+      v-if="this.$parent.error"
     >
       <v-col
         cols="12"
@@ -48,7 +48,7 @@
     </v-row>
     <v-row
       dense
-      v-else-if="$parent.results.total > 0"
+      v-else-if="$parent.resultsTotal > 0"
     >
       <slot />
     </v-row>
@@ -78,22 +78,14 @@ export default {
     anyFileType() {
       return this.$route.query.type === 'any' || this.$route.query.type === undefined;
     },
+    pageCount() {
+      return Math.min(this.$parent.pageCount, maxPages);
+    },
   },
   data() {
     return {
       infinite: this.$parent.infinite === true,
-      pageCount: 0,
     };
-  },
-  watch: {
-    '$parent.results.page_count': {
-      handler(pageCount) {
-        if (pageCount > 0) {
-          this.pageCount = Math.min(pageCount, maxPages);
-        }
-      },
-      immediate: true,
-    },
   },
   methods: {
     setFileType() {

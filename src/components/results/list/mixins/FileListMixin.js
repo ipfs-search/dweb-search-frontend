@@ -1,6 +1,7 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';
+import { pageSize } from '@/helpers/ApiHelper';
 
 /**
  * this mixin makes file lists load their results and allows navigation
@@ -9,23 +10,31 @@ export default {
   components: {
     ListBase,
   },
-  data() {
-    return {
-      results: [],
-    };
-  },
   computed: {
+    // N.b. mapGetters does not work here because of dynamic module loading (this.$data.fileType)
     loading() {
-      return this.$store.state.results[this.fileType].loading;
+      return store.getters[`results/${this.fileType}/error`];
     },
-    loadingError() {
-      return this.$store.state.results[this.fileType].error;
+    error() {
+      return store.getters[`results/${this.fileType}/error`];
+    },
+    resultsTotal() {
+      return store.getters[`results/${this.fileType}/resultsTotal`];
+    },
+    pageResults() {
+      return store.getters[`results/${this.fileType}/pageResults`];
+    },
+    results() {
+      return this.pageResults(Number(this.$route.query.page) - 1 || 0);
     },
     shownHits() {
       if (this.$route.query.type === this.$data.fileType) {
         return this.results;
       }
       return this.results.slice(0, this.shortList);
+    },
+    pageCount() {
+      return Math.ceil(this.resultsTotal / pageSize);
     },
     page: {
       get() { return Number(this.$route.query.page); },
@@ -84,9 +93,6 @@ export default {
         // } else {
         store.dispatch(`results/${this.fileType}/fetchPage`,
           { page: Number(query.page) - 1 || 0 })
-          .then((results) => {
-            this.$data.results = results;
-          })
           .catch(console.error);
         // }
       },

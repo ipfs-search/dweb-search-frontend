@@ -1,4 +1,4 @@
-import { apiSearch } from '@/helpers/ApiHelper';
+import { apiSearch, pageSize } from '@/helpers/ApiHelper';
 
 const initialResults = {
   total: 0,
@@ -19,8 +19,9 @@ const mutations = {
     state.loading = false;
     const { hits } = state.results;
 
-    // splice behaves weird beyond the length of the array, so if needed, lengthen it
-    if (index >= hits.length) hits[index] = undefined;
+    // splice behaves weird beyond the length of the array
+    // this 'hack' lengthens the array so splice can put results there
+    if (index >= hits.length) hits[index] = {};
     hits.splice(index, results.hits.length, ...results.hits);
 
     state.results = {
@@ -31,10 +32,13 @@ const mutations = {
 };
 
 const getters = {
-  getPage: (state) => (page, pageSize = 15) => {
-    const pageResults = state.results?.hits?.slice(page * pageSize, (page + 1) * pageSize);
+  pageResults: (state) => (page, perPage = pageSize) => {
+    const pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
     return pageResults;
   },
+  loading: (state) => state.loading,
+  error: (state) => state.error,
+  resultsTotal: (state) => state.results.total,
 };
 
 export default (fileType) => ({
@@ -47,8 +51,11 @@ export default (fileType) => ({
   mutations,
   getters,
   actions: {
-    async fetchPage({ state, commit, rootGetters }, { page = 0, pageSize = 15 }) {
-      let pageResults = state.results?.hits?.slice(page * pageSize, (page + 1) * pageSize);
+    async fetchPage({ state, commit, rootGetters }, {
+      page = 0,
+      perPage = pageSize,
+    }) {
+      let pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
 
       if (pageResults === undefined
         || pageResults?.length === 0
@@ -57,13 +64,13 @@ export default (fileType) => ({
 
         const apiQueryString = rootGetters['query/apiQueryString'];
 
-        await apiSearch(apiQueryString, fileType, page, pageSize)
+        await apiSearch(apiQueryString, fileType, page, perPage)
           .then((results) => {
-            commit('setResults', { results, index: page * pageSize });
+            commit('setResults', { results, index: page * perPage });
             pageResults = results.hits;
           })
           .catch((error) => {
-            commit('setError', { error, page, pageSize });
+            commit('setError', { error, page, perPage });
           });
       }
 
