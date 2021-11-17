@@ -9,37 +9,43 @@ export default {
       infinite: true,
     };
   },
+
+  computed: {
+    results() {
+      return store.getters[`results/${this.fileType}/hits`];
+    },
+  },
   methods: {
     /**
      * get all pages of results up to the query parameter page
      * @param pager
      */
-    async getInfiniteResults() {
-      const { page } = store.state.query;
-      this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
-
-      let errorCounter = 100;
-      while (
-        this.loadedPages < page
-        // prevent loading the total amount of pages:
-        && (!this.results.page_count || this.loadedPages < this.results.page_count)
-        // prevent loading beyond API limit:
-        && this.loadedPages < maxPages
-        && errorCounter
-      ) {
-        let error = false;
-        // eslint-disable-next-line no-await-in-loop
-        await this.appendNextPage()
-          .catch((e) => {
-            console.error(e);
-            error = true;
-          });
-        if (error) errorCounter -= 1;
-      }
-      if (errorCounter === 0) {
-        console.error('Error limit reached in loading infinite results');
-      }
-    },
+    // async getInfiniteResults() {
+    //   const { page } = store.state.query;
+    //   this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
+    //
+    //   let errorCounter = 100;
+    //   while (
+    //     this.loadedPages < page
+    //     // prevent loading the total amount of pages:
+    //     && (!this.results.page_count || this.loadedPages < this.results.page_count)
+    //     // prevent loading beyond API limit:
+    //     && this.loadedPages < maxPages
+    //     && errorCounter
+    //   ) {
+    //     let error = false;
+    //     // eslint-disable-next-line no-await-in-loop
+    //     await this.appendNextPage()
+    //       .catch((e) => {
+    //         console.error(e);
+    //         error = true;
+    //       });
+    //     if (error) errorCounter -= 1;
+    //   }
+    //   if (errorCounter === 0) {
+    //     console.error('Error limit reached in loading infinite results');
+    //   }
+    // },
 
     scrollDown() {
       // Scroll down to the current page.
@@ -74,7 +80,7 @@ export default {
         return Promise.reject(Error('No more pages to load'));
       }
       this.loadingNextPage = true;
-      return apiSearch(store.getters['query/apiQueryString'], this.fileType, this.loadedPages, pageSize)
+      return apiSearch(store.getters['query/apiQueryString'], this.fileType, this.loadedPages)
         .then((results) => {
           store.commit(`results/${this.fileType}/clearResults`);
           store.commit(`results/${this.fileType}/appendResults`, results);
@@ -96,16 +102,16 @@ export default {
       const { scrollTop, offsetHeight } = document.documentElement;
       const nearBottom = window.innerHeight + infiniteScrollMargin > offsetHeight - scrollTop;
 
-      const scrollPage = Math.floor(this.loadedPages * (scrollTop / offsetHeight)) + 1;
-      if (store.state.query.page !== scrollPage) {
-        this.$router.replace({
-          ...this.$route,
-          query: {
-            ...this.$route.query,
-            page: scrollPage,
-          },
-        });
-      }
+      // const scrollPage = Math.floor(this.loadedPages * (scrollTop / offsetHeight)) + 1;
+      // if (store.state.query.page !== scrollPage) {
+        // this.$router.replace({
+        //   ...this.$route,
+        //   query: {
+        //     ...this.$route.query,
+        //     page: scrollPage,
+        //   },
+        // });
+      // }
       if (nearBottom && !this.loadingNextPage) {
         return this.appendNextPage();
       }

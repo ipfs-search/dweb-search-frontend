@@ -61,7 +61,6 @@ export default {
     return {
       fileType: 'images',
       shortList: 6,
-      // infinite: true,
     };
   },
 };

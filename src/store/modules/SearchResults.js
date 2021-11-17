@@ -50,6 +50,7 @@ const getters = {
   loading: (state) => state.loading,
   error: (state) => state.error,
   resultsTotal: (state) => state.results.total || 0,
+  hits: (state) => state.results.hits || [],
 };
 
 export default (fileType) => ({

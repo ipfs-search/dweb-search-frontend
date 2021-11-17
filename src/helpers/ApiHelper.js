@@ -87,7 +87,9 @@ export function apiSearch(query, type, page = 0, perPage = pageSize) {
   console.debug('Api Search for', query, type, page);
 
   const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
-  const apiType = type === 'directories' ? 'directory' : 'file'; // Legacy API workaround; only accepts file and directory
+
+  // Legacy API workaround; only accepts file and directory
+  const apiType = type === 'directories' ? 'directory' : 'file';
 
   return api.searchGet(
     query + typeFilter,
