@@ -4,6 +4,11 @@ import { apiSearch, maxPages } from '@/helpers/ApiHelper';
 const infiniteScrollMargin = 200;
 
 export default {
+  data() {
+    return {
+      infinite: true,
+    };
+  },
   methods: {
     /**
      * get all pages of results up to the query parameter page
