@@ -53,6 +53,11 @@ function getFilters(filters) {
   return [...lastSeenFilters, ...sizeFilters];
 }
 
+/**
+ * flatten query and filters into a string, but not the page or the filetype
+ * @param state
+ * @returns {string}
+ */
 function apiQueryString(state) {
   return [state.user_query, ...getFilters(state.filters)].join(' ');
 }

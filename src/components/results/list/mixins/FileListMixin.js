@@ -13,7 +13,7 @@ export default {
   computed: {
     // N.b. mapGetters does not work here because of dynamic module loading (this.$data.fileType)
     loading() {
-      return store.getters[`results/${this.fileType}/error`];
+      return store.getters[`results/${this.fileType}/loading`];
     },
     error() {
       return store.getters[`results/${this.fileType}/error`];
@@ -72,25 +72,11 @@ export default {
        * @param query
        * @param lastQuery
        */
-      // TODO: inject/override logic for infinite scrolling
       handler(query, lastQuery) {
-        // if (lastQuery
-        //   && Object.keys(query).filter((key) => key !== 'page')
-        //     .every((key) => query[key] === lastQuery[key])
-        //   && Object.keys(lastQuery).filter((key) => key !== 'page')
-        //     .every((key) => query[key] === lastQuery[key])
-        //   && this.infinite && query.page !== lastQuery.page
-        // ) {
-        //   return;
-        // }
+        // we use cached results for page number and for filetype
 
         console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
 
-        // if (this.infinite) {
-        //   this.getInfiniteResults()
-        //     .then(this.infiniteScroll)
-        //     .then(this.scrollDown);
-        // } else {
         store.dispatch(`results/${this.fileType}/fetchPage`,
           { page: Number(query.page) - 1 || 0 })
           .catch(console.error);

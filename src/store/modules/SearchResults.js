@@ -1,9 +1,14 @@
 import { apiSearch, pageSize } from '@/helpers/ApiHelper';
 
-const initialResults = {
-  total: 0,
-  max_score: 0.0,
-  hits: [],
+const baseState = {
+  error: false,
+  loading: false,
+  queryString: '',
+  results: {
+    total: 0,
+    max_score: 0.0,
+    hits: [],
+  },
 };
 
 const mutations = {
@@ -14,6 +19,17 @@ const mutations = {
   setError(state, error) {
     state.loading = false;
     state.error = error;
+  },
+  setQuery(state, queryString) {
+    state.queryString = queryString;
+  },
+  clearResults(state) {
+    state.error = false;
+    state.loading = false;
+    state.results = {
+      total: 0,
+      hits: [],
+    };
   },
   setResults(state, { results, index }) {
     state.loading = false;
@@ -44,25 +60,36 @@ const getters = {
 export default (fileType) => ({
   namespaced: true,
   state: () => ({
-    error: false,
-    loading: false,
-    results: initialResults,
+    ...baseState,
   }),
   mutations,
   getters,
   actions: {
+    /**
+     * fetch the page from cache, if possible. Otherwise make an API call.
+     * @param state
+     * @param commit
+     * @param rootGetters
+     * @param page: 0-based page
+     * @param perPage
+     * @returns {Promise<*>}
+     */
     async fetchPage({ state, commit, rootGetters }, {
       page = 0,
       perPage = pageSize,
     }) {
+      const apiQueryString = rootGetters['query/apiQueryString'];
+      if (state.queryString !== apiQueryString) {
+        commit('clearResults');
+        commit('setQuery', apiQueryString);
+      }
+
       let pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
 
       if (pageResults === undefined
         || pageResults?.length === 0
         || pageResults?.includes(undefined)) {
         commit('setLoading');
-
-        const apiQueryString = rootGetters['query/apiQueryString'];
 
         await apiSearch(apiQueryString, fileType, page, perPage)
           .then((results) => {
