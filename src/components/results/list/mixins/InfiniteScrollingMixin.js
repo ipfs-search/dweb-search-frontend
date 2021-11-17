@@ -1,5 +1,5 @@
 import store from '@/store';
-import { apiSearch, maxPages } from '@/helpers/ApiHelper';
+import { apiSearch } from '@/helpers/ApiHelper';
 
 const infiniteScrollMargin = 200;
 
@@ -22,7 +22,7 @@ export default {
      */
     // async getInfiniteResults() {
     //   const { page } = store.state.query;
-    //   this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
+    //  this.loadedPages = Math.ceil(this.results.hits.length / (this.results.page_size || 1)) || 0;
     //
     //   let errorCounter = 100;
     //   while (
