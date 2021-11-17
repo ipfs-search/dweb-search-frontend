@@ -100,24 +100,30 @@ import DocumentDetail from '../components/results/detail/DocumentDetail';
 import DirectoryDetail from '../components/results/detail/DirectoryDetail';
 import VideoDetail from '../components/results/detail/VideoDetail';
 import AudioDetail from '../components/results/detail/AudioDetail';
-import { apiMetadataQuery } from '../helpers/ApiHelper';
+import { apiMetadataQuery, pageSize } from '../helpers/ApiHelper';
 
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
-    this.primaryPage = Number(this.$route.query.page) || 0;
   },
   created() {
-    this.$data.singleItem = { hash: this.fileHash };
+    this.$data.singleItem = {
+      hash: this.fileHash,
+    };
+
     if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
       this.$data.carouselIndex = this.selectedIndex;
+      this.$data.singleItem = undefined;
     } else {
-      store.dispatch(`results/${this.fileType}/fetchPage`, this.$route.query.page)
+      store.dispatch(`results/${this.fileType}/fetchPage`, {
+        page: Number(this.$route.query.page) - 1,
+      })
         .then(() => {
           // take index parameter from route props, if available. Else fallback on hash match.
-          const index = this.items.findIndex((item) => item.hash === this.fileHash);
+          const index = this.items.findIndex((item) => item?.hash === this.fileHash);
           if (index > -1) {
             this.$data.carouselIndex = index;
+            this.$data.singleItem = undefined;
           } else {
             console.debug(`No items matching ${this.fileHash}; requesting metadata.`);
             apiMetadataQuery(this.fileHash)
@@ -177,18 +183,14 @@ export default {
     carouselIndex: {
       handler(index) {
         const page = Number(this.$route.query.page);
-        if (index === this.items.length - 1 || this.items[index + 1] === undefined) {
-          console.debug('last carousel item: loading items for page', page + 1);
-          store.dispatch(`results/${this.fileType}/fetchPage`, { page })
-            .then((results) => {
-              console.log(`results for page ${page + 1}`, results);
-            });
-        } else if (index === ((page - 1) * 15) && page > 1 && this.items[index - 1] === undefined) {
-          console.debug('first carousel item: loading items for page', page - 1);
-          store.dispatch(`results/${this.fileType}/fetchPage`, { page: page - 2 })
-            .then((results) => {
-              console.log(`results for page ${page + 1}`, results);
-            });
+
+        if (index === this.items.length - 1
+          || (index < this.items.length - 1 && this.items[index + 1] === undefined)) {
+          console.debug('last page item: loading items for page', page + 1);
+          store.dispatch(`results/${this.fileType}/fetchPage`, { page });
+        } else if (index === ((page - 1) * 15) && page > 1) {
+          console.debug('first page item: loading items for page', page - 1);
+          store.dispatch(`results/${this.fileType}/fetchPage`, { page: page - 2 });
         }
       },
       immediate: true,
@@ -196,18 +198,17 @@ export default {
   },
   methods: {
     /**
-     * handle route setting when caroussel index changes
+     * handle route setting when carousel index changes
      * Note that the case is different than with the watch above, which fires upon page load as well
      * @param index
      */
     onCarouselIndexChange(index) {
       // change the fileHash and the page number in the url
-      console.debug('carousel index change: update url');
       this.$router.replace({
         ...this.$route,
         query: {
           ...this.$route.query,
-          page: this.primaryPage + Math.floor(index / store.state.results[this.fileType].results.page_size),
+          page: 1 + Math.floor(index / pageSize),
         },
         params: {
           ...this.$route.params,
