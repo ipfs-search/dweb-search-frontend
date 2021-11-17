@@ -67,16 +67,11 @@ export default {
   watch: {
     '$route.query': {
       /**
-       * This watcher retrieves new data for the query, and gets triggered on
-       * a change of one of the search parameters
+       * get/update data from the cache
        * @param query
        * @param lastQuery
        */
-      handler(query, lastQuery) {
-        // we use cached results for page number and for filetype
-
-        console.debug('FileListMixin watch stateQuery: receiving new query parameters', query, lastQuery);
-
+      handler(query) {
         store.dispatch(`results/${this.fileType}/fetchPage`,
           { page: Number(query.page) - 1 || 0 })
           .catch(console.error);

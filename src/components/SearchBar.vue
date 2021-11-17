@@ -90,7 +90,9 @@ export default {
     type: {
       get: () => store.state.query.type,
       set(newType) {
-        this.search({ type: newType });
+        if (this.type !== newType) {
+          this.search({ type: newType });
+        }
       },
     },
   },

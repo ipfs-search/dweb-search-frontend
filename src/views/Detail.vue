@@ -71,7 +71,6 @@
         hide-delimiters
         hide-delimiter-background
         :continuous="false"
-        @change="onCarouselIndexChange"
       >
         <v-carousel-item
           v-for="(item, index) in items"
@@ -181,9 +180,24 @@ export default {
      * handle previous/next page loading
      */
     carouselIndex: {
-      handler(index) {
-        const page = Number(this.$route.query.page);
+      handler(index, previousIndex) {
+        // update the fileHash and the page number in the url
+        if (previousIndex) {
+          this.$router.replace({
+            ...this.$route,
+            query: {
+              ...this.$route.query,
+              page: 1 + Math.floor(index / pageSize),
+            },
+            params: {
+              ...this.$route.params,
+              fileHash: this.items[index].hash,
+            },
+          });
+        }
 
+        // handle fetching missing items from the api
+        const page = Number(this.$route.query.page);
         if (index === this.items.length - 1
           || (index < this.items.length - 1 && this.items[index + 1] === undefined)) {
           console.debug('last page item: loading items for page', page + 1);
@@ -197,24 +211,16 @@ export default {
     },
   },
   methods: {
-    /**
-     * handle route setting when carousel index changes
-     * Note that the case is different than with the watch above, which fires upon page load as well
-     * @param index
-     */
-    onCarouselIndexChange(index) {
-      // change the fileHash and the page number in the url
-      this.$router.replace({
-        ...this.$route,
-        query: {
-          ...this.$route.query,
-          page: 1 + Math.floor(index / pageSize),
-        },
-        params: {
-          ...this.$route.params,
-          fileHash: this.items[index].hash,
-        },
-      });
+    swipe(direction) {
+      console.debug('swipe detected:', direction, this.carouselIndex);
+      switch (direction) {
+        case 'right':
+          this.carouselIndex -= 1;
+          break;
+        case 'left':
+        default:
+          this.carouselIndex += 1;
+      }
     },
     goHome() {
       this.$router.push({ path: '/' });

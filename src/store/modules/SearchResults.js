@@ -4,11 +4,7 @@ const baseState = {
   error: false,
   loading: false,
   queryString: '',
-  results: {
-    total: 0,
-    max_score: 0.0,
-    hits: [],
-  },
+  results: {},
 };
 
 const mutations = {
@@ -27,7 +23,6 @@ const mutations = {
     state.error = false;
     state.loading = false;
     state.results = {
-      total: 0,
       hits: [],
     };
   },
@@ -35,9 +30,9 @@ const mutations = {
     state.loading = false;
     const { hits } = state.results;
 
-    // splice behaves weird beyond the length of the array
+    // splice behaves funny when splicing beyond the length of an array
     // this 'hack' lengthens the array so splice can put results there
-    if (index >= hits.length) hits[index] = {};
+    if (results?.hits?.length > 0 && index >= hits.length) hits[index] = {};
     hits.splice(index, results.hits.length, ...results.hits);
 
     state.results = {
@@ -50,11 +45,11 @@ const mutations = {
 const getters = {
   pageResults: (state) => (page, perPage = pageSize) => {
     const pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
-    return pageResults;
+    return pageResults || [];
   },
   loading: (state) => state.loading,
   error: (state) => state.error,
-  resultsTotal: (state) => state.results.total,
+  resultsTotal: (state) => state.results.total || 0,
 };
 
 export default (fileType) => ({
@@ -83,6 +78,8 @@ export default (fileType) => ({
         commit('clearResults');
         commit('setQuery', apiQueryString);
       }
+
+      if (state.results?.total <= page * perPage) return [];
 
       let pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
 
