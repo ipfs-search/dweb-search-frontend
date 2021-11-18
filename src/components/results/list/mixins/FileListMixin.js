@@ -1,7 +1,7 @@
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';
-import { pageSize } from '@/helpers/ApiHelper';
+import { batchSize } from '@/helpers/ApiHelper';
 
 /**
  * this mixin makes file lists load their results and allows navigation
@@ -21,11 +21,9 @@ export default {
     resultsTotal() {
       return store.getters[`results/${this.fileType}/resultsTotal`];
     },
-    pageResults() {
-      return store.getters[`results/${this.fileType}/pageResults`];
-    },
     results() {
-      return this.pageResults(Number(this.$route.query.page) - 1 || 0);
+      const pageResults = store.getters[`results/${this.fileType}/pageResults`];
+      return pageResults(Number(this.$route.query.page) || 1);
     },
     shownHits() {
       if (this.$route.query.type === this.$data.fileType) {
@@ -34,7 +32,7 @@ export default {
       return this.results.slice(0, this.shortList);
     },
     pageCount() {
-      return Math.ceil(this.resultsTotal / pageSize);
+      return Math.ceil(this.resultsTotal / batchSize);
     },
     page: {
       get() { return Number(this.$route.query.page); },
@@ -73,7 +71,7 @@ export default {
        */
       handler(query) {
         store.dispatch(`results/${this.fileType}/fetchPage`,
-          { page: Number(query.page) - 1 || 0 })
+          { page: Number(query.page) || 1 })
           .catch(console.error);
         // }
       },

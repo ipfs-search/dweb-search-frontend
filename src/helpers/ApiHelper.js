@@ -4,7 +4,7 @@ export const api = new DefaultApi();
 
 // the page limit of the API
 export const maxPages = 100;
-export const pageSize = 15;
+export const batchSize = 15;
 
 export const legacyTypes = {
   text: [
@@ -73,18 +73,18 @@ export function apiMetadataQuery(hash) {
 }
 
 /**
- * perform search query on the API. Note that page is 0-based
+ * perform search query on the API. Note that batch is 0-based
  * @param query
  * @param type
- * @param page: 0 based page number
- * @param pageSize: forward compatible parameter, currently unused
+ * @param batch: 0 based page number
+ * @param perBatch: forward compatible parameter, currently unused
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
 // eslint-disable-next-line no-unused-vars
-export function apiSearch(query, type, page = 0, perPage = pageSize) {
-  if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
+export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
+  if (batch && batch > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
-  console.debug('Api Search for', query, type, page);
+  console.debug('Api Search for', query, type, batch);
 
   const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
 
@@ -94,7 +94,7 @@ export function apiSearch(query, type, page = 0, perPage = pageSize) {
   return api.searchGet(
     query + typeFilter,
     apiType,
-    page,
+    batch,
   ).then((results) => {
     // fixme: the API sometimes responds with an error with response code 200. This catches that.
     if (results.error) throw results.error;
@@ -107,7 +107,7 @@ export function apiSearch(query, type, page = 0, perPage = pageSize) {
 
 export default {
   maxPages,
-  pageSize,
+  batchSize,
   api,
   legacyTypeFilter,
   legacyTypes,

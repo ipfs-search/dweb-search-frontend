@@ -1,4 +1,4 @@
-import { apiSearch, pageSize } from '@/helpers/ApiHelper';
+import { apiSearch, batchSize } from '@/helpers/ApiHelper';
 
 const baseState = {
   error: false,
@@ -43,8 +43,14 @@ const mutations = {
 };
 
 const getters = {
-  pageResults: (state) => (page, perPage = pageSize) => {
-    const pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
+  /**
+   * retrieve cached results (synchronously). N.b. page is 1-based;
+   * @param state
+   * @returns {function(*, *=)}
+   */
+  pageResults: (state) => (page, perPage = batchSize) => {
+    const batch = page - 1;
+    const pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
     return pageResults || [];
   },
   loading: (state) => state.loading,
@@ -62,40 +68,42 @@ export default (fileType) => ({
   getters,
   actions: {
     /**
-     * fetch the page from cache, if possible. Otherwise make an API call.
+     * fetch the page from cache or from API
      * @param state
      * @param commit
      * @param rootGetters
-     * @param page: 0-based page
+     * @param page: 1-based page
      * @param perPage
      * @returns {Promise<*>}
      */
     async fetchPage({ state, commit, rootGetters }, {
-      page = 0,
-      perPage = pageSize,
+      page = 1,
+      perPage = batchSize,
     }) {
+      const batch = page - 1;
+
       const apiQueryString = rootGetters['query/apiQueryString'];
       if (state.queryString !== apiQueryString) {
         commit('clearResults');
         commit('setQuery', apiQueryString);
       }
 
-      if (state.results?.total <= page * perPage) return [];
+      if (state.results?.total <= batch * perPage) return [];
 
-      let pageResults = state.results?.hits?.slice(page * perPage, (page + 1) * perPage);
+      let pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
 
       if (pageResults === undefined
         || pageResults?.length === 0
         || pageResults?.includes(undefined)) {
         commit('setLoading');
 
-        await apiSearch(apiQueryString, fileType, page, perPage)
+        await apiSearch(apiQueryString, fileType, batch, perPage)
           .then((results) => {
-            commit('setResults', { results, index: page * perPage });
+            commit('setResults', { results, index: batch * perPage });
             pageResults = results.hits;
           })
           .catch((error) => {
-            commit('setError', { error, page, perPage });
+            commit('setError', { error, batch, perPage });
           });
       }
 

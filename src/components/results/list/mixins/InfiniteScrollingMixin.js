@@ -104,13 +104,13 @@ export default {
 
       // const scrollPage = Math.floor(this.loadedPages * (scrollTop / offsetHeight)) + 1;
       // if (store.state.query.page !== scrollPage) {
-        // this.$router.replace({
-        //   ...this.$route,
-        //   query: {
-        //     ...this.$route.query,
-        //     page: scrollPage,
-        //   },
-        // });
+      // this.$router.replace({
+      //   ...this.$route,
+      //   query: {
+      //     ...this.$route.query,
+      //     page: scrollPage,
+      //   },
+      // });
       // }
       if (nearBottom && !this.loadingNextPage) {
         return this.appendNextPage();

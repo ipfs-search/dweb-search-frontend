@@ -99,7 +99,7 @@ import DocumentDetail from '../components/results/detail/DocumentDetail';
 import DirectoryDetail from '../components/results/detail/DirectoryDetail';
 import VideoDetail from '../components/results/detail/VideoDetail';
 import AudioDetail from '../components/results/detail/AudioDetail';
-import { apiMetadataQuery, pageSize } from '../helpers/ApiHelper';
+import { apiMetadataQuery, batchSize } from '../helpers/ApiHelper';
 
 export default {
   beforeCreate() {
@@ -115,7 +115,7 @@ export default {
       this.$data.singleItem = undefined;
     } else {
       store.dispatch(`results/${this.fileType}/fetchPage`, {
-        page: Number(this.$route.query.page) - 1,
+        page: Number(this.$route.query.page),
       })
         .then(() => {
           // take index parameter from route props, if available. Else fallback on hash match.
@@ -187,7 +187,7 @@ export default {
             ...this.$route,
             query: {
               ...this.$route.query,
-              page: 1 + Math.floor(index / pageSize),
+              page: 1 + Math.floor(index / batchSize),
             },
             params: {
               ...this.$route.params,
@@ -197,14 +197,14 @@ export default {
         }
 
         // handle fetching missing items from the api
-        const page = Number(this.$route.query.page);
+        const currentPage = Number(this.$route.query.page);
         if (index === this.items.length - 1
           || (index < this.items.length - 1 && this.items[index + 1] === undefined)) {
-          console.debug('last page item: loading items for page', page + 1);
-          store.dispatch(`results/${this.fileType}/fetchPage`, { page });
-        } else if (index === ((page - 1) * 15) && page > 1) {
-          console.debug('first page item: loading items for page', page - 1);
-          store.dispatch(`results/${this.fileType}/fetchPage`, { page: page - 2 });
+          console.debug('last page item: loading items for page', currentPage + 1);
+          store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage + 1 });
+        } else if (index === ((currentPage - 1) * 15) && currentPage > 1) {
+          console.debug('first page item: loading items for page', currentPage - 1);
+          store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage - 1 });
         }
       },
       immediate: true,
