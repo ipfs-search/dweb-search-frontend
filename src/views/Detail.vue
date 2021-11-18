@@ -211,17 +211,6 @@ export default {
     },
   },
   methods: {
-    swipe(direction) {
-      console.debug('swipe detected:', direction, this.carouselIndex);
-      switch (direction) {
-        case 'right':
-          this.carouselIndex -= 1;
-          break;
-        case 'left':
-        default:
-          this.carouselIndex += 1;
-      }
-    },
     goHome() {
       this.$router.push({ path: '/' });
     },
