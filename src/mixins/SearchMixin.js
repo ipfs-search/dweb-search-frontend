@@ -2,7 +2,7 @@ import store from '@/store';
 
 export default {
   methods: {
-    // TODO: move this file to helper and remove this file. And make the method less hacky
+    // TODO: Make method less hacky and better/less ubiquitous name
     /**
      * push new route query and execute search lookup with page=0
      * should be called when a change to the search parameters is requested

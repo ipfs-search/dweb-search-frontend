@@ -2,11 +2,15 @@ import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';
 import { batchSize } from '@/helpers/ApiHelper';
+import SearchMixin from '@/mixins/SearchMixin';
 
 /**
  * this mixin makes file lists load their results and allows navigation
  */
 export default {
+  mixins: [
+    SearchMixin,
+  ],
   components: {
     ListBase,
   },
@@ -36,15 +40,7 @@ export default {
     },
     queryPage: {
       get() { return Number(this.$route.query.page); },
-      set(value) {
-        this.$router.push({
-          ...this.$route,
-          query: {
-            ...this.$route.query,
-            page: value,
-          },
-        });
-      },
+      set(value) { this.search(this.$route.query, value); },
     },
   },
   methods: {
