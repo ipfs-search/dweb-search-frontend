@@ -17,6 +17,9 @@ export default {
   },
 
   computed: {
+    /**
+     * overrides FileListMixin
+     */
     results() {
       return store.getters[`results/${this.fileType}/hits`];
     },
