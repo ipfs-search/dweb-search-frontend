@@ -60,7 +60,7 @@
       v-if="!anyFileType && !infinite"
     >
       <v-pagination
-        v-model="$parent.page"
+        v-model="$parent.queryPage"
         :length="pageCount"
         total-visible="9"
       />

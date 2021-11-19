@@ -34,7 +34,7 @@ export default {
     pageCount() {
       return Math.ceil(this.resultsTotal / batchSize);
     },
-    page: {
+    queryPage: {
       get() { return Number(this.$route.query.page); },
       set(value) {
         this.$router.push({
@@ -65,20 +65,19 @@ export default {
      * specific for paginated file lists
      * @param query
      */
-    handleQueryChange(query) {
-      store.dispatch(`results/${this.fileType}/fetchPage`, { page: Number(query.page) || 1 });
+    handleQueryChange() {
+      store.dispatch(`results/${this.fileType}/fetchPage`, { page: this.queryPage || 1 });
     },
   },
   watch: {
     '$route.query': {
       /**
-       * get/update data from the cache
+       * get/update data from the cache; note that the handler is different for infinite scrolling.
        * @param query
        * @param lastQuery
        */
-      // TODO: this is unnecessary for infinite scrolling; somehow disable this watch for infinite
-      handler(query) {
-        this.handleQueryChange(query);
+      handler() {
+        this.handleQueryChange();
       },
       immediate: true,
     },

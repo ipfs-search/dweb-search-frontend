@@ -13,6 +13,7 @@
     >
       <v-card
         @click="goToDetailPage(index)"
+        v-if="hit"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span
