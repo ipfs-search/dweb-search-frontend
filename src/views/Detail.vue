@@ -76,8 +76,24 @@
           v-for="(item, index) in items"
           :key="index"
         >
-          <component
-            :is="componentType"
+          <ImageDetail
+            v-if="fileType === Types.images"
+            :file="item"
+          />
+          <DirectoryDetail
+            v-if="fileType === Types.directories"
+            :file="item"
+          />
+          <DocumentDetail
+            v-if="fileType === Types.text"
+            :file="item"
+          />
+          <AudioDetail
+            v-if="fileType === Types.audio"
+            :file="item"
+          />
+          <VideoDetail
+            v-if="fileType === Types.video"
             :file="item"
           />
         </v-carousel-item>
@@ -93,17 +109,25 @@
 
 <script>
 import store from '@/store';
-import { Types } from '../helpers/typeHelper';
-import ImageDetail from '../components/results/detail/ImageDetail';
-import DocumentDetail from '../components/results/detail/DocumentDetail';
-import DirectoryDetail from '../components/results/detail/DirectoryDetail';
-import VideoDetail from '../components/results/detail/VideoDetail';
-import AudioDetail from '../components/results/detail/AudioDetail';
-import { apiMetadataQuery, batchSize } from '../helpers/ApiHelper';
+import { Types } from '@/helpers/typeHelper';
+import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
+import ImageDetail from '@/components/results/detail/ImageDetail';
+import DocumentDetail from '@/components/results/detail/DocumentDetail';
+import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
+import VideoDetail from '@/components/results/detail/VideoDetail';
+import AudioDetail from '@/components/results/detail/AudioDetail';
 
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
+    this.Types = Types;
+  },
+  components: {
+    ImageDetail,
+    DocumentDetail,
+    DirectoryDetail,
+    VideoDetail,
+    AudioDetail,
   },
   created() {
     this.$data.singleItem = {
@@ -155,22 +179,6 @@ export default {
     };
   },
   computed: {
-    componentType() {
-      switch (this.$props.fileType) {
-        case Types.text:
-          return DocumentDetail;
-        case Types.images:
-          return ImageDetail;
-        case Types.directories:
-          return DirectoryDetail;
-        case Types.video:
-          return VideoDetail;
-        case Types.audio:
-          return AudioDetail;
-        default:
-          return null;
-      }
-    },
     items() {
       return store.state.results?.[this.fileType]?.results?.hits;
     },

@@ -74,9 +74,6 @@ import store from '@/store';
 import { searchTypes } from '@/helpers/typeHelper';
 
 export default {
-  beforeCreate() {
-    // store.commit('query/setRouteParams', this.$route.query);
-  },
   created() {
     this.searchTypes = searchTypes;
   },
