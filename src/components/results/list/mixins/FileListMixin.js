@@ -76,8 +76,8 @@ export default {
        * @param query
        * @param lastQuery
        */
-      handler() {
-        this.handleQueryChange();
+      handler(query) {
+        this.handleQueryChange(query);
       },
       immediate: true,
     },

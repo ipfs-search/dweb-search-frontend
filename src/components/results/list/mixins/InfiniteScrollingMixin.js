@@ -26,7 +26,6 @@ export default {
   },
 
   created() {
-    document.addEventListener('scroll', this.infiniteScroll, true);
     this.getInfiniteResults()
       .then(this.scrollDown)
       .then(this.infiniteScroll);
@@ -89,7 +88,12 @@ export default {
     /**
      * overrides FileListMixin
      */
-    handleQueryChange() {
+    handleQueryChange(query) {
+      if (query.type === this.fileType) {
+        document.addEventListener('scroll', this.infiniteScroll, true);
+      } else {
+        document.removeEventListener('scroll', this.infiniteScroll, true);
+      }
       this.getInfiniteResults();
     },
   },
