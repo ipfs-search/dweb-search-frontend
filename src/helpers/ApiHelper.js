@@ -84,8 +84,6 @@ export function apiMetadataQuery(hash) {
 export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
   if (batch && batch > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
 
-  console.debug('Api Search for', query, type, batch);
-
   const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
 
   // Legacy API workaround; only accepts file and directory

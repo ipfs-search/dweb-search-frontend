@@ -2,14 +2,16 @@ import store from '@/store';
 
 export default {
   methods: {
+    // TODO: move this file to helper and remove this file. And make the method less hacky
     /**
-     * // TODO: move this file to helper and remove this file
      * push new route query and execute search lookup with page=0
      * should be called when a change to the search parameters is requested
      * @param newQuery
+     * @param page? 1-based page number.
+     * @param method? either 'push' or 'replace', to set router behavior.
      */
-    search(newQuery, page = 1) {
-      this.$router.push({
+    search(newQuery, page = 1, method = 'push') {
+      this.$router[method]({
         name: 'Search',
         query: {
           ...this.$route.query,

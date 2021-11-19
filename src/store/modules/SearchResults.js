@@ -68,7 +68,7 @@ export default (fileType) => ({
   getters,
   actions: {
     /**
-     * fetch the page from cache or from API
+     * fetch the page from cache or from API for current query from url
      * @param state
      * @param commit
      * @param rootGetters
@@ -90,17 +90,17 @@ export default (fileType) => ({
 
       if (state.results?.total <= batch * perPage) return [];
 
-      let pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
+      const pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
 
       if (pageResults === undefined
         || pageResults?.length === 0
         || pageResults?.includes(undefined)) {
         commit('setLoading');
 
-        await apiSearch(apiQueryString, fileType, batch, perPage)
+        return apiSearch(apiQueryString, fileType, batch, perPage)
           .then((results) => {
             commit('setResults', { results, index: batch * perPage });
-            pageResults = results.hits;
+            return results.hits;
           })
           .catch((error) => {
             commit('setError', { error, batch, perPage });

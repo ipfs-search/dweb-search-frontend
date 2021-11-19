@@ -52,10 +52,12 @@
 
 <script>
 import FileListMixin from './mixins/FileListMixin';
+import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 
 export default {
   mixins: [
     FileListMixin,
+    InfiniteScrollingMixin,
   ],
   data() {
     return {

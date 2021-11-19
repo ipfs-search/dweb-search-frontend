@@ -39,18 +39,18 @@
     </v-row>
     <v-row
       dense
+      v-if="$parent.resultsTotal > 0"
+    >
+      <slot />
+    </v-row>
+    <v-row
+      dense
       justify="center"
-      v-if="this.$parent.loading && !infinite"
+      v-if="this.$parent.loading"
     >
       <v-progress-circular
         indeterminate
       />
-    </v-row>
-    <v-row
-      dense
-      v-else-if="$parent.resultsTotal > 0"
-    >
-      <slot />
     </v-row>
     <!--     PAGINATION -->
     <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->

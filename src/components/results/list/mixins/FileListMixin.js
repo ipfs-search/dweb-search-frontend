@@ -61,6 +61,13 @@ export default {
       });
     },
 
+    /**
+     * specific for paginated file lists
+     * @param query
+     */
+    handleQueryChange(query) {
+      store.dispatch(`results/${this.fileType}/fetchPage`, { page: Number(query.page) || 1 });
+    },
   },
   watch: {
     '$route.query': {
@@ -69,11 +76,9 @@ export default {
        * @param query
        * @param lastQuery
        */
+      // TODO: this is unnecessary for infinite scrolling; somehow disable this watch for infinite
       handler(query) {
-        store.dispatch(`results/${this.fileType}/fetchPage`,
-          { page: Number(query.page) || 1 })
-          .catch(console.error);
-        // }
+        this.handleQueryChange(query);
       },
       immediate: true,
     },
