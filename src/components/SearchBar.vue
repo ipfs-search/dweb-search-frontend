@@ -4,6 +4,7 @@
       <div class="search flex-grow-1">
         <v-text-field
           v-model="searchPhrase"
+          ref="input"
           placeholder="Search"
           light
           rounded
@@ -15,6 +16,7 @@
           validate-on-blur
           hide-details
           @keyup.enter="enterSearchPhrase"
+          v-closable="{ handler: 'onClick' }"
         >
           <template v-slot:append>
             <v-menu
@@ -103,6 +105,9 @@ export default {
         return;
       }
       this.search({ q: this.$data.searchPhrase });
+    },
+    onClick() {
+      this.$refs.input.blur();
     },
   },
   watch: {

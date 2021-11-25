@@ -17,6 +17,7 @@
     "v-body-scroll-lock": "^1.1.3",
     "video.js": "^7.12.1",
     "vue": "^2.6.11",
+    "vue-closable": "0.0.3",
     "vue-filter-pretty-bytes": "^0.1.6",
     "vue-masonry": "^0.11.8",
     "vue-pdf": "^4.3.0",
