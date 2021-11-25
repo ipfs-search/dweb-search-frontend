@@ -10,10 +10,13 @@ const initialQuery = {
   },
 };
 
+/**
+ * Return query params for consumption by $router.push({query})
+ * Inverse of setQueryFromParams()
+ * @param state
+ * @returns {{q: (*|string), last_seen: Function, size: Function, page, type}}
+ */
 function stateToQueryParams(state) {
-  // Return query params for consumption by $router.push({query})
-  // Inverse of setQueryFromParams()
-
   return {
     q: state.user_query,
     last_seen: state.filters.lastSeen,
@@ -50,6 +53,11 @@ function getFilters(filters) {
   return [...lastSeenFilters, ...sizeFilters];
 }
 
+/**
+ * flatten query and filters into a string, but not the page or the filetype
+ * @param state
+ * @returns {string}
+ */
 function apiQueryString(state) {
   return [state.user_query, ...getFilters(state.filters)].join(' ');
 }
@@ -113,33 +121,7 @@ const actions = {
     const { page_count } = rootState.results[state.type].results;
     // eslint-disable-next-line camelcase
     if (page_count > page) {
-      // dispatch(`results/${state.type}/resetResults`, null, { root: true });
       commit('setPage', page);
-      // dispatch(`results/${state.type}/getResults`, page, { root: true });
-    }
-  },
-  /**
-   * increments the page and fetches and appends the results for this page (for infinite scrolling)
-   * TODO: move incrementPage logic out of searchQuery module (see FileListMixin)
-   * - the change of the query should be implied from route change by watch function
-   * - that would leave only the fetching of the results, which is not the query module logic
-   * @param rootState
-   * @param state
-   * @param commit
-   * @param dispatch
-   */
-  incrementPage({
-    rootState, state, commit, dispatch,
-  }) {
-    // eslint-disable-next-line camelcase
-    const { hits, page_count, page_size } = rootState.results[state.type].results;
-    // eslint-disable-next-line camelcase
-    if (page_count > state.page + 1) {
-      commit('incrementPage');
-      // eslint-disable-next-line camelcase
-      if (hits.length / page_size <= state.page) {
-        dispatch(`results/${state.type}/getResults`, state.page, { root: true });
-      }
     }
   },
 };

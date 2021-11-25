@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Images ({{ results.total }})
+      Images ({{ resultsTotal }})
     </template>
 
     <v-col
@@ -21,7 +21,8 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(hit.hash)"
+            v-if="hit"
+            @click="goToDetailPage(index)"
             :id="hit.hash"
           >
             <v-img
@@ -50,17 +51,18 @@
 </template>
 
 <script>
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './mixins/FileListMixin';
+import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 
 export default {
   mixins: [
     FileListMixin,
+    InfiniteScrollingMixin,
   ],
   data() {
     return {
       fileType: 'images',
       shortList: 6,
-      // infinite: true,
     };
   },
 };

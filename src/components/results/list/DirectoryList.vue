@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Directories ({{ results.total }})
+      Directories ({{ resultsTotal }})
     </template>
 
     <v-col
@@ -12,7 +12,7 @@
       :key="index"
     >
       <v-card
-        @click="goToDetailPage(hit.hash)"
+        @click="goToDetailPage(index)"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span
@@ -40,7 +40,7 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './mixins/FileListMixin';
 
 export default {
   mixins: [

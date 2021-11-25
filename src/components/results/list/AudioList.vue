@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template v-slot:type>
-      Audio ({{ results.total }})
+      Audio ({{ resultsTotal }})
     </template>
 
     <v-col
@@ -22,7 +22,7 @@
           lg="2"
         >
           <v-card
-            @click="goToDetailPage(hit.hash)"
+            @click="goToDetailPage(index)"
           >
             <v-img
               :src="hit.src"
@@ -73,7 +73,7 @@
 
 <script>
 import durationToColor from '@/filters/durationToColor';
-import FileListMixin from '@/mixins/FileListMixin';
+import FileListMixin from './mixins/FileListMixin';
 
 export default {
   mixins: [

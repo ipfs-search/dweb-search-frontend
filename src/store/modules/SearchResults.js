@@ -1,148 +1,113 @@
-import { DefaultApi } from 'ipfs-search-client';
-import { maxPages } from '@/helpers/ApiHelper';
+import { apiSearch, batchSize } from '@/helpers/ApiHelper';
 
-const api = new DefaultApi();
-
-// TODO: keep track in store of which page(s) have been loaded, and logic to prevent reloading
-const initialResults = {
-  total: 0,
-  max_score: 0.0,
-  hits: [],
+const baseState = {
+  error: false,
+  loading: false,
+  queryString: '',
+  results: {},
 };
 
 const mutations = {
   // Mutations relating to search results
-  setLoading(state) {
-    state.loading = true;
-    state.error = false;
+  setLoading(state, loading = true) {
+    state.loading = loading;
   },
-  setError(state) {
+  setError(state, error) {
     state.loading = false;
-    state.error = true;
+    state.error = error;
+  },
+  setQuery(state, queryString) {
+    state.queryString = queryString;
   },
   clearResults(state) {
-    state.results = initialResults;
-  },
-  prependResults(state, results) {
+    state.error = false;
     state.loading = false;
     state.results = {
-      ...results,
-      hits: [
-        ...results.hits,
-        ...state.results.hits,
-      ],
+      hits: [],
     };
   },
-  appendResults(state, results) {
+  setResults(state, { results, index }) {
     state.loading = false;
+    const { hits } = state.results;
+
+    // splice behaves funny when splicing beyond the length of an array
+    // this 'hack' lengthens the array so splice can put results there
+    if (results?.hits?.length > 0 && index >= hits.length) hits[index] = {};
+    hits.splice(index, results.hits.length, ...results.hits);
+
     state.results = {
       ...results,
-      hits: [
-        ...state.results.hits,
-        ...results.hits,
-      ],
+      hits,
     };
   },
 };
 
-const state = () => ({
-  loading: false,
-  error: false,
-  results: initialResults,
-});
-
-const legacyTypes = {
-  text: [
-    // eBook types
-    'application/x-mobipocket-ebook',
-    'application/epub+zip',
-    'application/vnd.amazon.ebook',
-    // Scanned documents
-    'image/vnd.djvu',
-    'application/pdf',
-    // HTML/plain text
-    'text/html',
-    'text/plain',
-    // Text editors
-    'application/postscript',
-    'application/rtf',
-    // Open Office et al.
-    'application/vnd.oasis.opendocument.text',
-    'application/vnd.sun.xml.writer',
-    'application/vnd.stardivision.writer',
-    'application/x-starwriter',
-    // MS Word
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    // Misc
-    'application/x-abiword',
-  ],
-  audio: [
-    'audio*',
-    // 'application/ogg',
-  ],
-  video: [
-    'video*',
-    // 'application/mp4'
-  ],
-  images: [
-    'image*',
-  ],
+const getters = {
+  /**
+   * retrieve cached results (synchronously). N.b. page is 1-based;
+   * @param state
+   * @returns {function(*, *=)}
+   */
+  pageResults: (state) => (page, perPage = batchSize) => {
+    const batch = page - 1;
+    const pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
+    return pageResults || [];
+  },
+  loading: (state) => state.loading,
+  error: (state) => state.error,
+  resultsTotal: (state) => state.results.total || 0,
+  hits: (state) => state.results.hits || [],
 };
 
-function legacyTypeFilter(typeList) {
-  // Add quotes for literals, leave wildcards as-is
-  const t = typeList.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ');
-  return ` metadata.Content-Type:(${t})`;
-}
-
-export default (type) => ({
+export default (fileType) => ({
   namespaced: true,
-  state,
+  state: () => ({
+    ...baseState,
+  }),
+  mutations,
+  getters,
   actions: {
     /**
-     * flush results and set initial results
+     * fetch the page from cache or from API for current query from url
+     * @param state
      * @param commit
-     */
-    resetResults({ commit }) {
-      commit('clearResults');
-    },
-    /**
-     * receive results and append (or prepend) them to the state
-     * TODO: seperate concerns for getResults action; API call should live somewhere else
-     * - that way, the code is more flexible in choosing what to do with the retrieved results
-     * @param rootState
      * @param rootGetters
-     * @param commit
+     * @param page: 1-based page
+     * @param perPage
+     * @returns {Promise<*>}
      */
-    getResults({ rootGetters, commit }, options = 1) {
-      commit('setLoading');
+    async fetchPage({ state, commit, rootGetters }, {
+      page = 1,
+      perPage = batchSize,
+    }) {
+      const batch = page - 1;
 
-      const page = (typeof options === 'object') ? options.page : options;
-      const prepend = (typeof options === 'object') ? options.prepend : false;
+      const apiQueryString = rootGetters['query/apiQueryString'];
+      if (state.queryString !== apiQueryString) {
+        commit('clearResults');
+        commit('setQuery', apiQueryString);
+      }
 
-      const typeFilter = type === 'directories' ? '' : legacyTypeFilter(legacyTypes[type]);
+      if (state.results?.total <= batch * perPage) return [];
 
-      if (page && page > maxPages) return Promise.reject(Error('API error: Page limit exceeded'));
+      const pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
 
-      return api.searchGet(
-        rootGetters['query/apiQueryString'] + typeFilter,
-        // Legacy API workaround; only accepts file and directory
-        type === 'directories' ? 'directory' : 'file',
-        page - 1,
-      ).then((results) => {
-        if (results.error) throw results.error;
-        if (prepend) {
-          commit('prependResults', results);
-        } else {
-          commit('appendResults', results);
-        }
-        return results;
-      }).catch((err) => {
-        commit('setError');
-        console.error('Error from searchApi.searchGet', err);
-      });
+      if (pageResults === undefined
+        || pageResults?.length === 0
+        || pageResults?.includes(undefined)) {
+        commit('setLoading');
+
+        return apiSearch(apiQueryString, fileType, batch, perPage)
+          .then((results) => {
+            commit('setResults', { results, index: batch * perPage });
+            return results.hits;
+          })
+          .catch((error) => {
+            commit('setError', { error, batch, perPage });
+          });
+      }
+
+      return pageResults;
     },
   },
-  mutations,
 });
