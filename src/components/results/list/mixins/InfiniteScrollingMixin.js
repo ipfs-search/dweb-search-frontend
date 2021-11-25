@@ -1,14 +1,12 @@
 import store from '@/store';
 import { batchSize, maxPages } from '@/helpers/ApiHelper';
 import SearchMixin from '@/mixins/SearchMixin';
-// import FileListMixin from '@/components/results/list/mixins/FileListMixin';
 
 const infiniteScrollMargin = 200;
 
 export default {
   mixins: [
     SearchMixin,
-    // FileListMixin,
   ],
   data() {
     return {
