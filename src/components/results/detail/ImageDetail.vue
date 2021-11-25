@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import DetailMixin from '@/mixins/DetailMixin';
+import DetailMixin from './mixins/DetailMixin';
 
 export default {
   mixins: [

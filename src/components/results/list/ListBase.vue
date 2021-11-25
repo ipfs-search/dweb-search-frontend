@@ -22,7 +22,7 @@
     </v-row>
 
     <v-row
-      v-if="this.$parent.loadingError"
+      v-if="this.$parent.error"
     >
       <v-col
         cols="12"
@@ -39,27 +39,29 @@
     </v-row>
     <v-row
       dense
+      v-if="$parent.resultsTotal > 0"
+    >
+      <slot />
+    </v-row>
+    <v-row
+      dense
       justify="center"
-      v-if="this.$parent.loading && !this.$parent.infinite"
+      v-if="this.$parent.loading"
     >
       <v-progress-circular
         indeterminate
       />
     </v-row>
-    <v-row
-      dense
-      v-else-if="$parent.results.total > 0"
-    >
-      <slot />
-    </v-row>
     <!--     PAGINATION -->
+    <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->
     <div
       class="my-16"
+      style="margin-bottom: 135px !important"
       v-if="!anyFileType && !infinite"
     >
       <v-pagination
-        v-model="$parent.page"
-        :length="page_count"
+        v-model="$parent.queryPage"
+        :length="pageCount"
         total-visible="9"
       />
     </div>
@@ -76,22 +78,14 @@ export default {
     anyFileType() {
       return this.$route.query.type === 'any' || this.$route.query.type === undefined;
     },
+    pageCount() {
+      return Math.min(this.$parent.pageCount, maxPages);
+    },
   },
   data() {
     return {
       infinite: this.$parent.infinite === true,
-      page_count: 0,
     };
-  },
-  watch: {
-    '$parent.results.page_count': {
-      handler(next) {
-        if (next > 0) {
-          this.page_count = Math.min(next, maxPages);
-        }
-      },
-      immediate: true,
-    },
   },
   methods: {
     setFileType() {

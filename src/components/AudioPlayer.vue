@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import AudioControlsMixin from '../mixins/AudioControlsMixin';
+import AudioControlsMixin from '@/mixins/AudioControlsMixin';
 
 export default {
   mixins: [

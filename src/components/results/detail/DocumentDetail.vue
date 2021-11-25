@@ -31,7 +31,8 @@
                 <v-row>
                   <v-col>
                     <PdfViewer
-                      v-if="$props.file.mimetype.toLowerCase() === 'application/pdf'"
+                      v-if="$props.file.mimetype
+                        && $props.file.mimetype.toLowerCase() === 'application/pdf'"
                       :src="resourceURL"
                     />
                     <span
@@ -55,10 +56,10 @@
 </template>
 
 <script>
-import MediaHeader from '@/components/results/detail/MediaHeader';
-import PdfViewer from '@/components/results/detail/documentViewers/PdfViewer';
-import MetaDataPanel from '@/components/results/detail/MetaDataPanel';
-import DetailMixin from '@/mixins/DetailMixin';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
+import PdfViewer from '@/components/results/detail/helpers/PdfViewer';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
+import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 
 export default {
   mixins: [

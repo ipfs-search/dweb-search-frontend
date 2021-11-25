@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import DetailMixin from '@/mixins/DetailMixin';
+import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import getResourceURL from '@/helpers/resourceURL';
 
 export default {
