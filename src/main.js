@@ -2,12 +2,15 @@ import Vue from 'vue';
 import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VBodyScrollLock from 'v-body-scroll-lock';
+import VueClosable from 'vue-closable';
 import App from './App';
 import vuetify from './plugins/vuetify/vuetify';
 import router from './router';
 import store from './store';
 
 Vue.use(VBodyScrollLock);
+
+Vue.use(VueClosable);
 
 Vue.use(VueTimeago, {
   name: 'Timeago', // Component name, `Timeago` by default
