@@ -34,29 +34,33 @@
             v-for="(link, i) in footer_links"
             :key="i"
             :href="link.href"
-            class="mx-4"
+            :class="$vuetify.breakpoint.smAndUp ? 'mx-4' : 'mx-1'"
             icon
           >
-            <v-icon size="24px">
+            <v-icon
+              :size="$vuetify.breakpoint.smAndUp ? 24 : 18"
+            >
               {{ link.icon }}
             </v-icon>
           </v-btn>
         </v-card-text>
         <v-card-text
-          class="ipfsPrimary lighten-1 white--text py-4 text-center text-caption"
+          class="ipfsPrimary lighten-1 white--text text-center text-caption py-7"
+          style="margin: auto;"
         >
-          Funded through the
-          <a
-            href="https://nlnet.nl/project/IPFS-search/"
+          <div
+            :style="$vuetify.breakpoint.smAndUp ? 'margin-top: -7px;' : 'margin-top: -14px;'"
           >
-            NLNet/NGI0 Discovery Fund
-          </a>
-          and proudly sponsered by
-          <a
-            href="https://redpencil.io/"
-          >
-            redpencil.io
-          </a>
+            Funded through the
+            <a
+              href="https://nlnet.nl/project/IPFS-search/"
+            >
+              NLNet/NGI0 Discovery Fund
+            </a>
+            and&nbsp;proudly&nbsp;sponsered&nbsp;by&nbsp;<a
+              href="https://redpencil.io/"
+            >redpencil.io</a>
+          </div>
         </v-card-text>
       </v-card>
     </v-app-bar>
