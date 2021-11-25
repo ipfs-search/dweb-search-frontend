@@ -105,7 +105,11 @@ export default {
         field.setAttribute('type', 'text');
         // Hiding temp field from peoples eyes
         // -webkit-user-modify is nessesary for Android 4.x
-        field.setAttribute('style', 'position:absolute; top: 0px; opacity: 0; -webkit-user-modify: read-write-plaintext-only; left:0px;');
+        field.setAttribute('style', `position:absolute;
+          top: 0px;
+          opacity: 0;
+          -webkit-user-modify: read-write-plaintext-only;
+          left:0px;`);
         document.body.appendChild(field);
 
         // Adding onfocus event handler for out temp field
