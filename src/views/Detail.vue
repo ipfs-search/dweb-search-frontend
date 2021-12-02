@@ -76,31 +76,15 @@
           v-for="(item, index) in items"
           :key="index"
         >
-          <ImageDetail
-            v-if="fileType === Types.images"
-            :file="item"
-          />
-          <DirectoryDetail
-            v-if="fileType === Types.directories"
-            :file="item"
-          />
-          <DocumentDetail
-            v-if="fileType === Types.text"
-            :file="item"
-          />
-          <AudioDetail
-            v-if="fileType === Types.audio"
-            :file="item"
-          />
-          <VideoDetail
-            v-if="fileType === Types.video"
+          <component
+            :is="DetailComponent[this.fileType]"
             :file="item"
           />
         </v-carousel-item>
       </v-carousel>
       <component
         v-else
-        :is="ComponentDetailTypes[this.fileType]"
+        :is="DetailComponent[this.fileType]"
         :file="singleItem"
       />
     </div>
@@ -109,24 +93,12 @@
 
 <script>
 import store from '@/store';
-import { Types, ComponentDetailTypes } from '@/helpers/typeHelper';
+import { Types, DetailComponent } from '@/helpers/typeHelper';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
-import ImageDetail from '@/components/results/detail/ImageDetail';
-import DocumentDetail from '@/components/results/detail/DocumentDetail';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
-import VideoDetail from '@/components/results/detail/VideoDetail';
-import AudioDetail from '@/components/results/detail/AudioDetail';
 
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
-  },
-  components: {
-    ImageDetail,
-    DocumentDetail,
-    DirectoryDetail,
-    VideoDetail,
-    AudioDetail,
   },
   created() {
     if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
@@ -170,7 +142,7 @@ export default {
   data() {
     return {
       Types,
-      ComponentDetailTypes,
+      DetailComponent,
       singleItem: undefined,
       carouselIndex: 0,
     };

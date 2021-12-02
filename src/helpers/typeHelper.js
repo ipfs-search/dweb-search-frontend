@@ -26,7 +26,7 @@ export const Types = {
   directories: 'directories',
 };
 
-export const ComponentDetailTypes = {
+export const DetailComponent = {
   text: DocumentDetail,
   images: ImageDetail,
   audio: AudioDetail,
@@ -38,4 +38,5 @@ export default {
   fileTypes,
   searchTypes,
   Types,
+  DetailComponent,
 };
