@@ -12,8 +12,7 @@
           <DownloadButton
             class="ml-1"
             v-if="$props.file.size"
-            :hash="$props.file.hash"
-            :title="$props.file.title"
+            :file="$props.file"
           />
           <CopyHashButton
             class="ml-1"

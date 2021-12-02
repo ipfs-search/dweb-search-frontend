@@ -12,6 +12,7 @@ const mimetypeMap = {
   'audio/mp3': 'mp3',
   'audio/vorbis': 'ogg',
   'audio/mp4': 'mp4',
+  'video/mp4': 'mp4',
   'audio/aac': 'aac',
   'audio/opus': 'opus',
   'audio/wav': 'wav',
