@@ -72,5 +72,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../../scss/blurGraphicContent';
+@import '@/scss/blurGraphicContent';
 </style>
