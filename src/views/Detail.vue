@@ -218,8 +218,8 @@ export default {
 
         // handle fetching missing items from the api
         const currentPage = Number(this.$route.query.page);
-        if (index === this.items.length - 1
-          || (index < this.items.length - 1 && this.items[index + 1] === undefined)) {
+        if (index === this.items?.length - 1
+          || (index < this.items?.length - 1 && this.items[index + 1] === undefined)) {
           console.debug('last page item: loading items for page', currentPage + 1);
           store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage + 1 });
         } else if (index === ((currentPage - 1) * 15) && currentPage > 1) {
