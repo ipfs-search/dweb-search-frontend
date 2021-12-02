@@ -27,6 +27,7 @@ module.exports = {
     'max-len': [
       'warn', {
         code: 100,
+        ignoreUrls: true,
       },
     ],
     'import/extensions': [
