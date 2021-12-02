@@ -33,7 +33,15 @@
           border="left"
           color="red lighten-2"
         >
-          <i>Error loading results...</i>
+          <i>
+            Error loading results...
+          </i>
+          <a
+            class="text-decoration-underline black--text text--lighten-1"
+            @click.prevent="retry"
+          >
+            Retry
+          </a>
         </v-alert>
       </v-col>
     </v-row>
@@ -90,6 +98,9 @@ export default {
   methods: {
     setFileType() {
       this.search({ type: this.$parent.fileType });
+    },
+    retry() {
+      // doSomething
     },
   },
 };
