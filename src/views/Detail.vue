@@ -44,6 +44,7 @@
             </div>
             <v-spacer />
             <v-switch
+              class="my-0 py-0 mt-5"
               v-if="[Types.images, Types.video, Types.any].includes(this.fileType)"
               v-model="blurGraphicContent"
             >
@@ -246,5 +247,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>
