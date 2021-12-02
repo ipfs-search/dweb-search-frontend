@@ -15,7 +15,10 @@
       >
         <v-container class="mx-0 px-0">
           <v-row class="d-flex align-center">
-            <v-col>
+            <v-col
+              cols="4"
+              md="3"
+            >
               <v-switch
                 v-if="[Types.images, Types.video, Types.any].includes($store.state.query.type)"
                 v-model="blurGraphicContent"
@@ -34,7 +37,7 @@
             </v-col>
 
             <v-col
-              cols="6"
+              cols="4"
               md="3"
             >
               <!--
@@ -73,7 +76,7 @@
             </v-col>
 
             <v-col
-              cols="6"
+              cols="4"
               md="3"
             >
               <v-select
