@@ -21,7 +21,9 @@
                 v-model="blurGraphicContent"
               >
                 <template v-slot:label>
-                  Blur Graphic Content
+                  Blur {{
+                    $vuetify.breakpoint.smAndDown ? '' : 'Graphic Content'
+                  }}
                 </template>
               </v-switch>
             </v-col>
@@ -64,7 +66,7 @@
               >
                 <template v-slot:selection="{ item }">
                   <span class="m-2 text-body-2">
-                    {{ $vuetify.breakpoint.smAndDown || 'Size ' }}{{ item.text }}
+                    {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
                   </span>
                 </template>
               </v-select>
