@@ -18,7 +18,6 @@ const mimetypeMap = {
   'audio/wav': 'wav',
   'audio/vnd.wave': 'wav',
   // omitting weba and webm because they have the same mimetype
-
 };
 
 /**
