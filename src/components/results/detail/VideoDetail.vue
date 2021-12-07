@@ -66,9 +66,6 @@ export default {
     MediaHeader,
     VideoPlayer,
   },
-  created() {
-    console.debug(this.file);
-  },
   computed: {
     videoOptions() {
       return {

@@ -76,12 +76,14 @@
           v-for="(item, index) in items"
           :key="index"
         >
+          <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
           <component
             :is="DetailComponent[this.fileType]"
             :file="item"
           />
         </v-carousel-item>
       </v-carousel>
+      <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
       <component
         v-else
         :is="DetailComponent[this.fileType]"
