@@ -100,7 +100,7 @@
       </v-carousel>
       <component
         v-else
-        :is="ComponentDetailTypes[this.fileType]"
+        :is="componentType"
         :file="singleItem"
       />
     </div>
@@ -109,7 +109,7 @@
 
 <script>
 import store from '@/store';
-import { Types, ComponentDetailTypes } from '@/helpers/typeHelper';
+import { Types } from '@/helpers/typeHelper';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
 import ImageDetail from '@/components/results/detail/ImageDetail';
 import DocumentDetail from '@/components/results/detail/DocumentDetail';
@@ -120,6 +120,7 @@ import AudioDetail from '@/components/results/detail/AudioDetail';
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
+    this.Types = Types;
   },
   components: {
     ImageDetail,
@@ -129,6 +130,10 @@ export default {
     AudioDetail,
   },
   created() {
+    this.$data.singleItem = {
+      hash: this.fileHash,
+    };
+
     if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
       this.$data.carouselIndex = this.selectedIndex;
       this.$data.singleItem = undefined;
@@ -138,7 +143,7 @@ export default {
       })
         .then(() => {
           // take index parameter from route props, if available. Else fallback on hash match.
-          const index = this.items?.findIndex((item) => item?.hash === this.fileHash);
+          const index = this.items.findIndex((item) => item?.hash === this.fileHash);
           if (index > -1) {
             this.$data.carouselIndex = index;
             this.$data.singleItem = undefined;
@@ -169,8 +174,6 @@ export default {
   },
   data() {
     return {
-      Types,
-      ComponentDetailTypes,
       singleItem: undefined,
       carouselIndex: 0,
     };
