@@ -78,7 +78,7 @@
         >
           <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
           <component
-            :is="DetailComponent[this.fileType]"
+            :is="DetailComponent[fileType]"
             :file="item"
           />
         </v-carousel-item>
@@ -86,7 +86,7 @@
       <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
       <component
         v-else
-        :is="DetailComponent[this.fileType]"
+        :is="DetailComponent[fileType]"
         :file="singleItem"
       />
     </div>
