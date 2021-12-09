@@ -17,12 +17,13 @@ const mimetypeMap = {
   'audio/opus': 'opus',
   'audio/wav': 'wav',
   'audio/vnd.wave': 'wav',
+  'application/pdf': 'pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
   // omitting weba and webm because they have the same mimetype
 };
 
 /**
  * Get file extension based on mimetype, or if inconclusive, the title of the file.
- * Fallback is mp3
  * @param file
  * @returns {string|string|*}
  */
@@ -32,7 +33,7 @@ export function getFileExtension(file) {
   const extractFromTitle = /(?:\.([^.]+))?$/
     .exec(file.title)[1]
     .replace(/<[^>]+>/g, '');// remove xml tags
-  return extractFromTitle || 'mp3';
+  return extractFromTitle || '';
 }
 
 export default {
