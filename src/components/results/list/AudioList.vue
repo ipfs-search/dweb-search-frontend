@@ -74,6 +74,7 @@
 <script>
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from './mixins/FileListMixin';
+import { Types } from '@/helpers/typeHelper';
 
 export default {
   mixins: [
@@ -84,7 +85,7 @@ export default {
   },
   data() {
     return {
-      fileType: 'audio',
+      fileType: Types.audio,
       shortList: 6,
     };
   },

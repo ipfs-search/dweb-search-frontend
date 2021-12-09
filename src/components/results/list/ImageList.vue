@@ -53,6 +53,7 @@
 <script>
 import FileListMixin from './mixins/FileListMixin';
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
+import { Types } from '@/helpers/typeHelper';
 
 export default {
   mixins: [
@@ -61,7 +62,7 @@ export default {
   ],
   data() {
     return {
-      fileType: 'images',
+      fileType: Types.images,
       shortList: 6,
     };
   },

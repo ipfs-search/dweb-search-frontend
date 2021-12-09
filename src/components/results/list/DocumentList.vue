@@ -42,6 +42,7 @@
 <script>
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from './mixins/FileListMixin';
+import { Types } from '@/helpers/typeHelper';
 
 export default {
   mixins: [
@@ -52,7 +53,7 @@ export default {
   },
   data() {
     return {
-      fileType: 'text',
+      fileType: Types.text,
       shortList: 3,
     };
   },

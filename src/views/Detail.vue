@@ -76,31 +76,17 @@
           v-for="(item, index) in items"
           :key="index"
         >
-          <ImageDetail
-            v-if="fileType === Types.images"
-            :file="item"
-          />
-          <DirectoryDetail
-            v-if="fileType === Types.directories"
-            :file="item"
-          />
-          <DocumentDetail
-            v-if="fileType === Types.text"
-            :file="item"
-          />
-          <AudioDetail
-            v-if="fileType === Types.audio"
-            :file="item"
-          />
-          <VideoDetail
-            v-if="fileType === Types.video"
+          <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
+          <component
+            :is="DetailComponent[fileType]"
             :file="item"
           />
         </v-carousel-item>
       </v-carousel>
+      <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
       <component
         v-else
-        :is="componentType"
+        :is="DetailComponent[fileType]"
         :file="singleItem"
       />
     </div>
@@ -109,31 +95,14 @@
 
 <script>
 import store from '@/store';
-import { Types } from '@/helpers/typeHelper';
+import { Types, DetailComponent } from '@/helpers/typeHelper';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
-import ImageDetail from '@/components/results/detail/ImageDetail';
-import DocumentDetail from '@/components/results/detail/DocumentDetail';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
-import VideoDetail from '@/components/results/detail/VideoDetail';
-import AudioDetail from '@/components/results/detail/AudioDetail';
 
 export default {
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
-    this.Types = Types;
-  },
-  components: {
-    ImageDetail,
-    DocumentDetail,
-    DirectoryDetail,
-    VideoDetail,
-    AudioDetail,
   },
   created() {
-    this.$data.singleItem = {
-      hash: this.fileHash,
-    };
-
     if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
       this.$data.carouselIndex = this.selectedIndex;
       this.$data.singleItem = undefined;
@@ -143,7 +112,7 @@ export default {
       })
         .then(() => {
           // take index parameter from route props, if available. Else fallback on hash match.
-          const index = this.items.findIndex((item) => item?.hash === this.fileHash);
+          const index = this.items?.findIndex((item) => item?.hash === this.fileHash);
           if (index > -1) {
             this.$data.carouselIndex = index;
             this.$data.singleItem = undefined;
@@ -174,6 +143,8 @@ export default {
   },
   data() {
     return {
+      Types,
+      DetailComponent,
       singleItem: undefined,
       carouselIndex: 0,
     };
@@ -206,8 +177,8 @@ export default {
 
         // handle fetching missing items from the api
         const currentPage = Number(this.$route.query.page);
-        if (index === this.items.length - 1
-          || (index < this.items.length - 1 && this.items[index + 1] === undefined)) {
+        if (index === this.items?.length - 1
+          || (index < this.items?.length - 1 && this.items[index + 1] === undefined)) {
           console.debug('last page item: loading items for page', currentPage + 1);
           store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage + 1 });
         } else if (index === ((currentPage - 1) * 15) && currentPage > 1) {
