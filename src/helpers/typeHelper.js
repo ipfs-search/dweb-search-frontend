@@ -6,8 +6,8 @@ import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
 
 export const fileTypes = [
   'text',
-  'images',
   'audio',
+  'images',
   'video',
   'directories',
 ];
@@ -20,16 +20,16 @@ export const searchTypes = [
 export const Types = {
   any: 'any',
   text: 'text',
-  images: 'images',
   audio: 'audio',
+  images: 'images',
   video: 'video',
   directories: 'directories',
 };
 
 export const DetailComponent = {
   text: DocumentDetail,
-  images: ImageDetail,
   audio: AudioDetail,
+  images: ImageDetail,
   video: VideoDetail,
   directories: DirectoryDetail,
 };

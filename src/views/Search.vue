@@ -59,8 +59,8 @@
     <SearchFilters />
 
     <DocumentList v-if="listType(this.Types.text)" />
-    <ImageList v-if="listType(this.Types.images)" />
     <AudioList v-if="listType(this.Types.audio)" />
+    <ImageList v-if="listType(this.Types.images)" />
     <VideoList v-if="listType(this.Types.video)" />
     <DirectoryList v-if="listType(this.Types.directories)" />
   </div>
