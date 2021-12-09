@@ -24,13 +24,13 @@ export default {
     getURL() {
       const reference = this.file.references?.[0];
       if (reference) {
-        return `${getResourceURL(reference.parent_hash)}/${reference.name}`;
+        return `${getResourceURL(reference.parent_hash)}/${reference.name}?download=true`;
       }
 
       let extension = getFileExtension(this.file);
       if (extension) extension = `.${extension}`;
 
-      return `${getResourceURL(this.file.hash)}?download=true&filename=${this.file.hash}${extension}`;
+      return `${getResourceURL(this.file.hash)}${extension}?download=true`;
     },
   },
 };
