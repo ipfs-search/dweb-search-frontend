@@ -48,7 +48,7 @@
 
 <script>
 import DetailMixin from './mixins/DetailMixin';
-import BlurGraphicContentMixin from '@/mixins/BlurGraphicContentMixin';
+import BlurGraphicContentMixin from '@/mixins/BlurExplicitImagesMixin';
 
 export default {
   mixins: [
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/blurGraphicContent';
+@import '@/scss/blurExplicitImages';
 
 .image-container {
   position: absolute;

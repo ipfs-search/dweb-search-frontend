@@ -104,7 +104,7 @@
 <script>
 import store from '@/store';
 import { Types, DetailComponent } from '@/helpers/typeHelper';
-import BlurGraphicContentMixin from '@/mixins/BlurGraphicContentMixin';
+import BlurGraphicContentMixin from '@/mixins/BlurExplicitImagesMixin';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
 
 export default {

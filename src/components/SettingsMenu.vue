@@ -22,7 +22,7 @@
           <v-list-item>
             <v-list-item-action>
               <v-switch
-                v-model="blurImages"
+                v-model="blurExplicitImages"
               />
             </v-list-item-action>
             <v-list-item-title>Blur explicit images</v-list-item-title>
@@ -43,7 +43,12 @@
 </template>
 
 <script>
+import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
+
 export default {
+  mixins: [
+    BlurExplicitImagesMixin,
+  ],
   props: {
     isHome: {
       type: Boolean,
@@ -52,7 +57,6 @@ export default {
     },
   },
   data: () => ({
-    blurImages: false,
     darkMode: false,
   }),
 };

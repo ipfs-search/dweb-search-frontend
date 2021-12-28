@@ -1,12 +1,32 @@
+/**
+ * leverage the store to make reactive, type casted localStorage fields
+ */
+
+const fields = [
+  {
+    field: 'blurExplicitImages',
+    defaultValue: false,
+  },
+  {
+    field: 'darkMode',
+    defaultValue: true,
+  },
+];
+
+const pascalize = (s) => s[0].toUpperCase() + s.slice(1);
+
 export default {
   namespaced: true,
-  state: {
-    blurGraphicContent: localStorage.blurGraphicContent !== 'false',
-  },
-  mutations: {
-    setBlurGraphicContent(state, value) {
-      state.blurGraphicContent = value;
-      localStorage.blurGraphicContent = value;
+  state: Object.fromEntries(fields.map(({ field, defaultValue }) => [
+    field,
+    // N.b. to make more types possible than boolean alone, some magic needs to be done here.
+    defaultValue ? localStorage[field] !== 'false' : localStorage[field] === 'true',
+  ])),
+  mutations: Object.fromEntries(fields.map(({ field }) => [
+    `set${pascalize(field)}`,
+    (state, value) => {
+      state[field] = value;
+      localStorage[field] = value;
     },
-  },
+  ])),
 };

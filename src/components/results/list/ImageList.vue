@@ -24,7 +24,7 @@
             v-if="hit"
             @click="goToDetailPage(index)"
             :id="hit.hash"
-            :class="{ blurGraphicContent }"
+            :class="{ blurExplicitImages }"
           >
             <v-img
               :src="getResourceURL(hit.hash)"
@@ -55,13 +55,13 @@
 import FileListMixin from './mixins/FileListMixin';
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
-import BlurGraphicContentMixin from '@/mixins/BlurGraphicContentMixin';
+import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 
 export default {
   mixins: [
     FileListMixin,
     InfiniteScrollingMixin,
-    BlurGraphicContentMixin,
+    BlurExplicitImagesMixin,
   ],
   data() {
     return {
@@ -73,5 +73,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/blurGraphicContent';
+@import '@/scss/blurExplicitImages';
 </style>
