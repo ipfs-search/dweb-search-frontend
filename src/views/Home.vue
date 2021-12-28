@@ -41,9 +41,7 @@
               {{ link.title }}
             </v-btn>
 
-            <settings-menu
-              :is-home="true"
-            />
+            <settings-menu />
 
             <v-menu
               bottom

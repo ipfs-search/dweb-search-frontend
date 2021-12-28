@@ -31,7 +31,6 @@
                 <v-row>
                   <v-col>
                     <div
-                      :class="{ blurExplicitImages }"
                       class="text-body-1"
                     >
                       <video-player
@@ -59,12 +58,10 @@ import VideoPlayer from '@/components/VideoPlayer';
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
-import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 
 export default {
   mixins: [
     DetailMixin,
-    BlurExplicitImagesMixin,
   ],
   components: {
     MetaDataPanel,
@@ -89,6 +86,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/blurExplicitImages';
 @import '~video.js/dist/video-js.css';
 </style>

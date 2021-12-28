@@ -43,14 +43,9 @@
               </div>
             </div>
             <v-spacer />
-            <v-switch
-              v-if="[Types.images, Types.video, Types.any].includes(this.fileType)"
-              v-model="blurExplicitImages"
-            >
-              <template v-slot:label>
-                Blur
-              </template>
-            </v-switch>
+
+            <settings-menu />
+
             <v-btn
               icon
               @click="closeDetail"
@@ -106,10 +101,14 @@ import store from '@/store';
 import { Types, DetailComponent } from '@/helpers/typeHelper';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
 import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
+import SettingsMenu from '@/components/SettingsMenu';
 
 export default {
   mixins: [
     BlurExplicitImagesMixin,
+  ],
+  components: [
+    SettingsMenu,
   ],
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);

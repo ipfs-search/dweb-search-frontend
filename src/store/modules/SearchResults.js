@@ -1,4 +1,8 @@
+import Vue from 'vue';
 import { apiSearch, batchSize } from '@/helpers/ApiHelper';
+import resourceURL from '@/helpers/resourceURL';
+import nsfwClassifier from '@/helpers/nsfwClassifier';
+import { Types } from '@/helpers/typeHelper';
 
 const baseState = {
   error: false,
@@ -39,6 +43,14 @@ const mutations = {
       ...results,
       hits,
     };
+  },
+
+  setNsfw(state, { index, classification }) {
+    if (!state.results?.hits?.[index]) return;
+    // use Vue reactive state update
+    Vue.set(state.results.hits[index], 'nsfw', nsfwClassifier.nsfw(classification));
+    // Add actual classification for debugging purposes
+    Vue.set(state.results.hits[index], 'nsfwClassification', classification);
   },
 };
 
@@ -100,6 +112,14 @@ export default (fileType) => ({
         return apiSearch(apiQueryString, fileType, batch, perPage)
           .then((results) => {
             commit('setResults', { results, index: batch * perPage });
+            if (fileType === Types.images) {
+              results.hits.forEach((hit, index) => {
+                nsfwClassifier.classify(resourceURL(hit.hash))
+                  .then(({ classification }) => {
+                    commit('setNsfw', { index: index + batch * perPage, classification });
+                  });
+              });
+            }
             return results.hits;
           })
           .catch((error) => {

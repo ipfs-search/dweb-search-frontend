@@ -24,7 +24,7 @@
             v-if="hit"
             @click="goToDetailPage(index)"
             :id="hit.hash"
-            :class="{ blurExplicitImages }"
+            :class="{ blurExplicit: blurExplicitImages && hit.nsfw}"
           >
             <v-img
               :src="getResourceURL(hit.hash)"

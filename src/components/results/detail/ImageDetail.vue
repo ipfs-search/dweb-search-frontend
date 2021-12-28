@@ -30,7 +30,7 @@
                 <v-row>
                   <v-col>
                     <div
-                      :class="{ blurExplicitImages }"
+                      :class="{ blurExplicit: blurExplicitImages && file.nsfw }"
                       class="image-container"
                       :style="{'background-image': `url(${resourceURL})`}"
                     />
