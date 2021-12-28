@@ -15,6 +15,18 @@
       >
         <v-container class="mx-0 px-0">
           <v-row class="d-flex align-center">
+            <v-col>
+              <v-switch
+                v-if="[Types.images, Types.video, Types.any].includes($store.state.query.type)"
+                v-model="blurGraphicContent"
+              >
+                <template v-slot:label>
+                  Blur {{
+                    $vuetify.breakpoint.smAndDown ? '' : 'Graphic Content'
+                  }}
+                </template>
+              </v-switch>
+            </v-col>
             <v-col class="hidden-sm-and-down">
               <span class="text-body-1">
                 Filter:
@@ -45,16 +57,17 @@
               <v-select
                 :items="sizeOptions"
                 dense
-                :outlined="$vuetify.breakpoint.smAndDown ? true : false"
-                :solo="$vuetify.breakpoint.smAndDown ? false : true"
+                :outlined="$vuetify.breakpoint.smAndDown"
+                :solo="!$vuetify.breakpoint.smAndDown"
                 label="Size"
                 height="38"
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="sizeFilter"
               >
                 <template v-slot:selection="{ item }">
-                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
-                    ? '' : 'Size ' }}{{ item.text }}</span>
+                  <span class="m-2 text-body-2">
+                    {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
+                  </span>
                 </template>
               </v-select>
             </v-col>
@@ -66,8 +79,8 @@
               <v-select
                 :items="lastSeenOptions"
                 dense
-                :outlined="$vuetify.breakpoint.smAndDown ? true : false"
-                :solo="$vuetify.breakpoint.smAndDown ? false : true"
+                :outlined="$vuetify.breakpoint.smAndDown"
+                :solo="!$vuetify.breakpoint.smAndDown"
                 label="Last seen"
                 height="38"
                 style="margin-bottom: 0 !important; height: 38px !important"
@@ -88,14 +101,15 @@
 
 <script>
 import SearchMixin from '@/mixins/SearchMixin';
+import BlurGraphicContentMixin from '@/mixins/BlurGraphicContentMixin';
 import store from '@/store';
+import { Types } from '@/helpers/typeHelper';
 
 export default {
-  components: {
-  },
-
-  mixins: [SearchMixin],
-
+  mixins: [
+    SearchMixin,
+    BlurGraphicContentMixin,
+  ],
   computed: {
     lastSeenFilter: {
       get() {
@@ -117,6 +131,7 @@ export default {
     },
   },
   data: () => ({
+    Types,
     sizeOptions: [
       {
         text: '0-10mb', value: ['<=10485760'],

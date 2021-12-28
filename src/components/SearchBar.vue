@@ -53,7 +53,7 @@
           </template>
           <template
             v-slot:append-outer
-            v-if="$vuetify.breakpoint.smAndDown ? false : true"
+            v-if="!$vuetify.breakpoint.smAndDown"
           >
             <v-icon
               style="margin-top: -2px;"

@@ -14,6 +14,7 @@
     >
       <v-card
         @click="goToDetailPage(index)"
+        :class="{ blurGraphicContent }"
       >
         <v-row>
           <v-col
@@ -96,3 +97,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@/scss/blurGraphicContent';
+</style>

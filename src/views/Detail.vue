@@ -43,6 +43,14 @@
               </div>
             </div>
             <v-spacer />
+            <v-switch
+              v-if="[Types.images, Types.video, Types.any].includes(this.fileType)"
+              v-model="blurGraphicContent"
+            >
+              <template v-slot:label>
+                Blur
+              </template>
+            </v-switch>
             <v-btn
               icon
               @click="closeDetail"
@@ -96,9 +104,13 @@
 <script>
 import store from '@/store';
 import { Types, DetailComponent } from '@/helpers/typeHelper';
+import BlurGraphicContentMixin from '@/mixins/BlurGraphicContentMixin';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
 
 export default {
+  mixins: [
+    BlurGraphicContentMixin,
+  ],
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
   },

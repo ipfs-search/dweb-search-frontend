@@ -30,6 +30,7 @@
                 <v-row>
                   <v-col>
                     <div
+                      :class="{ blurGraphicContent }"
                       class="image-container"
                       :style="{'background-image': `url(${resourceURL})`}"
                     />
@@ -47,15 +48,19 @@
 
 <script>
 import DetailMixin from './mixins/DetailMixin';
+import BlurGraphicContentMixin from '@/mixins/BlurGraphicContentMixin';
 
 export default {
   mixins: [
     DetailMixin,
+    BlurGraphicContentMixin,
   ],
 };
 </script>
 
 <style lang="scss" scoped>
+@import '@/scss/blurGraphicContent';
+
 .image-container {
   position: absolute;
   top: 0;
