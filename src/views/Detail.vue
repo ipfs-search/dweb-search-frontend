@@ -45,7 +45,7 @@
             <v-spacer />
             <v-switch
               v-if="[Types.images, Types.video, Types.any].includes(this.fileType)"
-              v-model="blurGraphicContent"
+              v-model="blurExplicitImages"
             >
               <template v-slot:label>
                 Blur
@@ -104,12 +104,12 @@
 <script>
 import store from '@/store';
 import { Types, DetailComponent } from '@/helpers/typeHelper';
-import BlurGraphicContentMixin from '@/mixins/BlurExplicitImagesMixin';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
+import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 
 export default {
   mixins: [
-    BlurGraphicContentMixin,
+    BlurExplicitImagesMixin,
   ],
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);

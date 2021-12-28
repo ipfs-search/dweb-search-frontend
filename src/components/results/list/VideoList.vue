@@ -14,7 +14,7 @@
     >
       <v-card
         @click="goToDetailPage(index)"
-        :class="{ blurGraphicContent }"
+        :class="{ blurExplicitImages }"
       >
         <v-row>
           <v-col

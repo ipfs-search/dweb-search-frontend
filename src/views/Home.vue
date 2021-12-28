@@ -42,7 +42,7 @@
             </v-btn>
 
             <settings-menu
-              :is-home="isHome"
+              :is-home="true"
             />
 
             <v-menu
@@ -323,7 +323,6 @@ export default {
   },
 
   data: () => ({
-    isHome: true,
     links: [
       {
         title: 'Donate',

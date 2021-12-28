@@ -5,12 +5,13 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
 
 import ipfsTheme from './theme';
+import store from '@/store';
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
   theme: {
-    dark: false,
+    dark: store.state.localStorage.darkMode,
     themes: {
       dark: ipfsTheme,
       light: ipfsTheme,

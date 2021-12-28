@@ -9,11 +9,10 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           icon
-          :dark="isHome ? $vuetify.theme.dark : !$vuetify.theme.dark"
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon>mdi-cog</v-icon>
+          <v-icon color="white">mdi-cog</v-icon>
         </v-btn>
       </template>
 
@@ -49,15 +48,14 @@ export default {
   mixins: [
     BlurExplicitImagesMixin,
   ],
-  props: {
-    isHome: {
-      type: Boolean,
-      required: false,
-      default: false,
+  computed: {
+    darkMode: {
+      get() { return this.$store.state.localStorage.darkMode; },
+      set(value) {
+        this.$vuetify.theme.dark = value;
+        this.$store.commit('localStorage/setDarkMode', value);
+      },
     },
   },
-  data: () => ({
-    darkMode: false,
-  }),
 };
 </script>
