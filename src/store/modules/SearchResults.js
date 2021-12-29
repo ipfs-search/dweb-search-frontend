@@ -130,7 +130,9 @@ export default (fileType) => ({
 
       // if results are already present, just return them.
       const pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
-      if (pageResults?.length >= 0 && !pageResults.includes(undefined)) return pageResults;
+      if (pageResults?.length > 0 && !pageResults.includes(undefined)) {
+        return pageResults;
+      }
 
       // otherwise do api lookup
       return apiSearchPage({
