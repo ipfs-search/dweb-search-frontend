@@ -4,9 +4,7 @@
 [![Backers on Open Collective](https://opencollective.com/ipfs-search/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/ipfs-search/sponsors/badge.svg)](#sponsors)
 
-New frontend repository for dweb-search, formerly ipfs-search.
-
-The most recent version is automatically deployed on IPFS through Fleek: https://dweb-search-frontend.on.fleek.co/
+New frontend repository for [ipfs-search.com](https://ipfs-search.com). Master is automatically deployed through [Fleek](https://fleek.co/).
 
 ## Dependencies
 * [NodeJS 16 Gallium (LTS)](https://nodejs.org/)
