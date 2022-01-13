@@ -137,9 +137,6 @@ export default {
 
     lastSeenOptions: [
       {
-        text: '<3hr', value: '>now-3h',
-      },
-      {
         text: '<24hr', value: '>now-24h',
       },
       {
