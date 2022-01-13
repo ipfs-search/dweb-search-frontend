@@ -7,15 +7,15 @@ export default function (value) {
 
   const duration = moment.duration(difference);
 
-  if (duration < moment.duration({ hours: 3 })) {
+  if (duration < moment.duration({ hours: 24 })) {
     return 'green--text';
   }
 
-  if (duration < moment.duration({ hours: 24 })) {
+  if (duration < moment.duration({ days: 7 })) {
     return 'orange--text';
   }
 
-  if (duration > moment.duration({ hours: 24 })) {
+  if (duration > moment.duration({ days: 7 })) {
     return 'red--text';
   }
 
