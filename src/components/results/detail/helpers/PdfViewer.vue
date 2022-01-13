@@ -10,62 +10,56 @@
     <v-alert
       border="left"
       color="blue lighten-4"
-      v-if="loading"
+      v-else-if="loading"
     >
       <i>Loading preview</i>
       <v-progress-linear
-        :value="$data.progress * 100"
+        :indeterminate="progress===0"
+        :value="$data.progress"
       />
     </v-alert>
-    <pdf
-      :src="$props.src"
-      @num-pages="$data.pageCount = $event"
-      @page-loaded="$data.currentPage = $event"
-      @loaded="$data.loading = false"
-      @progress="$data.progress = $event"
-      @error="$data.error = $event"
-      :page="$data.currentPage > 0 && $data.currentPage"
+    <iframe
+      v-else
+      :src="srcUrl"
+      width="100%"
+      height="700"
+      type="application/pdf"
+      @load="loading = false"
     />
-    <div class="text-center">
-      <v-pagination
-        v-model="$data.currentPage"
-        :length="$data.pageCount"
-        :total-visible="7"
-      />
-    </div>
   </div>
 </template>
 
 <script>
 
-// FIXME: it seems there is an error in vue-pdf because some resizeSensor throws a console error
-import pdf from 'vue-pdf';
+import ProgressFetcher from '@/helpers/ProgressFetcher';
 
 export default {
-  components: {
-    pdf,
+  created() {
+    const fetcher = new ProgressFetcher(({ loaded, total }) => {
+      this.$data.progress = (loaded / total) * 100;
+    });
+    fetcher.fetch(this.$props.src)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
+      .then((blob) => window.URL.createObjectURL(blob))
+      .then((url) => {
+        this.$data.srcUrl = url;
+        this.loading = false;
+      })
+      .catch(this.$data.error.set);
   },
   data() {
     return {
-      currentPage: 1,
-      pageCount: 0,
       loading: true,
-      progress: 0,
       error: false,
+      progress: 0,
+      srcUrl: '',
     };
   },
   props: {
     src: {
       type: String,
       required: true,
-    },
-  },
-  methods: {
-    increasePage() {
-      this.currentPage = Math.min(this.currentPage + 1, this.pageCount);
-    },
-    decreasePage() {
-      this.currentPage = Math.max(this.currentPage - 1, 1);
     },
   },
 };

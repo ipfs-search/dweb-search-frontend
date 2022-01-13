@@ -1,4 +1,4 @@
-import { audioPlayer } from '@/plugins/audioPlugin.js';
+import { audioPlayer } from '@/plugins/audioPlugin';
 
 export default {
   data() {
