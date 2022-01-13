@@ -1,5 +1,6 @@
 include:
-  - template: Auto-DevOps.gitlab-ci.yml
+  - template: Auto-DevOps.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Auto-DevOps.gitlab-ci.yml
 
 variables:
   TEST_DISABLED: "true"
+  AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: "--target build" # Cache builds.
