@@ -1,7 +1,14 @@
 // adapted/copied from: https://github.com/AnthumChris/fetch-progress-indicators/blob/master/fetch-enhanced/supported-browser.js
-// could use some improvements still...
+
+// TODO: add pause function
 
 export default class ProgressFetcher {
+  /**
+   * add hook to progress updates.
+   * Returns the identifier symbol of the ook, for future implementation of removing the hooks
+   * @param func
+   * @returns {symbol}
+   */
   onProgress(func) {
     if (typeof func !== 'function') throw Error('trying to set non-function on hook');
 
@@ -10,6 +17,10 @@ export default class ProgressFetcher {
     return s;
   }
 
+  /**
+   * support for multiple hooks and different hooks
+   * for future implementation of onReady and onError hooks
+   */
   #hooks = {
     progress: {},
   };

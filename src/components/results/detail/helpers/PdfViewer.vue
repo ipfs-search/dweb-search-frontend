@@ -10,7 +10,7 @@
     <v-alert
       border="left"
       color="blue lighten-4"
-      v-else-if="loading"
+      v-else-if="progress < 100"
     >
       <i>Loading preview</i>
       <v-progress-linear
@@ -24,7 +24,6 @@
       width="100%"
       height="700"
       type="application/pdf"
-      @load="loading = false"
     />
   </div>
 </template>
@@ -47,13 +46,11 @@ export default {
       .then((blob) => window.URL.createObjectURL(blob))
       .then((url) => {
         this.$data.srcUrl = url;
-        this.loading = false;
       })
       .catch(this.$data.error.set);
   },
   data() {
     return {
-      loading: true,
       error: false,
       progress: 0,
       srcUrl: '',
