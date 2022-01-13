@@ -35,9 +35,12 @@ import ProgressFetcher from '@/helpers/ProgressFetcher';
 
 export default {
   created() {
-    const fetcher = new ProgressFetcher(({ loaded, total }) => {
+    const fetcher = new ProgressFetcher();
+
+    fetcher.onProgress(({ loaded, total }) => {
       this.$data.progress = (loaded / total) * 100;
     });
+
     fetcher.fetch(this.$props.src)
       .then((response) => response.arrayBuffer())
       .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))

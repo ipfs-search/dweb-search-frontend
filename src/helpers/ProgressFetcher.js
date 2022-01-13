@@ -2,8 +2,21 @@
 // could use some improvements still...
 
 export default class ProgressFetcher {
-  constructor(onProgress = () => {}) {
-    this.onProgress = onProgress;
+  onProgress(func) {
+    if (typeof func !== 'function') throw Error('trying to set non-function on hook');
+
+    const s = Symbol('progress');
+    this.#hooks.progress[s] = func;
+    return s;
+  }
+
+  #hooks = {
+    progress: {},
+  };
+
+  #callHooks(hook, ...args) {
+    console.log(this.#hooks[hook], args);
+    Reflect.ownKeys(this.#hooks[hook]).forEach((s) => this.#hooks[hook][s](...args));
   }
 
   #reader;
@@ -66,7 +79,8 @@ export default class ProgressFetcher {
                 if (done) {
                   // ensure onProgress called when content-length=0
                   if (total === 0) {
-                    me.onProgress.call(me, { loaded, total });
+                    // me.onProgress.call(me, { loaded, total });
+                    me.#callHooks('progress', { loaded, total });
                   }
 
                   controller.close();
@@ -74,7 +88,7 @@ export default class ProgressFetcher {
                 }
 
                 loaded += value.byteLength;
-                me.onProgress.call(me, { loaded, total });
+                me.#callHooks('progress', { loaded, total });
                 controller.enqueue(value);
                 read();
               }).catch((error) => {
