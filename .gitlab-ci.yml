@@ -3,4 +3,4 @@ include:
 
 variables:
   TEST_DISABLED: "true"
-  AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: "--target build" # Cache builds.
+  AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: "--target build" # Run only 'build' stage, caches layers and speed up build.
