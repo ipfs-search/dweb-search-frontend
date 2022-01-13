@@ -4,6 +4,5 @@ include:
 variables:
   TEST_DISABLED: "true"
   DAST_DISABLED: "true"
-  DOCKER_BUILDKIT: "1"
   AUTO_DEVOPS_BUILD_CACHE: "registry"
-
+  AUTO_BUILD_IMAGE_VERSION: "v1.6.0"
