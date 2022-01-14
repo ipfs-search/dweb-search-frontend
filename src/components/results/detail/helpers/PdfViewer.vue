@@ -47,7 +47,9 @@ export default {
       .then((url) => {
         this.$data.srcUrl = url;
       })
-      .catch(this.$data.error.set);
+      .catch((error) => {
+        this.$data.error = error;
+      });
   },
   data() {
     return {
