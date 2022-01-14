@@ -30,7 +30,7 @@
 
 <script>
 
-import ProgressFetcher from '@/helpers/ProgressFetcher';
+import GoldenRetriever from '@/helpers/GoldenRetriever';
 
 export default {
   created() {
@@ -73,18 +73,17 @@ export default {
   methods: {
     fetch() {
       // if it hasn't been fetched yet, go fetch!
-      console.log('fetching', this.$props.src, this.$data.srcUrlFromBlob);
       if (!this.$data.srcUrlFromBlob) {
-        this.fetcher = new ProgressFetcher();
+        this.retriever = new GoldenRetriever();
 
-        this.fetcher.onProgress(({
+        this.retriever.onProgress(({
           loaded,
           total,
         }) => {
           this.$data.progress = (loaded / total) * 100;
         });
 
-        this.fetcher.fetch(this.$props.src)
+        this.retriever.fetch(this.$props.src)
           .then((response) => response.arrayBuffer())
           .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
           .then((blob) => {

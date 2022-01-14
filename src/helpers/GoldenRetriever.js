@@ -2,7 +2,7 @@
 
 // TODO: add pause function
 
-export default class ProgressFetcher {
+export default class GoldenRetriever {
   /**
    * add hook
    * Returns the identifier symbol of the hook, for removing the hooks
