@@ -34,6 +34,7 @@
                       v-if="$props.file.mimetype
                         && $props.file.mimetype.toLowerCase() === 'application/pdf'"
                       :src="resourceURL"
+                      :active="active"
                     />
                     <span
                       v-else

@@ -20,7 +20,7 @@
     </v-alert>
     <iframe
       v-else
-      :src="srcUrl"
+      :src="srcUrlFromBlob"
       width="100%"
       height="700"
       type="application/pdf"
@@ -34,34 +34,69 @@ import ProgressFetcher from '@/helpers/ProgressFetcher';
 
 export default {
   created() {
-    const fetcher = new ProgressFetcher();
-
-    fetcher.onProgress(({ loaded, total }) => {
-      this.$data.progress = (loaded / total) * 100;
-    });
-
-    fetcher.fetch(this.$props.src)
-      .then((response) => response.arrayBuffer())
-      .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
-      .then((blob) => window.URL.createObjectURL(blob))
-      .then((url) => {
-        this.$data.srcUrl = url;
-      })
-      .catch((error) => {
-        this.$data.error = error;
-      });
+    this.fetch();
   },
   data() {
     return {
       error: false,
       progress: 0,
-      srcUrl: '',
+      srcUrlFromBlob: '',
     };
   },
   props: {
     src: {
       type: String,
       required: true,
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    active(active) {
+      if (active) {
+        this.error = undefined;
+        this.fetch();
+      } else if (this.fetcher && this.$data.progress < 100) {
+        this.$data.srcUrlFromBlob = '';
+        this.fetcher.cancel()
+          .then(() => {
+            this.$data.progress = 0;
+            this.fetcher.off();
+            delete this.fetcher;
+            this.$data.progress = 0;
+          });
+      }
+    },
+  },
+  methods: {
+    fetch() {
+      // if it hasn't been fetched yet, go fetch!
+      console.log('fetching', this.$props.src, this.$data.srcUrlFromBlob);
+      if (!this.$data.srcUrlFromBlob) {
+        this.fetcher = new ProgressFetcher();
+
+        this.fetcher.onProgress(({
+          loaded,
+          total,
+        }) => {
+          this.$data.progress = (loaded / total) * 100;
+        });
+
+        this.fetcher.fetch(this.$props.src)
+          .then((response) => response.arrayBuffer())
+          .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
+          .then((blob) => {
+            if (this.$data.progress === 100) {
+              this.$data.srcUrlFromBlob = window.URL.createObjectURL(blob);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            this.$data.error = error;
+          });
+      }
     },
   },
 };
