@@ -26,7 +26,6 @@ export default class ProgressFetcher {
   };
 
   #callHooks(hook, ...args) {
-    console.log(this.#hooks[hook], args);
     Reflect.ownKeys(this.#hooks[hook]).forEach((s) => this.#hooks[hook][s](...args));
   }
 
