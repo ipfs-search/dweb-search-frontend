@@ -12,15 +12,15 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          ["@", "./src"]
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', './src'],
         ],
-        "extensions": [".ts", ".js", ".jsx", ".json", ".vue"]
-      }
-    }
+        extensions: ['.ts', '.js', '.jsx', '.json', '.vue'],
+      },
+    },
   },
   rules: {
     'no-console': 'off',
