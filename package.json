@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/core": "^7.16.7",
     "core-js": "^3.6.5",
     "howler": "^2.2.1",
     "ipfs-search-client": "^0.1.0",
@@ -27,13 +28,13 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.16.5",
     "@vue/cli-plugin-babel": "^4.4.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "^4.4.6",
     "@vue/cli-service": "^4.5.12",
     "@vue/eslint-config-airbnb": "^5.0.2",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
+    "eslint": "^7.6.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
