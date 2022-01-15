@@ -4,6 +4,7 @@
   "description": "Frontend for dweb-search, formerly ipfs-search.",
   "author": "Kees van Drongelen <kees@visualspace.nl>",
   "scripts": {
+    "dev": "vue-cli-service serve --skip-plugins @vue/cli-plugin-eslint",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
