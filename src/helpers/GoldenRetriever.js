@@ -20,7 +20,7 @@ export default class GoldenRetriever {
 
     const s = Symbol(hook);
     this.#hooks[hook][s] = func;
-    return s
+    return s;
   }
 
   /**

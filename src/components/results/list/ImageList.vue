@@ -1,6 +1,6 @@
 <template>
   <ListBase>
-    <template v-slot:type>
+    <template #type>
       Images ({{ resultsTotal }})
     </template>
 
@@ -30,7 +30,7 @@
               aspect-ratio="1"
               class="grey lighten-2"
             >
-              <template v-slot:placeholder>
+              <template #placeholder>
                 <v-row
                   class="fill-height ma-0"
                   align="center"
