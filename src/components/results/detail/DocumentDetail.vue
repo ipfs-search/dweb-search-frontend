@@ -31,14 +31,8 @@
                 <v-row>
                   <v-col>
                     <DocumentViewer
-                      v-if="$props.file.mimetype
-                        && $props.file.mimetype.toLowerCase() === 'application/pdf'"
-                      :src="resourceURL"
+                      :file="file"
                       :active="active"
-                    />
-                    <span
-                      v-else
-                      v-html="file.description"
                     />
                   </v-col>
                 </v-row>

@@ -6,7 +6,9 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
   ],
-  configureWebpack: smp.wrap({}),
+  configureWebpack: smp.wrap({
+    entry: ['babel-polyfill'],
+  }),
   pages: {
     index: {
       entry: 'src/main.js',

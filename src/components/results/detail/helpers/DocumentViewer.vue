@@ -10,7 +10,7 @@
     <v-alert
       border="left"
       color="blue lighten-4"
-      v-else-if="progress < 100"
+      v-else-if="!srcUrl"
     >
       <i>Loading preview</i>
       <v-progress-linear
@@ -20,17 +20,20 @@
     </v-alert>
     <iframe
       v-else
-      :src="srcUrlFromBlob"
+      :src="srcUrl"
       width="100%"
       height="700"
-      type="application/pdf"
+      :type="file.mimetype"
     />
   </div>
 </template>
 
 <script>
 
+import mime from 'mime';
 import GoldenRetriever from '@/helpers/GoldenRetriever';
+// import { getFileExtension } from '@/helpers/fileHelper';
+import getResourceURL from '@/helpers/resourceURL';
 
 export default {
   created() {
@@ -44,13 +47,32 @@ export default {
     };
   },
   props: {
-    src: {
-      type: String,
+    file: {
+      type: Object,
       required: true,
     },
     active: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    srcUrl() {
+      // console.log(this.$props.file.mimetype, mime.getExtension(this.$props.file.mimetype));
+      switch (mime.getExtension(this.$props.file.mimetype)) {
+        case 'epub':
+          return `https://readium.web.app/?epub=${getResourceURL(this.file.hash)}`;
+        // case 'rtf': // rtf does not work for some reason
+        case 'docx':
+        case 'xlsx':
+        case 'odf':
+        case 'odt':
+          // return `https://docs.google.com/gview?embedded=true&url=${
+          return `https://view.officeapps.live.com/op/embed.aspx?src=${
+            getResourceURL(this.file.hash)}`;
+        default:
+          return this.$data.srcUrlFromBlob;
+      }
     },
   },
   watch: {
@@ -72,30 +94,31 @@ export default {
   },
   methods: {
     fetch() {
-      // if it hasn't been fetched yet, go fetch!
-      if (!this.$data.srcUrlFromBlob) {
-        this.retriever = new GoldenRetriever();
-
-        this.retriever.onProgress(({
-          loaded,
-          total,
-        }) => {
-          this.$data.progress = (loaded / total) * 100;
-        });
-
-        this.retriever.fetch(this.$props.src)
-          .then((response) => response.arrayBuffer())
-          .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
-          .then((blob) => {
-            if (this.$data.progress === 100) {
-              this.$data.srcUrlFromBlob = window.URL.createObjectURL(blob);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            this.$data.error = error;
-          });
+      if (this.$data.srcUrlFromBlob) {
+        return Promise.resolve(this.$data.srcUrlFromBlob);
       }
+      if (!this.file.mimetype === 'application/pdf') return Promise.resolve();
+      this.retriever = new GoldenRetriever();
+
+      this.retriever.onProgress(({
+        loaded,
+        total,
+      }) => {
+        this.$data.progress = (loaded / total) * 100;
+      });
+
+      return this.retriever.fetch(getResourceURL(this.$props.file.hash))
+        .then((response) => response.arrayBuffer())
+        .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
+        .then((blob) => {
+          if (this.$data.progress === 100) {
+            this.$data.srcUrlFromBlob = window.URL.createObjectURL(blob);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$data.error = error;
+        });
     },
   },
 };
