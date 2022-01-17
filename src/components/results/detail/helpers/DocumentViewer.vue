@@ -58,13 +58,13 @@ export default {
       if (active) {
         this.error = undefined;
         this.fetch();
-      } else if (this.fetcher && this.$data.progress < 100) {
+      } else if (this.retriever && this.$data.progress < 100) {
         this.$data.srcUrlFromBlob = '';
-        this.fetcher.cancel()
+        this.retriever.cancel()
           .then(() => {
             this.$data.progress = 0;
-            this.fetcher.off();
-            delete this.fetcher;
+            this.retriever.off();
+            delete this.retriever;
             this.$data.progress = 0;
           });
       }
