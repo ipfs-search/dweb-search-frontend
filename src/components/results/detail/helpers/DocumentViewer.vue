@@ -24,6 +24,7 @@
       width="100%"
       height="700"
       :type="file.mimetype"
+      resize="vertical"
     />
   </div>
 </template>
@@ -32,7 +33,6 @@
 
 import mime from 'mime';
 import GoldenRetriever from '@/helpers/GoldenRetriever';
-// import { getFileExtension } from '@/helpers/fileHelper';
 import getResourceURL from '@/helpers/resourceURL';
 
 export default {
@@ -58,16 +58,17 @@ export default {
   },
   computed: {
     srcUrl() {
-      // console.log(this.$props.file.mimetype, mime.getExtension(this.$props.file.mimetype));
       switch (mime.getExtension(this.$props.file.mimetype)) {
         case 'epub':
           return `https://readium.web.app/?epub=${getResourceURL(this.file.hash)}`;
         // case 'rtf': // rtf does not work for some reason
         case 'docx':
         case 'xlsx':
+        case 'pptx':
         case 'odf':
         case 'odt':
-          // return `https://docs.google.com/gview?embedded=true&url=${
+        case 'ods':
+        case 'odp':
           return `https://view.officeapps.live.com/op/embed.aspx?src=${
             getResourceURL(this.file.hash)}`;
         default:
@@ -87,17 +88,18 @@ export default {
             this.$data.progress = 0;
             this.retriever.off();
             delete this.retriever;
-            this.$data.progress = 0;
           });
       }
     },
   },
   methods: {
     fetch() {
+      if (!(this.file.mimetype === 'application/pdf')) {
+        return Promise.resolve();
+      }
       if (this.$data.srcUrlFromBlob) {
         return Promise.resolve(this.$data.srcUrlFromBlob);
       }
-      if (!this.file.mimetype === 'application/pdf') return Promise.resolve();
       this.retriever = new GoldenRetriever();
 
       this.retriever.onProgress(({

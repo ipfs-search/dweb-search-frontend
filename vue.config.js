@@ -7,7 +7,6 @@ module.exports = {
     'vuetify',
   ],
   configureWebpack: smp.wrap({
-    entry: ['babel-polyfill'],
   }),
   pages: {
     index: {
