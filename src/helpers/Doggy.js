@@ -108,7 +108,7 @@ export default class Doggy {
   #controller = new AbortController();
 
   // mimic native fetch() instantiation and return Promise
-  fetch(input, init = {}) {
+  fetch(input, init = {}, extraOptions = { mimetype: 'application/pdf' }) {
     const request = (input instanceof Request) ? input : new Request(input);
 
     const { signal } = this.#controller;
@@ -181,6 +181,14 @@ export default class Doggy {
             },
           }),
         );
+      })
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => new Blob([arrayBuffer], { type: extraOptions.mimetype }))
+      .then((blob) => {
+        this.blob = blob;
+        if (this.progress === this.total) {
+          this.objectURL = window.URL.createObjectURL(blob);
+        }
       });
   }
 

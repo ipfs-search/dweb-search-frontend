@@ -14,7 +14,7 @@
     >
       <i>Loading preview</i>
       <v-progress-linear
-        :indeterminate="progress===0"
+        :indeterminate="!progress"
         :value="progress"
       />
     </v-alert>
@@ -71,7 +71,7 @@ export default {
           return `https://view.officeapps.live.com/op/embed.aspx?src=${
             getResourceURL(this.file.hash)}`;
         default:
-          return this.$data.srcUrlFromBlob;
+          return this.retriever.objectURL;
       }
     },
     progress() {
@@ -84,7 +84,6 @@ export default {
         this.error = undefined;
         this.fetch();
       } else if (this.retriever && this.progress < 100) {
-        this.$data.srcUrlFromBlob = '';
         this.retriever.cancel()
           .then(() => {
             this.retriever.off();
@@ -98,17 +97,10 @@ export default {
       if (!(this.file.mimetype === 'application/pdf')) {
         return Promise.resolve();
       }
-      if (this.$data.srcUrlFromBlob) {
-        return Promise.resolve(this.$data.srcUrlFromBlob);
+      if (this.retriever.objectURL) {
+        return Promise.resolve(this.retriever.objectURL);
       }
       return this.retriever.fetch(getResourceURL(this.$props.file.hash))
-        .then((response) => response.arrayBuffer())
-        .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
-        .then((blob) => {
-          if (this.progress === 100) {
-            this.$data.srcUrlFromBlob = window.URL.createObjectURL(blob);
-          }
-        })
         .catch((error) => {
           console.error(error);
           this.$data.error = error;
