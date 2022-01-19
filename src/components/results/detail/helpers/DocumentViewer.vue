@@ -15,7 +15,7 @@
       <i>Loading preview</i>
       <v-progress-linear
         :indeterminate="progress===0"
-        :value="$data.progress"
+        :value="progress"
       />
     </v-alert>
     <iframe
@@ -30,8 +30,8 @@
 <script>
 
 import mime from 'mime';
-import GoldenRetriever from '@/helpers/GoldenRetriever';
 import getResourceURL from '@/helpers/resourceURL';
+import Retriever from '@/helpers/Doggy';
 
 export default {
   created() {
@@ -40,8 +40,9 @@ export default {
   data() {
     return {
       error: false,
-      progress: 0,
+      // progress: 0,
       srcUrlFromBlob: '',
+      retriever: new Retriever(),
     };
   },
   props: {
@@ -73,17 +74,19 @@ export default {
           return this.$data.srcUrlFromBlob;
       }
     },
+    progress() {
+      return (this.$data.retriever.progress / this.$data.retriever.total) * 100;
+    },
   },
   watch: {
     active(active) {
       if (active) {
         this.error = undefined;
         this.fetch();
-      } else if (this.retriever && this.$data.progress < 100) {
+      } else if (this.retriever && this.progress < 100) {
         this.$data.srcUrlFromBlob = '';
         this.retriever.cancel()
           .then(() => {
-            this.$data.progress = 0;
             this.retriever.off();
             delete this.retriever;
           });
@@ -98,20 +101,11 @@ export default {
       if (this.$data.srcUrlFromBlob) {
         return Promise.resolve(this.$data.srcUrlFromBlob);
       }
-      this.retriever = new GoldenRetriever();
-
-      this.retriever.onProgress(({
-        loaded,
-        total,
-      }) => {
-        this.$data.progress = (loaded / total) * 100;
-      });
-
       return this.retriever.fetch(getResourceURL(this.$props.file.hash))
         .then((response) => response.arrayBuffer())
         .then((arrayBuffer) => new Blob([arrayBuffer], { type: 'application/pdf' }))
         .then((blob) => {
-          if (this.$data.progress === 100) {
+          if (this.progress === 100) {
             this.$data.srcUrlFromBlob = window.URL.createObjectURL(blob);
           }
         })

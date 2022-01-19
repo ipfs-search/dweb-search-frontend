@@ -2,7 +2,15 @@
 
 // TODO: add pause function
 
-export default class GoldenRetriever {
+/**
+ * class Doggy
+ * fetches an object, keeping track of its downloaded progress
+ *
+ * methods:
+ * async fetch(resource/request, options): invoke fetch
+ *
+ */
+export default class Doggy {
   /**
    * add hook
    * Returns the identifier symbol of the hook, for removing the hooks
@@ -89,31 +97,26 @@ export default class GoldenRetriever {
     Reflect.ownKeys(this.#hooks[hook]).forEach((s) => this.#hooks[hook][s](...args));
   }
 
-  #reader;
+  progress;
 
-  #cancelRequested;
+  total;
+
+  blob;
+
+  objectURL;
+
+  #controller = new AbortController();
 
   // mimic native fetch() instantiation and return Promise
   fetch(input, init = {}) {
     const request = (input instanceof Request) ? input : new Request(input);
-    this.#cancelRequested = false;
 
-    return fetch(request, init)
+    const { signal } = this.#controller;
+
+    return fetch(request, { signal, ...init })
       .then((response) => {
         if (!response.body) {
-          throw Error('ReadableStream is not yet supported in this browser.  <a href="https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream">More Info</a>');
-        }
-
-        // this occurs if cancel() was called before server responded
-        // (before fetch() Promise resolved)
-        if (this.#cancelRequested) {
-          return response.body.getReader()
-            .cancel()
-            .then(() => {
-              const error = Error('cancel requested before server responded.');
-              this.#callHooks('error', error);
-              return Promise.reject(error);
-            });
+          throw Error('ReadableStream is not yet supported in this browser.');
         }
 
         if (!response.ok) {
@@ -134,60 +137,47 @@ export default class GoldenRetriever {
           throw Error('Response size header unavailable');
         }
 
-        const total = parseInt(contentLength, 10);
-        let loaded = 0;
+        this.total = parseInt(contentLength, 10);
+        this.progress = 0;
 
-        this.#reader = response.body.getReader();
+        // ensure onProgress called when content-length=0
+        if (this.total === 0) {
+          this.#callHooks('progress');
+          this.#callHooks('complete');
+        }
 
+        const responseReader = response.body.getReader();
         const me = this;
 
         return new Response(
           new ReadableStream({
-            start(controller) {
-              if (me.#cancelRequested) {
-                me.#callHooks('cancel', {
-                  loaded,
-                  total,
-                });
+            async start(controller) {
+              if (signal.aborted) {
+                controller.close();
+                await responseReader.cancel();
+              }
+
+              async function read() {
+                let done = false;
+                let value;
+                while (!done) {
+                  // eslint-disable-next-line no-await-in-loop
+                  ({ value, done } = await responseReader.read());
+                  if (done) break;
+                  me.progress += value.byteLength;
+                  me.#callHooks('progress');
+                  controller.enqueue(value);
+                }
+                me.#callHooks('complete');
                 controller.close();
               }
 
-              function read() {
-                me.#reader.read()
-                  .then(({
-                    done,
-                    value,
-                  }) => {
-                    if (done) {
-                      // ensure onProgress called when content-length=0
-                      if (total === 0) {
-                        me.#callHooks('progress', {
-                          loaded,
-                          total,
-                        });
-                      }
-
-                      me.#callHooks('complete');
-                      controller.close();
-                      return;
-                    }
-
-                    loaded += value.byteLength;
-                    me.#callHooks('progress', {
-                      loaded,
-                      total,
-                    });
-                    controller.enqueue(value);
-                    // TODO: change this recursive function for loop or generator
-                    read();
-                  })
-                  .catch((error) => {
-                    me.#callHooks('error', error);
-                    controller.error(error);
-                  });
-              }
-
-              read();
+              await read()
+                .catch((error) => {
+                  controller(error);
+                  me.#callHooks('error');
+                  throw Error(error);
+                });
             },
           }),
         );
@@ -195,10 +185,13 @@ export default class GoldenRetriever {
   }
 
   cancel() {
-    this.#cancelRequested = true;
-    if (this.#reader) {
-      return this.#reader.cancel();
-    }
+    this.total = undefined;
+    this.progres = undefined;
+
+    this.#controller.abort();
+
+    this.#callHooks('cancel');
+
     return Promise.resolve();
   }
 }
