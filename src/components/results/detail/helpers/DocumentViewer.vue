@@ -40,8 +40,6 @@ export default {
   data() {
     return {
       error: false,
-      // progress: 0,
-      srcUrlFromBlob: '',
       retriever: new Retriever(),
     };
   },
@@ -60,7 +58,8 @@ export default {
       switch (mime.getExtension(this.$props.file.mimetype)) {
         case 'epub':
           return `https://readium.web.app/?epub=${getResourceURL(this.file.hash)}`;
-        // case 'rtf': // rtf does not work for some reason
+        case 'rtf': // rtf does not work for some reason
+          return '';
         case 'docx':
         case 'xlsx':
         case 'pptx':
@@ -84,22 +83,18 @@ export default {
         this.error = undefined;
         this.fetch();
       } else if (this.retriever && this.progress < 100) {
-        this.retriever.cancel()
-          .then(() => {
-            this.retriever.off();
-            delete this.retriever;
-          });
+        // if you slide the document out of view, cancel unfinished download.
+        this.retriever.cancel();
       }
     },
   },
   methods: {
     fetch() {
-      if (!(this.file.mimetype === 'application/pdf')) {
-        return Promise.resolve();
-      }
+      if (this.srcUrl) return Promise.resolve();
       if (this.retriever.objectURL) {
         return Promise.resolve(this.retriever.objectURL);
       }
+
       return this.retriever.fetch(getResourceURL(this.$props.file.hash))
         .catch((error) => {
           console.error(error);
