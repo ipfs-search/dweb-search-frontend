@@ -23,8 +23,6 @@
       :src="srcUrl"
       width="100%"
       height="700"
-      :type="file.mimetype"
-      resize="vertical"
     />
   </div>
 </template>
