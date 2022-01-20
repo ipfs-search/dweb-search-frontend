@@ -2,8 +2,8 @@
   <v-btn
     icon
     color="grey"
+    target="_blank"
     :href="getURL()"
-    :download="getURL()"
   >
     <v-icon>mdi-tray-arrow-down</v-icon>
   </v-btn>
@@ -22,15 +22,22 @@ export default {
   },
   methods: {
     getURL() {
+      const params = new URLSearchParams({
+        download: true,
+      });
+
       const reference = this.file.references?.[0];
+
       if (reference) {
-        return `${getResourceURL(reference.parent_hash)}/${reference.name}?download=true`;
+        params.append('filename', reference.name);
+      } else {
+        const ext = getFileExtension(this.file);
+        params.append('filename', `${this.file.hash}.${ext}`);
       }
 
-      let extension = getFileExtension(this.file);
-      if (extension) extension = `.${extension}`;
+      const url = getResourceURL(this.file.hash);
 
-      return `${getResourceURL(this.file.hash)}${extension}?download=true`;
+      return `${url}?${params.toString()}`;
     },
   },
 };
