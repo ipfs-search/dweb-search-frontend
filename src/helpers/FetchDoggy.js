@@ -24,7 +24,7 @@
  *
  * N.b. these properties are normal public properties so that Vue can make them reactive
  */
-export default class Doggy {
+export default class FetchDoggy {
   progress;
 
   total;
