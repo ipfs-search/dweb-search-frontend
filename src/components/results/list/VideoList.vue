@@ -60,6 +60,7 @@
                 Last seen <timeago :datetime="hit['last-seen']" />
               </span><br>
               <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
+              <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
             </v-card-subtitle>
             <v-card-title
               class="text-subtitle-1"
@@ -77,6 +78,7 @@
 </template>
 
 <script>
+import mime from 'mime';
 import durationToColor from '@/filters/durationToColor';
 import FileListMixin from './mixins/FileListMixin';
 import { Types } from '@/helpers/typeHelper';
@@ -93,6 +95,11 @@ export default {
   },
   filters: {
     durationToColor,
+  },
+  methods: {
+    showFileType(mimeType) {
+      return mime.getExtension(mimeType);
+    },
   },
 };
 </script>
