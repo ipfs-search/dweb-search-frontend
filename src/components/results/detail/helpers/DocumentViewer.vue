@@ -10,7 +10,7 @@
     <v-alert
       border="left"
       color="blue lighten-4"
-      v-else-if="!srcUrl"
+      v-else-if="extension === 'pdf'"
     >
       <i>Loading preview</i>
       <v-progress-linear
@@ -19,8 +19,8 @@
       />
     </v-alert>
     <iframe
-      v-else
-      :src="srcUrl"
+      v-else-if="srcURL"
+      :src="srcURL"
       width="100%"
       height="700"
     />
@@ -31,7 +31,7 @@
 
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
-import Retriever from '@/helpers/Doggy';
+import Retriever from '@/helpers/FetchDoggy.js';
 
 export default {
   created() {
@@ -54,8 +54,11 @@ export default {
     },
   },
   computed: {
-    srcUrl() {
-      switch (mime.getExtension(this.$props.file.mimetype)) {
+    extension() {
+      return mime.getExtension(this.$props.file.mimetype);
+    },
+    srcURL() {
+      switch (this.extension) {
         case 'epub':
           return `https://readium.web.app/?epub=${getResourceURL(this.file.hash)}`;
         case 'rtf': // rtf does not work for some reason
@@ -69,8 +72,10 @@ export default {
         case 'odp':
           return `https://view.officeapps.live.com/op/embed.aspx?src=${
             getResourceURL(this.file.hash)}`;
-        default:
+        case 'pdf':
           return this.retriever.objectURL;
+        default:
+          return undefined;
       }
     },
     progress() {
@@ -90,7 +95,7 @@ export default {
   },
   methods: {
     fetch() {
-      if (this.srcUrl) return Promise.resolve();
+      if (this.srcURL) return Promise.resolve();
       if (this.retriever.objectURL) {
         return Promise.resolve(this.retriever.objectURL);
       }
