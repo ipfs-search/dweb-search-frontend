@@ -8,7 +8,7 @@
             Last seen <timeago :datetime="$props.file['last-seen']" />
           </span>
           <span v-if="$props.file.size"> | Size {{ $props.file.size | prettyBytes }}</span>
-          <span v-if="$props.file['mimetype']"> | Mimetype {{ $props.file['mimetype'] }}</span>
+          <span v-if="$props.file['mimetype']"> | {{ showFileType($props.file['mimetype']) }}</span>
           <DownloadButton
             class="ml-1"
             v-if="$props.file.size"
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import mime from 'mime';
 import DownloadButton from '@/components/helpers/DownloadButton';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import CopyHashButton from '@/components/helpers/CopyHashButton';
@@ -46,6 +47,11 @@ export default {
     DetailMixin,
   ],
   components: { DownloadButton, CopyHashButton },
+  methods: {
+    showFileType(mimeType) {
+      return mime.getExtension(mimeType);
+    },
+  },
 };
 </script>
 
