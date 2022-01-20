@@ -22,7 +22,11 @@
       v-else
       :src="srcUrl"
       width="100%"
-      height="700"
+      style="
+        width: 100%;
+        height: calc(100vh - 300px);
+        border: 1px solid #BDBDBD;
+      "
     />
   </div>
 </template>
