@@ -72,6 +72,32 @@
         hide-delimiter-background
         :continuous="false"
       >
+        <template v-slot:next="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            v-bind="attrs"
+            @keydown.right="on"
+            v-on="on"
+          >
+            <v-icon large>
+              mdi-chevron-right
+            </v-icon>
+          </v-btn>
+        </template>
+        <template v-slot:prev="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            v-bind="attrs"
+            @keydown.left="on"
+            v-on="on"
+          >
+            <v-icon large>
+              mdi-chevron-left
+            </v-icon>
+          </v-btn>
+        </template>
         <v-carousel-item
           v-for="(item, index) in items"
           :key="index"
