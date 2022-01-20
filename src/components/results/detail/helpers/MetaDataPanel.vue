@@ -5,14 +5,14 @@
         <v-expansion-panels>
           <v-expansion-panel>
             <v-expansion-panel-header>
-              <template v-slot:default="{ open }">
+              <template #default="{ open }">
                 <div>
                   {{ `${open ? 'Hide' : 'Show'}` }} meta data
                 </div>
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="ml-n2 mr-0">
-              <template v-slot:default>
+              <template #default>
                 <v-simple-table>
                   <tbody>
                     <tr

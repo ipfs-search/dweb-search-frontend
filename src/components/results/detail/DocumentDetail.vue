@@ -30,14 +30,9 @@
                 <!-- Text -->
                 <v-row>
                   <v-col>
-                    <PdfViewer
-                      v-if="$props.file.mimetype
-                        && $props.file.mimetype.toLowerCase() === 'application/pdf'"
-                      :src="resourceURL"
-                    />
-                    <span
-                      v-else
-                      v-html="file.description"
+                    <DocumentViewer
+                      :file="file"
+                      :active="active"
                     />
                   </v-col>
                 </v-row>
@@ -57,7 +52,7 @@
 
 <script>
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
-import PdfViewer from '@/components/results/detail/helpers/PdfViewer';
+import DocumentViewer from '@/components/results/detail/helpers/DocumentViewer';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 
@@ -68,7 +63,7 @@ export default {
   components: {
     MetaDataPanel,
     MediaHeader,
-    PdfViewer,
+    DocumentViewer,
   },
 };
 </script>
