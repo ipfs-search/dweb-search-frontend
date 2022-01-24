@@ -18,12 +18,12 @@
           @keyup.enter="enterSearchPhrase"
           v-closable="{ handler: 'onClick' }"
         >
-          <template v-slot:append>
+          <template #append>
             <v-menu
               style="top: -12px"
               offset-y
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <div
                   class="mr-n3 grey--text d-flex align-center"
                   v-on="on"
@@ -52,7 +52,7 @@
             </v-menu>
           </template>
           <template
-            v-slot:append-outer
+            #append-outer
             v-if="$vuetify.breakpoint.smAndDown ? false : true"
           >
             <v-icon

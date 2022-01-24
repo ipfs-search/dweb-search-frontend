@@ -52,7 +52,7 @@
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="sizeFilter"
               >
-                <template v-slot:selection="{ item }">
+                <template #selection="{ item }">
                   <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
                     ? '' : 'Size ' }}{{ item.text }}</span>
                 </template>
@@ -73,7 +73,7 @@
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="lastSeenFilter"
               >
-                <template v-slot:selection="{ item }">
+                <template #selection="{ item }">
                   <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
                     ? '' : 'Last seen ' }}{{ item.text }}</span>
                 </template>
@@ -136,9 +136,6 @@ export default {
     ],
 
     lastSeenOptions: [
-      {
-        text: '<3hr', value: '>now-3h',
-      },
       {
         text: '<24hr', value: '>now-24h',
       },

@@ -104,6 +104,7 @@
           <component
             :is="DetailComponent[fileType]"
             :file="item"
+            :active="carouselIndex === index"
           />
         </v-carousel-item>
       </v-carousel>
