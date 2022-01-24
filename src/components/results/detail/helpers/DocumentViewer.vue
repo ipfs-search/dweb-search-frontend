@@ -10,7 +10,7 @@
     <v-alert
       border="left"
       color="blue lighten-4"
-      v-else-if="extension === 'pdf'"
+      v-else-if="extension === 'pdf' && !srcURL"
     >
       <i>Loading preview</i>
       <v-progress-linear
@@ -35,7 +35,7 @@
 
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
-import Retriever from '@/helpers/FetchDoggy.js';
+import Retriever from '@/helpers/FetchDoggy';
 
 export default {
   created() {
