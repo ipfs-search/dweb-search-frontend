@@ -67,6 +67,9 @@ export default {
           return `https://readium.web.app/?epub=${getResourceURL(this.file.hash)}`;
         case 'rtf': // rtf does not work for some reason
           return '';
+        case 'doc':
+        case 'xls':
+        case 'ppt':
         case 'docx':
         case 'xlsx':
         case 'pptx':
