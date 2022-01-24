@@ -72,12 +72,11 @@
         hide-delimiter-background
         :continuous="false"
       >
-        <template v-slot:next="{ on, attrs }">
+        <template #next="{ on, attrs }">
           <v-btn
             fab
             small
             v-bind="attrs"
-            @keydown.right="on"
             v-on="on"
           >
             <v-icon large>
@@ -85,12 +84,11 @@
             </v-icon>
           </v-btn>
         </template>
-        <template v-slot:prev="{ on, attrs }">
+        <template #prev="{ on, attrs }">
           <v-btn
             fab
             small
             v-bind="attrs"
-            @keydown.left="on"
             v-on="on"
           >
             <v-icon large>
@@ -152,6 +150,22 @@ export default {
         })
         .catch(console.error);
     }
+  },
+  mounted() {
+    window.addEventListener('keydown', (event) => {
+      if (event.defaultPrevented) {
+        return; // Do nothing if event already handled
+      }
+      switch (event.code) {
+        case 'ArrowLeft':
+          this.carouselIndex -= 1;
+          break;
+        case 'ArrowRight':
+          this.carouselIndex += 1;
+          break;
+        default:
+      }
+    });
   },
   props: {
     fileType: {
