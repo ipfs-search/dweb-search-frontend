@@ -10,6 +10,7 @@
     </v-main>
 
     <v-footer
+      v-if="!(this.$route.name === 'Detail')"
       fixed
       padless
       :class="{ 'footer--hidden': !showFooter }"
