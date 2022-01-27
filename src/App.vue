@@ -9,17 +9,10 @@
       <router-view />
     </v-main>
 
-    <!-- This is a replacement for the footer, it'll dissapear on scroll -->
-    <v-app-bar
-      padless
-      color="white"
-      bottom
+    <v-footer
       fixed
-      class="hidden-xs-and-down"
-      hide-on-scroll
-      scroll-threshold="300"
-      height="105"
-      v-if="!(this.$route.name === 'Detail')"
+      padless
+      :class="{ 'footer--hidden': !showFooter }"
     >
       <v-card
         flat
@@ -28,7 +21,7 @@
         width="100%"
       >
         <v-card-text
-          class="py-1"
+          class="ipfsPrimary lighten-1 py-1"
         >
           <v-btn
             v-for="(link, i) in footer_links"
@@ -39,11 +32,15 @@
           >
             <v-icon
               :size="$vuetify.breakpoint.smAndUp ? 24 : 18"
+              color="white"
             >
               {{ link.icon }}
             </v-icon>
           </v-btn>
         </v-card-text>
+        <v-divider
+          class="ipfsPrimary lighten-4"
+        />
         <v-card-text
           class="ipfsPrimary lighten-1 white--text text-center text-caption py-7"
           style="margin: auto;"
@@ -63,7 +60,7 @@
           </div>
         </v-card-text>
       </v-card>
-    </v-app-bar>
+    </v-footer>
   </v-app>
 </template>
 
@@ -75,6 +72,8 @@ export default {
   $el: '#app',
 
   data: () => ({
+    lastScrollPosition: 0,
+    showFooter: true,
     footer_links: [
       {
         icon: 'mdi-mastodon',
@@ -104,14 +103,34 @@ export default {
       const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
       this.$vuetify.theme.dark = isDark;
     },
+
+    onScroll() {
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollPosition < 0) {
+        return;
+      }
+      // Scroll threshold
+      if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 300) {
+        return;
+      }
+      this.showFooter = currentScrollPosition < this.lastScrollPosition;
+      this.lastScrollPosition = currentScrollPosition;
+    },
+
   },
 
   mounted() {
     this.$nextTick(() => {
       this.$el.removeAttribute('hidden');
       this.setDefaultTheme();
+      window.addEventListener('scroll', this.onScroll);
     });
   },
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll);
+  },
+
 };
 </script>
 
@@ -122,6 +141,13 @@ export default {
     font-weight: 500;
     span {
       font-weight: 500;
+    }
+  }
+  .v-footer {
+    transform: translate3d(0, 0, 0);
+    transition: 200ms all ease-in-out;
+    &.footer--hidden {
+      transform: translate3d(0, 100%, 0);
     }
   }
 </style>
