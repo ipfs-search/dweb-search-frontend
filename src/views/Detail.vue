@@ -153,20 +153,10 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('keydown', (event) => {
-      if (event.defaultPrevented) {
-        return; // Do nothing if event already handled
-      }
-      switch (event.code) {
-        case 'ArrowLeft':
-          this.carouselIndex -= 1;
-          break;
-        case 'ArrowRight':
-          this.carouselIndex += 1;
-          break;
-        default:
-      }
-    });
+    window.addEventListener('keydown', this.arrowKeyEventHandler);
+  },
+  destroyed() {
+    window.removeEventListener('keydown', this.arrowKeyEventHandler);
   },
   props: {
     fileType: {
@@ -231,6 +221,20 @@ export default {
     },
   },
   methods: {
+    arrowKeyEventHandler(event) {
+      if (event.defaultPrevented) {
+        return; // Do nothing if event already handled
+      }
+      switch (event.code) {
+        case 'ArrowLeft':
+          this.carouselIndex -= 1;
+          break;
+        case 'ArrowRight':
+          this.carouselIndex += 1;
+          break;
+        default:
+      }
+    },
     goHome() {
       this.$router.push({ path: '/' });
     },
