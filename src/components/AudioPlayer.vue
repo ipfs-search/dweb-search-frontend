@@ -5,14 +5,14 @@
       class="audio-player"
       dark
       bottom
-      height="98"
+      height="127"
       fixed
       app
     >
       <v-card
         tile
         width="100%"
-        height="98"
+        height="127"
         style="margin-left: 0 !important;"
       >
         <v-progress-linear
