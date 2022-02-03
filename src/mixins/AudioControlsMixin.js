@@ -5,6 +5,7 @@ export default {
     return {
       error: null,
       audioPlayer,
+      playerHeight: 100,
     };
   },
   methods: {
