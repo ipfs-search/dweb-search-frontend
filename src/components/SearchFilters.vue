@@ -91,9 +91,6 @@ import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
 
 export default {
-  components: {
-  },
-
   mixins: [SearchMixin],
 
   computed: {
@@ -102,7 +99,6 @@ export default {
         return store.state.query.filters.lastSeen;
       },
       set(value) {
-        // store.commit('query/setLastSeenFilter', value);
         this.search({ last_seen: value });
       },
     },
@@ -111,7 +107,6 @@ export default {
         return store.state.query.filters.size;
       },
       set(value) {
-        // store.commit('query/setSizeFilter', value);
         this.search({ size: value });
       },
     },
