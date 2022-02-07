@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import FileListMixin from './mixins/FileListMixin';
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
+import FileListMixin from './mixins/FileListMixin';
 
 export default {
   mixins: [
