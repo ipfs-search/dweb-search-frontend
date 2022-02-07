@@ -4,6 +4,8 @@ import getResourceURL from '@/helpers/resourceURL';
 import { batchSize } from '@/helpers/ApiHelper';
 import SearchMixin from '@/mixins/SearchMixin';
 
+const resultsTotalMax = 10000;
+
 /**
  * this mixin makes file lists load their results and allows navigation
  */
@@ -23,7 +25,11 @@ export default {
       return store.getters[`results/${this.fileType}/error`];
     },
     resultsTotal() {
-      return store.getters[`results/${this.fileType}/resultsTotal`];
+      const total = store.getters[`results/${this.fileType}/resultsTotal`];
+      if (total === resultsTotalMax) {
+        return '10000+';
+      }
+      return total;
     },
     results() {
       const pageResults = store.getters[`results/${this.fileType}/pageResults`];
