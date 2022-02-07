@@ -5,7 +5,7 @@ const initialQuery = {
   type: 'any',
   page: 1,
   filters: {
-    lastSeen: '>now-7d',
+    lastSeen: '[ now/d-30d TO *]',
     size: null,
   },
 };
