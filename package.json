@@ -13,7 +13,7 @@
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.20.3",
     "howler": "^2.2.1",
-    "ipfs-search-client": "^0.1.0",
+    "ipfs-search-client": "^1.0.1",
     "masonry-layout": "^4.2.2",
     "mime": "^3.0.0",
     "moment": "^2.29.1",
