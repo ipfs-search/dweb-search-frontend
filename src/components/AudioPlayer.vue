@@ -1,19 +1,19 @@
 <template>
   <div>
-    <v-app-bar
+    <v-bottom-sheet
+      transition="slide-y-transition"
       v-if="playerActive"
+      v-model="playerActive"
       class="audio-player"
       dark
-      bottom
-      height="98"
-      fixed
-      app
+      height="100"
+      hide-overlay
+      persistent
     >
       <v-card
         tile
         width="100%"
-        height="98"
-        style="margin-left: 0 !important;"
+        :height="playerHeight"
       >
         <v-progress-linear
           v-if="!loading"
@@ -81,7 +81,7 @@
           </v-list-item>
         </v-list>
       </v-card>
-    </v-app-bar>
+    </v-bottom-sheet>
   </div>
 </template>
 
@@ -94,6 +94,8 @@ export default {
   ],
   beforeDestroy() {
     this.audioPlayer.close();
+  },
+  methods: {
   },
 };
 </script>

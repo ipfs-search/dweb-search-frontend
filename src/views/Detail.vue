@@ -75,6 +75,30 @@
         hide-delimiter-background
         :continuous="false"
       >
+        <template #next="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon large>
+              mdi-chevron-right
+            </v-icon>
+          </v-btn>
+        </template>
+        <template #prev="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon large>
+              mdi-chevron-left
+            </v-icon>
+          </v-btn>
+        </template>
         <v-carousel-item
           v-for="(item, index) in items"
           :key="index"
@@ -83,6 +107,7 @@
           <component
             :is="DetailComponent[fileType]"
             :file="item"
+            :active="carouselIndex === index"
           />
         </v-carousel-item>
       </v-carousel>
@@ -137,6 +162,12 @@ export default {
         })
         .catch(console.error);
     }
+  },
+  mounted() {
+    window.addEventListener('keydown', this.arrowKeyEventHandler);
+  },
+  destroyed() {
+    window.removeEventListener('keydown', this.arrowKeyEventHandler);
   },
   props: {
     fileType: {
@@ -201,6 +232,20 @@ export default {
     },
   },
   methods: {
+    arrowKeyEventHandler(event) {
+      if (event.defaultPrevented) {
+        return; // Do nothing if event already handled
+      }
+      switch (event.code) {
+        case 'ArrowLeft':
+          this.carouselIndex -= 1;
+          break;
+        case 'ArrowRight':
+          this.carouselIndex += 1;
+          break;
+        default:
+      }
+    },
     goHome() {
       this.$router.push({ path: '/' });
     },

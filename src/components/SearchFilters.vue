@@ -52,7 +52,7 @@
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="sizeFilter"
               >
-                <template v-slot:selection="{ item }">
+                <template #selection="{ item }">
                   <span class="m-2 text-body-2">
                     {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
                   </span>
@@ -74,7 +74,7 @@
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="lastSeenFilter"
               >
-                <template v-slot:selection="{ item }">
+                <template #selection="{ item }">
                   <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
                     ? '' : 'Last seen ' }}{{ item.text }}</span>
                 </template>
@@ -93,16 +93,13 @@ import store from '@/store';
 import { Types } from '@/helpers/typeHelper';
 
 export default {
-  mixins: [
-    SearchMixin,
-  ],
+  mixins: [SearchMixin],
   computed: {
     lastSeenFilter: {
       get() {
         return store.state.query.filters.lastSeen;
       },
       set(value) {
-        // store.commit('query/setLastSeenFilter', value);
         this.search({ last_seen: value });
       },
     },
@@ -111,7 +108,6 @@ export default {
         return store.state.query.filters.size;
       },
       set(value) {
-        // store.commit('query/setSizeFilter', value);
         this.search({ size: value });
       },
     },
@@ -138,16 +134,16 @@ export default {
 
     lastSeenOptions: [
       {
-        text: '<3hr', value: '>now-3h',
+        text: '<24hr', value: '[ now-24h/h TO *]',
       },
       {
-        text: '<24hr', value: '>now-24h',
+        text: '<7d', value: '[ now/h-7d TO *]',
       },
       {
-        text: '<7d', value: '>now-7d',
+        text: '<30d', value: '[ now/d-30d TO *]',
       },
       {
-        text: 'any', value: null,
+        text: 'any', value: '*',
       },
     ],
   }),

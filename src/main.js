@@ -1,14 +1,15 @@
+// Recomendation of babeljs (https://babeljs.io/docs/en/babel-polyfill)
+import 'core-js/stable'; // only stable feature also is possible with only `core-js`
+import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
+
 import Vue from 'vue';
 import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
-import VBodyScrollLock from 'v-body-scroll-lock';
 import VueClosable from 'vue-closable';
 import App from './App';
 import vuetify from './plugins/vuetify/vuetify';
 import router from './router';
 import store from './store';
-
-Vue.use(VBodyScrollLock);
 
 Vue.use(VueClosable);
 

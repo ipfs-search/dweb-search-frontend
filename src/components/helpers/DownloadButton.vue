@@ -2,7 +2,8 @@
   <v-btn
     icon
     color="grey"
-    @click.stop="download"
+    target="_blank"
+    :href="getURL()"
   >
     <v-icon>mdi-tray-arrow-down</v-icon>
   </v-btn>
@@ -10,33 +11,33 @@
 
 <script>
 import getResourceURL from '@/helpers/resourceURL';
+import { getFileExtension } from '@/helpers/fileHelper';
 
 export default {
   props: {
-    hash: {
-      type: String,
+    file: {
+      type: Object,
       required: true,
-    },
-    title: {
-      type: String,
-      required: false,
-      default: 'download',
     },
   },
   methods: {
-    download() {
-      const rURL = getResourceURL(this.hash);
+    getURL() {
+      const params = new URLSearchParams({
+        download: true,
+      });
 
-      fetch(rURL)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = this.title;
-          link.click();
-        })
-        .catch(console.error);
+      const reference = this.file.references?.[0];
+
+      if (reference) {
+        params.append('filename', reference.name);
+      } else {
+        const ext = getFileExtension(this.file);
+        params.append('filename', `${this.file.hash}.${ext}`);
+      }
+
+      const url = getResourceURL(this.file.hash);
+
+      return `${url}?${params.toString()}`;
     },
   },
 };

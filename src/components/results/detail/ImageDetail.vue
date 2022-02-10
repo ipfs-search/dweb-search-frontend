@@ -9,10 +9,10 @@
     >
       <div
         style="position: absolute;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;"
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;"
       >
         <div
           class="inline-block"
@@ -26,17 +26,39 @@
                 offset-xl="2"
                 :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
               >
-                <!-- Image -->
-                <v-row>
-                  <v-col>
-                    <div
-                      :class="{ blurExplicit: blurExplicitImages && file.nsfw }"
-                      class="image-container"
-                      :style="{'background-image': `url(${resourceURL})`}"
-                    />
-                  </v-col>
-                  <v-col />
-                </v-row>
+                <!-- Content -->
+                <div>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="10"
+                      offset-md="1"
+                    >
+                      <MediaHeader
+                        :file="$props.file"
+                      />
+                    </v-col>
+                  </v-row>
+
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="10"
+                      offset-md="1"
+                    >
+                      <div
+                        :class="{ blurExplicit: blurExplicitImages && file.nsfw }"
+                        class="image-wrapper"
+                        :style="{'background-image': `url(${resourceURL})`}"
+                      />
+                      <MetaDataPanel
+                        class="mt-2"
+                        :file="$props.file"
+                        test-class="metadatapanel"
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -47,28 +69,37 @@
 </template>
 
 <script>
-import DetailMixin from './mixins/DetailMixin';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
+import DetailMixin from './mixins/DetailMixin';
 
 export default {
   mixins: [
     DetailMixin,
     BlurExplicitImagesMixin,
   ],
+  components: {
+    MetaDataPanel,
+    MediaHeader,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import '@/scss/blurExplicitImages';
 
-.image-container {
-  position: absolute;
-  top: 0;
-  left:0;
-  right:0;
-  bottom:0;
+.image-wrapper {
+  width: 100% !important;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
+  background-color: grey;
 }
+.image-wrapper:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
 </style>

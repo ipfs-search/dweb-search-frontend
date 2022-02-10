@@ -6,6 +6,10 @@ export default {
       type: Object,
       required: true,
     },
+    active: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     resourceURL() { return getResourceURL(this.file.hash); },

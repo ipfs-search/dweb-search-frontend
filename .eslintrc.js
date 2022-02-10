@@ -10,17 +10,17 @@ module.exports = {
     '@vue/airbnb',
   ],
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
   },
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          ["@", "./src"]
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', './src'],
         ],
-        "extensions": [".ts", ".js", ".jsx", ".json"]
-      }
-    }
+        extensions: ['.ts', '.js', '.jsx', '.json', '.vue'],
+      },
+    },
   },
   rules: {
     'no-console': 'off',

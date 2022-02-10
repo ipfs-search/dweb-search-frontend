@@ -1,6 +1,6 @@
 <template>
   <ListBase>
-    <template v-slot:type>
+    <template #type>
       Audio ({{ resultsTotal }})
     </template>
 
@@ -62,6 +62,7 @@
                 </span>
                 <br>
                 <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
+                <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
               </div>
             </v-card-text>
           </v-card>
@@ -72,9 +73,10 @@
 </template>
 
 <script>
+import mime from 'mime';
 import durationToColor from '@/filters/durationToColor';
-import FileListMixin from './mixins/FileListMixin';
 import { Types } from '@/helpers/typeHelper';
+import FileListMixin from './mixins/FileListMixin';
 
 export default {
   mixins: [
@@ -88,6 +90,11 @@ export default {
       fileType: Types.audio,
       shortList: 6,
     };
+  },
+  methods: {
+    showFileType(mimeType) {
+      return mime.getExtension(mimeType);
+    },
   },
 };
 </script>
