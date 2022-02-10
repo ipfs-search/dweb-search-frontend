@@ -2,8 +2,8 @@ import { nsfwThresholds } from '@/helpers/constants/nsfwThresholds';
 
 const nsfwServer = 'http://localhost:3000';
 
-function classify(url) {
-  return fetch(`${nsfwServer}/classify?url=${url}`, {
+function classify(cid) {
+  return fetch(`${nsfwServer}/classify/${cid}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

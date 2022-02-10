@@ -25,6 +25,8 @@
             @click="goToDetailPage(index)"
             :id="hit.hash"
             :class="{ blurExplicit: blurExplicitImages && hit.nsfw}"
+            :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
+            :data-nsfw="hit.nsfw"
           >
             <v-img
               :src="getResourceURL(hit.hash)"
