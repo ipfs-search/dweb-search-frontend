@@ -1,5 +1,7 @@
 import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
+import MidiPlayer from 'midi-player-js';
+import Soundfont from 'soundfont-player';
 
 /**
  * abstract from howl player, to make properties observable for Vue.
@@ -35,8 +37,29 @@ class AudioPlayer {
       throw Error('No proper file specified');
     }
     const fileExtension = getFileExtension(file);
+
+    if (fileExtension === 'mid') {
+      console.log('midi player starting');
+      const audioContext = new AudioContext();
+      fetch(`https://gateway.ipfs.io/ipfs/${file.hash}`)
+        .then((response) => response.arrayBuffer())
+        .then((buffer) => {
+          Soundfont.instrument(audioContext, 'acoustic_grand_piano')
+            .then((piano) => {
+              const player = new MidiPlayer.Player((event) => {
+                if (event.name === 'Note on' && event.velocity > 0) {
+                  piano.play(event.noteName, audioContext.currentTime,
+                    { gain: event.velocity / 100 });
+                }
+              });
+              player.loadArrayBuffer(buffer);
+              player.play();
+            });
+        });
+    }
+
     if (!Howler.codecs(fileExtension)) {
-      throw Error('Unsupported/undetected file type');
+      throw Error(`Unsupported/undetected file type ${fileExtension}`);
     }
 
     this.unregister();// unregister any hooks
