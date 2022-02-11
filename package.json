@@ -20,7 +20,6 @@
     "moment": "^2.29.1",
     "regenerator-runtime": "^0.13.9",
     "soundfont-player": "^0.12.0",
-    "string-similarity": "^4.0.4",
     "video.js": "^7.12.1",
     "vue": "^2.6.11",
     "vue-closable": "0.0.3",

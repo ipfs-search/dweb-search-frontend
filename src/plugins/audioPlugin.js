@@ -2,8 +2,6 @@ import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 import MidiPlayer from 'midi-player-js';
 import Soundfont from 'soundfont-player';
-// import instrumentList from 'soundfont-player/names/musyngkite.json';
-// import { findBestMatch } from 'string-similarity';
 
 let midiPlayer;
 /**
@@ -71,11 +69,10 @@ class AudioPlayer {
             .then((buffer) => {
               midiPlayer?.stop();
               midiPlayer = new MidiPlayer.Player((event) => {
-                console.log(event, patchBay);
+                // console.log(event, patchBay);
                 if (event.name === 'Sequence/Track Name') {
                   trackNames[event.track] = event.string?.toLowerCase();
-                }
-                if (event.name === 'Note on' && event.velocity > 0) {
+                } else if (event.name === 'Note on' && event.velocity > 0) {
                   if (!patchBay[event.track]) {
                     // eslint-disable-next-line no-nested-ternary
                     patchBay[event.track] = trackNames[event.track]?.includes('drum')
