@@ -41,7 +41,7 @@ class AudioPlayer {
     if (fileExtension === 'mid') {
       console.log('midi player starting');
       const audioContext = new AudioContext();
-      let firstInstrumentTrack = 256;
+      const patchbay = [];
       Promise.all(
         [
           'ocarina',
@@ -59,11 +59,11 @@ class AudioPlayer {
               const player = new MidiPlayer.Player((event) => {
                 console.log(event);
                 if (event.name === 'Note on' && event.velocity > 0) {
-                  if (firstInstrumentTrack > event.track) firstInstrumentTrack = event.track;
-                  instruments[event.track - firstInstrumentTrack]?.play(event.noteName, audioContext.currentTime,
+                  if (!patchbay.includes(event.track)) patchbay.push(event.track);
+                  instruments[patchbay.indexOf(event.track)]?.play(event.noteName, audioContext.currentTime,
                     { gain: event.velocity / 100 });
                 } else if (event.name === 'Note off') {
-                  instruments[event.track - firstInstrumentTrack]?.stop();
+                  instruments[patchbay.indexOf(event.track)]?.stop();
                 }
               });
               player.loadArrayBuffer(buffer);
