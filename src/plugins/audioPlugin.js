@@ -49,6 +49,7 @@ class AudioPlayer {
           'marimba',
           'electric_guitar_muted',
           'steel_drums',
+          'tubular_bells',
         ]
           .map((instrument) => Soundfont.instrument(audioContext, instrument)),
       )
