@@ -61,8 +61,9 @@ class AudioPlayer {
                 console.log(event);
                 if (event.name === 'Note on' && event.velocity > 0) {
                   if (!patchbay.includes(event.track)) patchbay.push(event.track);
-                  instruments[patchbay.indexOf(event.track)]?.play(event.noteName, audioContext.currentTime,
-                    { gain: event.velocity / 100 });
+                  instruments[patchbay.indexOf(event.track)]?.play(
+                    event.noteName, audioContext.currentTime, { gain: event.velocity / 100 },
+                  );
                 } else if (event.name === 'Note off'
                   || (event.name === 'Note on' && event.velocity === 0)) {
                   instruments[patchbay.indexOf(event.track)]?.stop();
