@@ -2,7 +2,10 @@ import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 import MidiPlayer from 'midi-player-js';
 import Soundfont from 'soundfont-player';
+// import instrumentList from 'soundfont-player/names/musyngkite.json';
+// import { findBestMatch } from 'string-similarity';
 
+let midiPlayer;
 /**
  * abstract from howl player, to make properties observable for Vue.
  * N.b. to make these properties observable, they must have public setters.
@@ -41,36 +44,57 @@ class AudioPlayer {
     if (fileExtension === 'mid') {
       console.log('midi player starting');
       const audioContext = new AudioContext();
-      const patchbay = [];
+      const patchBay = [];
+      const trackNames = [];
+      const instrumentList = [
+        'ocarina',
+        'electric_piano_1',
+        'bright_acoustic_piano',
+        'marimba',
+        'electric_guitar_clean',
+        'lead_6_voice',
+        'pan_flute',
+        'electric_guitar_jazz',
+        'choir_aahs',
+        'cello',
+        'woodblock',
+        'synth_drum',
+      ];
       Promise.all(
         [
-          'ocarina',
-          'bright_acoustic_piano',
-          'marimba',
-          'electric_guitar_muted',
-          'sitar',
-          'pan_flute',
-        ]
-          .map((instrument) => Soundfont.instrument(audioContext, instrument)),
+          fetch(`https://gateway.ipfs.io/ipfs/${file.hash}`),
+          ...instrumentList.map((instrument) => Soundfont.instrument(audioContext, instrument)),
+        ],
       )
-        .then((instruments) => {
-          fetch(`https://gateway.ipfs.io/ipfs/${file.hash}`)
-            .then((response) => response.arrayBuffer())
+        .then(([response, ...instruments]) => {
+          response.arrayBuffer()
             .then((buffer) => {
-              const player = new MidiPlayer.Player((event) => {
-                console.log(event);
+              midiPlayer?.stop();
+              midiPlayer = new MidiPlayer.Player((event) => {
+                console.log(event, patchBay);
+                if (event.name === 'Sequence/Track Name') {
+                  trackNames[event.track] = event.string?.toLowerCase();
+                }
                 if (event.name === 'Note on' && event.velocity > 0) {
-                  if (!patchbay.includes(event.track)) patchbay.push(event.track);
-                  instruments[patchbay.indexOf(event.track)]?.play(
+                  if (!patchBay[event.track]) {
+                    // eslint-disable-next-line no-nested-ternary
+                    patchBay[event.track] = trackNames[event.track]?.includes('drum')
+                      ? instrumentList.length - 1
+                      : trackNames[event.track]?.includes('percussion')
+                        ? instrumentList.length - 2
+                        : Math.floor(Math.random() * (instrumentList.length - 2));
+                  }
+                  // if (!patchBay.includes(event.track)) patchBay.push(event.track);
+                  instruments[patchBay[event.track]]?.play(
                     event.noteName, audioContext.currentTime, { gain: event.velocity / 100 },
                   );
                 } else if (event.name === 'Note off'
-                  || (event.name === 'Note on' && event.velocity === 0)) {
-                  instruments[patchbay.indexOf(event.track)]?.stop();
+                || (event.name === 'Note on' && event.velocity === 0)) {
+                  instruments[patchBay[event.track]]?.stop();
                 }
               });
-              player.loadArrayBuffer(buffer);
-              player.play();
+              midiPlayer.loadArrayBuffer(buffer);
+              midiPlayer.play();
             });
         });
     }
