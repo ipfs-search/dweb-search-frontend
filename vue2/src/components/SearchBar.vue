@@ -1,0 +1,158 @@
+<template>
+  <div>
+    <v-container class="d-flex justify-center">
+      <div class="search flex-grow-1">
+        <v-text-field
+          v-model="searchPhrase"
+          ref="input"
+          placeholder="Search"
+          light
+          rounded
+          height="42"
+          autocomplete="off"
+          autofocus
+          dense
+          solo
+          validate-on-blur
+          hide-details
+          @keyup.enter="enterSearchPhrase"
+          v-closable="{ handler: 'onClick' }"
+        >
+          <template #append>
+            <v-menu
+              style="top: -12px"
+              offset-y
+            >
+              <template #activator="{ on }">
+                <div
+                  class="mr-n3 grey--text d-flex align-center"
+                  v-on="on"
+                >
+                  <span class="text-capitalize">{{ type }}</span>
+                  <v-icon
+                    class="d-inline-block"
+                  >
+                    mdi-menu-down
+                  </v-icon>
+                </div>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="t in searchTypes"
+                  :key="t"
+                  @click="type=t"
+                >
+                  <v-list-item-title
+                    class="text-capitalize"
+                  >
+                    {{ t }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
+          <template
+            #append-outer
+            v-if="$vuetify.breakpoint.smAndDown ? false : true"
+          >
+            <v-icon
+              style="margin-top: -2px;"
+              size="34"
+              color="white"
+              @click="enterSearchPhrase"
+            >
+              mdi-magnify
+            </v-icon>
+          </template>
+        </v-text-field>
+      </div>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import SearchMixin from '@/mixins/SearchMixin';
+import store from '@/store';
+import { searchTypes } from '@/helpers/typeHelper';
+
+export default {
+  created() {
+    this.searchTypes = searchTypes;
+  },
+  mixins: [SearchMixin],
+  data() {
+    return {
+      searchPhrase: store.state.query.user_query,
+    };
+  },
+  computed: {
+    type: {
+      get: () => store.state.query.type,
+      set(newType) {
+        if (this.type !== newType) {
+          this.search({ type: newType });
+        }
+      },
+    },
+  },
+  methods: {
+    hideKeyBoardOnAndroid() {
+      // This is a bit experimental. It might show some side effects.
+      // https://stackoverflow.com/questions/8335834/how-can-i-hide-the-android-keyboard-using-javascript
+      setTimeout(() => {
+        // Creating temp field
+        const field = document.createElement('input');
+        field.setAttribute('type', 'text');
+        // Hiding temp field from peoples eyes
+        // -webkit-user-modify is nessesary for Android 4.x
+        field.setAttribute('style', `position:absolute;
+          top: 0px;
+          opacity: 0;
+          -webkit-user-modify: read-write-plaintext-only;
+          left:0px;`);
+        document.body.appendChild(field);
+
+        // Adding onfocus event handler for out temp field
+        field.onfocus = () => {
+          // This timeout of 200ms is nessasary for Android 2.3.x
+          setTimeout(() => {
+            field.setAttribute('style', 'display:none;');
+            setTimeout(() => {
+              document.body.removeChild(field);
+              document.body.focus();
+            }, 14);
+          }, 200);
+        };
+        // Focusing it
+        field.focus();
+      }, 50);
+    },
+
+    enterSearchPhrase() {
+      console.debug('Entering search phrase:', this.$data.searchPhrase);
+      if (this.$route.query.q === this.$data.searchPhrase) {
+        console.debug('No need to push the same query:', this.$data.searchPhrase);
+        return;
+      }
+      this.search({ q: this.$data.searchPhrase });
+      // We want to hide the keyboard after search has been done on Adroid
+      if (/android/i.test(navigator.userAgent)) {
+        this.hideKeyBoardOnAndroid();
+      }
+    },
+
+    onClick() {
+      // This is necessary for hiding the soft keyboard on iPhone
+      // see v-closable="{ handler: 'onClick' }" in v-text-field
+      // https://medium.com/@Taha_Shashtari/the-easy-vue-solution-to-dismiss-ios-keyboard-on-outside-click-2bb8be3c3347
+      this.$refs.input.blur();
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+  .search {
+    max-width: 960px;
+  }
+</style>

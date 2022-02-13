@@ -1,0 +1,56 @@
+{
+  "query": "Beatles",
+  "document-type": "Audio",
+  "total-hits": 230,
+  "link": "link-to-all-audio-results",
+  "sneak-preview": [
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "title": "I Saw Here Standing There",
+      "album": "Please Please Me",
+      "release-date": "1963-03-22T19:36:56Z",
+      "duration": "P1Y2M10DT2H30M",
+      "thumbnail": "link-to-thumbnail.jpg",
+      "link-to-audio-file": "I_Saw_Here_Standing_There.mp3",
+      "type": "file",
+      "size": 1127279,
+      "file-type": "mp3",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:56:23Z",
+      "score": 133.061,
+      "mimetype": "audio/mpeg"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "Twist And Shout",
+      "album": "Please Please Me",
+      "release-date": "1963-03-22T19:36:56Z",
+      "duration": "P1Y2M10DT2H30M",
+      "thumbnail": "link-to-thumbnail.jpg",
+      "link-to-audio-file": "Twist_And_Shout.mp3",
+      "type": "file",
+      "size": 2188478,
+      "file-type": "mp3",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "audio/mpeg"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "Love Me Do",
+      "album": "Please Please Me",
+      "release-date": "1963-03-22T19:36:56Z",
+      "duration": "P1Y2M10DT2H30M",
+      "thumbnail": "link-to-thumbnail.jpg",
+      "link-to-audio-file": "Love_Me_Do.mp3",
+      "type": "file",
+      "size": 2188478,
+      "file-type": "mp3",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "audio/mpeg"
+    }
+  ]
+}

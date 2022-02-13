@@ -1,0 +1,53 @@
+{
+  "query": "All Time Favorites",
+  "document-type": "Video",
+  "total-hits": 230,
+  "link": "link-to-all-video-results",
+  "sneak-preview": [
+    {
+      "hash": "QmRz6rTtMAUrECCWxBkvQBjUfGekNxfAhjy9N9xti3u5aX",
+      "title": "Clockwork Orange - 1971",
+      "director": "Stanley Kubrick",
+      "duration": "P1Y2M10DT2H30M",
+      "thumbnail": "link-to-thumbnail.jpg",
+      "link-to-video-file": "Clockwork_Orange.mp4",
+      "type": "file",
+      "size": 1127279,
+      "file-type": "mp3",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:56:23Z",
+      "score": 133.061,
+      "mimetype": "video/mpeg"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "Blade Runner - 1982",
+      "director": "Ridley Scott",
+      "duration": "P1Y2M10DT2H30M",
+      "thumbnail": "link-to-thumbnail.jpg",
+      "link-to-video-file": "Blade_Runner.mp4",
+      "type": "file",
+      "size": 2188478,
+      "file-type": "mp3",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "video/mpeg"
+    },
+    {
+      "hash": "Qmbf5WibuFnFZccfv9bXDUrPNcSRUy9D4myqZo9WP8tRNV",
+      "title": "Back To The Future - 1985",
+      "director": "Robert Zemeckis",
+      "duration": "P1Y2M10DT2H30M",
+      "thumbnail": "link-to-thumbnail.jpg",
+      "link-to-video-file": "https://somewhere.com/videos/Back_To_The Future.mp4",
+      "type": "file",
+      "size": 2188478,
+      "file-type": "mp3",
+      "first-seen": "2020-01-21T19:36:56Z",
+      "last-seen": "2020-01-21T20:58:10Z",
+      "score": 132.2922,
+      "mimetype": "video/mpeg"
+    }
+  ]
+}
