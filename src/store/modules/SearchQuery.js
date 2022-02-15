@@ -1,7 +1,5 @@
 const initialQuery = {
-  // TODO: rename user_query to something consistent, non-snake_case, and less confusing
-  // such as 'q' or searchPhrase
-  user_query: '',
+  searchPhrase: '',
   type: 'any',
   page: 1,
   filters: {
@@ -18,7 +16,7 @@ const initialQuery = {
  */
 function stateToQueryParams(state) {
   return {
-    q: state.user_query,
+    q: state.searchPhrase,
     last_seen: state.filters.lastSeen,
     size: state.filters.size,
     type: state.type,
@@ -59,7 +57,7 @@ function getFilters(filters) {
  * @returns {string}
  */
 function apiQueryString(state) {
-  return [state.user_query, ...getFilters(state.filters)].join(' ');
+  return [state.searchPhrase, ...getFilters(state.filters)].join(' ');
 }
 
 const getters = {
@@ -71,7 +69,7 @@ const mutations = {
   // Mutations relating to query composition
   setRouteParams(state, params) {
     // Inverse of getters.queryParams
-    state.user_query = params.q || initialQuery.user_query;
+    state.searchPhrase = params.q || initialQuery.searchPhrase;
     state.type = params.type || initialQuery.type;
     state.page = Number(params.page) || initialQuery.page;
     state.filters = {
@@ -79,13 +77,6 @@ const mutations = {
       size: params.size || initialQuery.filters.size,
     };
   },
-  setUserQuery(state, q) {
-    state.user_query = q;
-  },
-  // setType(state, type) {
-  //   if (state.type !== type) state.page = 0;
-  //   state.type = type;
-  // },
   setPage(state, page) {
     state.page = page;
   },

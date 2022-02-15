@@ -1,5 +1,3 @@
-import store from '@/store';
-
 export default {
   methods: {
     // TODO: Make method less hacky and better/less ubiquitous name
@@ -19,7 +17,6 @@ export default {
           page,
         },
       });
-      store.commit('query/setRouteParams', this.$route.query);
     },
   },
 

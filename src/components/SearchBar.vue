@@ -82,7 +82,7 @@ export default {
   mixins: [SearchMixin],
   data() {
     return {
-      searchPhrase: store.state.query.user_query,
+      searchPhrase: store.state.query.searchPhrase,
     };
   },
   computed: {
