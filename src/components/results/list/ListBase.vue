@@ -70,7 +70,7 @@
 
 <script>
 import { maxPages } from '@/helpers/ApiHelper';
-import { enterSearchQuery } from '../../../helpers/routerHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
   computed: {
