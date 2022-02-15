@@ -71,15 +71,14 @@
 </template>
 
 <script>
-import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
 import { searchTypes } from '@/helpers/typeHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
   created() {
     this.searchTypes = searchTypes;
   },
-  mixins: [SearchMixin],
   data() {
     return {
       searchPhraseProxy: store.state.query.searchPhrase,
@@ -96,7 +95,7 @@ export default {
       get: () => store.state.query.type,
       set(newType) {
         if (this.type !== newType) {
-          this.search({ type: newType });
+          enterSearchQuery({ type: newType });
         }
       },
     },
@@ -136,7 +135,7 @@ export default {
 
     enterSearchPhrase() {
       if (this.$route.query.q !== this.searchPhraseProxy) {
-        this.search({ q: this.searchPhraseProxy });
+        enterSearchQuery({ q: this.searchPhraseProxy });
         // We want to hide the keyboard after search has been done on Android
         if (/android/i.test(navigator.userAgent)) {
           this.hideKeyBoardOnAndroid();

@@ -87,19 +87,17 @@
 </template>
 
 <script>
-import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
+import { enterSearchQuery } from '../helpers/routerHelper';
 
 export default {
-  mixins: [SearchMixin],
-
   computed: {
     lastSeenFilter: {
       get() {
         return store.state.query.filters.lastSeen;
       },
       set(value) {
-        this.search({ last_seen: value });
+        enterSearchQuery({ last_seen: value });
       },
     },
     sizeFilter: {
@@ -107,7 +105,7 @@ export default {
         return store.state.query.filters.size;
       },
       set(value) {
-        this.search({ size: value });
+        enterSearchQuery({ size: value });
       },
     },
   },
