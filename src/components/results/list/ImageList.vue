@@ -51,10 +51,12 @@
                   </template>
                 </v-img>
               </template>
-              <span>{{
+              <span v-if="hit.nsfwClassification">
+                {{
                   Object.entries(hit.nsfwClassification)
                     .reduce((p, [classifier, value]) => `${p} ${classifier}: ${Math.round(value * 100)}`, '')
-                }}</span>
+                }}
+              </span>
             </v-tooltip>
           </v-card>
         </v-col>
