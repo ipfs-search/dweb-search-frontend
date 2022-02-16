@@ -16,12 +16,14 @@ function classify(cid) {
 /**
  * determine if a certain classification determines graphic content 'not suitable for work'.
  * Return true if it is *not* suitable for work.
+ * When no classification is known (yet), defaults to true ('guilty until proven innocent')
  * @param classification
  * @returns {boolean}
  */
 function nsfw(classification) {
+  const guiltyUntilProvenInnocent = true;
   // a missing classification defaults to:
-  if (!classification) return false;
+  if (!classification) return guiltyUntilProvenInnocent;
 
   // eslint-disable-next-line no-restricted-syntax
   for (const classifier in nsfwThresholds) {
