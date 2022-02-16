@@ -149,7 +149,6 @@ export default {
       // https://medium.com/@Taha_Shashtari/the-easy-vue-solution-to-dismiss-ios-keyboard-on-outside-click-2bb8be3c3347
       // Needs to be conditional; otherwise, (some) non-iphone devices will cause console errors
       this.$refs?.input?.blur();
-
     },
   },
 };
