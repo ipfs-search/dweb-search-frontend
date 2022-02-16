@@ -1,7 +1,7 @@
 import { nsfwThresholds } from '@/helpers/constants/nsfwThresholds';
 
 // for a local setup, typically use: http://localhost:8080/classify
-const nsfwApiEndpoint = process?.env?.NSFW_API || 'https://api.ipfs-search.com/nsfw/';
+const nsfwApiEndpoint = process?.env?.NSFW_API || 'https://api.ipfs-search.com/v1/nsfw/classify/';
 
 function classify(cid) {
   return fetch(`${nsfwApiEndpoint}${cid}`, {

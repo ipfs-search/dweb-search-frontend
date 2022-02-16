@@ -38,7 +38,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 This build uses an API to check nsfw content. 
 
 The default API endpoint to is: https://api.ipfs-search.com/nsfw/
-. This can be overridden by injecting `process.env.NSFW_API` into webpack (e.g. with --define) 
+. This can be overridden by injecting `process.env.NSFW_API` 
 
 The API call should be: `<process.env.NSFW_API><CID>`, so e.g.
 
