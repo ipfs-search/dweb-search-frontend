@@ -5,7 +5,7 @@
 const fields = [
   {
     field: 'blurExplicitImages',
-    defaultValue: false,
+    defaultValue: true,
   },
   {
     field: 'darkMode',
