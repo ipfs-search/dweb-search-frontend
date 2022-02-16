@@ -24,28 +24,38 @@
             v-if="hit"
             @click="goToDetailPage(index)"
             :id="hit.hash"
-            :class="{ blurExplicit: blurExplicitImages && hit.nsfw}"
+            :class="{ blurExplicit: blurExplicit(hit)}"
             :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
             :data-nsfw="hit.nsfw"
           >
-            <v-img
-              :src="getResourceURL(hit.hash)"
-              aspect-ratio="1"
-              class="grey lighten-2"
-            >
-              <template #placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-img
+                  :src="getResourceURL(hit.hash)"
+                  aspect-ratio="1"
+                  class="grey lighten-2"
+                  v-bind="attrs"
+                  v-on="on"
                 >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  />
-                </v-row>
+                  <template #placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      />
+                    </v-row>
+                  </template>
+                </v-img>
               </template>
-            </v-img>
+              <span>{{
+                  Object.entries(hit.nsfwClassification)
+                    .reduce((p, [classifier, value]) => `${p} ${classifier}: ${Math.round(value * 100)}`, '')
+                }}</span>
+            </v-tooltip>
           </v-card>
         </v-col>
       </v-row>
@@ -56,6 +66,7 @@
 <script>
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
+import nsfwClassifier from '@/helpers/nsfwClassifier';
 import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 import FileListMixin from './mixins/FileListMixin';
 
@@ -70,6 +81,11 @@ export default {
       fileType: Types.images,
       shortList: 6,
     };
+  },
+  methods: {
+    blurExplicit(hit) {
+      return this.blurExplicitImages && nsfwClassifier.nsfw(hit.nsfwClassification);
+    },
   },
 };
 </script>
