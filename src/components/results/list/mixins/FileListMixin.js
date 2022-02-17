@@ -2,7 +2,7 @@ import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';
 import { batchSize } from '@/helpers/ApiHelper';
-import SearchMixin from '@/mixins/SearchMixin';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 const resultsTotalMax = 10000;
 
@@ -10,9 +10,6 @@ const resultsTotalMax = 10000;
  * this mixin makes file lists load their results and allows navigation
  */
 export default {
-  mixins: [
-    SearchMixin,
-  ],
   components: {
     ListBase,
   },
@@ -46,7 +43,7 @@ export default {
     },
     queryPage: {
       get() { return Number(this.$route.query.page); },
-      set(value) { this.search(this.$route.query, value); },
+      set(value) { enterSearchQuery(this.$route.query, value); },
     },
   },
   methods: {

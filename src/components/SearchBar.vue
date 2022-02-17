@@ -71,26 +71,31 @@
 </template>
 
 <script>
-import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
 import { searchTypes } from '@/helpers/typeHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
   created() {
     this.searchTypes = searchTypes;
   },
-  mixins: [SearchMixin],
   data() {
     return {
-      searchPhrase: store.state.query.user_query,
+      searchPhraseProxy: store.state.query.searchPhrase,
     };
   },
   computed: {
+    searchPhrase: {
+      get: () => store.state.query.searchPhrase,
+      set(newSearchPhrase) {
+        this.$data.searchPhraseProxy = newSearchPhrase;
+      },
+    },
     type: {
       get: () => store.state.query.type,
       set(newType) {
         if (this.type !== newType) {
-          this.search({ type: newType });
+          enterSearchQuery({ type: newType });
         }
       },
     },
@@ -129,15 +134,12 @@ export default {
     },
 
     enterSearchPhrase() {
-      console.debug('Entering search phrase:', this.$data.searchPhrase);
-      if (this.$route.query.q === this.$data.searchPhrase) {
-        console.debug('No need to push the same query:', this.$data.searchPhrase);
-        return;
-      }
-      this.search({ q: this.$data.searchPhrase });
-      // We want to hide the keyboard after search has been done on Adroid
-      if (/android/i.test(navigator.userAgent)) {
-        this.hideKeyBoardOnAndroid();
+      if (this.$route.query.q !== this.searchPhraseProxy) {
+        enterSearchQuery({ q: this.searchPhraseProxy });
+        // We want to hide the keyboard after search has been done on Android
+        if (/android/i.test(navigator.userAgent)) {
+          this.hideKeyBoardOnAndroid();
+        }
       }
     },
 
@@ -145,7 +147,8 @@ export default {
       // This is necessary for hiding the soft keyboard on iPhone
       // see v-closable="{ handler: 'onClick' }" in v-text-field
       // https://medium.com/@Taha_Shashtari/the-easy-vue-solution-to-dismiss-ios-keyboard-on-outside-click-2bb8be3c3347
-      this.$refs.input.blur();
+      // Needs to be conditional; otherwise, (some) non-iphone devices will cause console errors
+      this.$refs?.input?.blur();
     },
   },
 };

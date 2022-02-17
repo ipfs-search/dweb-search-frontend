@@ -1,13 +1,10 @@
 import store from '@/store';
 import { batchSize, maxPages } from '@/helpers/ApiHelper';
-import SearchMixin from '@/mixins/SearchMixin';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 const infiniteScrollMargin = 200;
 
 export default {
-  mixins: [
-    SearchMixin,
-  ],
   data() {
     return {
       infinite: true,
@@ -56,7 +53,7 @@ export default {
 
       // if needed, change the page in the URL
       if (store.state.query.page !== scrollPage) {
-        this.search(this.$route.query, scrollPage, 'replace');
+        enterSearchQuery(this.$route.query, scrollPage, 'replace');
       }
 
       const nearBottom = window.innerHeight + infiniteScrollMargin > scrollHeight - scrollTop;
