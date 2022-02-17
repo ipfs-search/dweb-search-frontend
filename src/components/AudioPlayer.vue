@@ -15,10 +15,7 @@
         width="100%"
         :height="playerHeight"
       >
-        <div
-          v-if="isSmallPlayer"
-          class="small-viewer"
-        >
+        <div class="small-viewer">
           <v-progress-linear
             v-if="!loading"
             v-model="progress"
@@ -35,7 +32,6 @@
                 <v-list-item-avatar
                   tile
                   size="60"
-                  @click="togglePlayerHeight"
                 >
                   <v-img
                     height="60"
@@ -64,8 +60,6 @@
                     <span>{{ timer }} / {{ duration }}</span>
                   </v-list-item-subtitle>
                 </v-list-item-content>
-
-                <v-spacer />
 
                 <div
                   class=""
@@ -121,21 +115,6 @@
             </v-list>
           </v-scroll-y-reverse-transition>
         </div>
-
-        <div
-          v-if="!isSmallPlayer"
-          class="large-viewer"
-        >
-          <v-list>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title @click="togglePlayerHeight">
-                  LARGE VIEWER
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </div>
       </v-card>
     </v-footer>
   </div>
@@ -153,22 +132,12 @@ export default {
   },
   data() {
     return {
-      isSmallPlayer: true,
+      // isSmallPlayer: true,
+      playerHeight: 100,
     };
   },
   methods: {
-    togglePlayerHeight() {
-      if (this.isSmallPlayer) {
-        this.isSmallPlayer = false;
-        this.playerHeight = '100vh';
-      } else {
-        this.isSmallPlayer = true;
-        this.playerHeight = '100';
-      }
-    },
-    nothing() {
-      return null;
-    },
+
   },
 };
 </script>
