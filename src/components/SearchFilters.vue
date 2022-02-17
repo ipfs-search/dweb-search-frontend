@@ -91,9 +91,6 @@ import SearchMixin from '@/mixins/SearchMixin';
 import store from '@/store';
 
 export default {
-  components: {
-  },
-
   mixins: [SearchMixin],
 
   computed: {
@@ -102,7 +99,6 @@ export default {
         return store.state.query.filters.lastSeen;
       },
       set(value) {
-        // store.commit('query/setLastSeenFilter', value);
         this.search({ last_seen: value });
       },
     },
@@ -111,7 +107,6 @@ export default {
         return store.state.query.filters.size;
       },
       set(value) {
-        // store.commit('query/setSizeFilter', value);
         this.search({ size: value });
       },
     },
@@ -137,13 +132,16 @@ export default {
 
     lastSeenOptions: [
       {
-        text: '<24hr', value: '>now-24h',
+        text: '<24hr', value: '[ now-24h/h TO *]',
       },
       {
-        text: '<7d', value: '>now-7d',
+        text: '<7d', value: '[ now/h-7d TO *]',
       },
       {
-        text: 'any', value: null,
+        text: '<30d', value: '[ now/d-30d TO *]',
+      },
+      {
+        text: 'any', value: '*',
       },
     ],
   }),
