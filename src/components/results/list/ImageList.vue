@@ -55,22 +55,18 @@
                 </v-img>
               </template>
               <div aligh="center">
-                <p v-if="blurExplicit(hit)">
-                  (Potentially) explicit content is being blurred.
-                </p>
-                <p v-if="blurExplicit(hit)">
-                  this can be disabled
-                  with the settings under the cogwheel in the top bar
-                </p>
-                <p v-if="hit.nsfwClassification">
-                  classification:
+                <div v-if="blurExplicit(hit)">
+                    Blurring explicit content. See settings in menubar under
+                  <v-icon>mdi-cog</v-icon>
+                </div>
+                <div v-if="hit.nsfwClassification">
                   {{
                     Object.entries(hit.nsfwClassification)
                       .reduce((p, [classifier, value]) =>
                         `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
                       )
                   }}
-                </p>
+                </div>
               </div>
             </v-tooltip>
           </v-card>
