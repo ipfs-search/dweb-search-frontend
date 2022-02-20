@@ -54,7 +54,14 @@ export default {
   ],
   computed: {
     cogwheelColor() {
-      return (this.$route.name === 'Home') ? theme.ipfsPrimary : 'white';
+      // On detail page, in light theme, the top bar is white. So a dark icon is needed.
+      // The detail page primary color is grey
+      if (this.$route.name === 'Detail' && !this.$store.state.localStorage.darkMode) {
+        return theme.primary;
+      }
+      // The home page banner is white, the home page primary color is called ipfs-primary
+      if (this.$route.name === 'Home') return theme.ipfsPrimary;
+      return 'white';
     },
     darkMode: {
       get() { return this.$store.state.localStorage.darkMode; },
