@@ -12,7 +12,9 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon color="white">
+          <v-icon
+            :color="cogwheelColor"
+          >
             mdi-cog
           </v-icon>
         </v-btn>
@@ -44,6 +46,7 @@
 </template>
 
 <script>
+import theme from '@/plugins/vuetify/theme';
 import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 
 export default {
@@ -51,6 +54,9 @@ export default {
     BlurExplicitImagesMixin,
   ],
   computed: {
+    cogwheelColor() {
+      return (this.$route.name === 'Home') ? theme.ipfsPrimary : 'white';
+    },
     darkMode: {
       get() { return this.$store.state.localStorage.darkMode; },
       set(value) {

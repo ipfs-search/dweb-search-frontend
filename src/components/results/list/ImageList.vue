@@ -56,7 +56,7 @@
               </template>
               <div aligh="center">
                 <p v-if="blurExplicit(hit)">
-                  (Potentially) explicit content is being blurred;
+                  (Potentially) explicit content is being blurred.
                 </p>
                 <p v-if="blurExplicit(hit)">
                   this can be disabled
