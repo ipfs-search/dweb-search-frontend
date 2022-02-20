@@ -9,7 +9,8 @@ const fields = [
   },
   {
     field: 'darkMode',
-    defaultValue: true,
+    // TODO: add third option for: system settings
+    defaultValue: window.matchMedia('(prefers-color-scheme: dark)').matches,
   },
 ];
 

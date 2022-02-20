@@ -28,8 +28,11 @@
             :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
             :data-nsfw="hit.nsfw"
           >
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip
+              bottom
+              align="center"
+            >
+              <template #activator="{ on, attrs }">
                 <v-img
                   :src="getResourceURL(hit.hash)"
                   aspect-ratio="1"
@@ -51,12 +54,24 @@
                   </template>
                 </v-img>
               </template>
-              <span v-if="hit.nsfwClassification">
-                {{
-                  Object.entries(hit.nsfwClassification)
-                    .reduce((p, [classifier, value]) => `${p} ${classifier}: ${Math.round(value * 100)}`, '')
-                }}
-              </span>
+              <div aligh="center">
+                <p v-if="blurExplicit(hit)">
+                  (Potentially) explicit content is being blurred;
+                </p>
+                <p v-if="blurExplicit(hit)">
+                  this can be disabled
+                  with the settings under the cogwheel in the top bar
+                </p>
+                <p v-if="hit.nsfwClassification">
+                  classification:
+                  {{
+                    Object.entries(hit.nsfwClassification)
+                      .reduce((p, [classifier, value]) =>
+                        `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
+                      )
+                  }}
+                </p>
+              </div>
             </v-tooltip>
           </v-card>
         </v-col>
