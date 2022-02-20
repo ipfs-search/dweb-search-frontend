@@ -132,9 +132,9 @@ export default {
   mixins: [
     BlurExplicitImagesMixin,
   ],
-  components: [
+  components: {
     SettingsMenu,
-  ],
+  },
   beforeCreate() {
     store.commit('query/setRouteParams', this.$route.query);
   },

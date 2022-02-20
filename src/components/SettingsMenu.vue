@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-menu
-      v-model="menu"
       :close-on-content-click="true"
       :nudge-width="200"
       offset-x
