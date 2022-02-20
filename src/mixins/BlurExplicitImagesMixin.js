@@ -1,3 +1,5 @@
+import nsfwClassifier from '@/helpers/nsfwClassifier';
+
 export default {
   computed: {
     blurExplicitImages: {
@@ -7,6 +9,11 @@ export default {
       set(value) {
         this.$store.commit('localStorage/setBlurExplicitImages', value);
       },
+    },
+  },
+  methods: {
+    blurExplicit(hit) {
+      return this.blurExplicitImages && nsfwClassifier.nsfw(hit.nsfwClassification);
     },
   },
 };

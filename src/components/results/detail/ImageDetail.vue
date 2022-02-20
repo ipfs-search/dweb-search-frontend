@@ -47,7 +47,7 @@
                       offset-md="1"
                     >
                       <div
-                        :class="{ blurExplicit: blurExplicitImages && file.nsfw }"
+                        :class="{ blurExplicit: blurExplicit(file)}"
                         class="image-wrapper"
                         :style="{'background-image': `url(${resourceURL})`}"
                       />

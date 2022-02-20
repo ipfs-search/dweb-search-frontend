@@ -79,7 +79,6 @@
 <script>
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
-import nsfwClassifier from '@/helpers/nsfwClassifier';
 import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 import FileListMixin from './mixins/FileListMixin';
 
@@ -94,11 +93,6 @@ export default {
       fileType: Types.images,
       shortList: 6,
     };
-  },
-  methods: {
-    blurExplicit(hit) {
-      return this.blurExplicitImages && nsfwClassifier.nsfw(hit.nsfwClassification);
-    },
   },
 };
 </script>
