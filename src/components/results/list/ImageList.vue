@@ -24,25 +24,53 @@
             v-if="hit"
             @click="goToDetailPage(index)"
             :id="hit.hash"
+            :class="{ blurExplicit: blurExplicit(hit)}"
+            :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
+            :data-nsfw="hit.nsfw"
           >
-            <v-img
-              :src="getResourceURL(hit.hash)"
-              aspect-ratio="1"
-              class="grey lighten-2"
+            <v-tooltip
+              bottom
+              align="center"
             >
-              <template #placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
+              <template #activator="{ on, attrs }">
+                <v-img
+                  :src="getResourceURL(hit.hash)"
+                  aspect-ratio="1"
+                  class="grey lighten-2"
+                  v-bind="attrs"
+                  v-on="on"
                 >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  />
-                </v-row>
+                  <template #placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      />
+                    </v-row>
+                  </template>
+                </v-img>
               </template>
-            </v-img>
+              <div aligh="center">
+                <div v-if="blurExplicit(hit)">
+                  Blurring explicit content. See settings in menubar under
+                  <v-icon color="white">
+                    mdi-cog
+                  </v-icon>
+                </div>
+                <div v-if="hit.nsfwClassification">
+                  {{
+                    Object.entries(hit.nsfwClassification)
+                      .reduce((p, [classifier, value]) =>
+                        `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
+                      )
+                  }}
+                </div>
+              </div>
+            </v-tooltip>
           </v-card>
         </v-col>
       </v-row>
@@ -53,9 +81,13 @@
 <script>
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
+import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
+  setup() {
+    return { blurExplicit };
+  },
   mixins: [
     FileListMixin,
     InfiniteScrollingMixin,
@@ -68,3 +100,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@/scss/blurExplicitImages';
+</style>

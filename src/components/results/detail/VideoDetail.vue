@@ -30,7 +30,9 @@
                 <!-- Video -->
                 <v-row>
                   <v-col>
-                    <div class="text-body-1">
+                    <div
+                      class="text-body-1"
+                    >
                       <video-player
                         :options="videoOptions"
                       />

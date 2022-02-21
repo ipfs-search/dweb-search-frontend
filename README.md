@@ -33,3 +33,14 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## NSFW api
+This build uses an API to check nsfw content. 
+
+The default API endpoint to is: https://api.ipfs-search.com/nsfw/
+. This can be overridden by injecting `process.env.NSFW_API` 
+
+The API call should be: `<process.env.NSFW_API><CID>`, so e.g.
+
+`https://api.ipfs-search.com/nsfw/QmSZzv7ux1LGwpehVcCMQ9ec945X6qE4qyjKDhCVwY25iw`
+https://api.ipfs-search.com/v1/nsfw/classify/

@@ -47,6 +47,7 @@
                       offset-md="1"
                     >
                       <div
+                        :class="{ blurExplicit: blurExplicit(file)}"
                         class="image-wrapper"
                         :style="{'background-image': `url(${resourceURL})`}"
                       />
@@ -70,9 +71,13 @@
 <script>
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
+import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import DetailMixin from './mixins/DetailMixin';
 
 export default {
+  setup() {
+    return { blurExplicit };
+  },
   mixins: [
     DetailMixin,
   ],
@@ -84,6 +89,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/scss/blurExplicitImages';
+
 .image-wrapper {
   width: 100% !important;
   background-repeat: no-repeat;

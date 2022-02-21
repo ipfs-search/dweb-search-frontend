@@ -24,17 +24,9 @@ export default {
   },
   $el: '#app',
 
-  methods: {
-    setDefaultTheme() {
-      const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
-      this.$vuetify.theme.dark = isDark;
-    },
-  },
-
   mounted() {
     this.$nextTick(() => {
       this.$el.removeAttribute('hidden');
-      this.setDefaultTheme();
     });
   },
 

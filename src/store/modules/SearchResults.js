@@ -1,4 +1,7 @@
+import Vue from 'vue';
 import { apiSearch, batchSize } from '@/helpers/ApiHelper';
+import nsfwClassifier from '@/helpers/nsfwClassifier';
+import { Types } from '@/helpers/typeHelper';
 
 const baseState = {
   error: false,
@@ -40,6 +43,12 @@ const mutations = {
       hits,
     };
   },
+
+  setNsfw(state, { index, classification }) {
+    if (!state.results?.hits?.[index]) return;
+    // Add actual classification for debugging purposes
+    Vue.set(state.results.hits[index], 'nsfwClassification', classification);
+  },
 };
 
 const getters = {
@@ -59,6 +68,36 @@ const getters = {
   hits: (state) => state.results.hits || [],
 };
 
+function cleanUpResults({ state, commit, apiQueryString }) {
+  if (state.queryString !== apiQueryString) {
+    commit('clearResults');
+    commit('setQuery', apiQueryString);
+  }
+}
+
+function apiSearchPage({
+  commit, apiQueryString, fileType, batch, perPage,
+}) {
+  commit('setLoading');
+
+  return apiSearch(apiQueryString, fileType, batch, perPage)
+    .then((results) => {
+      commit('setResults', { results, index: batch * perPage });
+      if (fileType === Types.images) {
+        results.hits.forEach((hit, index) => {
+          nsfwClassifier.classify(hit.hash)
+            .then(({ classification }) => {
+              commit('setNsfw', { index: index + batch * perPage, classification });
+            });
+        });
+      }
+      return results.hits;
+    })
+    .catch((error) => {
+      commit('setError', { error, batch, perPage });
+    });
+}
+
 export default (fileType) => ({
   namespaced: true,
   state: () => ({
@@ -77,37 +116,25 @@ export default (fileType) => ({
      * @returns {Promise<*>}
      */
     async fetchPage({ state, commit, rootGetters }, {
-      page = 1,
-      perPage = batchSize,
+      page = 1, perPage = batchSize,
     }) {
       const batch = page - 1;
 
       const apiQueryString = rootGetters['query/apiQueryString'];
-      if (state.queryString !== apiQueryString) {
-        commit('clearResults');
-        commit('setQuery', apiQueryString);
-      }
+      cleanUpResults({ state, commit, apiQueryString });
 
       if (state.results?.total <= batch * perPage) return [];
 
+      // if results are already present, just return them.
       const pageResults = state.results?.hits?.slice(batch * perPage, (batch + 1) * perPage);
-
-      if (pageResults === undefined
-        || pageResults?.length === 0
-        || pageResults?.includes(undefined)) {
-        commit('setLoading');
-
-        return apiSearch(apiQueryString, fileType, batch, perPage)
-          .then((results) => {
-            commit('setResults', { results, index: batch * perPage });
-            return results.hits;
-          })
-          .catch((error) => {
-            commit('setError', { error, batch, perPage });
-          });
+      if (pageResults?.length > 0 && !pageResults.includes(undefined)) {
+        return pageResults;
       }
 
-      return pageResults;
+      // otherwise do api lookup
+      return apiSearchPage({
+        commit, apiQueryString, fileType, batch, perPage,
+      });
     },
   },
 });

@@ -1,9 +1,3 @@
-import DocumentDetail from '@/components/results/detail/DocumentDetail';
-import ImageDetail from '@/components/results/detail/ImageDetail';
-import VideoDetail from '@/components/results/detail/VideoDetail';
-import AudioDetail from '@/components/results/detail/AudioDetail';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail';
-
 export const fileTypes = [
   'text',
   'audio',
@@ -26,17 +20,8 @@ export const Types = {
   directories: 'directories',
 };
 
-export const DetailComponent = {
-  text: DocumentDetail,
-  audio: AudioDetail,
-  images: ImageDetail,
-  video: VideoDetail,
-  directories: DirectoryDetail,
-};
-
 export default {
   fileTypes,
   searchTypes,
   Types,
-  DetailComponent,
 };

@@ -41,6 +41,8 @@
               {{ link.title }}
             </v-btn>
 
+            <settings-menu />
+
             <v-menu
               bottom
               left
@@ -310,10 +312,12 @@
 <script>
 // @ is an alias to /src
 import SearchBar from '@/components/SearchBar';
+import SettingsMenu from '@/components/SettingsMenu';
 
 export default {
   components: {
     SearchBar,
+    SettingsMenu,
   },
 
   data: () => ({

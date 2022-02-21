@@ -45,16 +45,17 @@
               <v-select
                 :items="sizeOptions"
                 dense
-                :outlined="$vuetify.breakpoint.smAndDown ? true : false"
-                :solo="$vuetify.breakpoint.smAndDown ? false : true"
+                :outlined="$vuetify.breakpoint.smAndDown"
+                :solo="!$vuetify.breakpoint.smAndDown"
                 label="Size"
                 height="38"
                 style="margin-bottom: 0 !important; height: 38px !important"
                 v-model="sizeFilter"
               >
                 <template #selection="{ item }">
-                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
-                    ? '' : 'Size ' }}{{ item.text }}</span>
+                  <span class="m-2 text-body-2">
+                    {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
+                  </span>
                 </template>
               </v-select>
             </v-col>
@@ -66,8 +67,8 @@
               <v-select
                 :items="lastSeenOptions"
                 dense
-                :outlined="$vuetify.breakpoint.smAndDown ? true : false"
-                :solo="$vuetify.breakpoint.smAndDown ? false : true"
+                :outlined="$vuetify.breakpoint.smAndDown"
+                :solo="!$vuetify.breakpoint.smAndDown"
                 label="Last seen"
                 height="38"
                 style="margin-bottom: 0 !important; height: 38px !important"
@@ -88,7 +89,7 @@
 
 <script>
 import store from '@/store';
-import { enterSearchQuery } from '../helpers/routerHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
   computed: {

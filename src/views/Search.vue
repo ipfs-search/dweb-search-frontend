@@ -51,6 +51,7 @@
               class="d-none d-lg-block"
               style="min-width: 200px"
             />
+            <settings-menu />
           </v-col>
         </v-row>
       </v-container>
@@ -69,6 +70,7 @@
 <script>
 import SearchBar from '@/components/SearchBar';
 import SearchFilters from '@/components/SearchFilters';
+import SettingsMenu from '@/components/SettingsMenu';
 import DocumentList from '@/components/results/list/DocumentList';
 import ImageList from '@/components/results/list/ImageList';
 import AudioList from '@/components/results/list/AudioList';
@@ -84,6 +86,7 @@ export default {
   components: {
     SearchBar,
     SearchFilters,
+    SettingsMenu,
     DocumentList,
     ImageList,
     AudioList,
