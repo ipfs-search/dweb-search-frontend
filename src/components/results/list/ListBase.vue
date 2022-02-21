@@ -69,11 +69,10 @@
 </template>
 
 <script>
-import SearchMixin from '@/mixins/SearchMixin';
 import { maxPages } from '@/helpers/ApiHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
-  mixins: [SearchMixin],
   computed: {
     anyFileType() {
       return this.$route.query.type === 'any' || this.$route.query.type === undefined;
@@ -89,7 +88,7 @@ export default {
   },
   methods: {
     setFileType() {
-      this.search({ type: this.$parent.fileType });
+      enterSearchQuery({ type: this.$parent.fileType });
     },
   },
 };
