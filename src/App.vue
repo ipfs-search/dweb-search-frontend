@@ -27,7 +27,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.$el.removeAttribute('hidden');
-      // this.setDefaultTheme();
     });
   },
 

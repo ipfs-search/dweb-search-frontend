@@ -14,7 +14,6 @@
     >
       <v-card
         @click="goToDetailPage(index)"
-        :class="{ blurExplicitImages }"
       >
         <v-row>
           <v-col
@@ -106,5 +105,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/blurExplicitImages';
+
 </style>
