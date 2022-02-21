@@ -71,13 +71,15 @@
 <script>
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
-import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
+import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import DetailMixin from './mixins/DetailMixin';
 
 export default {
+  setup() {
+    return { blurExplicit };
+  },
   mixins: [
     DetailMixin,
-    BlurExplicitImagesMixin,
   ],
   components: {
     MetaDataPanel,

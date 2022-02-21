@@ -123,15 +123,19 @@
 
 <script>
 import store from '@/store';
-import { Types, DetailComponent } from '@/helpers/typeHelper';
+import { Types } from '@/helpers/typeHelper';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
-import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
 import SettingsMenu from '@/components/SettingsMenu';
 
+const DetailComponent = {
+  text: () => import('@/components/results/detail/DocumentDetail'),
+  audio: () => import('@/components/results/detail/AudioDetail'),
+  images: () => import('@/components/results/detail/ImageDetail'),
+  video: () => import('@/components/results/detail/VideoDetail'),
+  directories: () => import('@/components/results/detail/DirectoryDetail'),
+};
+
 export default {
-  mixins: [
-    BlurExplicitImagesMixin,
-  ],
   components: {
     SettingsMenu,
   },

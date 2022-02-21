@@ -46,12 +46,12 @@
 
 <script>
 import theme from '@/plugins/vuetify/theme';
-import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
+import { blurExplicitImages } from '@/mixins/BlurExplicitImagesModule';
 
 export default {
-  mixins: [
-    BlurExplicitImagesMixin,
-  ],
+  setup() {
+    return { blurExplicitImages };
+  },
   computed: {
     cogwheelColor() {
       // On detail page, in light theme, the top bar is white. So a dark icon is needed.

@@ -57,7 +57,7 @@
               <div aligh="center">
                 <div v-if="blurExplicit(hit)">
                     Blurring explicit content. See settings in menubar under
-                  <v-icon>mdi-cog</v-icon>
+                  <v-icon color="white">mdi-cog</v-icon>
                 </div>
                 <div v-if="hit.nsfwClassification">
                   {{
@@ -79,14 +79,16 @@
 <script>
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
-import BlurExplicitImagesMixin from '@/mixins/BlurExplicitImagesMixin';
+import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
+  setup() {
+    return { blurExplicit };
+  },
   mixins: [
     FileListMixin,
     InfiniteScrollingMixin,
-    BlurExplicitImagesMixin,
   ],
   data() {
     return {
