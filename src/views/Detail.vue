@@ -136,15 +136,9 @@ const DetailComponent = {
 };
 
 export default {
-<<<<<<< HEAD
   components: {
     SettingsMenu,
   },
-  beforeCreate() {
-    store.commit('query/setRouteParams', this.$route.query);
-  },
-=======
->>>>>>> origin/master
   created() {
     if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
       this.$data.carouselIndex = this.selectedIndex;

@@ -89,16 +89,10 @@
 
 <script>
 import store from '@/store';
-<<<<<<< HEAD
 import { Types } from '@/helpers/typeHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
-  mixins: [SearchMixin],
-=======
-import { enterSearchQuery } from '../helpers/routerHelper';
-
-export default {
->>>>>>> origin/master
   computed: {
     lastSeenFilter: {
       get() {

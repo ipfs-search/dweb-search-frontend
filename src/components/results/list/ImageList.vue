@@ -57,9 +57,9 @@
               <div aligh="center">
                 <div v-if="blurExplicit(hit)">
                   Blurring explicit content. See settings in menubar under
-
-                  <v-icon color="white">mdi-cog</v-icon>
-
+                  <v-icon color="white">
+                    mdi-cog
+                  </v-icon>
                 </div>
                 <div v-if="hit.nsfwClassification">
                   {{
