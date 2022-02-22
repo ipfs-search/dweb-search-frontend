@@ -39,7 +39,7 @@
     </v-row>
     <v-row
       dense
-      v-if="$parent.resultsTotal > 0"
+      v-if="$parent.resultsTotal !== 0"
     >
       <slot />
     </v-row>
