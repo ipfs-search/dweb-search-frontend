@@ -1,9 +1,12 @@
 import { nsfwThresholds } from '@/helpers/constants/nsfwThresholds';
 
+export const mimetypeExemptions = ['image/svg+xml'];
+
 // for a local setup, typically use: http://localhost:8080/classify
 const nsfwApiEndpoint = process?.env?.NSFW_API || 'https://api.ipfs-search.com/v1/nsfw/classify/';
 
-function classify(cid) {
+export function classify({ cid, mimetype }) {
+  if (mimetypeExemptions.includes(mimetype)) return {};
   return fetch(`${nsfwApiEndpoint}${cid}`, {
     method: 'GET',
     headers: {
@@ -20,7 +23,7 @@ function classify(cid) {
  * @param classification
  * @returns {boolean}
  */
-function nsfw(classification) {
+export function nsfw(classification) {
   const guiltyUntilProvenInnocent = true;
   // a missing classification defaults to:
   if (!classification) return guiltyUntilProvenInnocent;
@@ -37,4 +40,5 @@ function nsfw(classification) {
 export default {
   classify,
   nsfw,
+  mimetypeExemptions,
 };

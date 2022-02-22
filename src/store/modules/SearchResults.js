@@ -85,7 +85,7 @@ function apiSearchPage({
       commit('setResults', { results, index: batch * perPage });
       if (fileType === Types.images) {
         results.hits.forEach((hit, index) => {
-          nsfwClassifier.classify(hit.hash)
+          nsfwClassifier.classify(hit)
             .then(({ classification }) => {
               commit('setNsfw', { index: index + batch * perPage, classification });
             });
