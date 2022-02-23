@@ -12,7 +12,7 @@
   >
     <template #selection="{ item }">
       <span class="m-2 text-body-2">
-        {{ $vuetify.breakpoint.smAndDown || filterLabel }} {{ item.text }}
+        {{ $vuetify.breakpoint.smAndDown || filter.label }}: {{ item.text }}
       </span>
     </template>
   </v-select>
