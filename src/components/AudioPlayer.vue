@@ -13,7 +13,7 @@
         class="audio-player-card"
         tile
         width="100%"
-        :height="playerHeight"
+        height="100"
       >
         <div class="small-viewer">
           <v-progress-linear
@@ -68,8 +68,8 @@
                     :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }"
                   >
                     <v-icon
-                      v-if="$data.error"
-                      :title="$data.error"
+                      v-if="audioError"
+                      :title="audioError"
                     >
                       mdi-alert
                     </v-icon>
@@ -120,21 +120,44 @@
 </template>
 
 <script>
-import AudioControlsMixin from '@/mixins/AudioControlsMixin';
+import { ref } from '@vue/composition-api';
+import {
+  audioData,
+  playerActive,
+  closePlayer,
+  loading,
+  progress,
+  sourceFile,
+  timer,
+  duration,
+  playing,
+  play,
+  pause,
+} from '@/mixins/AudioControlsModule';
 
 export default {
-  mixins: [
-    AudioControlsMixin,
-  ],
-  beforeDestroy() {
-    this.audioPlayer.close();
+  setup() {
+    return {
+      playerActive,
+      closePlayer,
+      loading,
+      progress,
+      sourceFile,
+      timer,
+      duration,
+      audioError: ref(audioData.audioError),
+      playing,
+      play,
+      pause,
+    };
   },
   data() {
     return {
       playerHeight: 100,
     };
   },
-  methods: {
+  beforeDestroy() {
+    this.$data.audioPlayer.close();
   },
 };
 </script>
