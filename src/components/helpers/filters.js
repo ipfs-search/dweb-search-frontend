@@ -7,7 +7,7 @@ export default [
   {
     name: 'size',
     label: 'Size',
-    options: [
+    items: [
       {
         text: '0-10mb', value: ['<=10485760'],
       },
@@ -30,7 +30,7 @@ export default [
   {
     name: 'lastSeen',
     label: 'Last seen',
-    options: [
+    items: [
       {
         text: '<24hr', value: '[ now-24h/h TO *]',
       },
