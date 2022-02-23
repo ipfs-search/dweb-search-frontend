@@ -28,10 +28,7 @@
               md="3"
             >
               <single-select-filter-module
-                :items="filter.options"
-                :filter-value="filter.value"
-                :filter-label="filter.label"
-                :on-change="filter.changeHandler"
+                :filter="filter"
               />
             </v-col>
           </v-row>
@@ -47,7 +44,6 @@ import filters from './helpers/filters';
 
 export default {
   setup() {
-    console.log(filters);
     return { filters };
   },
   components: { SingleSelectFilterModule },
