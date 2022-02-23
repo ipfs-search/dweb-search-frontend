@@ -25,60 +25,24 @@
               cols="6"
               md="3"
             >
-              <!--
-                Select component has everything setup for smooth interaction
-                (including setting values).
-
-                I strongly suggest we do everything we can to avoid creating
-                custom components; it causes A LOT of extra work on the
-                implementation side (= making things work, well, including edge cases,
-                keyboard support, accessibility etc.) If it is absolutely necessary
-                we can always do that later.
-
-                The select component wraps a menu component, so we can set any
-                properties, possibly even override template slots etc.
-
-                Ref:
-                https://vuetifyjs.com/en/components/selects/#menu-props
-                https://github.com/vuetifyjs/vuetify/tree/master/packages/vuetify/src/components/VSelect
-              -->
-              <v-select
+              <single-select-filter-module
                 :items="sizeOptions"
-                dense
-                :outlined="$vuetify.breakpoint.smAndDown"
-                :solo="!$vuetify.breakpoint.smAndDown"
-                label="Size"
-                height="38"
-                style="margin-bottom: 0 !important; height: 38px !important"
-                v-model="sizeFilter"
-              >
-                <template #selection="{ item }">
-                  <span class="m-2 text-body-2">
-                    {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
-                  </span>
-                </template>
-              </v-select>
+                :filter-model="sizeFilter"
+                filter-label="Size"
+                :on-change="changeSizeFilter"
+              />
             </v-col>
 
             <v-col
               cols="6"
               md="3"
             >
-              <v-select
+              <single-select-filter-module
                 :items="lastSeenOptions"
-                dense
-                :outlined="$vuetify.breakpoint.smAndDown"
-                :solo="!$vuetify.breakpoint.smAndDown"
-                label="Last seen"
-                height="38"
-                style="margin-bottom: 0 !important; height: 38px !important"
-                v-model="lastSeenFilter"
-              >
-                <template #selection="{ item }">
-                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
-                    ? '' : 'Last seen ' }}{{ item.text }}</span>
-                </template>
-              </v-select>
+                :filter-model="lastSeenFilter"
+                filter-label="Last seen"
+                :on-change="changeLastSeenFilter"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -90,25 +54,19 @@
 <script>
 import store from '@/store';
 import { enterSearchQuery } from '@/helpers/routerHelper';
+import SingleSelectFilterModule from '@/components/results/modules/SingleSelectFilterModule';
 
 export default {
+  setup() {
+    return {
+      changeLastSeenFilter: (value) => enterSearchQuery({ last_seen: value }),
+      changeSizeFilter: (value) => enterSearchQuery({ size: value }),
+    };
+  },
+  components: { SingleSelectFilterModule },
   computed: {
-    lastSeenFilter: {
-      get() {
-        return store.state.query.filters.lastSeen;
-      },
-      set(value) {
-        enterSearchQuery({ last_seen: value });
-      },
-    },
-    sizeFilter: {
-      get() {
-        return store.state.query.filters.size;
-      },
-      set(value) {
-        enterSearchQuery({ size: value });
-      },
-    },
+    lastSeenFilter: () => store.state.query.filters.lastSeen,
+    sizeFilter: () => store.state.query.filters.size,
   },
   data: () => ({
     sizeOptions: [
