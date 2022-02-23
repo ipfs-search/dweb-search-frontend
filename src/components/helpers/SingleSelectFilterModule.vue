@@ -1,14 +1,14 @@
 <template>
   <v-select
-    :items="items"
     dense
-    :outlined="$vuetify.breakpoint.smAndDown"
-    :solo="!$vuetify.breakpoint.smAndDown"
-    :label="filterLabel"
     height="38"
     style="margin-bottom: 0 !important; height: 38px !important"
-    :value="filterValue"
-    @change="onChange"
+    :outlined="$vuetify.breakpoint.smAndDown"
+    :solo="!$vuetify.breakpoint.smAndDown"
+    :items="filter.options"
+    :label="filter.label"
+    :value="filter.value"
+    @change="filter.changeHandler"
   >
     <template #selection="{ item }">
       <span class="m-2 text-body-2">
@@ -21,20 +21,8 @@
 <script>
 export default {
   props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    filterValue: {
-      type: [String, Array],
-      required: false,
-    },
-    filterLabel: {
-      type: String,
-      required: true,
-    },
-    onChange: {
-      type: Function,
+    filter: {
+      type: Object,
       required: true,
     },
   },
