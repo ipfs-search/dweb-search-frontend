@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { apiSearch, batchSize } from '@/helpers/ApiHelper';
-import nsfwClassifier from '@/helpers/nsfwClassifier';
+import { classify } from '@/helpers/nsfwClassifier';
 import { Types } from '@/helpers/typeHelper';
 
 const baseState = {
@@ -85,7 +85,7 @@ function apiSearchPage({
       commit('setResults', { results, index: batch * perPage });
       if (fileType === Types.images) {
         results.hits.forEach((hit, index) => {
-          nsfwClassifier.classify(hit)
+          classify(hit)
             .then(({ classification }) => {
               commit('setNsfw', { index: index + batch * perPage, classification });
             });
