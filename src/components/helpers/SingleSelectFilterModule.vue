@@ -7,7 +7,7 @@
     :label="filterLabel"
     height="38"
     style="margin-bottom: 0 !important; height: 38px !important"
-    :value="filterModel"
+    :value="filterValue"
     @change="onChange"
   >
     <template #selection="{ item }">
@@ -25,9 +25,9 @@ export default {
       type: Array,
       required: true,
     },
-    filterModel: {
+    filterValue: {
       type: [String, Array],
-      required: true,
+      required: false,
     },
     filterLabel: {
       type: String,
