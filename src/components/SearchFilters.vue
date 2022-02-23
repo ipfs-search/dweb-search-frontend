@@ -27,7 +27,11 @@
               cols="6"
               md="3"
             >
+<<<<<<< HEAD
               <select-filter
+=======
+              <single-select-filter-module
+>>>>>>> cleanup
                 :filter="filter"
               />
             </v-col>
