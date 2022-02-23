@@ -22,26 +22,16 @@
             </v-col>
 
             <v-col
+              v-for="filter in filters"
+              :key="filter.name"
               cols="6"
               md="3"
             >
               <single-select-filter-module
-                :items="sizeOptions"
-                :filter-model="sizeFilter"
-                filter-label="Size"
-                :on-change="changeSizeFilter"
-              />
-            </v-col>
-
-            <v-col
-              cols="6"
-              md="3"
-            >
-              <single-select-filter-module
-                :items="lastSeenOptions"
-                :filter-model="lastSeenFilter"
-                filter-label="Last seen"
-                :on-change="changeLastSeenFilter"
+                :items="filter.options"
+                :filter-value="filter.value"
+                :filter-label="filter.label"
+                :on-change="filter.changeHandler"
               />
             </v-col>
           </v-row>
@@ -52,55 +42,14 @@
 </template>
 
 <script>
-import store from '@/store';
-import { enterSearchQuery } from '@/helpers/routerHelper';
-import SingleSelectFilterModule from '@/components/results/modules/SingleSelectFilterModule';
+import SingleSelectFilterModule from '@/components/helpers/SingleSelectFilterModule';
+import filters from './helpers/filters';
 
 export default {
   setup() {
-    return {
-      changeLastSeenFilter: (value) => enterSearchQuery({ last_seen: value }),
-      changeSizeFilter: (value) => enterSearchQuery({ size: value }),
-    };
+    console.log(filters);
+    return { filters };
   },
   components: { SingleSelectFilterModule },
-  computed: {
-    lastSeenFilter: () => store.state.query.filters.lastSeen,
-    sizeFilter: () => store.state.query.filters.size,
-  },
-  data: () => ({
-    sizeOptions: [
-      {
-        text: '0-10mb', value: ['<=10485760'],
-      },
-      {
-        text: '10-100mb', value: ['>10485760', '<=104857600'],
-      },
-      {
-        text: '100mb-1gb', value: ['>104857600', '<=1073741824'],
-      },
-      {
-        text: '1gb+', value: ['>1073741824'],
-      },
-      {
-        text: 'any', value: [],
-      },
-    ],
-
-    lastSeenOptions: [
-      {
-        text: '<24hr', value: '[ now-24h/h TO *]',
-      },
-      {
-        text: '<7d', value: '[ now/h-7d TO *]',
-      },
-      {
-        text: '<30d', value: '[ now/d-30d TO *]',
-      },
-      {
-        text: 'any', value: '*',
-      },
-    ],
-  }),
 };
 </script>
