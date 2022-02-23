@@ -4,7 +4,7 @@
     height="38"
     style="margin-bottom: 0 !important; height: 38px !important"
     :outlined="$vuetify.breakpoint.smAndDown"
-    :items="filter.options"
+    :items="filter.items"
     :label="filter.label"
     :value="filter.value"
     @change="filter.changeHandler"
