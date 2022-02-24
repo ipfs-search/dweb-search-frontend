@@ -4,17 +4,12 @@
     height="38"
     style="margin-bottom: 0 !important; height: 38px !important"
     :outlined="$vuetify.breakpoint.smAndDown"
-    :solo="!$vuetify.breakpoint.smAndDown"
     :items="filter.options"
     :label="filter.label"
     :value="filter.value"
     @change="filter.changeHandler"
+    :multiple="filter.multiple"
   >
-    <template #selection="{ item }">
-      <span class="m-2 text-body-2">
-        {{ $vuetify.breakpoint.smAndDown || filter.label }}: {{ item.text }}
-      </span>
-    </template>
   </v-select>
 </template>
 

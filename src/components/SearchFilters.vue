@@ -27,7 +27,7 @@
               cols="6"
               md="3"
             >
-              <single-select-filter-module
+              <select-filter
                 :filter="filter"
               />
             </v-col>
@@ -39,13 +39,13 @@
 </template>
 
 <script>
-import SingleSelectFilterModule from '@/components/helpers/SingleSelectFilterModule';
+import SelectFilter from '@/components/helpers/SelectFilter';
 import filters from './helpers/filters';
 
 export default {
   setup() {
     return { filters };
   },
-  components: { SingleSelectFilterModule },
+  components: { SelectFilter },
 };
 </script>
