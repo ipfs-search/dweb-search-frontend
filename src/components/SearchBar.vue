@@ -157,5 +157,6 @@ export default {
 <style lang="scss" scoped>
   .search {
     max-width: 960px;
+    z-index: 10000;
   }
 </style>
