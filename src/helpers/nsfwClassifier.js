@@ -6,7 +6,7 @@ export const mimetypeExemptions = ['image/svg+xml'];
 const nsfwApiEndpoint = process?.env?.NSFW_API || 'https://api.ipfs-search.com/v1/nsfw/classify/';
 
 export function classify({ hash, mimetype }) {
-  if (mimetypeExemptions.includes(mimetype)) return {};
+  if (mimetypeExemptions.includes(mimetype)) return Promise.resolve({});
   return fetch(`${nsfwApiEndpoint}${hash}`, {
     method: 'GET',
     headers: {

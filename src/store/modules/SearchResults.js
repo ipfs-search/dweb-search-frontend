@@ -45,6 +45,7 @@ const mutations = {
   },
 
   setNsfw(state, { index, classification }) {
+    if (!classification) return;
     if (!state.results?.hits?.[index]) return;
     // Add actual classification for debugging purposes
     Vue.set(state.results.hits[index], 'nsfwClassification', classification);
