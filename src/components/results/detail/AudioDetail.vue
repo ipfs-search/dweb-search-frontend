@@ -56,8 +56,8 @@
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                           >
                             <AudioDetailButton
-                              v-if="$data.error"
-                              :title="$data.error"
+                              v-if="audioError"
+                              :title="audioError"
                             >
                               mdi-alert
                             </AudioDetailButton>
@@ -107,14 +107,30 @@
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import AudioDetailButton from '@/components/helpers/AudioDetailButton';
-import AudioControlsMixin from '@/mixins/AudioControlsMixin';
+import { computed, ref } from '@vue/composition-api';
+import {
+  loading, playing, loadSoundFile, play, pause, audioData,
+} from '@/mixins/AudioControlsModule';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 
 export default {
   mixins: [
     DetailMixin,
-    AudioControlsMixin,
   ],
+  setup(props) {
+    const currentlyLoadedInPlayer = computed(
+      () => props.file.hash === audioData.audioPlayer.sourceFile?.hash,
+    );
+    return {
+      loading,
+      playing,
+      loadSoundFile,
+      play,
+      pause,
+      audioError: ref(audioData.audioError),
+      currentlyLoadedInPlayer,
+    };
+  },
   components: {
     AudioDetailButton,
     MetaDataPanel,
@@ -124,11 +140,6 @@ export default {
     file: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    currentlyLoadedInPlayer() {
-      return this.$props.file.hash === this.sourceFile?.hash;
     },
   },
 };
