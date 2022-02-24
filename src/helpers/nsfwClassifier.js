@@ -5,9 +5,9 @@ export const mimetypeExemptions = ['image/svg+xml'];
 // for a local setup, typically use: http://localhost:8080/classify
 const nsfwApiEndpoint = process?.env?.NSFW_API || 'https://api.ipfs-search.com/v1/nsfw/classify/';
 
-export function classify({ cid, mimetype }) {
+export function classify({ hash, mimetype }) {
   if (mimetypeExemptions.includes(mimetype)) return {};
-  return fetch(`${nsfwApiEndpoint}${cid}`, {
+  return fetch(`${nsfwApiEndpoint}${hash}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
