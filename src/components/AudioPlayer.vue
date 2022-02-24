@@ -4,7 +4,7 @@
       v-if="playerActive"
       v-model="playerActive"
       dark
-      height="playerHeight"
+      :height="playerHeight"
       fixed
       padless
       style="z-index: 10000;"
@@ -62,7 +62,6 @@
                 </v-list-item-content>
 
                 <div
-                  class=""
                   style="height: 100%;"
                 >
                   <v-list-item-icon
@@ -132,7 +131,6 @@ export default {
   },
   data() {
     return {
-      // isSmallPlayer: true,
       playerHeight: 100,
     };
   },
