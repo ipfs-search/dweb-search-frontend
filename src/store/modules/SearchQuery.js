@@ -1,54 +1,52 @@
+import filters from '@/components/helpers/filters';
+
 const initialQuery = {
   searchPhrase: '',
   type: 'any',
   page: 1,
-  filters: {
-    lastSeen: '[ now/d-30d TO *]',
-    size: [],
-  },
+  // map filters to initial values using fancy reducer
+  filters: filters.reduce(
+    (p, { handle, items }) => ({ ...p, [handle]: items.find((i) => i.initial).value }),
+    {},
+  ),
 };
 
 /**
  * Return query params for consumption by $router.push({query})
  * Inverse of setQueryFromParams()
  * @param state
- * @returns {{q: (*|string), last_seen: Function, size: Function, page, type}}
+ * @returns {{q: (*|string), 'last-seen': Function, size: Function, page, type}}
  */
-function stateToQueryParams(state) {
+function stateToQueryParams({ searchPhrase, ...otherParams }) {
   return {
-    q: state.searchPhrase,
-    last_seen: state.filters.lastSeen,
-    size: state.filters.size,
-    type: state.type,
-    page: state.page,
+    q: searchPhrase,
+    ...otherParams,
   };
 }
 
-function getLastSeenFilters(lastSeen) {
-  if (lastSeen) {
-    return [`last-seen:${lastSeen}`];
+/**
+ * get array of API keys for a filters value(s)
+ * @param handle
+ * @param value
+ * @returns {string[]|*[]|*}
+ */
+function mapFilterValuesToApiQueryKeys(handle, value) {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value.map((v) => `${handle}:${v}`);
   }
-
-  return [];
+  // Singular value
+  return [`${handle}:${value}`];
 }
 
-function getSizeFilters(size) {
-  if (size) {
-    if (Array.isArray(size)) {
-      return size.map((value) => `size:${value}`);
-    }
-
-    // Singular value
-    return [`size:${size}`];
-  }
-
-  return [];
-}
-
-function getFilters(filters) {
-  const lastSeenFilters = getLastSeenFilters(filters.lastSeen);
-  const sizeFilters = getSizeFilters(filters.size);
-  return [...lastSeenFilters, ...sizeFilters];
+/**
+ * get array of API keys for all filters
+ * @param filterState
+ * @returns {unknown[]}
+ */
+function getFilters(filterState) {
+  return Object.entries(filterState)
+    .flatMap(([...filter]) => mapFilterValuesToApiQueryKeys(...filter));
 }
 
 /**
@@ -72,10 +70,11 @@ const mutations = {
     state.searchPhrase = params.q || initialQuery.searchPhrase;
     state.type = params.type || initialQuery.type;
     state.page = Number(params.page) || initialQuery.page;
-    state.filters = {
-      lastSeen: params.last_seen || initialQuery.filters.lastSeen,
-      size: params.size || initialQuery.filters.size,
-    };
+    // map query parameters to state to state
+    state.filters = filters.reduce(
+      (p, { handle }) => ({ ...p, [handle]: params[handle] || initialQuery.filters[handle] }),
+      {},
+    );
   },
   setPage(state, page) {
     state.page = page;

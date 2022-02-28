@@ -1,17 +1,21 @@
 module.exports = {
   root: true,
+
   env: {
     node: true,
   },
+
   extends: [
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended',
     'eslint:recommended',
     '@vue/airbnb',
   ],
+
   parserOptions: {
     parser: '@babel/eslint-parser',
   },
+
   settings: {
     'import/resolver': {
       alias: {
@@ -22,6 +26,7 @@ module.exports = {
       },
     },
   },
+
   rules: {
     'no-console': 'off',
     'max-len': [
@@ -40,4 +45,16 @@ module.exports = {
       },
     ],
   },
+
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+      ],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };

@@ -6,11 +6,10 @@
     :outlined="$vuetify.breakpoint.smAndDown"
     :items="filter.items"
     :label="filter.label"
-    :value="filter.value"
+    :value="$store.state.query.filters[filter.handle]"
     @change="filter.changeHandler"
     :multiple="filter.multiple"
-  >
-  </v-select>
+  />
 </template>
 
 <script>

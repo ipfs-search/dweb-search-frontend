@@ -40,7 +40,7 @@
 
 <script>
 import SelectFilter from '@/components/helpers/SelectFilter';
-import filters from './helpers/filters';
+import filters from './helpers/filterHelpers';
 
 export default {
   setup() {

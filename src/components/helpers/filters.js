@@ -1,23 +1,7 @@
-import store from '@/store';
-import { enterSearchQuery } from '@/helpers/routerHelper';
+// N.b. name is obsolete
 
-const changeFilter = (queryParam) => (value) => enterSearchQuery({ [queryParam]: value });
-
-function filterCreator({
-  name, label, handle, items,
-}) {
-  return {
-    name,
-    label,
-    changeHandler: changeFilter(handle),
-    items,
-    value: store.state.query.filters[name],
-  };
-}
-
-export const filters = {
-  size: {
-    name: 'size',
+export default [
+  {
     label: 'Size',
     handle: 'size',
     items: [
@@ -34,14 +18,15 @@ export const filters = {
         text: '1gb+', value: ['>1073741824'],
       },
       {
-        text: 'any', value: [],
+        text: 'any',
+        value: [],
+        initial: true,
       },
     ],
   },
-  lastSeen: {
-    name: 'lastSeen',
+  {
     label: 'Last seen',
-    handle: 'last_seen',
+    handle: 'last-seen',
     items: [
       {
         text: '<24hr', value: '[ now-24h/h TO *]',
@@ -50,15 +35,13 @@ export const filters = {
         text: '<7d', value: '[ now/h-7d TO *]',
       },
       {
-        text: '<30d', value: '[ now/d-30d TO *]',
+        text: '<30d',
+        value: '[ now/d-30d TO *]',
+        initial: true,
       },
       {
         text: 'any', value: '*',
       },
     ],
   },
-};
-export default [
-  filterCreator(filters.size),
-  filterCreator(filters.lastSeen),
 ];
