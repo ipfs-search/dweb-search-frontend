@@ -3,10 +3,23 @@ import { enterSearchQuery } from '@/helpers/routerHelper';
 
 const changeFilter = (queryParam) => (value) => enterSearchQuery({ [queryParam]: value });
 
-export default [
-  {
+function filterCreator({
+  name, label, handle, items,
+}) {
+  return {
+    name,
+    label,
+    changeHandler: changeFilter(handle),
+    items,
+    value: store.state.query.filters[name],
+  };
+}
+
+export const filters = {
+  size: {
     name: 'size',
     label: 'Size',
+    handle: 'size',
     items: [
       {
         text: '0-10mb', value: ['<=10485760'],
@@ -24,12 +37,11 @@ export default [
         text: 'any', value: [],
       },
     ],
-    changeHandler: changeFilter('size'),
-    value: store.state.query.filters.size,
   },
-  {
+  lastSeen: {
     name: 'lastSeen',
     label: 'Last seen',
+    handle: 'last_seen',
     items: [
       {
         text: '<24hr', value: '[ now-24h/h TO *]',
@@ -44,7 +56,9 @@ export default [
         text: 'any', value: '*',
       },
     ],
-    changeHandler: changeFilter('last_seen'),
-    value: store.state.query.filters.lastSeen,
   },
+};
+export default [
+  filterCreator(filters.size),
+  filterCreator(filters.lastSeen),
 ];
