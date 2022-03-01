@@ -8,6 +8,7 @@
     :label="filter.label"
     :value="$store.state.query.filters[filter.handle]"
     @change="filter.changeHandler"
+    :chips="filter.multiple"
     :multiple="filter.multiple"
   />
 </template>

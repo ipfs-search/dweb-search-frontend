@@ -1,9 +1,22 @@
-// N.b. name is obsolete
-
 export default [
   {
+    label: 'File type',
+    queryParam: 'extensions',
+    apiKey: 'references.name',
+    multiple: true,
+    items: [
+      {
+        text: 'jpeg', value: ['*.jpeg', '*.jpg'],
+      },
+      {
+        text: 'png', value: ['*.png'],
+      },
+    ],
+  },
+  {
     label: 'Size',
-    handle: 'size',
+    queryParam: 'size',
+    apiKey: 'size',
     items: [
       {
         text: '0-10mb', value: ['<=10485760'],
@@ -26,7 +39,8 @@ export default [
   },
   {
     label: 'Last seen',
-    handle: 'last-seen',
+    queryParam: 'last_seen',
+    apiKey: 'last-seen',
     items: [
       {
         text: '<24hr', value: '[ now-24h/h TO *]',

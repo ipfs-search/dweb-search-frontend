@@ -1,20 +1,25 @@
 import { enterSearchQuery } from '@/helpers/routerHelper';
 // eslint-disable-next-line import/no-named-as-default
-import filters from '@/components/helpers/filters';
+import filterDefinitions from '@/components/helpers/filterDefinitions';
 
-const changeFilter = (queryParam) => (value) => enterSearchQuery({ [queryParam]: value });
+const changeFilter = (queryParam) => (value) => {
+  console.log('change filter:', queryParam, value);
+  return enterSearchQuery({ [queryParam]: value });
+};
 
 function filterCreator({
-  label, handle, items,
+  label, queryParam, apiKey, items, multiple,
 }) {
   return {
-    handle,
+    apiKey,
+    queryParam,
     label,
-    changeHandler: changeFilter(handle),
+    changeHandler: changeFilter(queryParam),
     items,
+    multiple,
   };
 }
 
 export default [
-  ...filters.map((filter) => filterCreator(filter)),
+  ...filterDefinitions.map((filter) => filterCreator(filter)),
 ];

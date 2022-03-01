@@ -1,12 +1,12 @@
-import filters from '@/components/helpers/filters';
+import filterDefinitions from '@/components/helpers/filterDefinitions';
 
 const initialQuery = {
   searchPhrase: '',
   type: 'any',
   page: 1,
   // map filters to initial values using fancy reducer
-  filters: filters.reduce(
-    (p, { handle, items }) => ({ ...p, [handle]: items.find((i) => i.initial).value }),
+  filters: filterDefinitions.reduce(
+    (p, { queryParam, items }) => ({ ...p, [queryParam]: items.find((i) => i.initial)?.value }),
     {},
   ),
 };
@@ -26,17 +26,21 @@ function stateToQueryParams({ searchPhrase, ...otherParams }) {
 
 /**
  * get array of API keys for a filters value(s)
- * @param handle
+ * @param param
  * @param value
  * @returns {string[]|*[]|*}
  */
-function mapFilterValuesToApiQueryKeys(handle, value) {
+function mapFilterValuesToApiQueryKeys(param, value) {
   if (!value) return [];
+  const { multiple, apiKey } = filterDefinitions.find(({ queryParam }) => queryParam === param);
+  if (multiple) {
+    return `${apiKey}:("${value.flat().join('" OR "')}")`;
+  }
   if (Array.isArray(value)) {
-    return value.map((v) => `${handle}:${v}`);
+    return value.map((v) => `${apiKey}:${v}`);
   }
   // Singular value
-  return [`${handle}:${value}`];
+  return [`${apiKey}:${value}`];
 }
 
 /**
@@ -66,13 +70,19 @@ const getters = {
 const mutations = {
   // Mutations relating to query composition
   setRouteParams(state, params) {
+    // map query parameters to state
     // Inverse of getters.queryParams
+    console.log('set route params', state, params);
     state.searchPhrase = params.q || initialQuery.searchPhrase;
     state.type = params.type || initialQuery.type;
     state.page = Number(params.page) || initialQuery.page;
-    // map query parameters to state to state
-    state.filters = filters.reduce(
-      (p, { handle }) => ({ ...p, [handle]: params[handle] || initialQuery.filters[handle] }),
+    state.filters = filterDefinitions.reduce(
+      (p, { queryParam }) => (
+        {
+          ...p,
+          [queryParam]: params[queryParam] || initialQuery.filters[queryParam],
+        }
+      ),
       {},
     );
   },
