@@ -6,7 +6,7 @@
     :outlined="$vuetify.breakpoint.smAndDown"
     :items="filter.items"
     :label="filter.label"
-    :value="$store.state.query.filters[filter.handle]"
+    :value="$store.state.query.filters[filter.queryParam]"
     @change="filter.changeHandler"
     :chips="filter.multiple"
     :multiple="filter.multiple"

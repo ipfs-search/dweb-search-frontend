@@ -72,15 +72,23 @@ const mutations = {
   setRouteParams(state, params) {
     // map query parameters to state
     // Inverse of getters.queryParams
-    console.log('set route params', state, params);
     state.searchPhrase = params.q || initialQuery.searchPhrase;
     state.type = params.type || initialQuery.type;
     state.page = Number(params.page) || initialQuery.page;
     state.filters = filterDefinitions.reduce(
-      (p, { queryParam }) => (
+      (p, { queryParam, multiple }) => (
         {
           ...p,
-          [queryParam]: params[queryParam] || initialQuery.filters[queryParam],
+          // mapping of multiple-select values is complex.
+          // todo: consider using item.text as the queryParam in stead of the item.value
+          // because some values are arrays and these make mapping code more complex
+          // eslint-disable-next-line no-nested-ternary
+          [queryParam]: (multiple
+            ? (typeof params[queryParam] === 'string'
+              ? [params[queryParam].split(',')]
+              : params[queryParam].map((value) => (typeof value === 'string'
+                ? value.split(',') : value)))
+            : params[queryParam]) || initialQuery.filters[queryParam],
         }
       ),
       {},
