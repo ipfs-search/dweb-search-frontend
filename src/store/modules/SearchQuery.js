@@ -1,7 +1,8 @@
-import filterDefinitions from '@/components/helpers/filterDefinitions';
+import filterDefinitions, { extensions } from '@/components/helpers/filterDefinitions';
 
 const defaultQuery = {
   searchPhrase: '',
+  // todo: remove after properly arranging filer definitions
   type: 'any',
   page: 1,
   // map filters to initial values using fancy reducer
@@ -12,40 +13,32 @@ const defaultQuery = {
 };
 
 /**
- * get array of API keys for a filters value(s)
- * @param param
- * @param value
- * @returns {string[]}
- */
-function mapFilterValuesToApiQueryKeys(param, value) {
-  if (!value) return [];
-  const {
-    multiple,
-    apiKey,
-    items,
-  } = filterDefinitions.find(({ queryParam }) => queryParam === param);
-  // get array of api entries for the selected item(s)
-  const apiEntries = items
-    .filter((item) => (multiple ? value.includes(item.value) : value === item.value))
-    .flatMap(({ apiEntry }) => apiEntry || []);
-  if (apiEntries.length === 0) return [];
-  // multiple options implies: use disjunctive operator 'OR' for the elastic search API.
-  if (multiple) {
-    return [
-      `${apiKey}:(${apiEntries.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ')})`,
-    ];
-  }
-  return apiEntries.map((apiEntry) => `${apiKey}:${apiEntry}`);
-}
-
-/**
  * get array of API keys for all filters
  * @param filterState
  * @returns {unknown[]}
  */
 function getFilters(filterState) {
   return Object.entries(filterState)
-    .flatMap(([...filter]) => mapFilterValuesToApiQueryKeys(...filter));
+    .flatMap(([param, value]) => {
+      const {
+        multiple,
+        apiKey,
+        items,
+      } = filterDefinitions.find(({ queryParam }) => queryParam === param);
+      const filterItems = items.length ? items : extensions[filterState.type];
+      // get array of api entries for the selected item(s)
+      const apiEntries = filterItems
+        .filter((item) => (multiple ? value.includes(item.value) : value === item.value))
+        .flatMap(({ apiEntry }) => apiEntry || []);
+      if (apiEntries.length === 0) return [];
+      // multiple options implies: use disjunctive operator 'OR' for the elastic search API.
+      if (multiple) {
+        return [
+          `${apiKey}:(${apiEntries.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ')})`,
+        ];
+      }
+      return apiEntries.map((apiEntry) => `${apiKey}:${apiEntry}`);
+    });
 }
 
 /**
@@ -67,6 +60,7 @@ const mutations = {
     // map query parameters to state
     // Inverse of getters.queryParams
     state.searchPhrase = params.q || defaultQuery.searchPhrase;
+    // todo: remove after properly arranging filer definitions
     state.type = params.type || defaultQuery.type;
     state.page = Number(params.page) || defaultQuery.page;
     filterDefinitions.forEach(({ queryParam }) => {

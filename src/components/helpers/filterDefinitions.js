@@ -39,6 +39,87 @@ export const legacyTypes = {
   ],
 };
 
+export const extensions = {
+  [Types.text]: [
+    {
+      text: 'pdf',
+      value: 'pdf',
+      apiEntry: ['*.pdf'],
+    },
+    {
+      text: 'doc',
+      value: 'doc',
+      apiEntry: ['*.doc', '*.docx'],
+    },
+    {
+      text: 'epub',
+      value: 'epub',
+      apiEntry: ['*.epub'],
+    },
+  ],
+  [Types.audio]: [
+    {
+      text: 'mp3',
+      value: 'mp3',
+      apiEntry: ['*.mp3'],
+    },
+    {
+      text: 'flac',
+      value: 'flac',
+      apiEntry: ['*.flac'],
+    },
+    {
+      text: 'midi',
+      value: 'midi',
+      apiEntry: ['*.mid', '*.midi'],
+    },
+  ],
+  [Types.video]: [
+  ],
+  [Types.images]: [
+    {
+      text: 'jpeg',
+      value: 'jpeg',
+      apiEntry: ['*.jpeg', '*.jpg', '*.jfif', '*.pjpeg', '*.pjp'],
+    },
+    {
+      text: 'png',
+      value: 'png',
+      apiEntry: ['*.png'],
+    },
+    {
+      text: 'gif',
+      value: 'gif',
+      apiEntry: ['*.gif'],
+    },
+    {
+      text: 'svg',
+      value: 'svg',
+      apiEntry: ['*.svg'],
+    },
+    {
+      text: 'WebP',
+      value: 'WebP',
+      apiEntry: ['*.webp'],
+    },
+    {
+      text: 'Ico',
+      value: 'Ico',
+      apiEntry: ['*.ico', '*.cur'],
+    },
+    {
+      text: 'Tiff',
+      value: 'Tiff',
+      apiEntry: ['*.tiff', '*.tif'],
+    },
+    {
+      text: 'bmp',
+      value: 'bmp',
+      apiEntry: ['*.bmp'],
+    },
+  ],
+};
+
 export default [
   {
     label: 'Type',
@@ -59,18 +140,7 @@ export default [
     queryParam: 'extensions',
     apiKey: 'references.name',
     multiple: true,
-    items: [
-      {
-        text: 'jpeg',
-        value: 'jpeg',
-        apiEntry: ['*.jpeg', '*.jpg'],
-      },
-      {
-        text: 'png',
-        value: 'png',
-        apiEntry: ['*.png'],
-      },
-    ],
+    items: [],
   },
   {
     label: 'Size',
