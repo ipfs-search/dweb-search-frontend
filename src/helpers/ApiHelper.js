@@ -6,14 +6,6 @@ export const api = new DefaultApi();
 export const maxPages = 100;
 export const batchSize = 15;
 
-//
-// // TODO: refactor this, potentially into the filterHelper code
-// export function legacyTypeFilter(typeList) {
-//   // Add quotes for literals, leave wildcards as-is
-//   const t = typeList.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ');
-//   return ` metadata.Content-Type:(${t})`;
-// }
-
 /**
  * gets metadata from api and normalizes it to the format from the search API
  * @param hash

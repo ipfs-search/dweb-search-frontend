@@ -40,7 +40,7 @@
                 <v-list-item
                   v-for="t in searchTypes"
                   :key="t"
-                  @click="type=t"
+                  @click="type = t"
                 >
                   <v-list-item-title
                     class="text-capitalize"

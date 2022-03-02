@@ -1,5 +1,7 @@
+import { Types } from '@/helpers/typeHelper';
+
 export const legacyTypes = {
-  text: [
+  [Types.text]: [
     // eBook types
     'application/x-mobipocket-ebook',
     'application/epub+zip',
@@ -24,23 +26,22 @@ export const legacyTypes = {
     // Misc
     'application/x-abiword',
   ],
-  audio: [
+  [Types.audio]: [
     'audio*',
     // 'application/ogg',
   ],
-  video: [
+  [Types.video]: [
     'video*',
     // 'application/mp4'
   ],
-  images: [
+  [Types.images]: [
     'image*',
   ],
-  directories: [],
 };
 
 export default [
   {
-    label: 'type',
+    label: 'Type',
     // this is put as 'multiple', because then the api uses an 'OR' operator.
     // It's a hack, using the fact that the type filter isn't used with the v-select component
     // otherwise a piece of data+logic is needed to make the choice for the API.
@@ -54,7 +55,7 @@ export default [
     })),
   },
   {
-    label: 'File extension',
+    label: 'File extensions',
     queryParam: 'extensions',
     apiKey: 'references.name',
     multiple: true,
@@ -93,7 +94,7 @@ export default [
       },
       {
         text: '1gb+',
-        value: '1gb+',
+        value: '>1gb',
         apiEntry: ['>1073741824'],
       },
       {
