@@ -19,7 +19,9 @@ export default {
       return store.getters[`results/${this.fileType}/loading`];
     },
     error() {
-      return store.getters[`results/${this.fileType}/error`];
+      const error = store.getters[`results/${this.fileType}/error`];
+      if (error) console.error('Error loading results', error);
+      return error;
     },
     resultsTotal() {
       const total = store.getters[`results/${this.fileType}/resultsTotal`];
