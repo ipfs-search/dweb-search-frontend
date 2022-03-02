@@ -5,9 +5,10 @@ import filterDefinitions from '@/components/helpers/filterDefinitions';
 
 const changeFilter = (queryParam) => (value) => enterSearchQuery({ [queryParam]: value });
 
-function filterCreator({
+export function filterCreator({
   label, queryParam, apiKey, items, multiple,
 }) {
+  // multiple select filters will choke if they get a string value
   let value = store.state.query.filters[queryParam];
   if (multiple && typeof value === 'string') {
     value = [value];
@@ -24,5 +25,8 @@ function filterCreator({
 }
 
 export default [
-  ...filterDefinitions.map((filter) => filterCreator(filter)),
+  ...filterDefinitions
+    // the type filter is placed outside of the usual filters.
+    .filter(({ queryParam }) => queryParam !== 'type')
+    .map((filter) => filterCreator(filter)),
 ];

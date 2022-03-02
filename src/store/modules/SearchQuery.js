@@ -19,14 +19,19 @@ const defaultQuery = {
  */
 function mapFilterValuesToApiQueryKeys(param, value) {
   if (!value) return [];
-  const { multiple, apiKey, items } = filterDefinitions.find(({ queryParam }) => queryParam === param);
+  const {
+    multiple,
+    apiKey,
+    items,
+  } = filterDefinitions.find(({ queryParam }) => queryParam === param);
   const apiEntries = items
     .filter((item) => (multiple ? value.includes(item.value) : value === item.value))
     .flatMap(({ apiEntry }) => apiEntry);
-  console.log(param, value, apiEntries);
-  // multiple means: or
+  // multiple options means: 'or', disjunctive operator for the API.
   if (multiple) {
-    return [`${apiKey}:("${apiEntries.join('" OR "')}")`];
+    return [
+      `${apiKey}:(${apiEntries.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ')})`,
+    ];
   }
   return apiEntries.map((apiEntry) => `${apiKey}:${apiEntry}`);
 }

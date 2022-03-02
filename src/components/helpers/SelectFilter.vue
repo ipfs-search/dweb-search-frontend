@@ -1,8 +1,8 @@
 <template>
   <v-select
+    class="v-select"
     dense
     height="38"
-    style="margin-bottom: 0 !important; height: 38px !important"
     :outlined="$vuetify.breakpoint.smAndDown"
     :items="filter.items"
     :label="filter.label"
@@ -23,3 +23,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-select {
+  margin-bottom: 0 !important;
+  height: 38px !important
+}
+</style>
