@@ -24,10 +24,12 @@ function mapFilterValuesToApiQueryKeys(param, value) {
     apiKey,
     items,
   } = filterDefinitions.find(({ queryParam }) => queryParam === param);
+  // get array of api entries for the selected item(s)
   const apiEntries = items
     .filter((item) => (multiple ? value.includes(item.value) : value === item.value))
-    .flatMap(({ apiEntry }) => apiEntry);
-  // multiple options means: 'or', disjunctive operator for the API.
+    .flatMap(({ apiEntry }) => apiEntry || []);
+  if (apiEntries.length === 0) return [];
+  // multiple options implies: use disjunctive operator 'OR' for the elastic search API.
   if (multiple) {
     return [
       `${apiKey}:(${apiEntries.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ')})`,

@@ -39,7 +39,7 @@ export default {
       return this.results.slice(0, this.shortList);
     },
     pageCount() {
-      return Math.ceil(this.resultsTotal / batchSize);
+      return Math.ceil(store.getters[`results/${this.fileType}/resultsTotal`] / batchSize);
     },
     queryPage: {
       get() { return Number(this.$route.query.page); },
