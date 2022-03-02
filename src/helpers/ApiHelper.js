@@ -45,6 +45,7 @@ export const legacyTypes = {
   ],
 };
 
+// TODO: refactor this, potentially into the filterHelper code
 export function legacyTypeFilter(typeList) {
   // Add quotes for literals, leave wildcards as-is
   const t = typeList.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ');

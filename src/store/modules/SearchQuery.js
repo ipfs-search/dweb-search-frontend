@@ -1,6 +1,6 @@
 import filterDefinitions from '@/components/helpers/filterDefinitions';
 
-const initialQuery = {
+const defaultQuery = {
   searchPhrase: '',
   type: 'any',
   page: 1,
@@ -12,35 +12,23 @@ const initialQuery = {
 };
 
 /**
- * Return query params for consumption by $router.push({query})
- * Inverse of setQueryFromParams()
- * @param state
- * @returns {{q: (*|string), 'last-seen': Function, size: Function, page, type}}
- */
-function stateToQueryParams({ searchPhrase, ...otherParams }) {
-  return {
-    q: searchPhrase,
-    ...otherParams,
-  };
-}
-
-/**
  * get array of API keys for a filters value(s)
  * @param param
  * @param value
- * @returns {string[]|*[]|*}
+ * @returns {string[]}
  */
 function mapFilterValuesToApiQueryKeys(param, value) {
   if (!value) return [];
-  const { multiple, apiKey } = filterDefinitions.find(({ queryParam }) => queryParam === param);
+  const { multiple, apiKey, items } = filterDefinitions.find(({ queryParam }) => queryParam === param);
+  const apiEntries = items
+    .filter((item) => (multiple ? value.includes(item.value) : value === item.value))
+    .flatMap(({ apiEntry }) => apiEntry);
+  console.log(param, value, apiEntries);
+  // multiple means: or
   if (multiple) {
-    return `${apiKey}:("${value.flat().join('" OR "')}")`;
+    return [`${apiKey}:("${apiEntries.join('" OR "')}")`];
   }
-  if (Array.isArray(value)) {
-    return value.map((v) => `${apiKey}:${v}`);
-  }
-  // Singular value
-  return [`${apiKey}:${value}`];
+  return apiEntries.map((apiEntry) => `${apiKey}:${apiEntry}`);
 }
 
 /**
@@ -63,7 +51,6 @@ function apiQueryString(state) {
 }
 
 const getters = {
-  stateToQueryParams,
   apiQueryString,
 };
 
@@ -72,27 +59,12 @@ const mutations = {
   setRouteParams(state, params) {
     // map query parameters to state
     // Inverse of getters.queryParams
-    state.searchPhrase = params.q || initialQuery.searchPhrase;
-    state.type = params.type || initialQuery.type;
-    state.page = Number(params.page) || initialQuery.page;
-    state.filters = filterDefinitions.reduce(
-      (p, { queryParam, multiple }) => (
-        {
-          ...p,
-          // mapping of multiple-select values is complex.
-          // todo: consider using item.text as the queryParam in stead of the item.value
-          // because some values are arrays and these make mapping code more complex
-          // eslint-disable-next-line no-nested-ternary
-          [queryParam]: (multiple
-            ? (typeof params[queryParam] === 'string'
-              ? [params[queryParam].split(',')]
-              : params[queryParam].map((value) => (typeof value === 'string'
-                ? value.split(',') : value)))
-            : params[queryParam]) || initialQuery.filters[queryParam],
-        }
-      ),
-      {},
-    );
+    state.searchPhrase = params.q || defaultQuery.searchPhrase;
+    state.type = params.type || defaultQuery.type;
+    state.page = Number(params.page) || defaultQuery.page;
+    filterDefinitions.forEach(({ queryParam }) => {
+      state.filters[queryParam] = params[queryParam] ?? defaultQuery.filters[queryParam];
+    });
   },
   setPage(state, page) {
     state.page = page;
@@ -133,7 +105,8 @@ const actions = {
     }
   },
 };
-const state = () => ({ ...initialQuery }); // Copy fields, prevent reference.
+
+const state = () => ({ ...defaultQuery }); // Copy fields, prevent reference.
 
 export default {
   namespaced: true,
