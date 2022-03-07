@@ -1,45 +1,11 @@
-import filterDefinitions, { extensions } from '@/components/helpers/filterDefinitions';
+import filters from '@/store/modules/filterSubModule';
 
 const defaultQuery = {
   searchPhrase: '',
-  // todo: remove after properly arranging filer definitions
+  // todo: remove after properly arranging filter definitions
   type: 'any',
   page: 1,
-  // map filters to initial values using fancy reducer
-  filters: filterDefinitions.reduce(
-    (p, { queryParam, items }) => ({ ...p, [queryParam]: items.find((i) => i.initial)?.value }),
-    {},
-  ),
 };
-
-/**
- * get array of API keys for all filters
- * @param filterState
- * @returns {unknown[]}
- */
-function getFilters(filterState) {
-  return Object.entries(filterState)
-    .flatMap(([param, value]) => {
-      const {
-        multiple,
-        apiKey,
-        items,
-      } = filterDefinitions.find(({ queryParam }) => queryParam === param);
-      const filterItems = items.length ? items : extensions[filterState.type];
-      // get array of api entries for the selected item(s)
-      const apiEntries = filterItems
-        .filter((item) => (multiple ? value.includes(item.value) : value === item.value))
-        .flatMap(({ apiEntry }) => apiEntry || []);
-      if (apiEntries.length === 0) return [];
-      // multiple options implies: use disjunctive operator 'OR' for the elastic search API.
-      if (multiple) {
-        return [
-          `${apiKey}:(${apiEntries.map((x) => (x.includes('*') && x) || `"${x}"`).join(' OR ')})`,
-        ];
-      }
-      return apiEntries.map((apiEntry) => `${apiKey}:${apiEntry}`);
-    });
-}
 
 /**
  * flatten query and filters into a string, but not the page or the filetype
@@ -47,7 +13,7 @@ function getFilters(filterState) {
  * @returns {string}
  */
 function apiQueryString(state) {
-  return [state.searchPhrase, ...getFilters(state.filters)].join(' ');
+  return [state.searchPhrase, ...state.filters.getters.mapFiltersToApi(state.filters)].join(' ');
 }
 
 const getters = {
@@ -56,15 +22,15 @@ const getters = {
 
 const mutations = {
   // Mutations relating to query composition
-  setRouteParams(state, params) {
+  setRouteParams(state, routeParams) {
     // map query parameters to state
     // Inverse of getters.queryParams
-    state.searchPhrase = params.q || defaultQuery.searchPhrase;
+    state.searchPhrase = routeParams.q || defaultQuery.searchPhrase;
     // todo: remove after properly arranging filer definitions
-    state.type = params.type || defaultQuery.type;
-    state.page = Number(params.page) || defaultQuery.page;
-    filterDefinitions.forEach(({ queryParam }) => {
-      state.filters[queryParam] = params[queryParam] ?? defaultQuery.filters[queryParam];
+    state.type = routeParams.type || defaultQuery.type;
+    state.page = Number(routeParams.page) || defaultQuery.page;
+    Object.keys(state.filters).forEach((filter) => {
+      state.filters[filter].select(routeParams);
     });
   },
   setPage(state, page) {
@@ -78,12 +44,6 @@ const mutations = {
       // Never decrease below 0
       state.page -= 1;
     }
-  },
-  setLastSeenFilter(state, lastSeen) {
-    state.filters.lastSeen = lastSeen;
-  },
-  setSizeFilter(state, size) {
-    state.filters.size = size;
   },
 };
 
@@ -115,4 +75,7 @@ export default {
   getters,
   mutations,
   actions,
+  modules: {
+    filters,
+  },
 };

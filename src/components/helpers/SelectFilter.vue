@@ -2,19 +2,28 @@
   <v-select
     class="v-select"
     dense
-    height="38"
+    height="38px"
     :outlined="$vuetify.breakpoint.smAndDown"
-    :items="filter.items"
+    :items="filter.options"
     :label="filter.label"
     :value="filter.value"
-    @change="filter.changeHandler"
+    @change="change"
     :chips="filter.multiple"
     :multiple="filter.multiple"
   />
 </template>
 
 <script>
+import { enterSearchQuery } from '@/helpers/routerHelper';
+
+const changeFilter = (slug) => (value) => enterSearchQuery({ [slug]: value });
+
 export default {
+  computed: {
+    change() {
+      return changeFilter(this.filter.slug);
+    },
+  },
   props: {
     filter: {
       type: Object,

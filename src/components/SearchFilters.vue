@@ -40,10 +40,11 @@
 
 <script>
 import SelectFilter from '@/components/helpers/SelectFilter';
-import filters from './helpers/filterHelpers';
+import store from '@/store';
 
 export default {
   setup() {
+    const filters = store.getters['query/filters/uiFilters'];
     return { filters };
   },
   components: { SelectFilter },
