@@ -1,6 +1,6 @@
 import { computed } from '@vue/composition-api';
 import store from '@/store';
-import nsfwClassifier from '@/helpers/nsfwClassifier';
+import { mimetypeExemptions, nsfw } from '@/helpers/nsfwClassifier';
 
 export const blurExplicitImages = computed({
   get() {
@@ -11,8 +11,9 @@ export const blurExplicitImages = computed({
   },
 });
 
-export function blurExplicit({ nsfwClassification }) {
-  return blurExplicitImages.value && nsfwClassifier.nsfw(nsfwClassification);
+export function blurExplicit({ mimetype, nsfwClassification }) {
+  if (mimetypeExemptions.includes(mimetype)) return false;
+  return blurExplicitImages.value && nsfw(nsfwClassification);
 }
 
 export default {
