@@ -1,6 +1,7 @@
 import { Types } from '@/helpers/typeHelper';
 
 export const legacyTypes = {
+  [Types.directories]: [],
   [Types.text]: [
     // eBook types
     'application/x-mobipocket-ebook',
@@ -40,6 +41,8 @@ export const legacyTypes = {
 };
 
 export const extensions = {
+  [Types.any]: [],
+  [Types.directories]: [],
   [Types.text]: [
     {
       label: 'pdf',
@@ -126,11 +129,19 @@ export default [
     slug: 'type',
     apiKey: 'metadata.Content-Type',
     apiValuesUnion: true,
-    items: Object.entries(legacyTypes).map(([type, values]) => ({
-      label: type,
-      slug: type,
-      apiValue: values,
-    })),
+    options: [
+      {
+        label: 'Any',
+        slug: 'any',
+        default: true,
+        apiValue: [],
+      },
+      ...Object.entries(legacyTypes).map(([type, values]) => ({
+        label: type,
+        slug: type,
+        apiValue: values,
+      })),
+    ],
   },
   {
     label: 'File extensions',
@@ -138,13 +149,13 @@ export default [
     apiKey: 'references.name',
     apiValuesUnion: true,
     multiple: true,
-    items: extensions,
+    options: extensions,
   },
   {
     label: 'Size',
     slug: 'size',
     apiKey: 'size',
-    items: [
+    options: [
       {
         label: '0-10mb',
         slug: '0-10mb',
@@ -177,7 +188,7 @@ export default [
     label: 'Last seen',
     slug: 'last_seen',
     apiKey: 'last-seen',
-    items: [
+    options: [
       {
         label: '<24hr',
         slug: '<24hr',

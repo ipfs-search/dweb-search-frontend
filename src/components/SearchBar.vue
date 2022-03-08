@@ -92,7 +92,7 @@ export default {
       },
     },
     type: {
-      get: () => store.state.query.type,
+      get: () => store.getters['query/filters/typeFilter'].value,
       set(newType) {
         if (this.type !== newType) {
           enterSearchQuery({ type: newType });
