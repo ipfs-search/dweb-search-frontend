@@ -1,7 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 import filterDefinitions from '@/components/helpers/filterDefinitions';
 
-class FilterOption {
+export class FilterOption {
   constructor(option) {
     Object.assign(this, option);
   }
@@ -39,7 +39,7 @@ class FilterOption {
   }
 }
 
-class Filter {
+export class Filter {
   constructor({ options, ...filterProperties }) {
     Object.assign(this, filterProperties);
     this.items = Array.isArray(options)
@@ -109,13 +109,13 @@ class Filter {
  */
 function mapFiltersToApi(filters) {
   const apiValueFormatter = (x) => (x.includes('*') ? x : `"${x}"`);
-  return Object.values(filters).map((filter) => {
+  return Object.values(filters).flatMap((filter) => {
     // get array of api values for the selected item(s)
     const apiValues = filter.selectedOptions?.flatMap(({ apiValue }) => apiValue || []);
     if (!apiValues?.length) return [];
     return filter.apiValuesUnion
       // if apiValuesUnion is selected, the values are joined by the 'OR' operator
-      ? [`${filter.apiKey}:(${apiValues.map(apiValueFormatter).join(' OR ')})`]
+      ? `${filter.apiKey}:(${apiValues.map(apiValueFormatter).join(' OR ')})`
       : apiValues.map((apiValue) => `${filter.apiKey}:${apiValue}`);
   });
 }
