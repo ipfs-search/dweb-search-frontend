@@ -149,7 +149,7 @@ export default [
     apiKey: 'references.name',
     apiValuesUnion: true,
     multiple: true,
-    options: extensions,
+    options: [], // extensions,
   },
   {
     label: 'Size',
