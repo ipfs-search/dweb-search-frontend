@@ -116,12 +116,17 @@ export default (fileType) => ({
      * @param perPage
      * @returns {Promise<*>}
      */
-    async fetchPage({ state, commit, rootGetters }, {
+    async fetchPage({
+      state, commit, rootGetters, rootState,
+    }, {
       page = 1, perPage = batchSize,
     }) {
       const batch = page - 1;
 
-      const apiQueryString = rootGetters['query/apiQueryString'];
+      const apiQueryString = [
+        rootState.query.searchPhrase,
+        ...rootGetters['query/filters/mapFiltersToApi'](fileType),
+      ].join(' ');
       cleanUpResults({ state, commit, apiQueryString });
 
       if (state.results?.total <= batch * perPage) return [];

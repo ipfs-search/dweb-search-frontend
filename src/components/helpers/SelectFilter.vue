@@ -4,7 +4,7 @@
     dense
     height="38px"
     :outlined="$vuetify.breakpoint.smAndDown"
-    :items="filter.options"
+    :items="filter.items"
     :label="filter.label"
     :value="filter.value"
     @change="change"

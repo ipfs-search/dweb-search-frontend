@@ -42,7 +42,7 @@ export class FilterOption {
 export class Filter {
   constructor({ options, ...filterProperties }) {
     Object.assign(this, filterProperties);
-    this.items = Array.isArray(options)
+    this.options = Array.isArray(options)
       ? options.map(FilterOption.generate)
       // reduce serves (here) as a map function for objects
       : Object.entries(options).reduce((p, [selector, optionValues]) => (
@@ -59,16 +59,16 @@ export class Filter {
 
   multiple = false
 
-  items = []
+  options = []
 
   /**
    * @returns {*[]}
    */
-  get options() {
-    return Array.isArray(this.items)
-      ? this.items
+  get items() {
+    return Array.isArray(this.options)
+      ? this.options
       // eslint-disable-next-line no-use-before-define
-      : this.items[filterState.type?.selectedSlug] || [];
+      : this.options[filterState.type?.selectedSlug] || [];
   }
 
   /**
@@ -77,18 +77,19 @@ export class Filter {
    */
   select(selection) {
     const selected = [selection].flat(); // coerce to array
-    this.options.forEach((option) => {
+    this.items.forEach((option) => {
       option.select(selection ? selected.includes(option.slug) : option.default);
     });
+    return this;
   }
 
   get selectedOptions() {
-    return this.options.filter((option) => option.selected);
+    return this.items.filter((option) => option.selected);
   }
 
   get selectedOption() {
     if (this.multiple) throw Error(`Can't return single value for multiple select: ${this.label}`);
-    return this.options.find((option) => option.selected);
+    return this.items.find((option) => option.selected);
   }
 
   get selectedSlug() {
@@ -102,23 +103,27 @@ export class Filter {
   }
 }
 
+const apiValueFormatter = (x) => (x.includes('*') ? x : `"${x}"`);
 /**
  * get array of API query entries for all filters
+ * Needs a selection mapping for the 'type' filter, because of special 'any' type.
  * @param filterState
  * @returns string[]
  */
-function mapFiltersToApi(filters) {
-  const apiValueFormatter = (x) => (x.includes('*') ? x : `"${x}"`);
-  return Object.values(filters).flatMap((filter) => {
-    // get array of api values for the selected item(s)
-    const apiValues = filter.selectedOptions?.flatMap(({ apiValue }) => apiValue || []);
-    if (!apiValues?.length) return [];
-    return filter.apiValuesUnion
-      // if apiValuesUnion is selected, the values are joined by the 'OR' operator
-      ? `${filter.apiKey}:(${apiValues.map(apiValueFormatter).join(' OR ')})`
-      : apiValues.map((apiValue) => `${filter.apiKey}:${apiValue}`);
-  });
-}
+const mapFiltersToApi = (filters) => (fileType) => Object.values({
+  ...filters,
+  type: (new Filter(filters.type)).select(fileType),
+}).flatMap((filter) => {
+  // console.log(filter.apiKey, filter, filter.selectedOptions);
+  // get array of api values for the selected item(s)
+  const apiValues = filter.selectedOptions?.flatMap(({ apiValue }) => apiValue || []);
+  if (!apiValues?.length) return [];
+  return filter.apiValuesUnion
+    // if apiValuesUnion is selected, the values are joined by the 'OR' operator
+    ? `${filter.apiKey}:(${apiValues.map(apiValueFormatter).join(' OR ')})`
+    // otherwise, they are put as separate key:value pairs, (which act conjunctively)
+    : apiValues.map((apiValue) => `${filter.apiKey}:${apiValue}`);
+});
 
 const filterState = filterDefinitions.reduce((p, definition) => (
   { [definition.slug]: new Filter(definition), ...p }), {});

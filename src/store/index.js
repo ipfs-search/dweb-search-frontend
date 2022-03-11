@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import localStorage from '@/store/modules/localStorage';
+import { Types } from '@/helpers/typeHelper';
 import SearchQuery from './modules/SearchQuery';
 import SearchResults from './modules/SearchResults';
 
@@ -14,11 +15,11 @@ export default new Vuex.Store({
     results: {
       namespaced: true,
       modules: {
-        text: SearchResults('text'),
-        images: SearchResults('images'),
-        audio: SearchResults('audio'),
-        video: SearchResults('video'),
-        directories: SearchResults('directories'),
+        [Types.text]: SearchResults(Types.text),
+        [Types.images]: SearchResults(Types.images),
+        [Types.audio]: SearchResults(Types.audio),
+        [Types.video]: SearchResults(Types.video),
+        [Types.directories]: SearchResults(Types.directories),
       },
     },
   },

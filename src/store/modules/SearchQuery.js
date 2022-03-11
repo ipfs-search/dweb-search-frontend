@@ -5,19 +5,6 @@ const defaultQuery = {
   page: 1,
 };
 
-/**
- * flatten query and filters into a string, but not the page or the filetype
- * @param state
- * @returns {string}
- */
-function apiQueryString(state, getters) {
-  return [state.searchPhrase, ...getters['filters/mapFiltersToApi']].join(' ');
-}
-
-const getters = {
-  apiQueryString,
-};
-
 const mutations = {
   setRouteParams(state, routeParams) {
     // map query parameters to state
@@ -34,7 +21,6 @@ const state = () => ({ ...defaultQuery }); // Copy fields, prevent reference.
 export default {
   namespaced: true,
   state,
-  getters,
   mutations,
   modules: {
     filters,
