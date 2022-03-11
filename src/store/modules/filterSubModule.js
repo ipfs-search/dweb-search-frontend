@@ -137,7 +137,7 @@ export default {
       .filter(({ slug }) => slug !== 'type')
       // exclude filters that don't have any options
       // such as file extension filter when 'type'-filter is 'any' or 'directories'
-      .filter(({ options }) => options.length),
+      .filter(({ items }) => items.length),
     typeFilter: (state) => state.type,
     mapFiltersToApi,
   },
