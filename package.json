@@ -11,6 +11,7 @@
     "dev": "vue-cli-service serve --skip-plugins @vue/cli-plugin-eslint"
   },
   "dependencies": {
+    "@cospired/i18n-iso-languages": "^3.1.1",
     "@mdi/font": "^6.5.95",
     "@vue/composition-api": "^1.4.6",
     "babel-polyfill": "^6.26.0",

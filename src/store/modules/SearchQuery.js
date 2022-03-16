@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import filters from '@/store/modules/filterSubModule';
 
 const defaultQuery = {
@@ -10,9 +11,7 @@ const mutations = {
     // map query parameters to state
     state.searchPhrase = routeParams.q || defaultQuery.searchPhrase;
     state.page = Number(routeParams.page) || defaultQuery.page;
-    Object.entries(state.filters).forEach(([slug, filter]) => {
-      filter.select(routeParams[slug]);
-    });
+    this.commit('query/filters/setRouteParams', routeParams);
   },
 };
 

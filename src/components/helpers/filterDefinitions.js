@@ -1,4 +1,5 @@
 import { Types } from '@/helpers/typeHelper';
+import { languages } from '@cospired/i18n-iso-languages/langs/en';
 
 export const legacyTypes = {
   [Types.directories]: [],
@@ -123,6 +124,14 @@ export const extensions = {
   ],
 };
 
+console.log(languages);
+const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
+  {
+    label: name,
+    slug: alpha2,
+    apiValue: alpha2,
+  })).sort((a, b) => a.label < b.label);
+
 export default [
   {
     label: 'Type',
@@ -142,6 +151,22 @@ export default [
         apiValue: values,
       })),
     ],
+  },
+  {
+    label: 'Language',
+    slug: 'language',
+    apiKey: 'language.language',
+    options: {
+      [Types.text]: [
+        {
+          label: 'Any',
+          slug: 'any',
+          apiValue: '',
+          default: true,
+        },
+        ...languageOptions,
+      ],
+    },
   },
   {
     label: 'File extensions',

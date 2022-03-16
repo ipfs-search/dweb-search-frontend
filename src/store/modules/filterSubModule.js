@@ -1,7 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 import filterDefinitions from '@/components/helpers/filterDefinitions';
 
-export class FilterOption {
+class FilterOption {
   constructor(option) {
     Object.assign(this, option);
   }
@@ -65,10 +65,11 @@ export class Filter {
    * @returns {*[]}
    */
   get items() {
+    // eslint-disable-next-line no-use-before-define
     return Array.isArray(this.options)
       ? this.options
       // eslint-disable-next-line no-use-before-define
-      : this.options[filterState.type?.selectedSlug] || [];
+      : this.options[filterState.type?.value] || [];
   }
 
   /**
@@ -92,14 +93,10 @@ export class Filter {
     return this.items.find((option) => option.selected);
   }
 
-  get selectedSlug() {
-    return this.selectedOption?.slug;
-  }
-
   get value() {
     return this.multiple
       ? this.selectedOptions.map((option) => option.slug)
-      : this.selectedSlug;
+      : this.selectedOption?.slug;
   }
 }
 
@@ -114,7 +111,6 @@ const mapFiltersToApi = (filters) => (fileType) => Object.values({
   ...filters,
   type: (new Filter(filters.type)).select(fileType),
 }).flatMap((filter) => {
-  // console.log(filter.apiKey, filter, filter.selectedOptions);
   // get array of api values for the selected item(s)
   const apiValues = filter.selectedOptions?.flatMap(({ apiValue }) => apiValue || []);
   if (!apiValues?.length) return [];
@@ -125,12 +121,22 @@ const mapFiltersToApi = (filters) => (fileType) => Object.values({
     : apiValues.map((apiValue) => `${filter.apiKey}:${apiValue}`);
 });
 
+const mutations = {
+  setRouteParams(state, routeParams) {
+    // map query parameters to state
+    filterDefinitions.forEach(({ slug }) => {
+      state[slug].select(routeParams[slug]);
+    });
+  },
+};
+
 const filterState = filterDefinitions.reduce((p, definition) => (
   { [definition.slug]: new Filter(definition), ...p }), {});
 
 export default {
   namespaced: true,
   state: filterState,
+  mutations,
   getters: {
     uiFilters: (state) => filterDefinitions.map(({ slug }) => state[slug])
       // the type filter is placed in another component than the other filters.
