@@ -1,5 +1,5 @@
 import { Types } from '@/helpers/typeHelper';
-import { languages } from '@cospired/i18n-iso-languages/langs/en';
+import { languages } from '@cospired/i18n-iso-languages/langs/en.json';
 
 export const legacyTypes = {
   [Types.directories]: [],
@@ -124,7 +124,6 @@ export const extensions = {
   ],
 };
 
-console.log(languages);
 const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
   {
     label: name,

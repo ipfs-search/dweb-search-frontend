@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-named-as-default
 import filters from '@/store/modules/filterSubModule';
 
 const defaultQuery = {
