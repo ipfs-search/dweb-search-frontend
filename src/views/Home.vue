@@ -188,7 +188,7 @@
                   <v-card-text>
                     In the long run, we aspire to scale out and implement truly
                     decentralised/distributed search for the next generation internet, providing
-                    strong guarantees for the integrity of the service, meeting the interests ofthe
+                    strong guarantees for the integrity of the service, meeting the interests of the
                     users as well as the openness of our architecture and data.
                   </v-card-text>
                 </v-card>
