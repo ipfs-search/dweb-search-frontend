@@ -20,7 +20,7 @@
     "ipfs-search-client": "^1.0.1",
     "masonry-layout": "^4.2.2",
     "mime": "^3.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "regenerator-runtime": "^0.13.9",
     "video.js": "^7.12.1",
     "vue": "^2.6.11",
