@@ -1,4 +1,4 @@
-import filters from '@/store/modules/filterSubModule';
+import filters from '@/store/modules/query/filterSubModule';
 
 const defaultQuery = {
   searchPhrase: '',
