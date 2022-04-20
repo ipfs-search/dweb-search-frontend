@@ -48,6 +48,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
+    "jest-extended": "^2.0.0",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "speed-measure-webpack-plugin": "^1.5.0",

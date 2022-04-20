@@ -1,6 +1,4 @@
 // eslint-disable-next-line max-classes-per-file
-import SelectFilterComponent from '@/components/helpers/SelectFilter';
-
 class BaseFilter {
   constructor({ label, slug, apiKey }) {
     Object.assign(this, {
@@ -51,7 +49,7 @@ export class SelectFilter extends BaseFilter {
     this.options = Array.isArray(options) && options.map(SelectFilterOption.generate);
   }
 
-  component = SelectFilterComponent
+  component = 'SelectFilter'
 
   /**
    * @returns {*[]}

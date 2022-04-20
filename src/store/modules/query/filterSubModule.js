@@ -1,6 +1,6 @@
 import filterDefinitions from './filterDefinitions';
 
-const searchApiQuery = (state) => Object.values(state)
+export const searchApiQuery = (state) => Object.values(state)
   .map((filter) => filter.searchApiQuerySnippet)
   .join(' ');
 

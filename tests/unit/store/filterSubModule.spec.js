@@ -12,48 +12,52 @@ Spec def:
 - it should be easy to extend/modify behaviour
 
 */
-import filterSubModule, { Filter } from '@/store/modules/query/filterSubModule';
-import { Types } from '@/helpers/typeHelper';
+import './matchMedia.mock';
+import filterDefinitions from '@/store/modules/query/filterDefinitions';
+import store from '@/store';
+import * as matchers from 'jest-extended';
 
-const { mapFiltersToApi } = filterSubModule.getters;
+expect.extend(matchers);
 
-const pizza = new Filter({
-  apiKey: 'pizza',
-  apiValuesUnion: true,
-  options: [
-    { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
-    { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
-  ],
-});
-const icecream = new Filter({
-  apiKey: 'icecream',
-  slug: 'icecream',
-  options: [
-    { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
-  ],
-});
-const type = new Filter({
-  apiKey: 'filetype',
-  slug: 'type',
-  options: [
-    { label: Types.text, slug: Types.text, apiValue: 'pdf' },
-    { label: Types.images, slug: Types.images, apiValue: 'jpeg' },
-  ],
+jest.mock('@/store/modules/query/filterDefinitions', () => {
+  const { SelectFilter, MultipleSelectFilter } = require('@/store/modules/query/filterClasses');
+  const icecream = new SelectFilter({
+    apiKey: 'icecream',
+    slug: 'icecream',
+    options: [
+      { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
+    ],
+  });
+  const pizza = new MultipleSelectFilter({
+    apiKey: 'pizza',
+    options: [
+      { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
+      { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
+    ],
+  });
+  return {
+    icecream,
+    pizza,
+  };
 });
 
 describe('Mapping filters to api parameters', () => {
-  it('conjunctive api values are mapped to separate entries', () => {
-    const result = (mapFiltersToApi({ icecream, type }))();
-    expect(result).toStrictEqual(['icecream:green', 'icecream:nuts']);
+  const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
+  const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
+  test('conjunctive api values are mapped to separate entries', () => {
+    expect(icecreamQuery)
+      .toIncludeSameMembers(['icecream:nuts', 'icecream:green']);
   });
-  it('disjunctive api values are mapped to single value, united with OR', () => {
-    const result = (mapFiltersToApi({ pizza, type }))();
-    expect(result).toHaveLength(1);
-    expect(result[0]).toMatch(/^pizza:\(.+ OR .+ OR .+\)$/);
+  test('disjunctive api values are mapped to single value, united with OR', () => {
+    expect(pizzaQuery)
+      .toMatch(/^pizza:\(.+ OR .+ OR .+\)$/);
   });
-  it('coerces filetype explicitly', () => {
-    const result = (mapFiltersToApi({ pizza, type }))(Types.text);
-    expect(result).toHaveLength(2);
-    expect(result).toContain('filetype:pdf');
+  test('store api getter combines api values', () => {
+    const searchApiQuery = store.getters['query/filters/searchApiQuery'];
+    expect(searchApiQuery).toMatch(pizzaQuery);
+    icecreamQuery.forEach((snippet) => {
+      expect(searchApiQuery).toMatch(snippet);
+    });
+    expect(searchApiQuery.length).toEqual([...icecreamQuery, pizzaQuery].join(' ').length);
   });
 });

@@ -42,13 +42,6 @@ const legacyTypes = {
   ],
 };
 
-const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
-  {
-    label: name,
-    slug: alpha2,
-    apiValue: alpha2,
-  })).sort((a, b) => a.label < b.label); // alphabetize
-
 const typeFilterDefinition = {
   label: 'Type',
   slug: 'type',
@@ -67,6 +60,13 @@ const typeFilterDefinition = {
     })),
   ],
 };
+
+const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
+  {
+    label: name,
+    slug: alpha2,
+    apiValue: alpha2,
+  })).sort((a, b) => a.label < b.label); // alphabetize
 
 const languageFilterDefinition = {
   label: 'Language',

@@ -30,6 +30,12 @@ Vue.use(vueFilterPrettyBytes);
 
 Vue.config.productionTip = false;
 
+// putting this here, in stead of in router/index.js, avoids dependency cycles.
+router.beforeEach((to, from, next) => {
+  store.commit('query/setRouteParams', to.query);
+  next();
+});
+
 new Vue({
   vuetify,
   router,
