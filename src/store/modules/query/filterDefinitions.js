@@ -44,18 +44,15 @@ const legacyTypes = {
 
 const typeFilterDefinition = {
   label: 'Type',
-  slug: 'type',
   apiKey: 'metadata.Content-Type',
   options: [
     {
       label: 'Any',
-      slug: 'any',
       default: true,
       apiValue: [],
     },
     ...Object.entries(legacyTypes).map(([type, values]) => ({
       label: type,
-      slug: type,
       apiValue: values,
     })),
   ],
@@ -70,12 +67,10 @@ const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
 
 const languageFilterDefinition = {
   label: 'Language',
-  slug: 'language',
   apiKey: 'language.language',
   options: [
     {
       label: 'Any',
-      slug: 'any',
       apiValue: '',
       default: true,
     },
@@ -85,22 +80,18 @@ const languageFilterDefinition = {
 
 const sizeFilterDefinition = {
   label: 'Size',
-  slug: 'size',
   apiKey: 'size',
   options: [
     {
       label: '0-10mb',
-      slug: '0-10mb',
       apiValue: ['<=10485760'],
     },
     {
       label: '10-100mb',
-      slug: '10-100mb',
       apiValue: ['>10485760', '<=104857600'],
     },
     {
       label: '100mb-1gb',
-      slug: '100mb-1gb',
       apiValue: ['>104857600', '<=1073741824'],
     },
     {
@@ -109,8 +100,7 @@ const sizeFilterDefinition = {
       apiValue: ['>1073741824'],
     },
     {
-      label: 'any',
-      slug: 'any',
+      label: 'Any',
       apiValue: [],
       default: true,
     },
@@ -123,23 +113,19 @@ const lastSeenFilterDefinition = {
   options: [
     {
       label: '<24hr',
-      slug: '<24hr',
       apiValue: '[ now-24h/h TO *]',
     },
     {
       label: '<7d',
-      slug: '<7d',
       apiValue: '[ now/h-7d TO *]',
     },
     {
       label: '<30d',
-      slug: '<30d',
       apiValue: '[ now/d-30d TO *]',
       default: true,
     },
     {
       label: 'any',
-      slug: 'any',
       apiValue: '*',
     },
   ],

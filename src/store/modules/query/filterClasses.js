@@ -1,10 +1,10 @@
 // eslint-disable-next-line max-classes-per-file
 class BaseFilter {
-  constructor({ label, slug, apiKey }) {
+  constructor(properties) {
     Object.assign(this, {
-      label,
-      slug,
-      apiKey,
+      label: properties.label,
+      slug: properties.slug ?? properties.label.toLowerCase(),
+      apiKey: properties.apiKey,
     });
   }
 }
@@ -13,7 +13,7 @@ class SelectFilterOption {
   constructor(properties) {
     Object.assign(this, {
       label: properties.label,
-      slug: properties.slug ?? properties.label,
+      slug: properties.slug ?? properties.label.toLowerCase(),
       apiValue: properties.apiValue,
       default: properties.default ?? false,
       selected: properties.selected ?? false,
