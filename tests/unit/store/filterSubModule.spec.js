@@ -54,10 +54,19 @@ describe('Mapping filters to api parameters', () => {
   });
   test('store api getter combines api values', () => {
     const searchApiQuery = store.getters['query/filters/searchApiQuery'];
-    expect(searchApiQuery).toMatch(pizzaQuery);
+    expect(searchApiQuery)
+      .toMatch(pizzaQuery);
     icecreamQuery.forEach((snippet) => {
-      expect(searchApiQuery).toMatch(snippet);
+      expect(searchApiQuery)
+        .toMatch(snippet);
     });
-    expect(searchApiQuery.length).toEqual([...icecreamQuery, pizzaQuery].join(' ').length);
+    expect(searchApiQuery.length)
+      .toEqual([...icecreamQuery, pizzaQuery].join(' ').length);
+  });
+  test('when multiple select has nothing selected, its query will be empty', () => {
+    store.commit('query/setRouteParams', { icecream: 'Pistaccio' });
+    expect(filterDefinitions.pizza.searchApiQuerySnippet).toEqual('');
+    expect(store.getters['query/filters/searchApiQuery'])
+      .toEqual(icecreamQuery.join(' '));
   });
 });

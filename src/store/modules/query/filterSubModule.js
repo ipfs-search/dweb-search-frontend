@@ -1,7 +1,8 @@
 import filterDefinitions from './filterDefinitions';
 
 export const searchApiQuery = (state) => Object.values(state)
-  .map((filter) => filter.searchApiQuerySnippet)
+  .flatMap((filter) => filter.searchApiQuerySnippet)
+  .filter((el) => !!el) // remove empty strings before the join
   .join(' ');
 
 const mutations = {

@@ -90,6 +90,7 @@ export class MultipleSelectFilter extends SelectFilter {
     const apiValueFormatter = (x) => (x.includes('*') ? x : `"${x}"`);
     // get array of api values for the selected item(s)
     const apiValues = this.selectedOptions?.flatMap(({ apiValue }) => apiValue || []);
+    if (!apiValues.length) return '';
     return `${this.apiKey}:(${apiValues.map(apiValueFormatter).join(' OR ')})`;
   }
 
