@@ -3,7 +3,7 @@ class BaseFilter {
   constructor(properties) {
     Object.assign(this, {
       label: properties.label,
-      slug: properties.slug ?? properties.label.toLowerCase(),
+      slug: properties.slug ?? properties.label,
       apiKey: properties.apiKey,
     });
   }
@@ -13,7 +13,7 @@ class SelectFilterOption {
   constructor(properties) {
     Object.assign(this, {
       label: properties.label,
-      slug: properties.slug ?? properties.label.toLowerCase(),
+      slug: properties.slug ?? properties.label,
       apiValue: properties.apiValue,
       default: properties.default ?? false,
       selected: properties.selected ?? false,

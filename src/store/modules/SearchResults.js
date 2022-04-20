@@ -125,7 +125,7 @@ export default (fileType) => ({
 
       const apiQueryString = [
         rootState.query.searchPhrase,
-        ...rootGetters['query/filters/searchApiQuery'],
+        rootGetters['query/filters/searchApiQuery'],
       ].join(' ');
       cleanUpResults({ state, commit, apiQueryString });
 
