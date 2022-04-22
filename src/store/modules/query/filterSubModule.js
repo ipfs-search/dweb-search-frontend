@@ -20,12 +20,12 @@ const filterWidgetsGetter = (state) => {
     case 'text':
       return [
         state.languageFilter,
-        state.typeFilter,
+        state.sizeFilter,
         state.lastSeenFilter,
       ];
     default:
       return [
-        state.typeFilter,
+        state.sizeFilter,
         state.lastSeenFilter,
       ];
   }
@@ -36,7 +36,7 @@ export default {
   state: filterDefinitions,
   mutations,
   getters: {
-    filtersWidgets: filterWidgetsGetter,
+    filterWidgets: filterWidgetsGetter,
     typeFilter: (state) => state.typeFilter,
     searchApiQuery,
   },

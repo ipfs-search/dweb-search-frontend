@@ -45,7 +45,7 @@ import store from '@/store';
 
 export default {
   setup() {
-    const filters = computed(() => store.getters['query/filters/uiFilters']);
+    const filters = computed(() => store.getters['query/filters/filterWidgets']);
     return { filters };
   },
   components: { SelectFilter },

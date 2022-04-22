@@ -64,10 +64,6 @@
   "engines": {
     "node": "16.x"
   },
-  "jest": {
-    "verbose": true,
-    "resetMocks": true
-  },
   "license": "AGPL-3.0",
   "repository": "github:ipfs-search/dweb-search-frontend"
 }

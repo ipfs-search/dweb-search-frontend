@@ -16,6 +16,7 @@
 <script>
 import { enterSearchQuery } from '@/helpers/routerHelper';
 
+// TODO: make this a plugin of vue, to avoid the dependency
 const changeFilter = (slug) => (value) => enterSearchQuery({ [slug]: value });
 
 export default {

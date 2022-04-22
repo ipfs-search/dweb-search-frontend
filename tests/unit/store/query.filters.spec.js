@@ -12,13 +12,8 @@ Spec def:
 - it should be easy to extend/modify behaviour
 
 */
-import './matchMedia.mock';
 import filterDefinitions from '@/store/modules/query/filterDefinitions';
 import store from '@/store';
-import * as matchers from 'jest-extended';
-import { Types } from '../../../src/helpers/typeHelper';
-
-expect.extend(matchers);
 
 jest.mock('@/store/modules/query/filterDefinitions', () => {
   const { SelectFilter, MultipleSelectFilter } = require('@/store/modules/query/filterClasses');
@@ -43,7 +38,7 @@ jest.mock('@/store/modules/query/filterDefinitions', () => {
   };
 });
 
-describe('Mapping filters to api parameters', () => {
+describe('Mapping filters to api query', () => {
   const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
   const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
   test('conjunctive api values are mapped to separate entries', () => {
