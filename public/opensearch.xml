@@ -1,0 +1,6 @@
+<OpenSearchDescription>
+  <ShortName>IPFS Search</ShortName>
+  <Description>IPFS Search</Description>
+  <InputEncoding>[UTF-8]</InputEncoding>
+  <Url type="text/html" template="http://localhost:8080/#/search?q={searchTerms}"/>
+</OpenSearchDescription>
