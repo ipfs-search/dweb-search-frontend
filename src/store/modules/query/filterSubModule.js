@@ -1,3 +1,4 @@
+import { Types } from '@/helpers/typeHelper';
 import filterDefinitions from './filterDefinitions';
 
 export const searchApiQuery = (state) => Object.values(state)
@@ -17,7 +18,7 @@ const mutations = {
 
 const filterWidgetsGetter = (state) => {
   switch (state.typeFilter.value) {
-    case 'text':
+    case Types.text:
       return [
         state.languageFilter,
         state.sizeFilter,

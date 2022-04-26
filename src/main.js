@@ -9,7 +9,7 @@ import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VueClosable from 'vue-closable';
 import App from './App';
-import vuetify from './plugins/vuetify/vuetify';
+import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
 

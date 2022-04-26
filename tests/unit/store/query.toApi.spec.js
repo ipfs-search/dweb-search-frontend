@@ -39,17 +39,19 @@ jest.mock('@/store/modules/query/filterDefinitions', () => {
 });
 
 describe('Mapping filters to api query', () => {
-  const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
-  const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
   test('conjunctive api values are mapped to separate entries', () => {
+    const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
     expect(icecreamQuery)
       .toIncludeSameMembers(['icecream:nuts', 'icecream:green']);
   });
   test('disjunctive api values are mapped to single value, united with OR', () => {
+    const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
     expect(pizzaQuery)
       .toMatch(/^pizza:\(.+ OR .+ OR .+\)$/);
   });
   test('store api getter combines api values', () => {
+    const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
+    const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
     const searchApiQuery = store.getters['query/filters/searchApiQuery'];
     expect(searchApiQuery)
       .toMatch(pizzaQuery);
@@ -61,6 +63,7 @@ describe('Mapping filters to api query', () => {
       .toEqual([...icecreamQuery, pizzaQuery].join(' ').length);
   });
   test('when multiple select has nothing selected, its query will be empty', () => {
+    const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
     store.commit('query/setRouteParams', { icecream: 'Pistaccio' });
     expect(filterDefinitions.pizza.searchApiQuerySnippet).toEqual('');
     expect(store.getters['query/filters/searchApiQuery'])

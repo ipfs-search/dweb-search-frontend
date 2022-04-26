@@ -39,15 +39,12 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api';
 import SelectFilter from '@/components/helpers/SelectFilter';
-import store from '@/store';
 
 export default {
-  setup() {
-    const filters = computed(() => store.getters['query/filters/filterWidgets']);
-    return { filters };
-  },
   components: { SelectFilter },
+  computed: {
+    filters() { return this.$store.getters['query/filters/filterWidgets']; },
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 import SelectFilterComponent from '@/components/helpers/SelectFilter';
 import { SelectFilter, MultipleSelectFilter } from '@/store/modules/query/filterClasses';
-import { mount } from '../../helpers';
+import { localShallowMount } from '../../jest-helpers';
 
 const icecream = new SelectFilter({
   apiKey: 'icecream',
@@ -21,7 +21,7 @@ const pizza = new MultipleSelectFilter({
 describe('selectFilter', () => {
 
   it('renders a select filter', () => {
-    const wrapper = mount(SelectFilterComponent, {
+    const wrapper = localShallowMount(SelectFilterComponent, {
       propsData: {
         filter: icecream,
       }

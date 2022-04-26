@@ -16,7 +16,7 @@ class SelectFilterOption {
       slug: properties.slug ?? properties.label,
       apiValue: properties.apiValue,
       default: properties.default ?? false,
-      selected: properties.selected ?? false,
+      selected: properties.selected ?? properties.default ?? false,
     });
   }
 
@@ -65,6 +65,7 @@ export class SelectFilter extends BaseFilter {
   select(selection) {
     const selected = [selection].flat(); // coerce to array
     this.items.forEach((option) => {
+      // If nothing is selected, select the default value
       option.select(selection ? selected.includes(option.slug) : option.default);
     });
     return this;
@@ -75,7 +76,7 @@ export class SelectFilter extends BaseFilter {
   }
 
   get value() {
-    return this.selectedOptions.map((option) => option.slug);
+    return this.selectedOptions.map((option) => option.slug)[0];
   }
 
   get searchApiQuerySnippet() {
