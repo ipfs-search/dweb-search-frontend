@@ -9,9 +9,9 @@ export const searchApiQuery = (state) => Object.values(state)
 const mutations = {
   setRouteParams(state, routeParams) {
     // map query parameters to state
-    Object.values(state)
+    Object.keys(state)
       .forEach((filter) => {
-        filter.select(routeParams[filter.slug]);
+        this.commit(`query/filters/${filter}/setValue`, routeParams[filter]);
       });
   },
 };
@@ -34,11 +34,15 @@ const filterWidgetsGetter = (state) => {
 
 export default {
   namespaced: true,
-  state: filterDefinitions,
   mutations,
   getters: {
     filterWidgets: filterWidgetsGetter,
-    typeFilter: (state) => state.typeFilter,
     searchApiQuery,
+  },
+  modules: {
+    type: filterDefinitions.typeFilter,
+    language: filterDefinitions.languageFilter,
+    size: filterDefinitions.sizeFilter,
+    lastSeen: filterDefinitions.lastSeenFilter,
   },
 };

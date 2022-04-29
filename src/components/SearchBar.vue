@@ -92,7 +92,9 @@ export default {
       },
     },
     type: {
-      get() { return this.$store.getters['query/filters/typeFilter'].value; },
+      get() {
+        return this.$store.getters['query/filters/type/rendered'].value;
+      },
       set(newType) {
         if (this.type !== newType) {
           enterSearchQuery({ type: newType });

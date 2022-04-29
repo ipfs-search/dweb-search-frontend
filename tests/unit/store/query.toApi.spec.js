@@ -16,18 +16,19 @@ import filterDefinitions from '@/store/modules/query/filterDefinitions';
 import store from '@/store';
 
 jest.mock('@/store/modules/query/filterDefinitions', () => {
-  const { SelectFilter, MultipleSelectFilter } = require('@/store/modules/query/filterClasses');
-  const icecream = new SelectFilter({
+  const { selectFilterGenerator, multipleSelectFilterGenerator } =
+    require('@/store/modules/query/filterGenerators');
+  const icecream = selectFilterGenerator({
     apiKey: 'icecream',
     label: 'icecream',
-    options: [
+    selectionOptions: [
       { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
     ],
   });
-  const pizza = new MultipleSelectFilter({
+  const pizza = multipleSelectFilterGenerator({
     label: 'pizza',
     apiKey: 'pizza',
-    options: [
+    selectionOptions: [
       { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
       { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
     ],

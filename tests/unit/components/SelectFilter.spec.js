@@ -1,25 +1,26 @@
 import SelectFilterComponent from '@/components/helpers/SelectFilter';
-import { SelectFilter, MultipleSelectFilter } from '@/store/modules/query/filterClasses';
+import {
+  selectFilterGenerator, multipleSelectFilterGenerator
+} from '@/store/modules/query/filterGenerators';
 import { localShallowMount } from '../../jest-helpers';
 
-const icecream = new SelectFilter({
+const icecream = selectFilterGenerator({
   apiKey: 'icecream',
   label: 'icecream',
-  options: [
+  selectionOptions: [
     { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
   ],
 });
-const pizza = new MultipleSelectFilter({
+const pizza = multipleSelectFilterGenerator({
   label: 'pizza',
   apiKey: 'pizza',
-  options: [
+  selectionOptions: [
     { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
     { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
   ],
 });
 
 describe('selectFilter', () => {
-
   it('renders a select filter', () => {
     const wrapper = localShallowMount(SelectFilterComponent, {
       propsData: {

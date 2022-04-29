@@ -1,6 +1,10 @@
 import { Types } from '@/helpers/typeHelper';
 import { languages } from '@cospired/i18n-iso-languages/langs/en.json';
-import { SelectFilter, MultipleSelectFilter } from './filterClasses';
+import {
+  multipleSelectFilterGenerator,
+  selectFilterGenerator,
+  typeFilterGenerator,
+} from '@/store/modules/query/filterGenerators';
 
 const legacyTypes = {
   [Types.directories]: [],
@@ -45,7 +49,7 @@ const legacyTypes = {
 const typeFilterDefinition = {
   label: 'Type',
   apiKey: 'metadata.Content-Type',
-  options: [
+  selectionOptions: [
     {
       label: 'Any',
       default: true,
@@ -68,7 +72,7 @@ const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
 const languageFilterDefinition = {
   label: 'Language',
   apiKey: 'language.language',
-  options: [
+  selectionOptions: [
     {
       label: 'Any',
       apiValue: '',
@@ -81,7 +85,7 @@ const languageFilterDefinition = {
 const sizeFilterDefinition = {
   label: 'Size',
   apiKey: 'size',
-  options: [
+  selectionOptions: [
     {
       label: '0-10mb',
       apiValue: ['<=10485760'],
@@ -110,7 +114,7 @@ const lastSeenFilterDefinition = {
   label: 'Last seen',
   slug: 'last_seen',
   apiKey: 'last-seen',
-  options: [
+  selectionOptions: [
     {
       label: '<24hr',
       apiValue: '[ now-24h/h TO *]',
@@ -130,10 +134,10 @@ const lastSeenFilterDefinition = {
     },
   ],
 };
-
+//
 export default {
-  typeFilter: new MultipleSelectFilter(typeFilterDefinition),
-  languageFilter: new MultipleSelectFilter(languageFilterDefinition),
-  sizeFilter: new SelectFilter(sizeFilterDefinition),
-  lastSeenFilter: new SelectFilter(lastSeenFilterDefinition),
+  typeFilter: typeFilterGenerator(typeFilterDefinition),
+  languageFilter: multipleSelectFilterGenerator(languageFilterDefinition),
+  sizeFilter: selectFilterGenerator(sizeFilterDefinition),
+  lastSeenFilter: selectFilterGenerator(lastSeenFilterDefinition),
 };
