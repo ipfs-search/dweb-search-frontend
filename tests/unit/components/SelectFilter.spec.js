@@ -1,34 +1,16 @@
 import SelectFilterComponent from '@/components/helpers/SelectFilter';
-import {
-  selectFilterGenerator, multipleSelectFilterGenerator
-} from '@/store/modules/query/filterGenerators';
-import { localShallowMount } from '../../jest-helpers';
-
-const icecream = selectFilterGenerator({
-  apiKey: 'icecream',
-  label: 'icecream',
-  selectionOptions: [
-    { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
-  ],
-});
-const pizza = multipleSelectFilterGenerator({
-  label: 'pizza',
-  apiKey: 'pizza',
-  selectionOptions: [
-    { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
-    { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
-  ],
-});
+import { localMount } from '../../jest-helpers';
+import { mockFilters } from '../../mock-data';
 
 describe('selectFilter', () => {
   it('renders a select filter', () => {
-    const wrapper = localShallowMount(SelectFilterComponent, {
+    const wrapper = localMount(SelectFilterComponent, {
       propsData: {
-        filter: icecream,
-      }
-    })
+        filter: mockFilters.icecream.getters.rendered(mockFilters.icecream.state),
+      },
+    });
     const wrapperHtml = wrapper.html();
-    expect(wrapperHtml).toContain(icecream.label);
-    expect(wrapperHtml).toContain(icecream.options[0].label);
+    expect(wrapperHtml).toContain(mockFilters.icecream.state.label);
+    expect(wrapperHtml).toContain(mockFilters.icecream.state.items[0].label);
   });
 });

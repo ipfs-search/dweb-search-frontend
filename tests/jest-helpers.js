@@ -16,16 +16,18 @@ localVue.use(Vuex);
 
 const vuetify = new Vuetify();
 
-export const localShallowMount = (component, options = {}) => shallowMount(component, {
+const inject = {
   localVue,
   router,
   vuetify,
+}
+
+export const localShallowMount = (component, options = {}) => shallowMount(component, {
+  ...inject,
   ...options,
 });
 
 export const localMount = (component, options = {}) => mount(component, {
-  localVue,
-  router,
-  vuetify,
+  ...inject,
   ...options,
 });

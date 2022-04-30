@@ -44,6 +44,7 @@ module.exports = {
         vue: 'never',
       },
     ],
+    'import/prefer-default-export': 'off',
   },
 
   overrides: [

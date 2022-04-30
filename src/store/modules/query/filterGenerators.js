@@ -26,9 +26,16 @@ const selectFilterSetValue = (state, selection) => {
 };
 
 const selectFilterRendered = ({ items, label }) => ({
-  items,
+  // todo: look into if these properties can be renamed at definition
+  items: items.map((item) => ({ text: item.label, value: item.slug })),
   label,
   value: items.find((item) => item.selected)?.slug,
+});
+
+const multipleSelectFilterRendered = ({ items, label }) => ({
+  ...selectFilterRendered({ items, label }),
+  value: items.filter((item) => item.selected)
+    .map((item) => item.slug),
 });
 
 const selectFilterToSearchApi = (state) => {
@@ -37,13 +44,6 @@ const selectFilterToSearchApi = (state) => {
     .find((item) => item.selected);
   return [`${state.apiKey}:${apiValue}`];
 };
-
-const multipleSelectFilterRendered = ({ items, label }) => ({
-  items,
-  label,
-  value: items.filter((item) => item.selected)
-    .map((item) => item.slug),
-});
 
 const multipleSelectFilterToSearchApi = (state) => {
   const apiValueFormatter = (x) => (x.includes('*') ? x : `"${x}"`);

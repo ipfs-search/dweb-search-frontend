@@ -13,14 +13,17 @@ Spec def:
 
 */
 import filterDefinitions from '@/store/modules/query/filterDefinitions';
-import store from '@/store';
+import Vuex from 'vuex'
 
 jest.mock('@/store/modules/query/filterDefinitions', () => {
-  const { selectFilterGenerator, multipleSelectFilterGenerator } =
-    require('@/store/modules/query/filterGenerators');
+  const {
+    selectFilterGenerator,
+    multipleSelectFilterGenerator,
+  } = require('@/store/modules/query/filterGenerators');
   const icecream = selectFilterGenerator({
     apiKey: 'icecream',
     label: 'icecream',
+    slug: 'icecream',
     selectionOptions: [
       { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
     ],
@@ -28,6 +31,7 @@ jest.mock('@/store/modules/query/filterDefinitions', () => {
   const pizza = multipleSelectFilterGenerator({
     label: 'pizza',
     apiKey: 'pizza',
+    slug: 'pizza',
     selectionOptions: [
       { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
       { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
