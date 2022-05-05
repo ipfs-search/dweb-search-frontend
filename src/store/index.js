@@ -7,7 +7,7 @@ import SearchResults from './modules/SearchResults';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const storeConfiguration = {
   modules: {
     localStorage,
     query,
@@ -23,5 +23,38 @@ export default new Vuex.Store({
       },
     },
   },
-  strict: true,
-});
+  // https://v3.vuex.vuejs.org/guide/strict.html#development-vs-production
+  // N.b. this won't work with vite
+  strict: process.env.NODE_ENV !== 'production',
+};
+
+/**
+ * merge two store configurations.
+ * @param configuration
+ * @param override
+ * @returns {{mutations: {}, state: {}, strict: boolean, getters: {}, actions: {}, namespaced: boolean, modules: (*&{[p: string]: {mutations: {}, state: {}, strict, getters: {}, actions: {}, namespaced, modules: *}})}}
+ */
+export const mergeStoreConfigurations = (configuration = storeConfiguration, override = {}) => {
+  const mergedConfig = {
+    namespaced: override.namespaced ?? configuration.namespaced ?? true,
+    strict: override.strict ?? configuration.strict ?? true,
+  };
+
+  ['state', 'actions', 'mutations', 'modules'].forEach((field) => {
+    mergedConfig[field] = override[field] ?? configuration[field] ?? {};
+  });
+
+  return mergedConfig;
+};
+
+/**
+ * create a store from a configuration and/or deepmerge an override into it.
+ * @param configuration
+ * @param storeOverrides
+ * @returns {Store<{}>}
+ */
+export function createStore(configuration = storeConfiguration, storeOverrides = {}) {
+  return new Vuex.Store(mergeStoreConfigurations(configuration, storeOverrides));
+}
+
+export default createStore();

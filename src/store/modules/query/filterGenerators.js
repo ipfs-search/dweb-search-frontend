@@ -70,9 +70,11 @@ const selectFilterMapState = (filterProperties) => ({
 
 export const selectFilterGenerator = (filterProperties) => filterFactory(
   selectFilterMapState(filterProperties),
+  // mutations:
   {
     setValue: selectFilterSetValue,
   },
+  // getters:
   {
     rendered: selectFilterRendered,
     toSearchApi: selectFilterToSearchApi,

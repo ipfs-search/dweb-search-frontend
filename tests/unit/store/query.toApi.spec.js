@@ -13,65 +13,55 @@ Spec def:
 
 */
 import filterDefinitions from '@/store/modules/query/filterDefinitions';
-import Vuex from 'vuex'
+import { createStore, mergeStoreConfigurations } from '@/store';
+import filterSubModule from '@/store/modules/query/filterSubModule';
+import query from '@/store/modules/query';
+import mockFilters from '../../mock-data';
 
-jest.mock('@/store/modules/query/filterDefinitions', () => {
-  const {
-    selectFilterGenerator,
-    multipleSelectFilterGenerator,
-  } = require('@/store/modules/query/filterGenerators');
-  const icecream = selectFilterGenerator({
-    apiKey: 'icecream',
-    label: 'icecream',
-    slug: 'icecream',
-    selectionOptions: [
-      { label: 'Pistaccio', apiValue: ['green', 'nuts'], selected: true },
-    ],
-  });
-  const pizza = multipleSelectFilterGenerator({
-    label: 'pizza',
-    apiKey: 'pizza',
-    slug: 'pizza',
-    selectionOptions: [
-      { label: 'Margherita', apiValue: ['mozzerella', 'tomato'], selected: true },
-      { label: 'Funghi', apiValue: ['mushrooms'], selected: true },
-    ],
-  });
-  return {
-    icecream,
-    pizza,
-  };
-});
+let store;
 
 describe('Mapping filters to api query', () => {
+  beforeAll(() => {
+    const filters = mergeStoreConfigurations(filterSubModule, {
+      modules: {
+        pizza: mockFilters.pizza,
+        icecream: mockFilters.icecream,
+      },
+    });
+    store = createStore(query, {
+      modules: {
+        filters,
+      },
+    });
+  });
   test('conjunctive api values are mapped to separate entries', () => {
-    const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
+    const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
     expect(icecreamQuery)
       .toIncludeSameMembers(['icecream:nuts', 'icecream:green']);
   });
   test('disjunctive api values are mapped to single value, united with OR', () => {
-    const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
+    const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
     expect(pizzaQuery)
       .toMatch(/^pizza:\(.+ OR .+ OR .+\)$/);
   });
   test('store api getter combines api values', () => {
-    const pizzaQuery = filterDefinitions.pizza.searchApiQuerySnippet;
-    const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
-    const searchApiQuery = store.getters['query/filters/searchApiQuery'];
-    expect(searchApiQuery)
+    const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
+    const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
+    const apiQuery = store.getters['filters/searchApiQuery'];
+    expect(apiQuery)
       .toMatch(pizzaQuery);
     icecreamQuery.forEach((snippet) => {
-      expect(searchApiQuery)
+      expect(apiQuery)
         .toMatch(snippet);
     });
-    expect(searchApiQuery.length)
+    expect(apiQuery.length)
       .toEqual([...icecreamQuery, pizzaQuery].join(' ').length);
   });
   test('when multiple select has nothing selected, its query will be empty', () => {
-    const icecreamQuery = filterDefinitions.icecream.searchApiQuerySnippet;
-    store.commit('query/setRouteParams', { icecream: 'Pistaccio' });
+    const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
+    store.commit('setRouteParams', { icecream: 'Pistaccio' });
     expect(filterDefinitions.pizza.searchApiQuerySnippet).toEqual('');
-    expect(store.getters['query/filters/searchApiQuery'])
+    expect(store.getters['filters/searchApiQuery'])
       .toEqual(icecreamQuery.join(' '));
   });
 });

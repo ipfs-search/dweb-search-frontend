@@ -1,6 +1,6 @@
 import {
   multipleSelectFilterGenerator,
-  selectFilterGenerator
+  selectFilterGenerator,
 } from '@/store/modules/query/filterGenerators';
 
 const icecream = selectFilterGenerator({
@@ -20,7 +20,7 @@ const pizza = multipleSelectFilterGenerator({
   ],
 });
 
-export const mockFilters = {
+export default {
   icecream,
   pizza,
 };
