@@ -6,25 +6,14 @@
     -->
   <v-container>
     <v-row>
-      <v-col
-        cols="12"
-        xl="8"
-        offset-xl="2"
-        align="end"
-        class="text--secondary text-body-2"
-      >
+      <v-col cols="12" xl="8" offset-xl="2" align="end" class="text--secondary text-body-2">
         <v-container class="mx-0 px-0">
           <v-row class="d-flex align-center">
             <v-col class="hidden-sm-and-down">
-              <span class="text-body-1">
-                Filter:
-              </span>
+              <span class="text-body-1"> Filter: </span>
             </v-col>
 
-            <v-col
-              cols="6"
-              md="3"
-            >
+            <v-col cols="6" md="3">
               <!--
                 Select component has everything setup for smooth interaction
                 (including setting values).
@@ -54,16 +43,13 @@
               >
                 <template #selection="{ item }">
                   <span class="m-2 text-body-2">
-                    {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
+                    {{ $vuetify.breakpoint.smAndDown ? "" : "Size " }}{{ item.text }}
                   </span>
                 </template>
               </v-select>
             </v-col>
 
-            <v-col
-              cols="6"
-              md="3"
-            >
+            <v-col cols="6" md="3">
               <v-select
                 :items="lastSeenOptions"
                 dense
@@ -75,8 +61,9 @@
                 v-model="lastSeenFilter"
               >
                 <template #selection="{ item }">
-                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
-                    ? '' : 'Last seen ' }}{{ item.text }}</span>
+                  <span class="m-2 text-body-2"
+                    >{{ $vuetify.breakpoint.smAndDown ? "" : "Last seen " }}{{ item.text }}</span
+                  >
                 </template>
               </v-select>
             </v-col>
@@ -88,8 +75,8 @@
 </template>
 
 <script>
-import store from '@/store';
-import { enterSearchQuery } from '@/helpers/routerHelper';
+import store from "@/store";
+import { enterSearchQuery } from "@/helpers/routerHelper";
 
 export default {
   computed: {
@@ -113,34 +100,43 @@ export default {
   data: () => ({
     sizeOptions: [
       {
-        text: '0-10mb', value: ['<=10485760'],
+        text: "0-10mb",
+        value: ["<=10485760"],
       },
       {
-        text: '10-100mb', value: ['>10485760', '<=104857600'],
+        text: "10-100mb",
+        value: [">10485760", "<=104857600"],
       },
       {
-        text: '100mb-1gb', value: ['>104857600', '<=1073741824'],
+        text: "100mb-1gb",
+        value: [">104857600", "<=1073741824"],
       },
       {
-        text: '1gb+', value: ['>1073741824'],
+        text: "1gb+",
+        value: [">1073741824"],
       },
       {
-        text: 'any', value: [],
+        text: "any",
+        value: [],
       },
     ],
 
     lastSeenOptions: [
       {
-        text: '<24hr', value: '[ now-24h/h TO *]',
+        text: "<24hr",
+        value: "[ now-24h/h TO *]",
       },
       {
-        text: '<7d', value: '[ now/h-7d TO *]',
+        text: "<7d",
+        value: "[ now/h-7d TO *]",
       },
       {
-        text: '<30d', value: '[ now/d-30d TO *]',
+        text: "<30d",
+        value: "[ now/d-30d TO *]",
       },
       {
-        text: 'any', value: '*',
+        text: "any",
+        value: "*",
       },
     ],
   }),

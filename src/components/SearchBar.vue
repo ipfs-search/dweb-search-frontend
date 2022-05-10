@@ -19,48 +19,24 @@
           v-closable="{ handler: 'onClick' }"
         >
           <template #append>
-            <v-menu
-              style="top: -12px"
-              offset-y
-            >
+            <v-menu style="top: -12px" offset-y>
               <template #activator="{ on }">
-                <div
-                  class="mr-n3 grey--text d-flex align-center"
-                  v-on="on"
-                >
+                <div class="mr-n3 grey--text d-flex align-center" v-on="on">
                   <span class="text-capitalize">{{ type }}</span>
-                  <v-icon
-                    class="d-inline-block"
-                  >
-                    mdi-menu-down
-                  </v-icon>
+                  <v-icon class="d-inline-block"> mdi-menu-down </v-icon>
                 </div>
               </template>
               <v-list>
-                <v-list-item
-                  v-for="t in searchTypes"
-                  :key="t"
-                  @click="type=t"
-                >
-                  <v-list-item-title
-                    class="text-capitalize"
-                  >
+                <v-list-item v-for="t in searchTypes" :key="t" @click="type = t">
+                  <v-list-item-title class="text-capitalize">
                     {{ t }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
           </template>
-          <template
-            #append-outer
-            v-if="!$vuetify.breakpoint.smAndDown"
-          >
-            <v-icon
-              style="margin-top: -2px;"
-              size="34"
-              color="white"
-              @click="enterSearchPhrase"
-            >
+          <template #append-outer v-if="!$vuetify.breakpoint.smAndDown">
+            <v-icon style="margin-top: -2px" size="34" color="white" @click="enterSearchPhrase">
               mdi-magnify
             </v-icon>
           </template>
@@ -71,9 +47,9 @@
 </template>
 
 <script>
-import store from '@/store';
-import { searchTypes } from '@/helpers/typeHelper';
-import { enterSearchQuery } from '@/helpers/routerHelper';
+import store from "@/store";
+import { searchTypes } from "@/helpers/typeHelper";
+import { enterSearchQuery } from "@/helpers/routerHelper";
 
 export default {
   created() {
@@ -106,22 +82,25 @@ export default {
       // https://stackoverflow.com/questions/8335834/how-can-i-hide-the-android-keyboard-using-javascript
       setTimeout(() => {
         // Creating temp field
-        const field = document.createElement('input');
-        field.setAttribute('type', 'text');
+        const field = document.createElement("input");
+        field.setAttribute("type", "text");
         // Hiding temp field from peoples eyes
         // -webkit-user-modify is nessesary for Android 4.x
-        field.setAttribute('style', `position:absolute;
+        field.setAttribute(
+          "style",
+          `position:absolute;
           top: 0px;
           opacity: 0;
           -webkit-user-modify: read-write-plaintext-only;
-          left:0px;`);
+          left:0px;`
+        );
         document.body.appendChild(field);
 
         // Adding onfocus event handler for out temp field
         field.onfocus = () => {
           // This timeout of 200ms is nessasary for Android 2.3.x
           setTimeout(() => {
-            field.setAttribute('style', 'display:none;');
+            field.setAttribute("style", "display:none;");
             setTimeout(() => {
               document.body.removeChild(field);
               document.body.focus();
@@ -155,8 +134,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .search {
-    max-width: 960px;
-    z-index: 10000;
-  }
+.search {
+  max-width: 960px;
+  z-index: 10000;
+}
 </style>
