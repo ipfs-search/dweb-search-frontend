@@ -96,7 +96,6 @@ export default {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
-  background-color: grey;
 }
 .image-wrapper:after {
   content: "";
