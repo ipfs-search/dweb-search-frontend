@@ -16,8 +16,7 @@ export const legacyTypes = {
     'image/vnd.djvu',
     'application/pdf',
     // HTML/plain text
-    'text/html',
-    'text/plain',
+    'text*',
     // Text editors
     'application/postscript',
     'application/rtf',
@@ -34,11 +33,11 @@ export const legacyTypes = {
   ],
   audio: [
     'audio*',
-    // 'application/ogg',
+    'application/ogg',
   ],
   video: [
     'video*',
-    // 'application/mp4'
+    'application/mp4',
   ],
   images: [
     'image*',
