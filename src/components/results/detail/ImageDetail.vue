@@ -101,7 +101,7 @@ export default {
 .image-wrapper:after {
   content: "";
   display: block;
-  padding-bottom: 100%;
+  padding-bottom: 70%;
 }
 
 </style>
