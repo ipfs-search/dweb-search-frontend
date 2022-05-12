@@ -1,11 +1,25 @@
 <template>
   <div>
-    <v-app-bar app class="px-4" height="56">
-      <v-container fluid class="px-0 align-start">
+    <v-app-bar
+      app
+      class="px-4"
+      height="56"
+    >
+      <v-container
+        fluid
+        class="px-0 align-start"
+      >
         <v-row>
-          <v-col cols="12" class="px-0 d-flex justify-space-between align-center">
+          <v-col
+            cols="12"
+            class="px-0 d-flex justify-space-between align-center"
+          >
             <div class="ml-2">
-              <div class="d-flex align-center" style="cursor: pointer" @click="goHome">
+              <div
+                class="d-flex align-center"
+                style="cursor: pointer"
+                @click="goHome"
+              >
                 <v-img
                   v-if="$vuetify.theme.dark"
                   alt="ipfs-search.com logo"
@@ -30,7 +44,10 @@
 
             <settings-menu />
 
-            <v-btn icon @click="closeDetail">
+            <v-btn
+              icon
+              @click="closeDetail"
+            >
               <v-icon> mdi-close </v-icon>
             </v-btn>
           </v-col>
@@ -38,7 +55,10 @@
       </v-container>
     </v-app-bar>
 
-    <div class="detail" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0">
+    <div
+      class="detail"
+      style="position: absolute; top: 0; left: 0; bottom: 0; right: 0"
+    >
       <v-carousel
         v-if="!singleItem"
         v-model="carouselIndex"
@@ -48,16 +68,33 @@
         :continuous="false"
       >
         <template #next="{ on, attrs }">
-          <v-btn fab small v-bind="attrs" v-on="on">
-            <v-icon large> mdi-chevron-right </v-icon>
+          <v-btn
+            fab
+            small
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon large>
+              mdi-chevron-right
+            </v-icon>
           </v-btn>
         </template>
         <template #prev="{ on, attrs }">
-          <v-btn fab small v-bind="attrs" v-on="on">
-            <v-icon large> mdi-chevron-left </v-icon>
+          <v-btn
+            fab
+            small
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon large>
+              mdi-chevron-left
+            </v-icon>
           </v-btn>
         </template>
-        <v-carousel-item v-for="(item, index) in items" :key="index">
+        <v-carousel-item
+          v-for="(item, index) in items"
+          :key="index"
+        >
           <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
           <component
             :is="DetailComponent[fileType]"
@@ -67,23 +104,27 @@
         </v-carousel-item>
       </v-carousel>
       <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
-      <component v-else :is="DetailComponent[fileType]" :file="singleItem" />
+      <component
+        v-else
+        :is="DetailComponent[fileType]"
+        :file="singleItem"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import store from "@/store";
-import { Types } from "@/helpers/typeHelper";
-import { apiMetadataQuery, batchSize } from "@/helpers/ApiHelper";
-import SettingsMenu from "@/components/SettingsMenu";
+import store from '@/store';
+import { Types } from '@/helpers/typeHelper';
+import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
+import SettingsMenu from '@/components/SettingsMenu';
 
 const DetailComponent = {
-  text: () => import("@/components/results/detail/DocumentDetail"),
-  audio: () => import("@/components/results/detail/AudioDetail"),
-  images: () => import("@/components/results/detail/ImageDetail"),
-  video: () => import("@/components/results/detail/VideoDetail"),
-  directories: () => import("@/components/results/detail/DirectoryDetail"),
+  text: () => import('@/components/results/detail/DocumentDetail'),
+  audio: () => import('@/components/results/detail/AudioDetail'),
+  images: () => import('@/components/results/detail/ImageDetail'),
+  video: () => import('@/components/results/detail/VideoDetail'),
+  directories: () => import('@/components/results/detail/DirectoryDetail'),
 };
 
 export default {
@@ -116,19 +157,19 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener("keydown", this.arrowKeyEventHandler);
+    window.addEventListener('keydown', this.arrowKeyEventHandler);
   },
   destroyed() {
-    window.removeEventListener("keydown", this.arrowKeyEventHandler);
+    window.removeEventListener('keydown', this.arrowKeyEventHandler);
   },
   props: {
     fileType: {
       type: String,
-      default: "",
+      default: '',
     },
     fileHash: {
       type: String,
-      default: "",
+      default: '',
     },
     selectedIndex: {
       type: Number,
@@ -172,13 +213,13 @@ export default {
         // handle fetching missing items from the api
         const currentPage = Number(this.$route.query.page);
         if (
-          index === this.items?.length - 1 ||
-          (index < this.items?.length - 1 && this.items[index + 1] === undefined)
+          index === this.items?.length - 1
+          || (index < this.items?.length - 1 && this.items[index + 1] === undefined)
         ) {
-          console.debug("last page item: loading items for page", currentPage + 1);
+          console.debug('last page item: loading items for page', currentPage + 1);
           store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage + 1 });
         } else if (index === (currentPage - 1) * 15 && currentPage > 1) {
-          console.debug("first page item: loading items for page", currentPage - 1);
+          console.debug('first page item: loading items for page', currentPage - 1);
           store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage - 1 });
         }
       },
@@ -191,22 +232,22 @@ export default {
         return; // Do nothing if event already handled
       }
       switch (event.code) {
-        case "ArrowLeft":
+        case 'ArrowLeft':
           this.carouselIndex -= 1;
           break;
-        case "ArrowRight":
+        case 'ArrowRight':
           this.carouselIndex += 1;
           break;
         default:
       }
     },
     goHome() {
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: '/' });
     },
     closeDetail() {
       const { query } = this.$route;
       this.$router.replace({
-        name: "Search",
+        name: 'Search',
         query,
       });
     },

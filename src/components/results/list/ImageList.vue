@@ -20,58 +20,61 @@
           md="3"
           lg="2"
         >
-          <v-card
-            v-if="hit"
-            @click="goToDetailPage(index)"
-            :id="hit.hash"
-            :class="{ blurExplicit: blurExplicit(hit)}"
-            :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
-            :data-nsfw="hit.nsfw"
-          >
-            <v-tooltip
-              bottom
-              align="center"
+          <v-hover v-slot:default="{ hover }">
+            <v-card
+              v-if="hit"
+              @click="goToDetailPage(index)"
+              :id="hit.hash"
+              :class="{ blurExplicit: blurExplicit(hit)}"
+              :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
+              :data-nsfw="hit.nsfw"
+              :elevation="hover ? 12 : 2"
             >
-              <template #activator="{ on, attrs }">
-                <v-img
-                  :src="getResourceURL(hit.hash)"
-                  aspect-ratio="1"
-                  class="grey lighten-2"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <template #placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      />
-                    </v-row>
-                  </template>
-                </v-img>
-              </template>
-              <div aligh="center">
-                <div v-if="blurExplicit(hit)">
-                  Blurring explicit content. See settings in menubar under
-                  <v-icon color="white">
-                    mdi-cog
-                  </v-icon>
+              <v-tooltip
+                bottom
+                align="center"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-img
+                    :src="getResourceURL(hit.hash)"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <template #placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        />
+                      </v-row>
+                    </template>
+                  </v-img>
+                </template>
+                <div aligh="center">
+                  <div v-if="blurExplicit(hit)">
+                    Blurring explicit content. See settings in menubar under
+                    <v-icon color="white">
+                      mdi-cog
+                    </v-icon>
+                  </div>
+                  <div v-if="hit.nsfwClassification">
+                    {{
+                      Object.entries(hit.nsfwClassification)
+                        .reduce((p, [classifier, value]) =>
+                          `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
+                        )
+                    }}
+                  </div>
                 </div>
-                <div v-if="hit.nsfwClassification">
-                  {{
-                    Object.entries(hit.nsfwClassification)
-                      .reduce((p, [classifier, value]) =>
-                        `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
-                      )
-                  }}
-                </div>
-              </div>
-            </v-tooltip>
-          </v-card>
+              </v-tooltip>
+            </v-card>
+          </v-hover>
         </v-col>
       </v-row>
     </v-col>

@@ -21,51 +21,54 @@
           md="3"
           lg="2"
         >
-          <v-card
-            @click="goToDetailPage(index)"
-          >
-            <v-img
-              :src="hit.src"
-              class="white--text align-end"
-              :aspect-ratio="1"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          <v-hover v-slot:default="{ hover }">
+            <v-card
+              @click="goToDetailPage(index)"
+              :elevation="hover ? 12 : 2"
             >
-              <v-icon
-                size="64"
-                color="white"
-                style="opacity: 0.3;
+              <v-img
+                :src="hit.src"
+                class="white--text align-end"
+                :aspect-ratio="1"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              >
+                <v-icon
+                  size="64"
+                  color="white"
+                  style="opacity: 0.3;
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);"
-              >
-                mdi-music
-              </v-icon>
-
-              <v-card-text
-                class="text-subtitle-2"
-                v-html="hit.title"
-              />
-            </v-img>
-
-            <v-card-text class="text-caption text-truncate">
-              <div
-                class="my-n2 d-block-inline text-truncate"
-              >
-                <span
-                  :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
                 >
-                  &#9679;
-                </span>
-                <span v-if="hit['last-seen']">
-                  Last seen <timeago :datetime="hit['last-seen']" />
-                </span>
-                <br>
-                <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
-                <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
-              </div>
-            </v-card-text>
-          </v-card>
+                  mdi-music
+                </v-icon>
+
+                <v-card-text
+                  class="text-subtitle-2"
+                  v-html="hit.title"
+                />
+              </v-img>
+
+              <v-card-text class="text-caption text-truncate">
+                <div
+                  class="my-n2 d-block-inline text-truncate"
+                >
+                  <span
+                    :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
+                  >
+                    &#9679;
+                  </span>
+                  <span v-if="hit['last-seen']">
+                    Last seen <timeago :datetime="hit['last-seen']" />
+                  </span>
+                  <br>
+                  <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
+                  <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-hover>
         </v-col>
       </v-row>
     </v-col>
