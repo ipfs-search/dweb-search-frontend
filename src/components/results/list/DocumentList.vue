@@ -66,3 +66,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.text-subtitle-1 {
+  display: inline-block;
+}
+</style>
+
