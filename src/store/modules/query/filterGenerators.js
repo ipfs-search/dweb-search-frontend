@@ -1,4 +1,4 @@
-// eslint-disable-next-line max-classes-per-file
+
 const filterFactory = (state, { setValue }, { rendered, toSearchApi }) => ({
   namespaced: true,
   state,
