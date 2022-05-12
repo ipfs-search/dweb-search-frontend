@@ -105,5 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.text-subtitle-1 {
+  display: inline-block;
+}
 </style>
