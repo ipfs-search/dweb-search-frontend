@@ -21,7 +21,7 @@
           md="3"
           lg="2"
         >
-          <v-hover v-slot:default="{ hover }">
+          <v-hover v-slot="{ hover }">
             <v-card
               @click="goToDetailPage(index)"
               :elevation="hover ? 12 : 2"

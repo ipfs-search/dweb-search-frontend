@@ -11,7 +11,7 @@
       xl="8"
       offset-xl="2"
     >
-      <v-hover v-slot:default="{ hover }">
+      <v-hover v-slot="{ hover }">
         <v-card
           @click="goToDetailPage(index)"
           v-if="hit"
