@@ -79,6 +79,10 @@ export default {
         case 'odp':
           return `https://view.officeapps.live.com/op/embed.aspx?src=${
             getResourceURL(this.file.hash)}`;
+        case 'html':
+        case 'txt':
+        case 'json':
+          return getResourceURL(this.file.hash);
         case 'pdf':
           return this.retriever.objectURL;
         default:
