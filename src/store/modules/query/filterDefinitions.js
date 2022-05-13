@@ -1,10 +1,5 @@
 import { Types } from '@/helpers/typeHelper';
 import { languages } from '@cospired/i18n-iso-languages/langs/en.json';
-import {
-  multipleSelectFilterGenerator,
-  selectFilterGenerator,
-  typeFilterGenerator,
-} from '@/store/modules/query/filterGenerators';
 
 const legacyTypes = {
   [Types.directories]: [],
@@ -46,7 +41,7 @@ const legacyTypes = {
   ],
 };
 
-const typeFilterDefinition = {
+export const typeFilterDefinition = {
   label: 'Type',
   apiKey: 'metadata.Content-Type',
   selectionOptions: [
@@ -64,17 +59,18 @@ const typeFilterDefinition = {
 
 const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
   {
-    label: name,
-    slug: alpha2,
+    text: name,
+    value: alpha2,
     apiValue: alpha2,
-  })).sort((a, b) => a.label < b.label); // alphabetize
+  })).sort((a, b) => a.text < b.text); // alphabetize
 
-const languageFilterDefinition = {
+export const languageFilterDefinition = {
   label: 'Language',
   apiKey: 'language.language',
   selectionOptions: [
     {
-      label: 'Any',
+      text: 'Any',
+      value: 'any',
       apiValue: '',
       default: true,
     },
@@ -82,62 +78,56 @@ const languageFilterDefinition = {
   ],
 };
 
-const sizeFilterDefinition = {
+export const sizeFilterDefinition = {
   label: 'Size',
   apiKey: 'size',
   selectionOptions: [
     {
-      label: '0-10mb',
+      value: '0-10mb',
       apiValue: ['<=10485760'],
     },
     {
-      label: '10-100mb',
+      value: '10-100mb',
       apiValue: ['>10485760', '<=104857600'],
     },
     {
-      label: '100mb-1gb',
+      value: '100mb-1gb',
       apiValue: ['>104857600', '<=1073741824'],
     },
     {
-      label: '1gb+',
-      slug: '>1gb',
+      text: '1gb+',
+      value: '>1gb',
       apiValue: ['>1073741824'],
     },
     {
-      label: 'Any',
+      value: 'Any',
       apiValue: [],
       default: true,
     },
   ],
 };
-const lastSeenFilterDefinition = {
+
+export const lastSeenFilterDefinition = {
   label: 'Last seen',
   slug: 'last_seen',
   apiKey: 'last-seen',
   selectionOptions: [
     {
-      label: '<24hr',
+      value: '<24hr',
       apiValue: '[ now-24h/h TO *]',
     },
     {
-      label: '<7d',
+      value: '<7d',
       apiValue: '[ now/h-7d TO *]',
     },
     {
-      label: '<30d',
+      value: '<30d',
       apiValue: '[ now/d-30d TO *]',
       default: true,
     },
     {
-      label: 'any',
+      value: 'any',
       apiValue: '*',
     },
   ],
-};
-//
-export default {
-  typeFilter: typeFilterGenerator(typeFilterDefinition),
-  languageFilter: multipleSelectFilterGenerator(languageFilterDefinition),
-  sizeFilter: selectFilterGenerator(sizeFilterDefinition),
-  lastSeenFilter: selectFilterGenerator(lastSeenFilterDefinition),
 };

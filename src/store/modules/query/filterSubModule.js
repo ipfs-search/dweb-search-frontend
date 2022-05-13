@@ -1,5 +1,16 @@
 import { Types } from '@/helpers/typeHelper';
-import filterDefinitions from './filterDefinitions';
+import {
+  typeFilterDefinition,
+  languageFilterDefinition,
+  sizeFilterDefinition,
+  lastSeenFilterDefinition,
+} from '@/store/modules/query/filterDefinitions';
+
+import {
+  selectFilter,
+  multipleSelectFilter,
+  typeFilter,
+} from '@/store/modules/query/filterModuleGenerators';
 
 export const searchApiQuery = (state) => Object.values(state)
   .flatMap((filter) => filter.searchApiQuerySnippet)
@@ -16,18 +27,19 @@ const mutations = {
   },
 };
 
-const filterWidgetsGetter = (state) => {
-  switch (state.typeFilter.value) {
+const filterWidgetsGetter = (state, getters) => {
+  console.log(state);
+  switch (state.type.value) {
     case Types.text:
       return [
-        state.languageFilter,
-        state.sizeFilter,
-        state.lastSeenFilter,
+        getters['language/toComponentProps'],
+        getters['size/toComponentProps'],
+        getters['lastSeen/toComponentProps'],
       ];
     default:
       return [
-        state.sizeFilter,
-        state.lastSeenFilter,
+        getters['size/toComponentProps'],
+        getters['lastSeen/toComponentProps'],
       ];
   }
 };
@@ -40,9 +52,9 @@ export default {
     searchApiQuery,
   },
   modules: {
-    type: filterDefinitions.typeFilter,
-    language: filterDefinitions.languageFilter,
-    size: filterDefinitions.sizeFilter,
-    lastSeen: filterDefinitions.lastSeenFilter,
+    type: typeFilter(typeFilterDefinition),
+    language: multipleSelectFilter(languageFilterDefinition),
+    size: selectFilter(sizeFilterDefinition),
+    lastSeen: selectFilter(lastSeenFilterDefinition),
   },
 };

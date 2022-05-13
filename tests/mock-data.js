@@ -1,9 +1,9 @@
 import {
-  multipleSelectFilterGenerator,
-  selectFilterGenerator,
+  multipleSelectFilter,
+  selectFilter,
 } from '@/store/modules/query/filterGenerators';
 
-const icecream = selectFilterGenerator({
+const icecream = selectFilter({
   apiKey: 'icecream',
   label: 'icecream',
   selectionOptions: [
@@ -11,7 +11,7 @@ const icecream = selectFilterGenerator({
   ],
 });
 
-const pizza = multipleSelectFilterGenerator({
+const pizza = multipleSelectFilter({
   label: 'pizza',
   apiKey: 'pizza',
   selectionOptions: [

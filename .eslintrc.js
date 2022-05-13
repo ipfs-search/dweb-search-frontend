@@ -45,6 +45,7 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    'import/named': 'off',
   },
 
   overrides: [
