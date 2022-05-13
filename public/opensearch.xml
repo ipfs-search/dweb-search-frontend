@@ -1,6 +1,6 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-  <ShortName>IPFS Search</ShortName>
-  <Description>IPFS Search</Description>
+  <ShortName>ipfs-search.com</ShortName>
+  <Description>Search the Distributed Web</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Url type="text/html" template="http://localhost:8080/#/search?q={searchTerms}" />
+  <Url type="text/html" template="https://ipfs-search.com/#/search?q={searchTerms}&amp;page={startPage?}" />
 </OpenSearchDescription>
