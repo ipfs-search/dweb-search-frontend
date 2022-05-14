@@ -93,7 +93,7 @@ export default {
     },
     type: {
       get() {
-        return this.$store.getters['query/filters/type/rendered'].value;
+        return this.$store.getters['query/filters/type/toProps'].value;
       },
       set(newType) {
         if (this.type !== newType) {

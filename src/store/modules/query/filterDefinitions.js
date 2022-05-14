@@ -43,15 +43,17 @@ const legacyTypes = {
 
 export const typeFilterDefinition = {
   label: 'Type',
+  slug: 'type',
   apiKey: 'metadata.Content-Type',
-  selectionOptions: [
+  items: [
     {
-      label: 'Any',
+      text: 'Any',
+      value: Types.any,
       default: true,
       apiValue: [],
     },
     ...Object.entries(legacyTypes).map(([type, values]) => ({
-      label: type,
+      text: type,
       apiValue: values,
     })),
   ],
@@ -66,8 +68,9 @@ const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
 
 export const languageFilterDefinition = {
   label: 'Language',
+  slug: 'language',
   apiKey: 'language.language',
-  selectionOptions: [
+  items: [
     {
       text: 'Any',
       value: 'any',
@@ -80,8 +83,9 @@ export const languageFilterDefinition = {
 
 export const sizeFilterDefinition = {
   label: 'Size',
+  slug: 'size',
   apiKey: 'size',
-  selectionOptions: [
+  items: [
     {
       value: '0-10mb',
       apiValue: ['<=10485760'],
@@ -111,7 +115,7 @@ export const lastSeenFilterDefinition = {
   label: 'Last seen',
   slug: 'last_seen',
   apiKey: 'last-seen',
-  selectionOptions: [
+  items: [
     {
       value: '<24hr',
       apiValue: '[ now-24h/h TO *]',

@@ -21,7 +21,7 @@ const inject = {
   localVue,
   router,
   vuetify,
-}
+};
 
 export const localShallowMount = (component, options = {}) => shallowMount(component, {
   ...inject,

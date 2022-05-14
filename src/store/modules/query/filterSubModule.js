@@ -9,37 +9,51 @@ import {
 import {
   selectFilter,
   multipleSelectFilter,
-  typeFilter,
 } from '@/store/modules/query/filterModuleGenerators';
 
+const TYPE = typeFilterDefinition.slug;
+const LANGUAGE = languageFilterDefinition.slug;
+const SIZE = sizeFilterDefinition.slug;
+const LASTSEEN = lastSeenFilterDefinition.slug;
+
 export const searchApiQuery = (state) => Object.values(state)
-  .flatMap((filter) => filter.searchApiQuerySnippet)
-  .filter((el) => !!el) // remove empty strings before the join
+  .flatMap((filter) => filter.toSearchApi)
+  .filter((el) => !!el) // remove empty/undefined values before the join to avoid double spaces
   .join(' ');
 
 const mutations = {
+  /**
+   * set the values of the filters to the given url query parameters
+   * @param state
+   * @param routeParams
+   */
   setRouteParams(state, routeParams) {
     // map query parameters to state
     Object.keys(state)
-      .forEach((filter) => {
-        this.commit(`query/filters/${filter}/setValue`, routeParams[filter]);
+      .forEach((filterSlug) => {
+        this.commit(`query/filters/${filterSlug}/setValue`, routeParams[filterSlug]);
       });
   },
 };
 
+/**
+ * define which filter widgets are available in which conditions. Can be infinitely expanded
+ * @param state
+ * @param getters
+ * @returns {[undefined, undefined]|[undefined, undefined, undefined]}
+ */
 const filterWidgetsGetter = (state, getters) => {
-  console.log(state);
   switch (state.type.value) {
     case Types.text:
       return [
-        getters['language/toComponentProps'],
-        getters['size/toComponentProps'],
-        getters['lastSeen/toComponentProps'],
+        getters[`${LANGUAGE}/toProps`],
+        getters[`${SIZE}/toProps`],
+        getters[`${LASTSEEN}/toProps`],
       ];
     default:
       return [
-        getters['size/toComponentProps'],
-        getters['lastSeen/toComponentProps'],
+        getters[`${SIZE}/toProps`],
+        getters[`${LASTSEEN}/toProps`],
       ];
   }
 };
@@ -52,9 +66,9 @@ export default {
     searchApiQuery,
   },
   modules: {
-    type: typeFilter(typeFilterDefinition),
-    language: multipleSelectFilter(languageFilterDefinition),
-    size: selectFilter(sizeFilterDefinition),
-    lastSeen: selectFilter(lastSeenFilterDefinition),
+    [TYPE]: multipleSelectFilter(typeFilterDefinition),
+    [LANGUAGE]: multipleSelectFilter(languageFilterDefinition),
+    [SIZE]: selectFilter(sizeFilterDefinition),
+    [LASTSEEN]: selectFilter(lastSeenFilterDefinition),
   },
 };

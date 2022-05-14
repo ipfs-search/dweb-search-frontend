@@ -23,7 +23,7 @@
 
             <v-col
               v-for="filter in filters"
-              :key="filter.name"
+              :key="filter.slug"
               cols="6"
               md="3"
             >
@@ -44,7 +44,9 @@ import SelectFilter from '@/components/helpers/SelectFilter';
 export default {
   components: { SelectFilter },
   computed: {
-    filters() { return this.$store.getters['query/filters/filterWidgets']; },
+    filters() {
+      return this.$store.getters['query/filters/filterWidgets'];
+    },
   },
 };
 </script>

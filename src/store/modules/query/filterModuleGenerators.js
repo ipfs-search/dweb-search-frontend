@@ -6,9 +6,9 @@
  * @param toSearchApi: transform to a chunk of API input for the search
  * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
-function filterModule({ state, mutations: { setValue }, getters: { toComponentProps, toSearchApi } }) {
+function filterModule({ state, mutations: { setValue }, getters: { toProps, toSearchApi } }) {
   return {
-    namespaced: true, state, mutations: { setValue }, getters: { toComponentProps, toSearchApi },
+    namespaced: true, state, mutations: { setValue }, getters: { toProps, toSearchApi },
   };
 }
 
@@ -18,33 +18,8 @@ function filterModule({ state, mutations: { setValue }, getters: { toComponentPr
  * @param selection
  */
 const selectFilterValue = (state, selection) => {
-  const selected = [selection]
-    .flat() // coerce to array
-    .filter((selectedSlug) => state.items.map(({ slug }) => slug).includes(selectedSlug));
-  state.items.forEach((item, index) => {
-    // If nothing is selected, select the default value
-    if (selected.length) {
-      state.items[index].selected = (selected.includes(item.slug));
-    } else {
-      state.items[index].selected = (item.default === true);
-    }
-  });
+  state.value = selection;
 };
-
-const selectFilterToComponentProps = ({ items, label }) => ({
-  // items: items.map((item) => ({ text: item.label, value: item.slug })),
-  items,
-  label,
-  value: items.find((item) => item.selected)?.value,
-});
-
-const multipleSelectFilterToComponentProps = ({ items, label }) => ({
-  items,
-  label,
-  value: items
-    .filter((item) => item.selected)
-    .map((item) => item.value),
-});
 
 const selectFilterToSearchApi = (state) => {
   // get array of api values for the selected item(s)
@@ -68,17 +43,30 @@ const multipleSelectFilterToSearchApi = (state) => {
  * @param filterProperties
  * @returns {{apiKey: *, label: (string|*), items: unknown[] | undefined, slug: (string|*)}}
  */
-const mapDefinitionToState = (filterProperties) => ({
-  label: filterProperties.label ?? filterProperties.slug,
-  slug: filterProperties.slug,
-  apiKey: filterProperties.apiKey,
-  items: filterProperties.selectionOptions?.map((item) => ({
+const mapDefinitionToState = ({
+  label, slug, apiKey, items,
+}) => ({
+  label: label ?? slug,
+  slug: slug ?? label,
+  apiKey,
+  items: items?.map((item) => ({
     text: item.text ?? item.value,
-    value: item.value,
+    value: item.value ?? item.text,
     apiValue: item.apiValue,
     default: item.default,
-    selected: item.default, // the default is selected on creation time of the module
   })),
+  value: items.filter((item) => item.default).map((item) => item.value ?? item.text),
+});
+
+/**
+ * toProps getter, used to transform the state into props for the filter component
+ * @param { ...state }
+ * @returns {{multiple, label, items, value, slug}}
+ */
+const toProps = ({
+  label, slug, items, value, multiple,
+}) => ({
+  label, slug, items, value, multiple,
 });
 
 export const selectFilter = (filterProperties) => filterModule({
@@ -87,7 +75,7 @@ export const selectFilter = (filterProperties) => filterModule({
     setValue: selectFilterValue,
   },
   getters: {
-    toComponentProps: selectFilterToComponentProps,
+    toProps,
     toSearchApi: selectFilterToSearchApi,
   },
 });
@@ -101,7 +89,7 @@ export const multipleSelectFilter = (filterProperties) => filterModule({
     setValue: selectFilterValue,
   },
   getters: {
-    toComponentProps: multipleSelectFilterToComponentProps,
+    toProps,
     toSearchApi: multipleSelectFilterToSearchApi,
   },
 });
@@ -112,13 +100,13 @@ export const multipleSelectFilter = (filterProperties) => filterModule({
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
-export const typeFilter = (filterProperties) => {
-  const filter = selectFilter(filterProperties);
-  return filterModule({
-    ...filter,
-    getters: {
-      ...filter.getters,
-      toSearchApi: multipleSelectFilterToSearchApi,
-    },
-  });
-};
+export const typeFilter = (filterProperties) => filterModule({
+  state: mapDefinitionToState(filterProperties),
+  mutations: {
+    setValue: selectFilterValue,
+  },
+  getters: {
+    toSearchApi: multipleSelectFilterToSearchApi,
+    toProps,
+  },
+});
