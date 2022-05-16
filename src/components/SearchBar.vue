@@ -93,7 +93,8 @@ export default {
     },
     type: {
       get() {
-        return this.$store.getters['query/filters/type/toProps'].value;
+        const single = (value) => [value].flat()[0];
+        return single(this.$store.getters['query/filters/type/toProps'].value);
       },
       set(newType) {
         if (this.type !== newType) {

@@ -71,12 +71,12 @@ export const languageFilterDefinition = {
   slug: 'language',
   apiKey: 'language.language',
   items: [
-    {
-      text: 'Any',
-      value: 'any',
-      apiValue: '',
-      default: true,
-    },
+    // {
+    //   text: 'Any',
+    //   value: 'any',
+    //   apiValue: '',
+    //   default: true,
+    // },
     ...languageOptions,
   ],
 };

@@ -1,7 +1,7 @@
 import {
   multipleSelectFilter,
   selectFilter,
-} from '@/store/modules/query/filterGenerators';
+} from '@/store/modules/query/filterModuleGenerators';
 
 const icecream = selectFilter({
   apiKey: 'icecream',

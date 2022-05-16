@@ -12,13 +12,20 @@ function filterModule({ state, mutations: { setValue }, getters: { toProps, toSe
   };
 }
 
+const defaultValue = (items) => items
+  .filter((item) => item.default)
+  .map((item) => item.value ?? item.text);
+
 /**
- * mutation (setter) for the selection of an item in the (multiple) select filter
+ * Mutation (setter) for the selection of one or more items in the (multiple) select filter.
+ * Does not discriminate between existing and non-existing values.
+ * If no selection is given (selection === undefined) it falls back to default value for filter.
  * @param state
  * @param selection
  */
 const selectFilterValue = (state, selection) => {
-  state.value = selection;
+  state.value = selection
+    ?? defaultValue(state.items);
 };
 
 const selectFilterToSearchApi = (state) => {
@@ -55,7 +62,7 @@ const mapDefinitionToState = ({
     apiValue: item.apiValue,
     default: item.default,
   })),
-  value: items.filter((item) => item.default).map((item) => item.value ?? item.text),
+  value: defaultValue(items),
 });
 
 /**

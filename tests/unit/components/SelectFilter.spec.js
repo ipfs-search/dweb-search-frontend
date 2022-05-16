@@ -8,7 +8,7 @@ let componentHtml;
 beforeAll(() => {
   component = localMount(SelectFilterComponent, {
     propsData: {
-      filter: mockFilters.icecream.getters.rendered(mockFilters.icecream.state),
+      filter: mockFilters.icecream.getters.toComponentProps(mockFilters.icecream.state),
     },
   });
   componentHtml = component.html();
