@@ -78,9 +78,7 @@ export default {
   setup() {
     return { blurExplicit };
   },
-  mixins: [
-    DetailMixin,
-  ],
+  mixins: [DetailMixin],
   components: {
     MetaDataPanel,
     MediaHeader,
@@ -89,19 +87,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/blurExplicitImages';
+@import "@/scss/blurExplicitImages";
 
 .image-wrapper {
   width: 100% !important;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
-  background-color: grey;
 }
 .image-wrapper:after {
   content: "";
   display: block;
   padding-bottom: 100%;
 }
-
 </style>
