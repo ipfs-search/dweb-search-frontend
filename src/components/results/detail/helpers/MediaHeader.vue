@@ -29,6 +29,7 @@
         <div
           v-if="$props.file.title"
           class="text-h6 font-weight-regular"
+          style="word-break: break-word"
           v-html="$props.file.title"
         />
       </v-col>
@@ -43,9 +44,7 @@ import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import CopyHashButton from '@/components/helpers/CopyHashButton';
 
 export default {
-  mixins: [
-    DetailMixin,
-  ],
+  mixins: [DetailMixin],
   components: { DownloadButton, CopyHashButton },
   methods: {
     showFileType(mimeType) {
@@ -56,5 +55,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~video.js/dist/video-js.css';
+@import "~video.js/dist/video-js.css";
 </style>
