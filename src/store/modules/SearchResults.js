@@ -100,9 +100,14 @@ export default (fileType) => ({
     }) {
       const batch = page - 1;
 
+      const filterQuery = Object.keys(rootState.query.filters)
+        .map((filter) => rootGetters[`query/filters/${filter}/toSearchQuery`])
+        .map((query) => (typeof query === 'function' ? query(fileType) : query))
+        .filter((el) => !!el); // remove empty/undefined values before the join to avoid double spaces
+
       const apiQueryString = [
         rootState.query.searchPhrase,
-        rootGetters['query/filters/searchApiQuery'],
+        ...filterQuery,
       ].join(' ');
       cleanUpResults({ state, commit, apiQueryString });
 

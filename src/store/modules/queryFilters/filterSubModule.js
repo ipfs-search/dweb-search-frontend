@@ -8,18 +8,13 @@ import {
 
 import {
   selectFilter,
-  multipleSelectFilter,
+  multipleSelectFilter, typeFilter,
 } from '@/store/modules/queryFilters/filterModuleGenerators';
 
 const TYPE = typeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
-
-export const searchApiQuery = (state, getters) => Object.keys(state)
-  .flatMap((filter) => getters[`${filter}/toSearchApi`])
-  .filter((el) => !!el) // remove empty/undefined values before the join to avoid double spaces
-  .join(' ');
 
 const mutations = {
   /**
@@ -64,10 +59,9 @@ export default {
   mutations,
   getters: {
     filterWidgets: filterWidgetsGetter,
-    searchApiQuery,
   },
   modules: {
-    [TYPE]: multipleSelectFilter(typeFilterDefinition),
+    [TYPE]: typeFilter(typeFilterDefinition),
     [LANGUAGE]: multipleSelectFilter(languageFilterDefinition),
     [SIZE]: selectFilter(sizeFilterDefinition),
     [LASTSEEN]: selectFilter(lastSeenFilterDefinition),

@@ -3,12 +3,12 @@
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
  * @param setValue: set/select the value of the filter
  * @param toComponentProps: transform to component props
- * @param toSearchApi: transform to a chunk of API input for the search
- * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
+ * @param toSearchQuery: transform to a chunk of API input for the search
+ * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchQuery}}}
  */
-function filterModule({ state, mutations: { setValue }, getters: { toProps, toSearchApi } }) {
+function filterModule({ state, mutations: { setValue }, getters: { toProps, toSearchQuery } }) {
   return {
-    namespaced: true, state, mutations: { setValue }, getters: { toProps, toSearchApi },
+    namespaced: true, state, mutations: { setValue }, getters: { toProps, toSearchQuery },
   };
 }
 
@@ -86,7 +86,7 @@ export const selectFilter = (filterProperties) => filterModule({
   },
   getters: {
     toProps,
-    toSearchApi: selectFilterToSearchApi,
+    toSearchQuery: selectFilterToSearchApi,
   },
 });
 
@@ -100,7 +100,7 @@ export const multipleSelectFilter = (filterProperties) => filterModule({
   },
   getters: {
     toProps,
-    toSearchApi: multipleSelectFilterToSearchApi,
+    toSearchQuery: multipleSelectFilterToSearchApi,
   },
 });
 
@@ -108,7 +108,7 @@ export const multipleSelectFilter = (filterProperties) => filterModule({
  * The typefilter works as a normal select filter, but to transform to search API, the
  * multiple-select transformer is used. Coincidentally this works for the way its values are defined.
  * @param filterProperties
- * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
+ * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchQuery}}}
  */
 export const typeFilter = (filterProperties) => filterModule({
   state: mapDefinitionToState(filterProperties),
@@ -116,7 +116,12 @@ export const typeFilter = (filterProperties) => filterModule({
     setValue: selectFilterValue,
   },
   getters: {
-    toSearchApi: multipleSelectFilterToSearchApi,
+    // for the transformation of the type filter to the search api, we need to know the requested
+    // type, because the 'any' type requires each of the available types to be searched.
+    toSearchQuery: (state) => (fileType) => multipleSelectFilterToSearchApi({
+      ...state,
+      value: fileType,
+    }),
     toProps,
   },
 });
