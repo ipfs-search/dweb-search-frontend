@@ -8,7 +8,7 @@ import {
 
 import {
   selectFilter,
-  multipleSelectFilter,
+  multipleSelectFilter, typeFilter,
 } from '@/store/modules/queryFilters/filterModuleGenerators';
 
 const TYPE = typeFilterDefinition.slug;
@@ -67,7 +67,7 @@ export default {
     searchApiQuery,
   },
   modules: {
-    [TYPE]: multipleSelectFilter(typeFilterDefinition),
+    [TYPE]: typeFilter(typeFilterDefinition),
     [LANGUAGE]: multipleSelectFilter(languageFilterDefinition),
     [SIZE]: selectFilter(sizeFilterDefinition),
     [LASTSEEN]: selectFilter(lastSeenFilterDefinition),
