@@ -39,29 +39,3 @@ describe('Mapping filters to api query', () => {
       .toMatch(/^icecream:\(.+ OR .+ OR .+\)$/);
   });
 });
-
-describe.skip('Calling the api', () => {
-  const store = createStore();
-
-  test('store api getter combines api values', () => {
-    const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
-    const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
-    const apiQuery = store.getters['filters/searchApiQuery'];
-    expect(apiQuery).toMatch(pizzaQuery);
-    expect(apiQuery).toMatch(icecreamQuery);
-  });
-  test('when multiple select has nothing selected, it should not appear in API query', () => {
-    // N.b. the following line does not work, due to limitation of vuex.
-    // store.commit('setRouteParams', { pizza: 'Margherita' });
-    // So the following snippet replicates it.
-    const routeParams = { pizza: 'Margherita', icecream: [] };
-    Object.keys(store.state.filters).forEach((filterSlug) => {
-      store.commit(`filters/${filterSlug}/setValue`, routeParams[filterSlug]);
-    });
-    const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
-    const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
-    expect(icecreamQuery).toEqual('');
-    expect(store.getters['filters/searchApiQuery'])
-      .toEqual(pizzaQuery);
-  });
-});
