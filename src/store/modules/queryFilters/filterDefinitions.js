@@ -56,11 +56,6 @@ export const typeFilterDefinition = {
       text: type,
       apiValue: values,
     })),
-    {
-      text: 'Other',
-      value: Types.other,
-      apiValue: Object.values(legacyTypes).flat(), // gets negated
-    },
   ],
 };
 

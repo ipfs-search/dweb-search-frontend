@@ -5,7 +5,6 @@ export const Types = {
   images: 'images',
   video: 'video',
   directories: 'directories',
-  other: 'other',
 };
 
 export const searchTypes = Object.values(Types);

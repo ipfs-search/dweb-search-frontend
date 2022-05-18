@@ -6,8 +6,6 @@
  * @param toSearchApi: transform to a chunk of API input for the search
  * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
-import { Types } from '@/helpers/typeHelper';
-
 function filterModule({ state, mutations: { setValue }, getters: { toProps, toSearchApi } }) {
   return {
     namespaced: true, state, mutations: { setValue }, getters: { toProps, toSearchApi },
@@ -118,12 +116,7 @@ export const typeFilter = (filterProperties) => filterModule({
     setValue: selectFilterValue,
   },
   getters: {
-    toSearchApi: (state) => {
-      if (state.value === Types.other || state.value === [Types.other]) {
-        return `NOT ${multipleSelectFilterToSearchApi(state)}`;
-      }
-      return multipleSelectFilterToSearchApi(state);
-    },
+    toSearchApi: multipleSelectFilterToSearchApi,
     toProps,
   },
 });

@@ -64,7 +64,6 @@
     <ImageList v-if="listType(this.Types.images)" />
     <VideoList v-if="listType(this.Types.video)" />
     <DirectoryList v-if="listType(this.Types.directories)" />
-    <OtherList v-if="listType(this.Types.other)" />
   </div>
 </template>
 
@@ -77,7 +76,6 @@ import ImageList from '@/components/results/list/ImageList';
 import AudioList from '@/components/results/list/AudioList';
 import VideoList from '@/components/results/list/VideoList';
 import DirectoryList from '@/components/results/list/DirectoryList';
-import OtherList from '@/components/results/list/OtherList';
 
 const { Types } = require('@/helpers/typeHelper');
 
@@ -94,7 +92,6 @@ export default {
     AudioList,
     VideoList,
     DirectoryList,
-    OtherList,
   },
   methods: {
     goHome() {

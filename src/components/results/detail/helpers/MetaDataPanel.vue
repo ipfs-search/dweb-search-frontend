@@ -2,9 +2,7 @@
   <v-row>
     <v-col>
       <div class="text-body-1">
-        <v-expansion-panels
-          v-model="expand"
-        >
+        <v-expansion-panels>
           <v-expansion-panel>
             <v-expansion-panel-header>
               <template #default="{ open }">
@@ -66,17 +64,6 @@ export default {
   mixins: [
     DetailMixin,
   ],
-  props: {
-    expanded: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      expand: this.expanded ? 0 : -1,
-    };
-  },
   computed: {
     metadata() {
       const metadata = [];
