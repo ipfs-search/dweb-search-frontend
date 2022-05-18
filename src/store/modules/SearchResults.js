@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { apiSearch, batchSize } from '@/helpers/ApiHelper';
 import { classify } from '@/helpers/nsfwClassifier';
 import { Types } from '@/helpers/typeHelper';
+import { filtersPerType } from '@/store/modules/queryFilters/filterSubModule';
 
 const baseState = {
   error: false,
@@ -101,12 +102,13 @@ export default (fileType) => ({
       const batch = page - 1;
 
       const filterQuery = Object.keys(rootState.query.filters)
+        .filter((filter) => filtersPerType(fileType).includes(filter))
         .map((filter) => rootGetters[`query/filters/${filter}/toSearchQuery`])
-        .map((query) => (typeof query === 'function' ? query(fileType) : query))
         .filter((el) => !!el); // remove empty/undefined values before the join to avoid double spaces
 
       const apiQueryString = [
         rootState.query.searchPhrase,
+        rootGetters['query/filters/type/toSearchQuery'](fileType),
         ...filterQuery,
       ].join(' ');
       cleanUpResults({ state, commit, apiQueryString });

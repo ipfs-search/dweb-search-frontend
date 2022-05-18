@@ -16,6 +16,15 @@ const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
 
+export const filtersPerType = (fileType) => {
+  switch (fileType) {
+    case Types.text:
+      return [LANGUAGE, SIZE, LASTSEEN];
+    default:
+      return [SIZE, LASTSEEN];
+  }
+};
+
 const mutations = {
   /**
    * set the values of the filters to the given url query parameters. N.b., can not be unittested,
@@ -38,21 +47,8 @@ const mutations = {
  * @param getters
  * @returns {[undefined, undefined]|[undefined, undefined, undefined]}
  */
-const filterWidgetsGetter = (state, getters) => {
-  switch (state.type.value) {
-    case Types.text:
-      return [
-        getters[`${LANGUAGE}/toProps`],
-        getters[`${SIZE}/toProps`],
-        getters[`${LASTSEEN}/toProps`],
-      ];
-    default:
-      return [
-        getters[`${SIZE}/toProps`],
-        getters[`${LASTSEEN}/toProps`],
-      ];
-  }
-};
+const filterWidgetsGetter = (state, getters) => filtersPerType(state.type.value)
+  .map((filter) => getters[`${filter}/toProps`]);
 
 export default {
   namespaced: true,
