@@ -76,29 +76,6 @@ function cleanUpResults({ state, commit, apiQueryString }) {
   }
 }
 
-function apiSearchPage({
-  commit, apiQueryString, fileType, batch, perPage,
-}) {
-  commit('setLoading');
-
-  return apiSearch(apiQueryString, fileType, batch, perPage)
-    .then((results) => {
-      commit('setResults', { results, index: batch * perPage });
-      if (fileType === Types.images) {
-        results.hits.forEach((hit, index) => {
-          classify(hit)
-            .then(({ classification }) => {
-              commit('setNsfw', { index: index + batch * perPage, classification });
-            });
-        });
-      }
-      return results.hits;
-    })
-    .catch((error) => {
-      commit('setError', { error, batch, perPage });
-    });
-}
-
 export default (fileType) => ({
   namespaced: true,
   state: () => ({
@@ -138,9 +115,24 @@ export default (fileType) => ({
       }
 
       // otherwise do api lookup
-      return apiSearchPage({
-        commit, apiQueryString, fileType, batch, perPage,
-      });
+      commit('setLoading');
+
+      return apiSearch(apiQueryString, fileType, batch, perPage)
+        .then((results) => {
+          commit('setResults', { results, index: batch * perPage });
+          if (fileType === Types.images) {
+            results.hits.forEach((hit, index) => {
+              classify(hit)
+                .then(({ classification }) => {
+                  commit('setNsfw', { index: index + batch * perPage, classification });
+                });
+            });
+          }
+          return results.hits;
+        })
+        .catch((error) => {
+          commit('setError', { error, batch, perPage });
+        });
     },
   },
 });

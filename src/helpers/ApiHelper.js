@@ -46,14 +46,16 @@ export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
     query,
     apiType,
     batch,
-  ).then((results) => {
-    // fixme: the API sometimes responds with an error with response code 200. This catches that.
-    if (results.error) throw results.error;
-    return results;
-  }).catch((err) => {
-    console.error('API error from searchApi.searchGet', err);
-    throw err;
-  });
+  )
+    .then((results) => {
+      // fixme: the API sometimes responds with an error with response code 200. This catches that.
+      if (results.error) throw results.error;
+      return results;
+    })
+    .catch((err) => {
+      console.error('API error from searchApi.searchGet', err);
+      throw err;
+    });
 }
 
 export default {
