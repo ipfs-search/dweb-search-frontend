@@ -42,6 +42,7 @@ describe('Mapping filters to api query', () => {
 
 describe.skip('Calling the api', () => {
   const store = createStore();
+
   test('store api getter combines api values', () => {
     const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
     const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
