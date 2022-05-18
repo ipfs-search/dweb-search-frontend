@@ -124,7 +124,7 @@ export const lastSeenFilterDefinition = {
       default: true,
     },
     {
-      value: 'any',
+      value: 'Any',
       apiValue: '*',
     },
   ],
