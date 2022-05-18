@@ -12,56 +12,51 @@ Spec def:
 - it should be easy to extend/modify behaviour
 
 */
-import filterDefinitions from '@/store/modules/query/filterDefinitions';
-import { createStore, mergeStoreConfigurations } from '@/store';
-import filterSubModule from '@/store/modules/query/filterSubModule';
+import { createStore } from '@/store';
 import query from '@/store/modules/query';
 import mockFilters from '../../mock-data';
 
 let store;
+beforeAll(() => {
+  store = createStore({
+    ...query,
+    modules: {
+      filters: mockFilters.mockFilterModule,
+    },
+  });
+});
 
 describe('Mapping filters to api query', () => {
-  beforeAll(() => {
-    const filters = mergeStoreConfigurations(filterSubModule, {
-      modules: {
-        pizza: mockFilters.pizza,
-        icecream: mockFilters.icecream,
-      },
-    });
-    store = createStore(query, {
-      modules: {
-        filters,
-      },
-    });
+  test('multiple select api values are mapped to separate entries separated with a space', () => {
+    const pizza = store.getters['filters/pizza/toSearchApi'];
+    expect(pizza.split(' '))
+      .toIncludeSameMembers(['pizza:mozzerella', 'pizza:tomato', 'pizza:basilicum']);
   });
-  test('conjunctive api values are mapped to separate entries', () => {
+  test('single select api values are mapped to single value, united with OR', () => {
     const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
     expect(icecreamQuery)
-      .toIncludeSameMembers(['icecream:nuts', 'icecream:green']);
-  });
-  test('disjunctive api values are mapped to single value, united with OR', () => {
-    const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
-    expect(pizzaQuery)
-      .toMatch(/^pizza:\(.+ OR .+ OR .+\)$/);
+      .toMatch(/^icecream:\(.+ OR .+ OR .+\)$/);
   });
   test('store api getter combines api values', () => {
     const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
     const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
     const apiQuery = store.getters['filters/searchApiQuery'];
-    expect(apiQuery)
-      .toMatch(pizzaQuery);
-    icecreamQuery.forEach((snippet) => {
-      expect(apiQuery)
-        .toMatch(snippet);
-    });
-    expect(apiQuery.length)
-      .toEqual([...icecreamQuery, pizzaQuery].join(' ').length);
+    expect(apiQuery).toMatch(pizzaQuery);
+    expect(apiQuery).toMatch(icecreamQuery);
   });
-  test('when multiple select has nothing selected, its query will be empty', () => {
+  test('when multiple select has nothing selected, it should not appear in API query', () => {
+
+    // N.b. the following line does not work, due to limitation of vuex.
+    // store.commit('setRouteParams', { pizza: 'Margherita' });
+    // So the following snippet replicates it.
+    const routeParams = { pizza: 'Margherita', icecream: [] };
+    Object.keys(store.state.filters).forEach((filterSlug) => {
+      store.commit(`filters/${filterSlug}/setValue`, routeParams[filterSlug]);
+    });
+    const pizzaQuery = store.getters['filters/pizza/toSearchApi'];
     const icecreamQuery = store.getters['filters/icecream/toSearchApi'];
-    store.commit('setRouteParams', { icecream: 'Pistaccio' });
-    expect(filterDefinitions.pizza.searchApiQuerySnippet).toEqual('');
+    expect(icecreamQuery).toEqual('');
     expect(store.getters['filters/searchApiQuery'])
-      .toEqual(icecreamQuery.join(' '));
+      .toEqual(pizzaQuery);
   });
 });

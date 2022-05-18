@@ -13,7 +13,6 @@ const localVue = createLocalVue();
 
 localVue.use(VueClosable);
 localVue.use(Vuex);
-document.body.setAttribute('data-app', true);
 
 const vuetify = new Vuetify();
 
@@ -23,16 +22,17 @@ const inject = {
   vuetify,
 };
 
-export const localShallowMount = (component, options = {}) => shallowMount(component, {
-  ...inject,
-  ...options,
-});
-
-export const localMount = (component, options = {}) => {
-  const app = mount(component, {
+const mounter = (mountFunction, component, options = {}) => {
+  const child = mountFunction(component, {
     ...inject,
     ...options,
   });
-  app.element.setAttribute('data-app', true);
+  const app = mount({
+    template: '<div data-app="true" id="app" class="v-application"></div>',
+  });
+  app.element.appendChild(child.element);
   return app;
 };
+
+export const localMount = (component, options = {}) => mounter(mount, component, options);
+export const localShallowMount = (component, options = {}) => mounter(shallowMount, component, options);

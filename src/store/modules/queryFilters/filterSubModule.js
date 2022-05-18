@@ -4,26 +4,27 @@ import {
   languageFilterDefinition,
   sizeFilterDefinition,
   lastSeenFilterDefinition,
-} from '@/store/modules/query/filterDefinitions';
+} from '@/store/modules/queryFilters/filterDefinitions';
 
 import {
   selectFilter,
   multipleSelectFilter,
-} from '@/store/modules/query/filterModuleGenerators';
+} from '@/store/modules/queryFilters/filterModuleGenerators';
 
 const TYPE = typeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
 
-export const searchApiQuery = (state) => Object.values(state)
-  .flatMap((filter) => filter.toSearchApi)
+export const searchApiQuery = (state, getters) => Object.keys(state)
+  .flatMap((filter) => getters[`${filter}/toSearchApi`])
   .filter((el) => !!el) // remove empty/undefined values before the join to avoid double spaces
   .join(' ');
 
 const mutations = {
   /**
-   * set the values of the filters to the given url query parameters
+   * set the values of the filters to the given url query parameters. N.b., can not be unittested,
+   * due to limitations of vuex.
    * @param state
    * @param routeParams
    */
