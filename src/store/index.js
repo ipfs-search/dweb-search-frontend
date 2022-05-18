@@ -20,6 +20,7 @@ const storeConfiguration = {
         [Types.audio]: SearchResults(Types.audio),
         [Types.video]: SearchResults(Types.video),
         [Types.directories]: SearchResults(Types.directories),
+        [Types.other]: SearchResults(Types.other),
       },
     },
   },
