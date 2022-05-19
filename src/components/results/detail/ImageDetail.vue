@@ -51,7 +51,6 @@
                         class="image-wrapper"
                         :class="{ blurExplicit: blurExplicit(file)}"
                       >
-
                       <MetaDataPanel
                         class="mt-2"
                         :file="$props.file"
