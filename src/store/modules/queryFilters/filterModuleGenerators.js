@@ -106,7 +106,7 @@ export const multipleSelectFilter = (filterProperties) => filterModule({
 
 /**
  * The typefilter works as a normal select filter, but to transform to search API, the
- * multiple-select transformer is used. Coincidentally this works for the way its values are defined.
+ * multiple-select transformer is used. Coincidentally this works for the way its values are defined
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toComponentProps, toSearchQuery}}}
  */

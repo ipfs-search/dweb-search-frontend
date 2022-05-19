@@ -53,10 +53,8 @@ export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
       return results;
     })
     .then((results) => {
-      console.log(results.hits);
       results.hits.forEach((hit) => {
         api.metadatahashGet(hit.hash).then((metadata) => {
-          console.log('Metadata:', metadata);
           // eslint-disable-next-line no-param-reassign
           hit.metadata = metadata;
         });

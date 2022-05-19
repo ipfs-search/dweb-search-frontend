@@ -23,7 +23,7 @@ export default {
       const filterQuery = Object.keys(state.filters)
         .filter((filter) => getters['filters/applicableFilters'].includes(filter))
         .map((filter) => getters[`filters/${filter}/toSearchQuery`])
-        .filter((el) => !!el); // remove empty/undefined values before the join to avoid double spaces
+        .filter((el) => !!el); // remove empty values before the join to avoid double spaces
 
       return [
         state.searchPhrase,
