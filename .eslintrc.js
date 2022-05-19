@@ -1,21 +1,17 @@
 module.exports = {
   root: true,
-
   env: {
     node: true,
   },
-
   extends: [
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended',
     'eslint:recommended',
     '@vue/airbnb',
   ],
-
   parserOptions: {
     parser: '@babel/eslint-parser',
   },
-
   settings: {
     'import/resolver': {
       alias: {
@@ -26,7 +22,6 @@ module.exports = {
       },
     },
   },
-
   rules: {
     'no-console': 'off',
     'max-len': [
@@ -47,7 +42,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/named': 'off',
   },
-
   overrides: [
     {
       files: [
