@@ -1,25 +1,37 @@
 import filters from '@/store/modules/queryFilters/filterSubModule';
 
-const defaultQuery = {
+const baseState = {
   searchPhrase: '',
   page: 1,
 };
 
-const mutations = {
-  setRouteParams(state, routeParams) {
-    // map query parameters to state
-    state.searchPhrase = routeParams.q || defaultQuery.searchPhrase;
-    state.page = Number(routeParams.page) || defaultQuery.page;
-    this.commit('query/filters/setRouteParams', routeParams);
-  },
-};
-
-const state = () => ({ ...defaultQuery }); // Copy fields, prevent reference.
-
 export default {
   namespaced: true,
-  state,
-  mutations,
+  state: {
+    ...baseState,
+  },
+  mutations: {
+    setRouteParams(state, routeParams) {
+      // map query parameters to state
+      state.searchPhrase = routeParams.q || baseState.searchPhrase;
+      state.page = Number(routeParams.page) || baseState.page;
+      this.commit('query/filters/setRouteParams', routeParams);
+    },
+  },
+  getters: {
+    apiQueryString: (state, getters) => (fileType) => {
+      const filterQuery = Object.keys(state.filters)
+        .filter((filter) => getters['filters/applicableFilters'].includes(filter))
+        .map((filter) => getters[`filters/${filter}/toSearchQuery`])
+        .filter((el) => !!el); // remove empty/undefined values before the join to avoid double spaces
+
+      return [
+        state.searchPhrase,
+        getters['filters/type/toSearchQuery'](fileType),
+        ...filterQuery,
+      ].join(' ');
+    },
+  },
   modules: {
     filters,
   },
