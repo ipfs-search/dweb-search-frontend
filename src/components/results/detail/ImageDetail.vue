@@ -80,7 +80,7 @@ export default {
     return { blurExplicit };
   },
   mixins: [
-  DetailMixin,
+    DetailMixin,
   ],
   components: {
     MetaDataPanel,
