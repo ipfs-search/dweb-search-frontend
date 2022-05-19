@@ -52,6 +52,17 @@ export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
       if (results.error) throw results.error;
       return results;
     })
+    .then((results) => {
+      console.log(results.hits);
+      results.hits.forEach((hit) => {
+        api.metadatahashGet(hit.hash).then((metadata) => {
+          console.log('Metadata:', metadata);
+          // eslint-disable-next-line no-param-reassign
+          hit.metadata = metadata;
+        });
+      });
+      return results;
+    })
     .catch((err) => {
       console.error('API error from searchApi.searchGet', err);
       throw err;
