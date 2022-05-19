@@ -48,11 +48,6 @@ export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
     batch,
   )
     .then((results) => {
-      // fixme: the API sometimes responds with an error with response code 200. This catches that.
-      if (results.error) throw results.error;
-      return results;
-    })
-    .then((results) => {
       results.hits.forEach((hit) => {
         api.metadatahashGet(hit.hash).then((metadata) => {
           // eslint-disable-next-line no-param-reassign
