@@ -44,7 +44,9 @@ import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import CopyHashButton from '@/components/helpers/CopyHashButton';
 
 export default {
-  mixins: [DetailMixin],
+  mixins: [
+  DetailMixin
+  ],
   components: { DownloadButton, CopyHashButton },
   methods: {
     showFileType(mimeType) {
@@ -55,5 +57,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~video.js/dist/video-js.css";
+@import '~video.js/dist/video-js.css';
 </style>
