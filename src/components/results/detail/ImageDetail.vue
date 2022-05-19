@@ -46,15 +46,10 @@
                       md="10"
                       offset-md="1"
                     >
-                      <!-- <div
-                        :class="{ blurExplicit: blurExplicit(file)}"
-                        class="image-wrapper"
-                        :style="{'background-image': `url(${resourceURL})`}"
-                      /> -->
                       <img
                         :src="resourceURL"
                         class="image-wrapper"
-                        :class="{ blurExplicit: blurExplicit(file)}"
+                        :class='{ blurExplicit: blurExplicit(file)}'
                       >
 
                       <MetaDataPanel
