@@ -29,6 +29,7 @@
         <div
           v-if="$props.file.title"
           class="text-h6 font-weight-regular"
+          style="word-break: break-word"
           v-html="$props.file.title"
         />
       </v-col>
