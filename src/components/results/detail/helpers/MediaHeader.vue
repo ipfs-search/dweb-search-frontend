@@ -44,7 +44,7 @@ import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import CopyHashButton from '@/components/helpers/CopyHashButton';
 
 export default {
-mixins: [
+  mixins: [
     DetailMixin,
   ],
   components: { DownloadButton, CopyHashButton },
