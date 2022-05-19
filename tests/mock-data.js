@@ -1,7 +1,7 @@
 import {
   multipleSelectFilter,
   selectFilter,
-} from '@/store/modules/queryFilters/filterModuleGenerators';
+} from '@/store/modules/queryFilters/filterVuexModuleGenerators';
 import filterSubModule from '@/store/modules/queryFilters/filterSubModule';
 
 /**

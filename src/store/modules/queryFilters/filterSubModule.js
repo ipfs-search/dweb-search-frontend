@@ -9,7 +9,7 @@ import {
 import {
   selectFilter,
   multipleSelectFilter, typeFilter,
-} from '@/store/modules/queryFilters/filterModuleGenerators';
+} from '@/store/modules/queryFilters/filterVuexModuleGenerators';
 
 const TYPE = typeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
