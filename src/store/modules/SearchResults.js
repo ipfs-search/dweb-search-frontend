@@ -37,14 +37,12 @@ export default (fileType) => ({
     },
     setResults(state, { newResults, index }) {
       state.loading = false;
-      const { hits } = state.results;
-
       newResults.hits.forEach((hit, n) => {
-        hits[index + n] = hit;
+        state.results.hits[index + n] = hit;
         if (fileType === Types.images) {
           classify(hit)
             .then(({ classification }) => {
-              this.commit('setNsfw', {
+              this.commit(`results/${fileType}/setNsfw`, {
                 index: index + n,
                 classification,
               });
@@ -54,7 +52,7 @@ export default (fileType) => ({
 
       state.results = {
         ...newResults,
-        hits,
+        hits: state.results.hits,
       };
       return newResults.hits;
     },
