@@ -152,6 +152,11 @@ export const typeFilterModule = (filterProperties) => filterModule({
       ...state,
       value: fileType,
     }),
-    toProps,
+    toProps: ({
+      label, slug, items, value, multiple,
+    }) => ({
+      // coerce value to primitive value (in case it is an array)
+      label, slug, items, multiple, value: Array.isArray(value) ? value[0] : value,
+    }),
   },
 });
