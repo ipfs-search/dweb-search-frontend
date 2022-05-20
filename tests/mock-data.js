@@ -1,6 +1,6 @@
 import {
-  multipleSelectFilter,
-  selectFilter,
+  multipleSelectFilterModule,
+  selectFilterModule,
 } from '@/store/modules/queryFilters/filterVuexModuleGenerators';
 import filterSubModule from '@/store/modules/queryFilters/filterSubModule';
 
@@ -8,7 +8,7 @@ import filterSubModule from '@/store/modules/queryFilters/filterSubModule';
  * icecream is multiple select; you can have select 0 or more flavors
  * @type {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
-const icecream = multipleSelectFilter({
+const icecream = multipleSelectFilterModule({
   apiKey: 'icecream',
   label: 'icecream',
   items: [
@@ -23,7 +23,7 @@ const icecream = multipleSelectFilter({
  * you can only choose 1 pizza
  * @type {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
-const pizza = selectFilter({
+const pizza = selectFilterModule({
   label: 'pizza',
   apiKey: 'pizza',
   items: [

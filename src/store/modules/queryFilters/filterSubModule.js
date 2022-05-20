@@ -7,8 +7,8 @@ import {
 } from '@/store/modules/queryFilters/filterDefinitions';
 
 import {
-  selectFilter,
-  multipleSelectFilter, typeFilter,
+  selectFilterModule,
+  multipleSelectFilterModule, typeFilterModule,
 } from '@/store/modules/queryFilters/filterVuexModuleGenerators';
 
 const TYPE = typeFilterDefinition.slug;
@@ -48,9 +48,9 @@ export default {
       .map((filter) => getters[`${filter}/toProps`]),
   },
   modules: {
-    [TYPE]: typeFilter(typeFilterDefinition),
-    [LANGUAGE]: multipleSelectFilter(languageFilterDefinition),
-    [SIZE]: selectFilter(sizeFilterDefinition),
-    [LASTSEEN]: selectFilter(lastSeenFilterDefinition),
+    [TYPE]: typeFilterModule(typeFilterDefinition),
+    [LANGUAGE]: multipleSelectFilterModule(languageFilterDefinition),
+    [SIZE]: selectFilterModule(sizeFilterDefinition),
+    [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
   },
 };

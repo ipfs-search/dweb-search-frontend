@@ -103,7 +103,7 @@ const toProps = ({
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-export const selectFilter = (filterProperties) => filterModule({
+export const selectFilterModule = (filterProperties) => filterModule({
   state: mapDefinitionToState(filterProperties),
   mutations: {
     setValue: selectFilterValue,
@@ -119,7 +119,7 @@ export const selectFilter = (filterProperties) => filterModule({
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-export const multipleSelectFilter = (filterProperties) => filterModule({
+export const multipleSelectFilterModule = (filterProperties) => filterModule({
   state: {
     ...mapDefinitionToState(filterProperties),
     multiple: true,
@@ -140,7 +140,7 @@ export const multipleSelectFilter = (filterProperties) => filterModule({
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-export const typeFilter = (filterProperties) => filterModule({
+export const typeFilterModule = (filterProperties) => filterModule({
   state: mapDefinitionToState(filterProperties),
   mutations: {
     setValue: selectFilterValue,
