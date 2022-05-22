@@ -1,5 +1,4 @@
 import { createStore } from '@/store';
-import query from '@/store/modules/query';
 import mockFilters from '../../mock-data';
 
 describe('Mapping filters to api query', () => {
@@ -7,7 +6,6 @@ describe('Mapping filters to api query', () => {
 
   beforeAll(() => {
     store = createStore({
-      ...query,
       modules: {
         filters: mockFilters.mockFilterModule,
       },
