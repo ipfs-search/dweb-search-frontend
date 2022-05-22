@@ -70,7 +70,12 @@ const multipleSelectFilterToSearchApi = (state) => {
 /**
  * map (multiple) select filter definition to state; some defaults need to be set.
  * @param filterProperties
- * @returns {{apiKey: *, label: (string), slug: (string), items: {text: (string), value: (string), apiValue: (string | string[]), default: (boolean)}[] }}
+ * @returns {{
+ * apiKey: *,
+ * label: (string), *
+ * slug: (string), *
+ * value: (string), *
+ * items: {text: (string), value: (string), apiValue: (string | string[]), default: (boolean)}[] }}
  */
 const mapDefinitionToState = ({
   label, slug, apiKey, items,
