@@ -9,7 +9,7 @@
             <v-expansion-panel-header>
               <template #default="{ open }">
                 <div>
-                  {{ `${open ? 'Hide' : 'Show'}` }} meta data
+                  {{ `${open ? 'Hide' : 'Show'}` }} file info
                 </div>
               </template>
             </v-expansion-panel-header>
@@ -28,24 +28,42 @@
                 </v-simple-table>
                 <v-simple-table>
                   <thead>
+                  <tr>
+                    <th>
+                      Referenced in:
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    v-for="(item, index) in references"
+                    :key="index"
+                  >
+                    <td>
+                      <a
+                        :href="item.url"
+                        target="_blank"
+                        v-html="item.name"
+                      />
+                    </td>
+                  </tr>
+                  </tbody>
+                </v-simple-table>
+                <v-simple-table>
+                  <thead>
                     <tr>
                       <th>
-                        Referenced in:
+                        Extra data:
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr
-                      v-for="(item, index) in references"
+                      v-for="(item, index) in extraData"
                       :key="index"
                     >
-                      <td>
-                        <a
-                          :href="item.url"
-                          target="_blank"
-                          v-html="item.name"
-                        />
-                      </td>
+                      <td>{{ item.key }}</td>
+                      <td>{{ decodeURI(item.value) }}</td>
                     </tr>
                   </tbody>
                 </v-simple-table>
@@ -61,6 +79,7 @@
 <script>
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import getResourceURL from '@/helpers/resourceURL';
+import english from '@cospired/i18n-iso-languages/langs/en.json';
 
 export default {
   mixins: [
@@ -90,7 +109,7 @@ export default {
         'first-seen',
         'last-seen',
         'size',
-        'type',
+        'mimetype',
       ].forEach((key) => {
         if (this.file[key]) metadata.push({ key, value: this.file[key] });
       });
@@ -107,6 +126,20 @@ export default {
         });
       }
       return references;
+    },
+    extraData() {
+      const metadata = [];
+      if (this.file.metadata?.language?.rawScore > 0.95) {
+        metadata.push({
+          key: 'language',
+          value: english.languages[this.file.metadata.language.language],
+        });
+      }
+      return metadata.concat(Object.entries(this.file.metadata?.metadata)
+        .map(([key, value]) => ({
+          key,
+          value: value.join(', '),
+        })));
     },
   },
 };
