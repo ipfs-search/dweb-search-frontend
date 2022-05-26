@@ -17,58 +17,60 @@
               <template #default>
                 <v-simple-table>
                   <tbody>
-                  <tr>
-                    <th>Title:</th>
-                    <td v-html="file.title"></td>
-                  </tr>
-                  <tr v-if="file.author">
-                    <th>Author:</th>
-                    <td v-html="file.author"></td>
-                  </tr>
-                  <tr v-if="file.description">
-                    <th>Description:</th>
-                    <td v-html="file.description"></td>
-                  </tr>
-                  <tr>
-                    <th>Size:</th>
-                    <td>{{ file.size | prettyBytes }}</td>
-                  </tr>
-                  <tr v-if="file.creation_date">
-                    <th>Created:</th>
-                    <td v-html="new Date(file.creation_date)"></td>
-                  </tr>
-                  <tr v-if="file['first-seen']">
-                    <th>First seen:</th>
-                    <td v-html="new Date(file['first-seen'])"></td>
-                  </tr>
-                  <tr v-if="file['last-seen']">
-                    <th>Last seen:</th>
-                    <td v-html="new Date(file['last-seen'])"></td>
-                  </tr>
-                  <tr>
-                    <th>Mimetype:</th>
-                    <td>{{ file.mimetype }}</td>
-                  </tr>
+                    <tr>
+                      <th>Title:</th>
+                      <td v-html="file.title" />
+                    </tr>
+                    <tr v-if="file.author">
+                      <th>Author:</th>
+                      <td v-html="file.author" />
+                    </tr>
+                    <tr v-if="file.description">
+                      <th>Description:</th>
+                      <td v-html="file.description" />
+                    </tr>
+                    <tr>
+                      <th>Size:</th>
+                      <td>{{ file.size | prettyBytes }}</td>
+                    </tr>
+                    <tr v-if="file.creation_date">
+                      <th>Created:</th>
+                      <td v-html="new Date(file.creation_date)" />
+                    </tr>
+                    <tr v-if="file['first-seen']">
+                      <th>First seen:</th>
+                      <td v-html="new Date(file['first-seen'])" />
+                    </tr>
+                    <tr v-if="file['last-seen']">
+                      <th>Last seen:</th>
+                      <td v-html="new Date(file['last-seen'])" />
+                    </tr>
+                    <tr>
+                      <th>Mimetype:</th>
+                      <td>{{ file.mimetype }}</td>
+                    </tr>
                   </tbody>
                   <tbody>
-                  <tr>
-                    <th>
-                      Referenced in:
-                    </th>
-                    <td v-if="! references.length"><i>No references</i></td>
-                  </tr>
-                  <tr
-                    v-for="(item, index) in references"
-                    :key="index"
-                  >
-                    <td>
-                      <a
-                        :href="item.url"
-                        target="_blank"
-                        v-html="item.name"
-                      />
-                    </td>
-                  </tr>
+                    <tr>
+                      <th>
+                        Referenced in:
+                      </th>
+                      <td v-if="! references.length">
+                        <i>No references</i>
+                      </td>
+                    </tr>
+                    <tr
+                      v-for="(item, index) in references"
+                      :key="index"
+                    >
+                      <td>
+                        <a
+                          :href="item.url"
+                          target="_blank"
+                          v-html="item.name"
+                        />
+                      </td>
+                    </tr>
                   </tbody>
                   <tbody>
                     <tr><th><i>Extra data:</i></th></tr>
@@ -77,7 +79,9 @@
                       :key="index"
                     >
                       <th>{{ item.label }}:</th>
-                      <td>{{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}</td>
+                      <td>
+                        {{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}
+                      </td>
                     </tr>
                   </tbody>
                 </v-simple-table>
