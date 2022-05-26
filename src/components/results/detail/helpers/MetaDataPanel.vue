@@ -17,24 +17,46 @@
               <template #default>
                 <v-simple-table>
                   <tbody>
-                    <tr
-                      v-for="item in metadata"
-                      :key="item.key"
-                    >
-                      <td>{{ item.key }}</td>
-                      <td v-html="item.value" />
-                    </tr>
+                  <tr>
+                    <th>Title:</th>
+                    <td v-html="file.title"></td>
+                  </tr>
+                  <tr v-if="file.author">
+                    <th>Author:</th>
+                    <td v-html="file.author"></td>
+                  </tr>
+                  <tr v-if="file.description">
+                    <th>Description:</th>
+                    <td v-html="file.description"></td>
+                  </tr>
+                  <tr>
+                    <th>Size:</th>
+                    <td>{{ file.size | prettyBytes }}</td>
+                  </tr>
+                  <tr v-if="file.creation_date">
+                    <th>Created:</th>
+                    <td v-html="new Date(file.creation_date)"></td>
+                  </tr>
+                  <tr v-if="file['first-seen']">
+                    <th>First seen:</th>
+                    <td v-html="new Date(file['first-seen'])"></td>
+                  </tr>
+                  <tr v-if="file['last-seen']">
+                    <th>Last seen:</th>
+                    <td v-html="new Date(file['last-seen'])"></td>
+                  </tr>
+                  <tr>
+                    <th>Mimetype:</th>
+                    <td>{{ file.mimetype }}</td>
+                  </tr>
                   </tbody>
-                </v-simple-table>
-                <v-simple-table>
-                  <thead>
+                  <tbody>
                   <tr>
                     <th>
                       Referenced in:
                     </th>
+                    <td v-if="! references.length"><i>No references</i></td>
                   </tr>
-                  </thead>
-                  <tbody>
                   <tr
                     v-for="(item, index) in references"
                     :key="index"
@@ -48,22 +70,14 @@
                     </td>
                   </tr>
                   </tbody>
-                </v-simple-table>
-                <v-simple-table>
-                  <thead>
-                    <tr>
-                      <th>
-                        Extra data:
-                      </th>
-                    </tr>
-                  </thead>
                   <tbody>
+                    <tr><th><i>Extra data:</i></th></tr>
                     <tr
                       v-for="(item, index) in extraData"
                       :key="index"
                     >
-                      <td>{{ item.key }}</td>
-                      <td>{{ decodeURI(item.value) }}</td>
+                      <th>{{ item.label }}:</th>
+                      <td>{{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}</td>
                     </tr>
                   </tbody>
                 </v-simple-table>
@@ -99,19 +113,18 @@ export default {
   computed: {
     metadata() {
       const metadata = [];
-      // TODO: Make pretty names (e.g. remove hyphens).
       // TODO: See if all fields are there.
       [
-        'title',
-        'author',
-        'creation_date',
-        'description',
-        'first-seen',
-        'last-seen',
-        'size',
-        'mimetype',
-      ].forEach((key) => {
-        if (this.file[key]) metadata.push({ key, value: this.file[key] });
+        ['title', 'Title'],
+        ['author', 'Author'],
+        ['creation_date', 'Created'],
+        ['description', 'Description'],
+        ['first-seen', 'First seen'],
+        ['last-seen', 'Last seen'],
+        ['size', 'Size'],
+        ['mimetype', 'Mimetype'],
+      ].forEach(([field, label]) => {
+        if (this.file[field]) metadata.push({ label, value: this.file[field] });
       });
       return metadata;
     },
@@ -128,16 +141,16 @@ export default {
       return references;
     },
     extraData() {
-      const metadata = [];
+      const extraData = [];
       if (this.file.metadata?.language?.rawScore > 0.95) {
-        metadata.push({
-          key: 'language',
+        extraData.push({
+          label: 'language',
           value: english.languages[this.file.metadata.language.language],
         });
       }
-      return metadata.concat(Object.entries(this.file.metadata?.metadata)
-        .map(([key, value]) => ({
-          key,
+      return extraData.concat(Object.entries(this.file.metadata?.metadata)
+        .map(([label, value]) => ({
+          label,
           value: value.join(', '),
         })));
     },
