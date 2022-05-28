@@ -6,6 +6,7 @@ import { enterSearchQuery } from '@/helpers/routerHelper';
 
 const resultsTotalMax = 10000;
 
+// TODO: refactor this and turn into composition-api module
 /**
  * this mixin makes file lists load their results and allows navigation
  */
@@ -41,7 +42,7 @@ export default {
       return this.results.slice(0, this.shortList);
     },
     pageCount() {
-      return Math.ceil(this.resultsTotal / batchSize);
+      return Math.ceil(store.getters[`results/${this.fileType}/resultsTotal`] / batchSize);
     },
     queryPage: {
       get() { return Number(this.$route.query.page); },
