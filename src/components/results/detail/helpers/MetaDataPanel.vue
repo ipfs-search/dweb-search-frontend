@@ -132,23 +132,6 @@ export default {
     };
   },
   computed: {
-    metadata() {
-      const metadata = [];
-      // TODO: See if all fields are there.
-      [
-        ['title', 'Title'],
-        ['author', 'Author'],
-        ['creation_date', 'Created'],
-        ['description', 'Description'],
-        ['first-seen', 'First seen'],
-        ['last-seen', 'Last seen'],
-        ['size', 'Size'],
-        ['mimetype', 'Mimetype'],
-      ].forEach(([field, label]) => {
-        if (this.file[field]) metadata.push({ label, value: this.file[field] });
-      });
-      return metadata;
-    },
     references() {
       const references = [];
       if (this.file.references) {
