@@ -117,11 +117,11 @@ export const lastSeenFilterDefinition = {
     {
       value: '<7d',
       apiValue: '[ now/h-7d TO *]',
+      default: true,
     },
     {
       value: '<30d',
       apiValue: '[ now/d-30d TO *]',
-      default: true,
     },
     {
       value: 'Any',
