@@ -85,15 +85,15 @@
                     <v-expansion-panel-content>
                       <v-simple-table>
                         <tbody>
-                        <tr
-                          v-for="(item, index) in extraData"
-                          :key="index"
-                        >
-                          <th>{{ item.label }}:</th>
-                          <td>
-                            {{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}
-                          </td>
-                        </tr>
+                          <tr
+                            v-for="(item, index) in extraData"
+                            :key="index"
+                          >
+                            <th>{{ item.label }}:</th>
+                            <td>
+                              {{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}
+                            </td>
+                          </tr>
                         </tbody>
                       </v-simple-table>
                     </v-expansion-panel-content>
