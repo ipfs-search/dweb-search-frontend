@@ -17,7 +17,17 @@
               <template #default>
                 <v-simple-table>
                   <tbody>
-                    <tr>
+                  <tr>
+                    <th>
+                      <i>
+                        Metadata from
+                        <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_search">
+                          search API:
+                        </a>
+                      </i>
+                    </th>
+                  </tr>
+                  <tr>
                       <th>Title:</th>
                       <td v-html="file.title" />
                     </tr>
@@ -73,7 +83,10 @@
                     </tr>
                   </tbody>
                   <tbody>
-                    <tr><th><i>Extra data:</i></th></tr>
+                    <tr><th><i>Extra metadata from
+                      <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__">
+                        metadata API:
+                      </a></i></th></tr>
                     <tr
                       v-for="(item, index) in extraData"
                       :key="index"
