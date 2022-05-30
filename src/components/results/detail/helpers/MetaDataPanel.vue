@@ -91,7 +91,9 @@
                           >
                             <th>{{ item.label }}:</th>
                             <td>
-                              {{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}
+                              {{ Date.parse(item.value)
+                                ? Date(item.value)
+                                : decodeURI(item.value) }}
                             </td>
                           </tr>
                         </tbody>
