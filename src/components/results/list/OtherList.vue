@@ -1,7 +1,7 @@
 <template>
   <ListBase>
     <template #type>
-      Files ({{ resultsTotal }})
+      Other Files ({{ resultsTotal }})
     </template>
 
     <v-col
