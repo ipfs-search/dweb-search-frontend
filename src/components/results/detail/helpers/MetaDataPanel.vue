@@ -18,16 +18,6 @@
                 <v-simple-table>
                   <tbody>
                     <tr>
-                      <th>
-                        <i>
-                          Metadata from
-                          <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_search">
-                            search API:
-                          </a>
-                        </i>
-                      </th>
-                    </tr>
-                    <tr>
                       <th>Title:</th>
                       <td v-html="file.title" />
                     </tr>
@@ -82,26 +72,33 @@
                       </td>
                     </tr>
                   </tbody>
-                  <tbody>
-                    <tr>
-                      <th>
-                        <i>Extra metadata from
-                          <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__">
-                            metadata API:
-                          </a></i>
-                      </th>
-                    </tr>
-                    <tr
-                      v-for="(item, index) in extraData"
-                      :key="index"
-                    >
-                      <th>{{ item.label }}:</th>
-                      <td>
-                        {{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}
-                      </td>
-                    </tr>
-                  </tbody>
                 </v-simple-table>
+                <v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      <i>Extra metadata from
+                        <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__">
+                          metadata API:
+                        </a>
+                      </i>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-simple-table>
+                        <tbody>
+                        <tr
+                          v-for="(item, index) in extraData"
+                          :key="index"
+                        >
+                          <th>{{ item.label }}:</th>
+                          <td>
+                            {{ Date.parse(item.value) ? Date(item.value) : decodeURI(item.value) }}
+                          </td>
+                        </tr>
+                        </tbody>
+                      </v-simple-table>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </template>
             </v-expansion-panel-content>
           </v-expansion-panel>
