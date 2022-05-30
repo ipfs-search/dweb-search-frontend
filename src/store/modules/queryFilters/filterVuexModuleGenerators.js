@@ -155,7 +155,7 @@ export const typeFilterModule = (filterProperties) => filterModule({
   getters: {
     // for the transformation of the type filter to the search api, we need to know the requested
     // type, because the 'any' type requires each of the available types to be searched.
-    toSearchQuery: (state) => (fileType) => (state.value === Types.other && 'NOT ')
+    toSearchQuery: (state) => (fileType) => (state.value === Types.other ? 'NOT ' : '')
       + multipleSelectFilterToSearchApi({ ...state, value: fileType }),
     toProps: ({
       label, slug, items, value, multiple,
