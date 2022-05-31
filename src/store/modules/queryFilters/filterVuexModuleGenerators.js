@@ -100,7 +100,7 @@ const mapDefinitionToState = ({
 const toProps = ({
   label, slug, items, value, multiple,
 }) => ({
-  label, slug, items, value, multiple,
+  label, slug, items, value: multiple ? value : [value].flat()[0], multiple,
 });
 
 /**
