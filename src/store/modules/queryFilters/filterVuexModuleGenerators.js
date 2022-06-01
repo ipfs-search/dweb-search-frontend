@@ -6,6 +6,8 @@
 // There a number of standard mutation/getter methods defined for standard filters
 //
 // The filterModule function explains the shape of the module:
+import { Types } from '@/helpers/typeHelper';
+
 /**
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
  * @param setValue: set/select the value of the filter
@@ -153,10 +155,8 @@ export const typeFilterModule = (filterProperties) => filterModule({
   getters: {
     // for the transformation of the type filter to the search api, we need to know the requested
     // type, because the 'any' type requires each of the available types to be searched.
-    toSearchQuery: (state) => (fileType) => multipleSelectFilterToSearchApi({
-      ...state,
-      value: fileType,
-    }),
+    toSearchQuery: (state) => (fileType) => (fileType === Types.other ? 'NOT ' : '')
+      + multipleSelectFilterToSearchApi({ ...state, value: fileType }),
     toProps: ({
       label, slug, items, value, multiple,
     }) => ({

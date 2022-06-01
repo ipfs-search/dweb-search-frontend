@@ -128,11 +128,12 @@ import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
 import SettingsMenu from '@/components/SettingsMenu';
 
 const DetailComponent = {
-  text: () => import('@/components/results/detail/DocumentDetail'),
-  audio: () => import('@/components/results/detail/AudioDetail'),
-  images: () => import('@/components/results/detail/ImageDetail'),
-  video: () => import('@/components/results/detail/VideoDetail'),
-  directories: () => import('@/components/results/detail/DirectoryDetail'),
+  [Types.text]: () => import('@/components/results/detail/DocumentDetail'),
+  [Types.audio]: () => import('@/components/results/detail/AudioDetail'),
+  [Types.images]: () => import('@/components/results/detail/ImageDetail'),
+  [Types.video]: () => import('@/components/results/detail/VideoDetail'),
+  [Types.directories]: () => import('@/components/results/detail/DirectoryDetail'),
+  [Types.other]: () => import('@/components/results/detail/OtherDetail'),
 };
 
 export default {
