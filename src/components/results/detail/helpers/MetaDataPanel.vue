@@ -63,7 +63,7 @@
                       v-for="(item, index) in references"
                       :key="index"
                     >
-                      <td/>
+                      <td />
                       <td>
                         <a
                           :href="item.url"
