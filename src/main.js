@@ -1,4 +1,5 @@
 // Recomendation of babeljs (https://babeljs.io/docs/en/babel-polyfill)
+// Todo: see if core-js/regenerator-runtime are still necessary
 import 'core-js/stable'; // only stable feature also is possible with only `core-js`
 import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
 import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons

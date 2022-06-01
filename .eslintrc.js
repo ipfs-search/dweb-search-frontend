@@ -10,7 +10,6 @@ module.exports = {
     '@vue/airbnb',
   ],
   parserOptions: {
-    parser: '@babel/eslint-parser',
   },
   settings: {
     'import/resolver': {
