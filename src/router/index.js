@@ -15,7 +15,7 @@ const routes = [
     name: 'Search',
     props: (route) => ({ query: route.query }),
     // route level code-splitting
-    component: () => import(/* webpackChunkName: "search-list" */ '../views/Search'),
+    component: () => import('../views/Search'),
   },
   {
     path: '/search/detail/:fileType/:fileHash',
@@ -25,7 +25,7 @@ const routes = [
       query: route.query,
     }),
     // route level code-splitting
-    component: () => import(/* webpackChunkName: "search-detail" */ '../views/Detail'),
+    component: () => import('../views/Detail'),
   },
 ];
 
