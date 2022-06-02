@@ -35,7 +35,7 @@ module.exports = {
       {
         js: 'never',
         ts: 'never',
-        vue: 'never',
+        vue: 'always',
       },
     ],
     'import/prefer-default-export': 'off',
