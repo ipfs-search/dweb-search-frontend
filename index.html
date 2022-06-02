@@ -4,17 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-    <link rel="icon" type="image/svg+xml" href="<%= BASE_URL %>assets/images/favicon.svg">
-    <link rel="icon" type="image/png" href="<%= BASE_URL %>assets/images/favicon.png">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <title>IPFS-search</title>
     <link rel="stylesheet" href="<%= BASE_URL %>assets/styles/fonts.css">
     <link rel="search" type="application/opensearchdescription+xml" href="<%= BASE_URL %>opensearch.xml" title="ipfs-search.com" >
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but IPFS-search doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+
+    <!-- this new script is for vite -->
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
