@@ -7,10 +7,12 @@ module.exports = {
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended',
     'eslint:recommended',
-    '@vue/airbnb',
   ],
   parserOptions: {
+    ecmaVersion: 13,
+    sourceType: "module",
   },
+  plugins: ['vue', 'html'],
   settings: {
     'import/resolver': {
       alias: {
