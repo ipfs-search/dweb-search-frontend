@@ -78,8 +78,7 @@ import AudioList from '@/components/results/list/AudioList';
 import VideoList from '@/components/results/list/VideoList';
 import DirectoryList from '@/components/results/list/DirectoryList';
 import OtherList from '@/components/results/list/OtherList';
-
-const { Types } = require('@/helpers/typeHelper');
+import { Types } from '@/helpers/typeHelper';
 
 export default {
   created() {
