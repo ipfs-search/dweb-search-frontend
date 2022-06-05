@@ -2,18 +2,28 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from 'vite';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { createVuePlugin } from 'vite-plugin-vue2'
+import { createVuePlugin } from 'vite-plugin-vue2';
+import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 
 import path from 'path';
 
 export default defineConfig({
-  plugins: [createVuePlugin({
-    template: {
-      compilerOptions: {
-        isCustomElement: (tag) => tag.startsWith('v-'),
-      },
-    },
-  })],
+  plugins: [
+    createVuePlugin({}),
+    Components({
+      // generate `components.d.ts` global declarations
+      // https://github.com/antfu/unplugin-vue-components#typescript
+      dts: true,
+      // auto import for directives
+      directives: false,
+      // resolvers for custom components
+      resolvers: [
+        // Vuetify
+        VuetifyResolver(),
+      ],
+    }),
+  ],
   server: {
     port: 8080,
   },
