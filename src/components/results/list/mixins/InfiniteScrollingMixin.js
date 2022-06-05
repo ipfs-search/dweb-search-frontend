@@ -58,8 +58,10 @@ export default {
 
       const nearBottom = window.innerHeight + infiniteScrollMargin > scrollHeight - scrollTop;
       if (nearBottom && !this.loading) {
-        return store.dispatch(`results/${this.fileType}/fetchPage`,
-          { page: this.loadedPages + 1 });
+        return store.dispatch(
+          `results/${this.fileType}/fetchPage`,
+          { page: this.loadedPages + 1 },
+        );
       }
       return null;
     },

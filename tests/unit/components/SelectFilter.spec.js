@@ -1,4 +1,4 @@
-import SelectFilterComponent from '@/components/helpers/SelectFilter.vue';
+import SelectFilterComponent from '@/components/helpers/SelectFilter';
 import { localMount } from '../../jest-helpers';
 import mockFilters from '../../mock-data';
 

@@ -11,7 +11,7 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 13,
-    sourceType: "module",
+    sourceType: 'module',
   },
   plugins: ['vue', 'html'],
   settings: {
