@@ -1,7 +1,3 @@
-import * as matchers from 'jest-extended';
-
-expect.extend(matchers);
-
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation((query) => ({
