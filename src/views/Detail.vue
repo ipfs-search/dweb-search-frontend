@@ -26,7 +26,7 @@
                   v-if="$vuetify.theme.dark"
                   alt="ipfs-search.com logo"
                   contain
-                  src="../assets/logo-white.svg"
+                  src="/assets/logo-white.svg"
                   width="168"
                   height="28"
                   :aspect-ratio="6.00840336"
@@ -35,7 +35,7 @@
                   v-else
                   alt="ipfs-search.com logo"
                   contain
-                  src="../assets/logo-black.svg"
+                  src="/assets/logo-black.svg"
                   width="168"
                   height="28"
                   :aspect-ratio="6.00840336"

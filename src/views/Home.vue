@@ -24,7 +24,7 @@
               <v-img
                 alt="ipfs-search.com logo"
                 contain
-                src="../assets/logo-black.svg"
+                src="/assets/logo-black.svg"
                 width="168"
                 :aspect-ratio="6.00840336"
               />
@@ -77,7 +77,7 @@
     </v-app-bar>
 
     <v-img
-      src="../assets/background-02.png"
+      src="/assets/background-02.png"
       aspect-ratio="1.83"
       class="hero"
     >
