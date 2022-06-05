@@ -44,6 +44,7 @@
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^8",
+    "jest-environment-jsdom": "^28.1.0",
     "jest-extended": "^2.0.0",
     "ts-jest": "^28.0.4",
     "vue-jest": "^3.0.7",

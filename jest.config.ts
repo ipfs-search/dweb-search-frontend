@@ -4,6 +4,7 @@ import type { Config } from '@jest/types';
 const config: Config.InitialOptions = {
   verbose: true,
   preset: 'ts-jest',
+  testEnvironment: 'jsdom',
   resetMocks: true,
   setupFiles: ['<rootDir>/tests/jest-setup.ts'],
   setupFilesAfterEnv: [
