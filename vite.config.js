@@ -38,8 +38,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: [
-      './tests/jest-setup.ts',
-      './tests/jest-setup-after-env.ts',
+      './tests/vitest-setup.ts',
     ],
     mockReset: true,
     coverage: {

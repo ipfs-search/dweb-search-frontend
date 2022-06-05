@@ -1,5 +1,5 @@
 import SelectFilterComponent from '@/components/helpers/SelectFilter';
-import { localMount } from '../../jest-helpers';
+import { localMount } from '../../vitest-helpers';
 import mockFilters from '../../mock-data';
 
 let component;

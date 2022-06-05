@@ -1,7 +1,7 @@
 import store from '@/store';
 import SearchBar from '@/components/SearchBar';
 import { Types } from '@/helpers/typeHelper';
-import { localMount } from '../../jest-helpers';
+import { localMount } from '../../vitest-helpers';
 
 describe('SearchBar', () => {
   it('renders a filetype select filter', async () => {
