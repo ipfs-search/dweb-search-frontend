@@ -1,11 +1,13 @@
+/// <reference types="vitest" />
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from 'vite';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import vue from '@vitejs/plugin-vue';
+import { createVuePlugin } from 'vite-plugin-vue2'
+
 import path from 'path';
 
 export default defineConfig({
-  plugins: [vue({
+  plugins: [createVuePlugin({
     template: {
       compilerOptions: {
         isCustomElement: (tag) => tag.startsWith('v-'),
@@ -31,5 +33,21 @@ export default defineConfig({
   build: {
     // chunkSizeWarningLimit: 600,
     // cssCodeSplit: false
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: [
+      './tests/jest-setup.ts',
+      './tests/jest-setup-after-env.ts',
+    ],
+    mockReset: true,
+    coverage: {
+      reporter: ['text', 'html'],
+      exclude: [
+        'node_modules/',
+        'src/setupTests.ts',
+      ],
+    },
   },
 });
