@@ -26,7 +26,7 @@ const storeConfiguration = {
   },
   // https://v3.vuex.vuejs.org/guide/strict.html#development-vs-production
   // N.b. this won't work with vite
-  strict: process.env.NODE_ENV !== 'production',
+  strict: !import.meta.env.PROD,
 };
 
 /**
