@@ -20,7 +20,7 @@ module.exports = {
         map: [
           ['@', './src'],
         ],
-        extensions: ['.ts', '.js', '.jsx', '.json', '.vue'],
+        extensions: ['.ts', '.js', '.jsx', '.json'],
       },
     },
   },
@@ -43,6 +43,7 @@ module.exports = {
     ],
     'import/prefer-default-export': 'off',
     'import/named': 'off',
+    'no-param-reassign': ['error', { props: false }],
   },
   overrides: [
     {
@@ -54,5 +55,10 @@ module.exports = {
         jest: true,
       },
     },
+  ],
+  ignorePatterns: [
+    'components.d.ts',
+    'coverage/',
+    'tests/vitest-setup.ts',
   ],
 };

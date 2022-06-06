@@ -69,15 +69,15 @@
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar';
-import SearchFilters from '@/components/SearchFilters';
-import SettingsMenu from '@/components/SettingsMenu';
-import DocumentList from '@/components/results/list/DocumentList';
-import ImageList from '@/components/results/list/ImageList';
-import AudioList from '@/components/results/list/AudioList';
-import VideoList from '@/components/results/list/VideoList';
-import DirectoryList from '@/components/results/list/DirectoryList';
-import OtherList from '@/components/results/list/OtherList';
+import SearchBar from '@/components/SearchBar.vue';
+import SearchFilters from '@/components/SearchFilters.vue';
+import SettingsMenu from '@/components/SettingsMenu.vue';
+import DocumentList from '@/components/results/list/DocumentList.vue';
+import ImageList from '@/components/results/list/ImageList.vue';
+import AudioList from '@/components/results/list/AudioList.vue';
+import VideoList from '@/components/results/list/VideoList.vue';
+import DirectoryList from '@/components/results/list/DirectoryList.vue';
+import OtherList from '@/components/results/list/OtherList.vue';
 import { Types } from '@/helpers/typeHelper';
 
 export default {

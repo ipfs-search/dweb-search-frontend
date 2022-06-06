@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export default function (value) {
+export default function durationToColor(value) {
   const then = moment().diff(value);
 
   const difference = moment.duration(then);

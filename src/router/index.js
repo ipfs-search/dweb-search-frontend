@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '@/views/Home';
+import Home from '@/views/HomeView.vue';
 
 Vue.use(VueRouter);
 
@@ -15,7 +15,7 @@ const routes = [
     name: 'Search',
     props: (route) => ({ query: route.query }),
     // route level code-splitting
-    component: () => import('../views/Search'),
+    component: () => import('@/views/SearchView.vue'),
   },
   {
     path: '/search/detail/:fileType/:fileHash',
@@ -25,7 +25,7 @@ const routes = [
       query: route.query,
     }),
     // route level code-splitting
-    component: () => import('../views/Detail'),
+    component: () => import('@/views/DetailView.vue'),
   },
 ];
 

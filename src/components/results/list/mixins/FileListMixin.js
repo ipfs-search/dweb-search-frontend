@@ -1,4 +1,4 @@
-import ListBase from '@/components/results/list/ListBase';
+import ListBase from '@/components/results/list/ListBase.vue';
 import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';
 import { batchSize } from '@/helpers/ApiHelper';
