@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home';
-import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -34,11 +33,6 @@ const router = new VueRouter({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes,
-});
-
-router.beforeEach((to, from, next) => {
-  store.commit('query/setRouteParams', to.query);
-  next();
 });
 
 export default router;

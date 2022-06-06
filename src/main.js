@@ -9,7 +9,7 @@ import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VueClosable from 'vue-closable';
 import App from './App';
-import vuetify from './plugins/vuetify/vuetify';
+import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
 
@@ -29,6 +29,12 @@ Vue.use(VueTimeago, {
 Vue.use(vueFilterPrettyBytes);
 
 Vue.config.productionTip = false;
+
+// putting this here, in stead of in router/index.js, avoids dependency cycles.
+router.beforeEach((to, from, next) => {
+  store.commit('query/setRouteParams', to.query);
+  next();
+});
 
 new Vue({
   vuetify,

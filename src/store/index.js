@@ -1,26 +1,42 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import localStorage from '@/store/modules/localStorage';
-import SearchQuery from './modules/SearchQuery';
+import { Types } from '@/helpers/typeHelper';
+import query from './modules/query';
 import SearchResults from './modules/SearchResults';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const storeConfiguration = {
   modules: {
     localStorage,
-    query: SearchQuery,
+    query,
     // TODO: Rename 'results' to 'search' to cleanup weird results.results.
     results: {
       namespaced: true,
       modules: {
-        text: SearchResults('text'),
-        images: SearchResults('images'),
-        audio: SearchResults('audio'),
-        video: SearchResults('video'),
-        directories: SearchResults('directories'),
+        [Types.text]: SearchResults(Types.text),
+        [Types.images]: SearchResults(Types.images),
+        [Types.audio]: SearchResults(Types.audio),
+        [Types.video]: SearchResults(Types.video),
+        [Types.directories]: SearchResults(Types.directories),
+        [Types.other]: SearchResults(Types.other),
       },
     },
   },
-  strict: true,
-});
+  // https://v3.vuex.vuejs.org/guide/strict.html#development-vs-production
+  // N.b. this won't work with vite
+  strict: process.env.NODE_ENV !== 'production',
+};
+
+/**
+ * create a store from a configuration and/or deepmerge an override into it.
+ * @param configuration
+ * @param storeOverrides
+ * @returns {Store<{}>}
+ */
+export function createStore(configuration = storeConfiguration) {
+  return new Vuex.Store(configuration);
+}
+
+export default createStore();

@@ -22,63 +22,14 @@
             </v-col>
 
             <v-col
+              v-for="filter in filters"
+              :key="filter.slug"
               cols="6"
               md="3"
             >
-              <!--
-                Select component has everything setup for smooth interaction
-                (including setting values).
-
-                I strongly suggest we do everything we can to avoid creating
-                custom components; it causes A LOT of extra work on the
-                implementation side (= making things work, well, including edge cases,
-                keyboard support, accessibility etc.) If it is absolutely necessary
-                we can always do that later.
-
-                The select component wraps a menu component, so we can set any
-                properties, possibly even override template slots etc.
-
-                Ref:
-                https://vuetifyjs.com/en/components/selects/#menu-props
-                https://github.com/vuetifyjs/vuetify/tree/master/packages/vuetify/src/components/VSelect
-              -->
-              <v-select
-                :items="sizeOptions"
-                dense
-                :outlined="$vuetify.breakpoint.smAndDown"
-                :solo="!$vuetify.breakpoint.smAndDown"
-                label="Size"
-                height="38"
-                style="margin-bottom: 0 !important; height: 38px !important"
-                v-model="sizeFilter"
-              >
-                <template #selection="{ item }">
-                  <span class="m-2 text-body-2">
-                    {{ $vuetify.breakpoint.smAndDown ? '' : 'Size ' }}{{ item.text }}
-                  </span>
-                </template>
-              </v-select>
-            </v-col>
-
-            <v-col
-              cols="6"
-              md="3"
-            >
-              <v-select
-                :items="lastSeenOptions"
-                dense
-                :outlined="$vuetify.breakpoint.smAndDown"
-                :solo="!$vuetify.breakpoint.smAndDown"
-                label="Last seen"
-                height="38"
-                style="margin-bottom: 0 !important; height: 38px !important"
-                v-model="lastSeenFilter"
-              >
-                <template #selection="{ item }">
-                  <span class="m-2 text-body-2">{{ $vuetify.breakpoint.smAndDown
-                    ? '' : 'Last seen ' }}{{ item.text }}</span>
-                </template>
-              </v-select>
+              <select-filter
+                :filter="filter"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -88,61 +39,14 @@
 </template>
 
 <script>
-import store from '@/store';
-import { enterSearchQuery } from '@/helpers/routerHelper';
+import SelectFilter from '@/components/helpers/SelectFilter';
 
 export default {
+  components: { SelectFilter },
   computed: {
-    lastSeenFilter: {
-      get() {
-        return store.state.query.filters.lastSeen;
-      },
-      set(value) {
-        enterSearchQuery({ last_seen: value });
-      },
-    },
-    sizeFilter: {
-      get() {
-        return store.state.query.filters.size;
-      },
-      set(value) {
-        enterSearchQuery({ size: value });
-      },
+    filters() {
+      return this.$store.getters['query/filters/filterWidgets'];
     },
   },
-  data: () => ({
-    sizeOptions: [
-      {
-        text: '0-10mb', value: ['<=10485760'],
-      },
-      {
-        text: '10-100mb', value: ['>10485760', '<=104857600'],
-      },
-      {
-        text: '100mb-1gb', value: ['>104857600', '<=1073741824'],
-      },
-      {
-        text: '1gb+', value: ['>1073741824'],
-      },
-      {
-        text: 'any', value: [],
-      },
-    ],
-
-    lastSeenOptions: [
-      {
-        text: '<24hr', value: '[ now-24h/h TO *]',
-      },
-      {
-        text: '<7d', value: '[ now/h-7d TO *]',
-      },
-      {
-        text: '<30d', value: '[ now/d-30d TO *]',
-      },
-      {
-        text: 'any', value: '*',
-      },
-    ],
-  }),
 };
 </script>

@@ -1,16 +1,3 @@
-export const fileTypes = [
-  'text',
-  'audio',
-  'images',
-  'video',
-  'directories',
-];
-
-export const searchTypes = [
-  'any',
-  ...fileTypes,
-];
-
 export const Types = {
   any: 'any',
   text: 'text',
@@ -18,10 +5,12 @@ export const Types = {
   images: 'images',
   video: 'video',
   directories: 'directories',
+  other: 'other',
 };
 
+export const searchTypes = Object.values(Types);
+
 export default {
-  fileTypes,
   searchTypes,
   Types,
 };
