@@ -51,10 +51,10 @@
 </template>
 
 <script>
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
-import DocumentViewer from '@/components/results/detail/helpers/DocumentViewer';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
+import DocumentViewer from '@/components/results/detail/helpers/DocumentViewer.vue';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
 
 export default {
   mixins: [

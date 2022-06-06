@@ -104,14 +104,14 @@
 </template>
 
 <script>
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
-import AudioDetailButton from '@/components/helpers/AudioDetailButton';
 import { computed, ref } from '@vue/composition-api';
 import {
   loading, playing, loadSoundFile, play, pause, audioData,
 } from '@/mixins/AudioControlsModule';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
+import AudioDetailButton from '@/components/helpers/AudioDetailButton.vue';
 
 export default {
   mixins: [

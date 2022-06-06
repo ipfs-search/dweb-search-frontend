@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import SelectFilter from '@/components/helpers/SelectFilter';
+import SelectFilter from '@/components/helpers/SelectFilter.vue';
 
 export default {
   components: { SelectFilter },

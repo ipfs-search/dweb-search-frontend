@@ -35,4 +35,8 @@ const mounter = (mountFunction, component, options = {}) => {
 };
 
 export const localMount = (component, options = {}) => mounter(mount, component, options);
-export const localShallowMount = (component, options = {}) => mounter(shallowMount, component, options);
+export const localShallowMount = (component, options = {}) => mounter(
+  shallowMount,
+  component,
+  options,
+);

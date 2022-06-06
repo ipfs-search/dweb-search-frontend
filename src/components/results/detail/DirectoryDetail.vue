@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
 
 export default {
   mixins: [

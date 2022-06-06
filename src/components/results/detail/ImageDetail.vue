@@ -69,9 +69,9 @@
 </template>
 
 <script>
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
+import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
 import DetailMixin from './mixins/DetailMixin';
 
 export default {
