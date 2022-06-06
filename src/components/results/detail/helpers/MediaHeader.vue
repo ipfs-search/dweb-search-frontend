@@ -57,5 +57,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~video.js/dist/video-js.css';
+@import '/node_modules/video.js/dist/video-js.css';
 </style>
