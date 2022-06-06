@@ -58,6 +58,7 @@ import VideoPlayer from '@/components/VideoPlayer';
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
+import 'video.js/dist/video-js.css';
 
 export default {
   mixins: [
@@ -84,7 +85,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '/node_modules/video.js/dist/video-js.css';
-</style>
