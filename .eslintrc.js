@@ -10,7 +10,7 @@ module.exports = {
     'airbnb',
   ],
   parserOptions: {
-    ecmaVersion: 13,
+    ecmaVersion: 11,
     sourceType: 'module',
   },
   plugins: ['vue', 'html'],
