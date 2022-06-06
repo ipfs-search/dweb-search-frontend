@@ -7,8 +7,8 @@
     "serve": "vite --open",
     "preview": "vite preview --open --port 8080",
     "build": "vite build --out-dir dist",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src",
+    "lint:fix": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src --fix",
     "test": "vitest watch",
     "test:once": "vitest run",
     "test:coverage": "vitest run --coverage"
