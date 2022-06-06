@@ -1,7 +1,7 @@
 plugins:
   eslint:
     enabled: true
-    channel: "eslint-7"
+    channel: "eslint-8"
     config:
       extensions:
         - .es6

@@ -1,7 +1,5 @@
 /// <reference types="vitest" />
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from 'vite';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createVuePlugin } from 'vite-plugin-vue2';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
