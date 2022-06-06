@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueCompositionApi from '@vue/composition-api';
 import Vuetify from 'vuetify';
 import { vi, expect } from 'vitest';
+// @ts-ignore
 import * as matchers from 'jest-extended';
 
 Vue.use(VueCompositionApi);
