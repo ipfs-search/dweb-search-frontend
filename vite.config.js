@@ -54,5 +54,10 @@ export default defineConfig({
         'src/setupTests.ts',
       ],
     },
+    deps: {
+      inline: [
+        'vuetify',
+      ],
+    },
   },
 });
