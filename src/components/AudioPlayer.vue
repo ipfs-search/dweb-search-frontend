@@ -53,13 +53,13 @@
                     </v-icon>
                   </v-img>
                 </v-list-item-avatar>
-                <v-list-item-content>
+<!--                <v-list-item-content>-->
                   <v-list-item-title v-html="sourceFile.title" />
                   <v-list-item-subtitle>
                     <span v-html="sourceFile.author" />
                     <span>{{ timer }} / {{ duration }}</span>
                   </v-list-item-subtitle>
-                </v-list-item-content>
+<!--                </v-list-item-content>-->
 
                 <div
                   style="height: 100%;"

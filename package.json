@@ -28,6 +28,7 @@
     "ts-node": "^10.8.0",
     "video.js": "^7.12.1",
     "vite": "^2.9.9",
+    "vite-plugin-vuetify": "^1.0.0-alpha.11",
     "vue": "^3.2.13",
     "vue-closable": "0.0.3",
     "vue-masonry": "^0.11.8",

@@ -1,14 +1,14 @@
 /// <reference types="vitest" />
 import { fileURLToPath, URL } from "url";
 import { defineConfig } from 'vite';
-// import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
-// import Components from 'unplugin-vue-components/vite';
+import vuetify from 'vite-plugin-vuetify';
 
 import createVuePlugin from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [
     createVuePlugin(),
+    vuetify(),
   ],
   server: {
     port: 8080,
