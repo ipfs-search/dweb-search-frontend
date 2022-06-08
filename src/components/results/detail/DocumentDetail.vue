@@ -57,14 +57,14 @@ import DocumentViewer from '@/components/results/detail/helpers/DocumentViewer.v
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
 
 export default {
-  mixins: [
-    DetailMixin,
-  ],
   components: {
     MetaDataPanel,
     MediaHeader,
     DocumentViewer,
   },
+  mixins: [
+    DetailMixin,
+  ],
 };
 </script>
 

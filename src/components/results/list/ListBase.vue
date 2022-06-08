@@ -22,7 +22,7 @@
     </v-row>
 
     <v-row
-      v-if="this.$parent.error"
+      v-if="$parent.error"
     >
       <v-col
         cols="12"
@@ -38,15 +38,15 @@
       </v-col>
     </v-row>
     <v-row
-      dense
       v-if="$parent.resultsTotal !== 0"
+      dense
     >
       <slot />
     </v-row>
     <v-row
+      v-if="$parent.loading"
       dense
       justify="center"
-      v-if="this.$parent.loading"
     >
       <v-progress-circular
         indeterminate
@@ -55,9 +55,9 @@
     <!--     PAGINATION -->
     <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->
     <div
+      v-if="!anyFileType && !infinite"
       class="my-16"
       style="margin-bottom: 135px !important"
-      v-if="!anyFileType && !infinite"
     >
       <v-pagination
         v-model="$parent.queryPage"
@@ -73,6 +73,11 @@ import { maxPages } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
+  data() {
+    return {
+      infinite: this.$parent.infinite === true,
+    };
+  },
   computed: {
     anyFileType() {
       return this.$route.query.type === 'any' || this.$route.query.type === undefined;
@@ -80,11 +85,6 @@ export default {
     pageCount() {
       return Math.min(this.$parent.pageCount, maxPages);
     },
-  },
-  data() {
-    return {
-      infinite: this.$parent.infinite === true,
-    };
   },
   methods: {
     setFileType() {

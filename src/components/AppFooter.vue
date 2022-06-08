@@ -1,6 +1,6 @@
 <template>
   <v-footer
-    v-if="!(this.$route.name === 'Detail') && !playerActive"
+    v-if="!($route.name === 'Detail') && !playerActive"
     fixed
     padless
     :class="{ 'footer--hidden': !showFooter }"
@@ -92,6 +92,16 @@ export default {
     },
   },
 
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('scroll', this.onScroll);
+    });
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+  },
+
   methods: {
     onScroll() {
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
@@ -105,16 +115,6 @@ export default {
       this.showFooter = currentScrollPosition < this.lastScrollPosition;
       this.lastScrollPosition = currentScrollPosition;
     },
-  },
-
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener('scroll', this.onScroll);
-    });
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
   },
 };
 </script>

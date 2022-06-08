@@ -2,9 +2,10 @@
   <v-container class="d-flex justify-center">
     <div class="search flex-grow-1">
       <v-text-field
-        v-model="searchPhrase"
         ref="input"
+        v-model="searchPhrase"
         placeholder="Search"
+        v-closable="{ handler: 'onClick' }"
         light
         rounded
         height="42"
@@ -15,7 +16,6 @@
         validate-on-blur
         hide-details
         @keyup.enter="enterSearchPhrase"
-        v-closable="{ handler: 'onClick' }"
       >
         <template #append>
           <v-menu
@@ -54,8 +54,8 @@
           </v-menu>
         </template>
         <template
-          #append-outer
           v-if="!$vuetify.breakpoint.smAndDown"
+          #append-outer
         >
           <v-icon
             style="margin-top: -2px;"
@@ -76,9 +76,6 @@ import { searchTypes } from '@/helpers/typeHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
 
 export default {
-  created() {
-    this.searchTypes = searchTypes;
-  },
   data() {
     return {
       searchPhraseProxy: this.$store.state.query.searchPhrase,
@@ -101,6 +98,9 @@ export default {
         }
       },
     },
+  },
+  created() {
+    this.searchTypes = searchTypes;
   },
   methods: {
     hideKeyBoardOnAndroid() {

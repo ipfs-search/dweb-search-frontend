@@ -34,7 +34,7 @@ export default {
       });
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.player) {
       this.player.off('play');
       this.player.dispose();

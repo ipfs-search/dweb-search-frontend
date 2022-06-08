@@ -7,9 +7,9 @@
     :items="filter.items"
     :label="filter.label"
     :value="filter.value"
-    @change="change"
     :chips="filter.multiple"
     :multiple="filter.multiple"
+    @change="change"
   />
 </template>
 
@@ -20,15 +20,15 @@ import { enterSearchQuery } from '@/helpers/routerHelper';
 const changeFilter = (slug) => (value) => enterSearchQuery({ [slug]: value });
 
 export default {
-  computed: {
-    change() {
-      return changeFilter(this.filter.slug);
-    },
-  },
   props: {
     filter: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    change() {
+      return changeFilter(this.filter.slug);
     },
   },
 };

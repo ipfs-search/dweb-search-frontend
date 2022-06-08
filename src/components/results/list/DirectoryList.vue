@@ -5,16 +5,16 @@
     </template>
 
     <v-col
+      v-for="(hit, index) in shownHits"
+      :key="index"
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="(hit, index) in shownHits"
-      :key="index"
     >
       <v-hover v-slot="{ hover }">
         <v-card
-          @click="goToDetailPage(index)"
           :elevation="hover ? 12 : 2"
+          @click="goToDetailPage(index)"
         >
           <v-card-subtitle class="text-caption mb-n7 text-truncate">
             <span
@@ -47,10 +47,10 @@ import { Types } from '@/helpers/typeHelper';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
-  mixins: [FileListMixin],
   filters: {
     durationToColor,
   },
+  mixins: [FileListMixin],
   data() {
     return {
       fileType: Types.directories,

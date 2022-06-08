@@ -10,13 +10,13 @@
           <span v-if="$props.file.size"> | Size {{ $props.file.size | prettyBytes }}</span>
           <span v-if="$props.file['mimetype']"> | {{ showFileType($props.file['mimetype']) }}</span>
           <DownloadButton
-            class="ml-1"
             v-if="$props.file.size"
+            class="ml-1"
             :file="$props.file"
           />
           <CopyHashButton
-            class="ml-1"
             v-if="$props.file.size"
+            class="ml-1"
             :hash="$props.file.hash"
           />
         </div>
@@ -44,10 +44,10 @@ import DownloadButton from '@/components/helpers/DownloadButton.vue';
 import CopyHashButton from '@/components/helpers/CopyHashButton.vue';
 
 export default {
+  components: { DownloadButton, CopyHashButton },
   mixins: [
     DetailMixin,
   ],
-  components: { DownloadButton, CopyHashButton },
   methods: {
     showFileType(mimeType) {
       return mime.getExtension(mimeType);

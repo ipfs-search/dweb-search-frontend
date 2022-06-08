@@ -23,8 +23,8 @@
         >
           <v-hover v-slot="{ hover }">
             <v-card
-              @click="goToDetailPage(index)"
               :elevation="hover ? 12 : 2"
+              @click="goToDetailPage(index)"
             >
               <v-img
                 :src="hit.src"
@@ -82,10 +82,10 @@ import { Types } from '@/helpers/typeHelper';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
-  mixins: [FileListMixin],
   filters: {
     durationToColor,
   },
+  mixins: [FileListMixin],
   data() {
     return {
       fileType: Types.audio,

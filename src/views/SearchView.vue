@@ -59,12 +59,12 @@
 
     <SearchFilters />
 
-    <DocumentList v-if="listType(this.Types.text)" />
-    <AudioList v-if="listType(this.Types.audio)" />
-    <ImageList v-if="listType(this.Types.images)" />
-    <VideoList v-if="listType(this.Types.video)" />
-    <DirectoryList v-if="listType(this.Types.directories)" />
-    <OtherList v-if="listType(this.Types.other)" />
+    <DocumentList v-if="listType(Types.text)" />
+    <AudioList v-if="listType(Types.audio)" />
+    <ImageList v-if="listType(Types.images)" />
+    <VideoList v-if="listType(Types.video)" />
+    <DirectoryList v-if="listType(Types.directories)" />
+    <OtherList v-if="listType(Types.other)" />
   </div>
 </template>
 
@@ -81,9 +81,6 @@ import OtherList from '@/components/results/list/OtherList.vue';
 import { Types } from '@/helpers/typeHelper';
 
 export default {
-  created() {
-    this.Types = Types;
-  },
   components: {
     SearchBar,
     SearchFilters,
@@ -94,6 +91,9 @@ export default {
     VideoList,
     DirectoryList,
     OtherList,
+  },
+  created() {
+    this.Types = Types;
   },
   methods: {
     goHome() {

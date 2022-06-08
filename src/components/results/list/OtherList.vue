@@ -5,11 +5,11 @@
     </template>
 
     <v-col
+      v-for="(hit, index) in shownHits"
+      :key="index"
       cols="12"
       xl="8"
       offset-xl="2"
-      v-for="(hit, index) in shownHits"
-      :key="index"
     >
       <v-card
         @click="goToDetailPage(index)"
@@ -44,12 +44,12 @@ import { Types } from '@/helpers/typeHelper';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
-  mixins: [
-    FileListMixin,
-  ],
   filters: {
     durationToColor,
   },
+  mixins: [
+    FileListMixin,
+  ],
   data() {
     return {
       fileType: Types.other,

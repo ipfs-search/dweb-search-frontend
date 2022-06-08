@@ -114,9 +114,20 @@ import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue
 import AudioDetailButton from '@/components/helpers/AudioDetailButton.vue';
 
 export default {
+  components: {
+    AudioDetailButton,
+    MetaDataPanel,
+    MediaHeader,
+  },
   mixins: [
     DetailMixin,
   ],
+  props: {
+    file: {
+      type: Object,
+      required: true,
+    },
+  },
   setup(props) {
     const currentlyLoadedInPlayer = computed(
       () => props.file.hash === audioData.audioPlayer.sourceFile?.hash,
@@ -130,17 +141,6 @@ export default {
       audioError: ref(audioData.audioError),
       currentlyLoadedInPlayer,
     };
-  },
-  components: {
-    AudioDetailButton,
-    MetaDataPanel,
-    MediaHeader,
-  },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
   },
 };
 </script>

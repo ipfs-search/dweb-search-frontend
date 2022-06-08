@@ -5,10 +5,10 @@
     </template>
 
     <v-col
+      id="resultsList"
       cols="12"
       xl="8"
       offset-xl="2"
-      id="resultsList"
     >
       <v-row dense>
         <v-col
@@ -23,12 +23,12 @@
           <v-hover v-slot="{ hover }">
             <v-card
               v-if="hit"
-              @click="goToDetailPage(index)"
               :id="hit.hash"
               :class="{ blurExplicit: blurExplicit(hit)}"
               :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
               :data-nsfw="hit.nsfw"
               :elevation="hover ? 12 : 2"
+              @click="goToDetailPage(index)"
             >
               <v-tooltip
                 bottom
@@ -88,10 +88,10 @@ import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
+  mixins: [FileListMixin, InfiniteScrollingMixin],
   setup() {
     return { blurExplicit };
   },
-  mixins: [FileListMixin, InfiniteScrollingMixin],
   data() {
     return {
       fileType: Types.images,

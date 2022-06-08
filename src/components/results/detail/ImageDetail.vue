@@ -76,15 +76,15 @@ import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue
 import DetailMixin from './mixins/DetailMixin';
 
 export default {
-  setup() {
-    return { blurExplicit };
+  components: {
+    MetaDataPanel,
+    MediaHeader,
   },
   mixins: [
     DetailMixin,
   ],
-  components: {
-    MetaDataPanel,
-    MediaHeader,
+  setup() {
+    return { blurExplicit };
   },
 };
 </script>

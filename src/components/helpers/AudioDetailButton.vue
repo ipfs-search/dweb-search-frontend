@@ -1,6 +1,5 @@
 <template>
   <v-btn
-    @click="$emit('click')"
     large
     fab
     dark
@@ -13,6 +12,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
     "
+    @click="$emit('click')"
   >
     <v-icon
       size="42"

@@ -61,14 +61,14 @@ import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue
 import 'video.js/dist/video-js.css';
 
 export default {
-  mixins: [
-    DetailMixin,
-  ],
   components: {
     MetaDataPanel,
     MediaHeader,
     VideoPlayer,
   },
+  mixins: [
+    DetailMixin,
+  ],
   computed: {
     videoOptions() {
       return {

@@ -1,16 +1,16 @@
 <template>
   <div>
     <v-alert
+      v-if="error"
       border="left"
       color="red lighten-2"
-      v-if="error"
     >
       <i>Error loading preview</i>
     </v-alert>
     <v-alert
+      v-else-if="extension === 'pdf' && !srcURL"
       border="left"
       color="blue lighten-4"
-      v-else-if="extension === 'pdf' && !srcURL"
     >
       <i>Loading preview</i>
       <v-progress-linear
@@ -38,15 +38,6 @@ import getResourceURL from '@/helpers/resourceURL';
 import Retriever from '@/helpers/FetchDoggy';
 
 export default {
-  created() {
-    this.fetch();
-  },
-  data() {
-    return {
-      error: false,
-      retriever: new Retriever(),
-    };
-  },
   props: {
     file: {
       type: Object,
@@ -56,6 +47,12 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      error: false,
+      retriever: new Retriever(),
+    };
   },
   computed: {
     extension() {
@@ -103,6 +100,9 @@ export default {
         this.retriever.cancel();
       }
     },
+  },
+  created() {
+    this.fetch();
   },
   methods: {
     fetch() {

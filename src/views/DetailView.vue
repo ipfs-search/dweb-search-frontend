@@ -113,8 +113,8 @@
       </v-carousel>
       <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
       <component
-        v-else
         :is="DetailComponent[fileType]"
+        v-else
         :file="singleItem"
       />
     </div>
@@ -139,37 +139,6 @@ const DetailComponent = {
 export default {
   components: {
     SettingsMenu,
-  },
-  created() {
-    if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
-      this.$data.carouselIndex = this.selectedIndex;
-      this.$data.singleItem = undefined;
-    } else {
-      store.dispatch(`results/${this.fileType}/fetchPage`, {
-        page: Number(this.$route.query.page),
-      })
-        .then(() => {
-          // take index parameter from route props, if available. Else fallback on hash match.
-          const index = this.items?.findIndex((item) => item?.hash === this.fileHash);
-          if (index > -1) {
-            this.$data.carouselIndex = index;
-            this.$data.singleItem = undefined;
-          } else {
-            console.debug(`No items matching ${this.fileHash}; requesting metadata.`);
-            apiMetadataQuery(this.fileHash)
-              .then((metadata) => {
-                this.singleItem = metadata;
-              });
-          }
-        })
-        .catch(console.error);
-    }
-  },
-  mounted() {
-    window.addEventListener('keydown', this.arrowKeyEventHandler);
-  },
-  destroyed() {
-    window.removeEventListener('keydown', this.arrowKeyEventHandler);
   },
   props: {
     fileType: {
@@ -232,6 +201,37 @@ export default {
       },
       immediate: true,
     },
+  },
+  created() {
+    if (this.selectedIndex > -1 && this.items[this.selectedIndex]?.hash === this.fileHash) {
+      this.$data.carouselIndex = this.selectedIndex;
+      this.$data.singleItem = undefined;
+    } else {
+      store.dispatch(`results/${this.fileType}/fetchPage`, {
+        page: Number(this.$route.query.page),
+      })
+        .then(() => {
+          // take index parameter from route props, if available. Else fallback on hash match.
+          const index = this.items?.findIndex((item) => item?.hash === this.fileHash);
+          if (index > -1) {
+            this.$data.carouselIndex = index;
+            this.$data.singleItem = undefined;
+          } else {
+            console.debug(`No items matching ${this.fileHash}; requesting metadata.`);
+            apiMetadataQuery(this.fileHash)
+              .then((metadata) => {
+                this.singleItem = metadata;
+              });
+          }
+        })
+        .catch(console.error);
+    }
+  },
+  mounted() {
+    window.addEventListener('keydown', this.arrowKeyEventHandler);
+  },
+  unmounted() {
+    window.removeEventListener('keydown', this.arrowKeyEventHandler);
   },
   methods: {
     arrowKeyEventHandler(event) {

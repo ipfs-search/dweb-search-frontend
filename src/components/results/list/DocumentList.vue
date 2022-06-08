@@ -13,9 +13,9 @@
     >
       <v-hover v-slot="{ hover }">
         <v-card
-          @click="goToDetailPage(index)"
           v-if="hit"
           :elevation="hover ? 12 : 2"
+          @click="goToDetailPage(index)"
         >
           <v-card-subtitle class="text-caption mb-n7 text-truncate">
             <span
@@ -50,10 +50,10 @@ import { Types } from '@/helpers/typeHelper';
 import FileListMixin from './mixins/FileListMixin';
 
 export default {
-  mixins: [FileListMixin],
   filters: {
     durationToColor,
   },
+  mixins: [FileListMixin],
   data() {
     return {
       fileType: Types.text,

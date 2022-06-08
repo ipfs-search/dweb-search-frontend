@@ -46,13 +46,13 @@ import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
 
 export default {
-  mixins: [
-    DetailMixin,
-  ],
   components: {
     MetaDataPanel,
     MediaHeader,
   },
+  mixins: [
+    DetailMixin,
+  ],
 };
 </script>
 

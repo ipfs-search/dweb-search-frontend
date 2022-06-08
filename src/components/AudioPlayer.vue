@@ -74,8 +74,8 @@
                       mdi-alert
                     </v-icon>
                     <v-btn
-                      icon
                       v-else-if="loading"
+                      icon
                       loading
                     />
                     <v-btn
@@ -156,7 +156,7 @@ export default {
       playerHeight: 100,
     };
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.$data.audioPlayer.close();
   },
 };
