@@ -17,8 +17,6 @@ Vue.use(VueClosable);
 
 Vue.use(vuetify);
 
-Vue.config.productionTip = false;
-
 Vue.use(store);
 
 Vue.use(router);
