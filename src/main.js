@@ -17,6 +17,8 @@ const Vue = createApp(App);
 
 Vue.use(VueClosable);
 
+Vue.use(vuetify);
+
 Vue.use(VueTimeago, {
   name: 'Timeago', // Component name, `Timeago` by default
   locale: 'en', // Default locale
