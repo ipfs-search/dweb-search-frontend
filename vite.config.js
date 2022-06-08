@@ -1,4 +1,5 @@
 /// <reference types="vitest" />
+import { fileURLToPath, URL } from "url";
 import { defineConfig } from 'vite';
 // import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 // import Components from 'unplugin-vue-components/vite';
@@ -34,12 +35,9 @@ export default defineConfig({
     port: 8080,
   },
   resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: path.resolve(__dirname, 'src'),
-      },
-    ],
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
   },
   build: {
