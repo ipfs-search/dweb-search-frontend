@@ -4,11 +4,19 @@ import { defineConfig } from 'vite';
 // import Components from 'unplugin-vue-components/vite';
 
 import path from 'path';
-import vue from '@vitejs/plugin-vue'
+import createVuePlugin from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [
-    vue(),
+    createVuePlugin({
+      template: {
+        compilerOptions: {
+          compatConfig: {
+            MODE: 2,
+          },
+        },
+      },
+    }),
     // Components({
     //   // generate `components.d.ts` global declarations
     //   // https://github.com/antfu/unplugin-vue-components#typescript
