@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { apiSearch, batchSize } from '@/helpers/ApiHelper';
 import { classify } from '@/helpers/nsfwClassifier';
 import { Types } from '@/helpers/typeHelper';
@@ -61,7 +60,7 @@ export default (fileType) => ({
       if (!classification) return;
       if (!state.results?.hits?.[index]) return;
       // Add actual classification for debugging purposes
-      Vue.set(state.results.hits[index], 'nsfwClassification', classification);
+      state.results.hits[index]['nsfwClassification'] = classification;
     },
   },
   getters: {
