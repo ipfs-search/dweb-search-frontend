@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
                       <th>Size:</th>
-                      <td>{{ file.size | prettyBytes }}</td>
+                      <td>{{ prettyBytes(file.size) }}</td>
                     </tr>
                     <tr v-if="file.creation_date">
                       <th>Created:</th>

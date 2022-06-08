@@ -23,7 +23,7 @@
           <span v-if="hit['last-seen']">
             Last seen <timeago :datetime="hit['last-seen']" />
           </span><br>
-          <span v-if="hit.size">Size {{ hit.size | prettyBytes }}</span>
+          <span v-if="hit.size">Size {{ prettyBytes(hit.size) }}</span>
         </v-card-subtitle>
         <v-card-title
           class="text-subtitle-1"
@@ -38,10 +38,11 @@
   </ListBase>
 </template>
 
-<script>
+<script setup>
 import durationToColor from '@/filters/durationToColor';
 import { Types } from '@/helpers/typeHelper';
 import FileListMixin from './mixins/FileListMixin';
+import prettyBytes from 'pretty-bytes';
 
 export default {
   filters: {

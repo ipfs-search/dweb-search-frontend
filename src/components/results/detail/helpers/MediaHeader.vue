@@ -7,7 +7,7 @@
           <span v-if="$props.file['last-seen']">
             Last seen <timeago :datetime="$props.file['last-seen']" />
           </span>
-          <span v-if="$props.file.size"> | Size {{ $props.file.size | prettyBytes }}</span>
+          <span v-if="$props.file.size"> | Size {{ prettyBytes($props.file.size) }}</span>
           <span v-if="$props.file['mimetype']"> | {{ showFileType($props.file['mimetype']) }}</span>
           <DownloadButton
             v-if="$props.file.size"
@@ -37,8 +37,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import mime from 'mime';
+import prettyBytes from 'pretty-bytes';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import DownloadButton from '@/components/helpers/DownloadButton.vue';
 import CopyHashButton from '@/components/helpers/CopyHashButton.vue';

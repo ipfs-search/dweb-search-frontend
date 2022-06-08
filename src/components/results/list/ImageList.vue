@@ -81,11 +81,12 @@
   </ListBase>
 </template>
 
-<script>
+<script setup>
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
 import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import FileListMixin from './mixins/FileListMixin';
+import prettyBytes from 'pretty-bytes';
 
 export default {
   mixins: [FileListMixin, InfiniteScrollingMixin],

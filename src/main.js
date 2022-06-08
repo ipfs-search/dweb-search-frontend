@@ -5,7 +5,6 @@ import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is de
 import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
 
 import { createApp } from 'vue';
-import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VueClosable from 'vue-closable';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
@@ -17,8 +16,6 @@ const Vue = createApp(App);
 Vue.use(VueClosable);
 
 Vue.use(vuetify);
-
-Vue.use(vueFilterPrettyBytes);
 
 Vue.config.productionTip = false;
 

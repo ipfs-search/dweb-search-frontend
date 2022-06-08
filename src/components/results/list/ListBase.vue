@@ -68,7 +68,7 @@
   </v-container>
 </template>
 
-<script>
+<script setup>
 import { maxPages } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
 
