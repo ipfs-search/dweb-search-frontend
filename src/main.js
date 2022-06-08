@@ -13,7 +13,10 @@ import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
 
-const Vue = createApp(App);
+const Vue = createApp({
+  router,
+  ...App
+});
 
 Vue.use(VueClosable);
 
@@ -41,9 +44,4 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-new Vue({
-  vuetify,
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app');
+Vue.mount('#app');
