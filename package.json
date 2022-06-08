@@ -37,17 +37,19 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/compiler-sfc": "^3.1.0",
     "@vue/test-utils": "^2.0.0",
     "c8": "^7.11.3",
-    "eslint": "^8.16.0",
-    "eslint-config-airbnb": "^19.0.4",
+    "eslint": "8.17.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-html": "^6.2.0",
-    "eslint-plugin-vue": "^8",
+    "eslint-plugin-vue": "^9.1.0",
     "jest-extended": "^2.0.0",
     "jsdom": "^19.0.0",
+    "typescript": "^4.7.3",
     "vitest": "^0.13.1"
   },
   "browserslist": [
@@ -59,5 +61,6 @@
     "node": "16.x"
   },
   "license": "AGPL-3.0",
-  "repository": "github:ipfs-search/dweb-search-frontend"
+  "repository": "github:ipfs-search/dweb-search-frontend",
+  "type": "module"
 }

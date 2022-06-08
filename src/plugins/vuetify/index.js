@@ -1,6 +1,3 @@
-
-// Faster builds
-// Ref: https://vuetifyjs.com/en/features/presets/#compilation-time
 import { createVuetify } from 'vuetify';
 import store from '@/store';
 import ipfsTheme from './theme';

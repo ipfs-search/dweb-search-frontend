@@ -1,5 +1,5 @@
 import { audioPlayer } from '@/plugins/audioPlugin';
-import { reactive, computed } from '@vue/composition-api';
+import { reactive, computed } from 'vue';
 
 export const audioData = reactive({
   audioError: null,

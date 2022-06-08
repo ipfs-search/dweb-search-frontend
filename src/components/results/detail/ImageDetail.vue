@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import '@/scss/blurExplicitImages.scss';
 import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
 import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
@@ -89,7 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/blurExplicitImages';
 
 .image-wrapper {
   width: 100% !important;

@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { computed, ref } from '@vue/composition-api';
+import { ref, computed } from 'vue';
 import {
   loading, playing, loadSoundFile, play, pause, audioData,
 } from '@/mixins/AudioControlsModule';

@@ -1,11 +1,8 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import createStore from 'vuex';
 import localStorage from '@/store/modules/localStorage';
 import { Types } from '@/helpers/typeHelper';
 import query from './modules/query';
 import SearchResults from './modules/SearchResults';
-
-Vue.use(Vuex);
 
 const storeConfiguration = {
   modules: {
@@ -29,14 +26,4 @@ const storeConfiguration = {
   strict: !import.meta.env.PROD,
 };
 
-/**
- * create a store from a configuration and/or deepmerge an override into it.
- * @param configuration
- * @param storeOverrides
- * @returns {Store<{}>}
- */
-export function createStore(configuration = storeConfiguration) {
-  return new Vuex.Store(configuration);
-}
-
-export default createStore();
+export const store = createStore(storeConfiguration);
