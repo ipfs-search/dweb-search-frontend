@@ -13,10 +13,7 @@ import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
 
-const Vue = createApp({
-  router,
-  ...App
-});
+const Vue = createApp(App);
 
 Vue.use(VueClosable);
 
@@ -38,6 +35,8 @@ Vue.use(vueFilterPrettyBytes);
 Vue.config.productionTip = false;
 
 Vue.use(store);
+
+Vue.use(router);
 // putting this here, in stead of in router/index.js, avoids dependency cycles.
 router.beforeEach((to, from, next) => {
   store.commit('query/setRouteParams', to.query);
