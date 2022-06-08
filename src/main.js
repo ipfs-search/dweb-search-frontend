@@ -4,7 +4,6 @@ import 'core-js/stable'; // only stable feature also is possible with only `core
 import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
 import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
 
-// import './VueComposition';
 import { createApp } from 'vue';
 import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
@@ -33,6 +32,7 @@ Vue.use(vueFilterPrettyBytes);
 
 Vue.config.productionTip = false;
 
+Vue.use(store);
 // putting this here, in stead of in router/index.js, avoids dependency cycles.
 router.beforeEach((to, from, next) => {
   store.commit('query/setRouteParams', to.query);

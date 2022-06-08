@@ -1,4 +1,4 @@
-import createStore from 'vuex';
+import { createStore } from 'vuex';
 import localStorage from '@/store/modules/localStorage';
 import { Types } from '@/helpers/typeHelper';
 import query from './modules/query';
@@ -26,4 +26,4 @@ const storeConfiguration = {
   strict: !import.meta.env.PROD,
 };
 
-export const store = createStore(storeConfiguration);
+export default createStore(storeConfiguration);
