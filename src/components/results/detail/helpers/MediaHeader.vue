@@ -42,9 +42,10 @@ import mime from 'mime';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import DownloadButton from '@/components/helpers/DownloadButton.vue';
 import CopyHashButton from '@/components/helpers/CopyHashButton.vue';
+import TimeAgo from 'vue3-timeago';
 
 export default {
-  components: { DownloadButton, CopyHashButton },
+  components: { DownloadButton, CopyHashButton, TimeAgo },
   mixins: [
     DetailMixin,
   ],

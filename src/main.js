@@ -5,7 +5,6 @@ import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is de
 import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
 
 import { createApp } from 'vue';
-import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VueClosable from 'vue-closable';
 import App from './App.vue';
@@ -18,17 +17,6 @@ const Vue = createApp(App);
 Vue.use(VueClosable);
 
 Vue.use(vuetify);
-
-Vue.use(VueTimeago, {
-  name: 'Timeago', // Component name, `Timeago` by default
-  locale: 'en', // Default locale
-  // We use `date-fns` under the hood
-  // So you can use all locales from it
-  // locales: {
-  //   'zh-CN': require('date-fns/locale/zh_cn'),
-  //   ja: require('date-fns/locale/ja')
-  // }
-});
 
 Vue.use(vueFilterPrettyBytes);
 
