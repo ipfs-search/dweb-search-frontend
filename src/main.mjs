@@ -4,8 +4,8 @@ import 'core-js/stable'; // only stable feature also is possible with only `core
 import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
 import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
 
-import './VueComposition';
-import Vue from 'vue';
+// import './VueComposition';
+import { createApp } from 'vue';
 import VueTimeago from 'vue-timeago';
 import vueFilterPrettyBytes from 'vue-filter-pretty-bytes';
 import VueClosable from 'vue-closable';
@@ -13,6 +13,8 @@ import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
+
+const Vue = createApp(App);
 
 Vue.use(VueClosable);
 
