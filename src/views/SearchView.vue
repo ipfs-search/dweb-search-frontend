@@ -1,3 +1,8 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+const { smAndDown, mdAndUp } = useDisplay()
+</script>
+
 <template>
   <div class="result">
     <!-- App bar with nested container, row and col component
@@ -26,7 +31,7 @@
                 @click="goHome"
               >
                 <v-img
-                  v-if="$vuetify.breakpoint.mdAndUp"
+                  v-if="mdAndUp"
                   alt="ipfs-search.com logo"
                   contain
                   src="/assets/logo-white.svg"
@@ -35,7 +40,7 @@
                   :aspect-ratio="6.00840336"
                 />
                 <v-img
-                  v-if="$vuetify.breakpoint.smAndDown"
+                  v-if="smAndDown"
                   alt="ipfs-search.com logo"
                   contain
                   src="/assets/logo-hexagon-white.svg"

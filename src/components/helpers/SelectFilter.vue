@@ -1,9 +1,14 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+const { smAndDown } = useDisplay()
+</script>
+
 <template>
   <v-select
     class="v-select"
     dense
     height="38px"
-    :outlined="$vuetify.breakpoint.smAndDown"
+    :outlined="smAndDown"
     :items="filter.items"
     :label="filter.label"
     :value="filter.value"

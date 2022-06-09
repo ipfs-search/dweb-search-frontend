@@ -1,3 +1,8 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+const { mdAndUp } = useDisplay()
+</script>
+
 <template>
   <v-sheet
     :light="!$vuetify.theme.dark"
@@ -24,7 +29,7 @@
                 cols="12"
                 xl="8"
                 offset-xl="2"
-                :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
+                :class="mdAndUp ? 'mb-16' : ''"
               >
                 <MediaHeader :file="$props.file" />
                 <MetaDataPanel

@@ -1,3 +1,8 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+const { smAndDown } = useDisplay()
+</script>
+
 <template>
   <v-container class="d-flex justify-center">
     <div class="search flex-grow-1">
@@ -54,7 +59,7 @@
           </v-menu>
         </template>
         <template
-          v-if="!$vuetify.breakpoint.smAndDown"
+          v-if="!smAndDown"
           #append-outer
         >
           <v-icon

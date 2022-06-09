@@ -1,3 +1,8 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+const { smAndUp } = useDisplay()
+</script>
+
 <template>
   <v-footer
     v-if="!($route.name === 'Detail') && !playerActive"
@@ -18,11 +23,11 @@
           v-for="(link, i) in footer_links"
           :key="i"
           :href="link.href"
-          :class="$vuetify.breakpoint.smAndUp ? 'mx-4' : 'mx-1'"
+          :class="smAndUp ? 'mx-4' : 'mx-1'"
           icon
         >
           <v-icon
-            :size="$vuetify.breakpoint.smAndUp ? 24 : 18"
+            :size="smAndUp ? 24 : 18"
             color="white"
           >
             {{ link.icon }}
@@ -37,7 +42,7 @@
         style="margin: auto;"
       >
         <div
-          :style="$vuetify.breakpoint.smAndUp ? 'margin-top: -7px;' : 'margin-top: -14px;'"
+          :style="smAndUp ? 'margin-top: -7px;' : 'margin-top: -14px;'"
         >
           Funded through the
           <a

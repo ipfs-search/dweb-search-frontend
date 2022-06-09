@@ -1,3 +1,8 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+const { mdAndUp } = useDisplay()
+</script>
+
 <template>
   <div class="home">
     <v-app-bar
@@ -19,7 +24,7 @@
           >
             <div
               class="d-flex align-center"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-6' : ''"
+              :class="mdAndUp ? 'ml-6' : ''"
             >
               <v-img
                 alt="ipfs-search.com logo"
@@ -99,7 +104,7 @@
           cols="12"
           xl="8"
           offset-xl="2"
-          :class="$vuetify.breakpoint.mdAndUp ? 'mb-16' : ''"
+          :class="mdAndUp ? 'mb-16' : ''"
         >
           <v-container class="pa-0">
             <v-row align-center>
