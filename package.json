@@ -26,6 +26,7 @@
     "pretty-bytes": "^6.0.0",
     "regenerator-runtime": "^0.13.9",
     "ts-node": "^10.8.0",
+    "url": "^0.11.0",
     "video.js": "^7.12.1",
     "vite": "^2.9.9",
     "vite-plugin-vuetify": "^1.0.0-alpha.11",
