@@ -1,3 +1,8 @@
+<script setup>
+import prettyBytes from 'pretty-bytes';
+
+</script>
+
 <template>
   <v-row>
     <v-col>
