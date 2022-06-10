@@ -53,12 +53,11 @@ const { mdAndUp } = useDisplay()
               left
               class=""
             >
-              <template #activator="{ on, attrs }">
+              <template #activator="{ props }">
                 <v-btn
                   icon
-                  v-bind="attrs"
+                  v-bind="props"
                   class="my-2 mx-0 mr-n2 hidden-md-and-up"
-                  v-on="on"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>

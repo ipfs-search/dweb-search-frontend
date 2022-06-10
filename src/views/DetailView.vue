@@ -1,3 +1,19 @@
+<script setup>
+import SettingsMenu from '@/components/SettingsMenu.vue';
+import AudioDetail from '@/components/results/detail/AudioDetail.vue';
+import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
+import { Types } from '@/helpers/typeHelper';
+
+const DetailComponent = {
+  [Types.text]: DocumentDetail,
+  [Types.audio]: AudioDetail,
+  [Types.images]: () => import('@/components/results/detail/ImageDetail.vue'),
+  [Types.video]: () => import('@/components/results/detail/VideoDetail.vue'),
+  [Types.directories]: () => import('@/components/results/detail/DirectoryDetail.vue'),
+  [Types.other]: () => import('@/components/results/detail/OtherDetail.vue'),
+};
+</script>
+
 <template>
   <div>
     <v-app-bar
@@ -75,24 +91,22 @@
         hide-delimiter-background
         :continuous="false"
       >
-        <template #next="{ on, attrs }">
+        <template #next="{ props }">
           <v-btn
             fab
             small
-            v-bind="attrs"
-            v-on="on"
+            @click="props.onClick"
           >
             <v-icon large>
               mdi-chevron-right
             </v-icon>
           </v-btn>
         </template>
-        <template #prev="{ on, attrs }">
+        <template #prev="{ props }">
           <v-btn
             fab
             small
-            v-bind="attrs"
-            v-on="on"
+            @click="props.onClick"
           >
             <v-icon large>
               mdi-chevron-left
@@ -123,23 +137,9 @@
 
 <script>
 import store from '@/store';
-import { Types } from '@/helpers/typeHelper';
 import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
-import SettingsMenu from '@/components/SettingsMenu.vue';
-
-const DetailComponent = {
-  [Types.text]: () => import('@/components/results/detail/DocumentDetail.vue'),
-  [Types.audio]: () => import('@/components/results/detail/AudioDetail.vue'),
-  [Types.images]: () => import('@/components/results/detail/ImageDetail.vue'),
-  [Types.video]: () => import('@/components/results/detail/VideoDetail.vue'),
-  [Types.directories]: () => import('@/components/results/detail/DirectoryDetail.vue'),
-  [Types.other]: () => import('@/components/results/detail/OtherDetail.vue'),
-};
 
 export default {
-  components: {
-    SettingsMenu,
-  },
   props: {
     fileType: {
       type: String,
@@ -156,8 +156,6 @@ export default {
   },
   data() {
     return {
-      Types,
-      DetailComponent,
       singleItem: undefined,
       carouselIndex: 0,
     };

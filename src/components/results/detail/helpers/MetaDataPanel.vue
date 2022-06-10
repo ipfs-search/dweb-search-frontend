@@ -6,16 +6,16 @@
           v-model="expand"
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>
-              <template #default="{ open }">
+            <v-expansion-panel-title>
+              <template #default="{ expanded }">
                 <div>
-                  {{ `${open ? 'Hide' : 'Show'}` }} file info
+                  {{ `${expanded ? 'Hide' : 'Show'}` }} file info
                 </div>
               </template>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content class="ml-n2 mr-0">
+            </v-expansion-panel-title>
+            <v-expansion-panel-text class="ml-n2 mr-0">
               <template #default>
-                <v-simple-table>
+                <v-table>
                   <tbody>
                     <tr>
                       <th>Title:</th>
@@ -73,18 +73,18 @@
                       </td>
                     </tr>
                   </tbody>
-                </v-simple-table>
+                </v-table>
                 <v-expansion-panels>
                   <v-expansion-panel>
-                    <v-expansion-panel-header>
+                    <v-expansion-panel-title>
                       <i>Extra metadata from
                         <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__">
                           metadata API:
                         </a>
                       </i>
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-simple-table>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-table>
                         <tbody>
                           <tr
                             v-for="(item, index) in extraData"
@@ -98,12 +98,12 @@
                             </td>
                           </tr>
                         </tbody>
-                      </v-simple-table>
-                    </v-expansion-panel-content>
+                      </v-table>
+                    </v-expansion-panel-text>
                   </v-expansion-panel>
                 </v-expansion-panels>
               </template>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </div>
