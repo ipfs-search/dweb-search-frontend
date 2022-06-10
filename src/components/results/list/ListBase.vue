@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
   <v-container>
     <!--    results section -->
@@ -69,7 +73,7 @@
   </v-container>
 </template>
 
-<script setup>
+<script>
 import { maxPages } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
 

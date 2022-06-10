@@ -1,3 +1,8 @@
+<script setup>
+import prettyBytes from 'pretty-bytes';
+
+</script>
+
 <template>
   <ListBase>
     <template #type>
@@ -38,11 +43,10 @@
   </ListBase>
 </template>
 
-<script setup>
+<script>
 import durationToColor from '@/filters/durationToColor';
 import { Types } from '@/helpers/typeHelper';
 import FileListMixin from './mixins/FileListMixin';
-import prettyBytes from 'pretty-bytes';
 
 export default {
   filters: {

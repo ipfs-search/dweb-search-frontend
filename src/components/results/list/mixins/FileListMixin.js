@@ -3,7 +3,6 @@ import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';
 import { batchSize } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
-import TimeAgo from 'vue3-timeago';
 
 const resultsTotalMax = 10000;
 
@@ -14,7 +13,6 @@ const resultsTotalMax = 10000;
 export default {
   components: {
     ListBase,
-    TimeAgo,
   },
   computed: {
     // N.b. mapGetters does not work here because of dynamic module loading (this.$data.fileType)
