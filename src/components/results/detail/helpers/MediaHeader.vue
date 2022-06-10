@@ -1,3 +1,8 @@
+<script setup>
+import prettyBytes from 'pretty-bytes';
+
+</script>
+
 <template>
   <div>
     <!-- Subheader -->
@@ -37,16 +42,14 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import mime from 'mime';
-import prettyBytes from 'pretty-bytes';
 import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import DownloadButton from '@/components/helpers/DownloadButton.vue';
 import CopyHashButton from '@/components/helpers/CopyHashButton.vue';
-import TimeAgo from 'vue3-timeago';
 
 export default {
-  components: { DownloadButton, CopyHashButton, TimeAgo },
+  components: { DownloadButton, CopyHashButton },
   mixins: [
     DetailMixin,
   ],

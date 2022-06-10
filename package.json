@@ -34,7 +34,7 @@
     "vue-closable": "0.0.3",
     "vue-masonry": "^0.11.8",
     "vue-router": "^4.0.15",
-    "vue3-timeago": "^1.0.6",
+    "vue-timeago3": "^2.2.1",
     "vuetify": "^3.0.0-beta.3",
     "vuex": "^4.0.2"
   },

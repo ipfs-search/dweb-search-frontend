@@ -5,11 +5,10 @@
       :nudge-width="200"
       offset-x
     >
-      <template #activator="{ on, attrs }">
+      <template #activator="{ props }">
         <v-btn
           icon
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         >
           <v-icon
             :color="cogwheelColor"

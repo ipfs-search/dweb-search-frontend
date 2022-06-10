@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is de
 import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
 
 import { createApp } from 'vue';
+import timeago from 'vue-timeago3';
 import VueClosable from 'vue-closable';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
@@ -14,6 +15,7 @@ import store from './store';
 
 const Vue = createApp(App);
 
+// TODO: can this be replaced by vuetify builtin?
 Vue.use(VueClosable);
 
 Vue.use(vuetify);
@@ -26,5 +28,7 @@ router.beforeEach((to, from, next) => {
   store.commit('query/setRouteParams', to.query);
   next();
 });
+
+Vue.use(timeago);
 
 Vue.mount('#app');

@@ -27,10 +27,10 @@ const { smAndDown } = useDisplay()
             style="top: -12px"
             offset-y
           >
-            <template #activator="{ on }">
+            <template #activator="{ props }">
               <div
                 class="mr-n3 grey--text d-flex align-center"
-                v-on="on"
+                v-bind="props"
               >
                 <span
                   class="text-capitalize"
