@@ -151,7 +151,7 @@ export default {
     },
     selectedIndex: {
       type: Number,
-      default: undefined,
+      default: 0,
     },
   },
   data() {

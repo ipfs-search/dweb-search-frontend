@@ -11,7 +11,6 @@ const routes = [
     path: '/search',
     name: 'Search',
     props: (route) => ({ query: route.query }),
-    // route level code-splitting
     component: () => import('@/views/SearchView.vue'),
   },
   {
@@ -21,7 +20,6 @@ const routes = [
       ...route.params,
       query: route.query,
     }),
-    // route level code-splitting
     component: () => import('@/views/DetailView.vue'),
   },
 ];
