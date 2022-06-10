@@ -7,7 +7,8 @@
         xl="8"
         offset-xl="2"
       >
-        <v-subheader class="text-subtitle-1 mt-n2 mb-n3 d-flex justify-space-between">
+<!--        replaced v-subheader with v-list-subheader -->
+        <v-list-subheader class="text-subtitle-1 mt-n2 mb-n3 d-flex justify-space-between">
           <div><slot name="type" /></div>
           <div v-if="anyFileType ">
             <a
@@ -17,7 +18,7 @@
               View all
             </a>
           </div>
-        </v-subheader>
+        </v-list-subheader>
       </v-col>
     </v-row>
 
