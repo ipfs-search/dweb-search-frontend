@@ -25,7 +25,7 @@
  * N.b. these properties are normal public properties so that Vue can make them reactive
  */
 export default class FetchDoggy {
-  progress;
+  progress
 
   total;
 
@@ -33,13 +33,13 @@ export default class FetchDoggy {
 
   objectURL;
 
-  #controller = new AbortController();
+  controller = new AbortController();
 
   // mimic native fetch() instantiation and return Promise
   fetch(input, init = {}, extraOptions = { mimetype: 'application/pdf' }) {
     const request = (input instanceof Request) ? input : new Request(input);
 
-    const { signal } = this.#controller;
+    const { signal } = this.controller;
 
     return fetch(request, { signal, ...init })
       .then((response) => {
@@ -50,7 +50,7 @@ export default class FetchDoggy {
         if (!response.ok) {
           // HTTP error server response
           const error = Error(`Server responded ${response.status} ${response.statusText}`);
-          this.#callHooks('error', error);
+          this.callHooks('error', error);
           throw error;
         }
 
@@ -70,8 +70,8 @@ export default class FetchDoggy {
 
         // ensure onProgress called when content-length=0
         if (this.total === 0) {
-          this.#callHooks('progress');
-          this.#callHooks('complete');
+          this.callHooks('progress');
+          this.callHooks('complete');
         }
 
         const responseReader = response.body.getReader();
@@ -93,18 +93,17 @@ export default class FetchDoggy {
                   ({ value, done } = await responseReader.read());
                   if (done) break;
                   me.progress += value.byteLength;
-                  me.#callHooks('progress');
+                  me.callHooks('progress');
                   controller.enqueue(value);
                 }
-                me.#callHooks('complete');
+                me.callHooks('complete');
                 controller.close();
               }
 
               await read()
                 .catch((error) => {
                   controller(error);
-                  me.#callHooks('error');
-                  throw Error(error);
+                  me.callHooks('error');
                 });
             },
           }),
@@ -124,9 +123,9 @@ export default class FetchDoggy {
     this.total = undefined;
     this.progress = undefined;
 
-    this.#controller.abort();
+    this.controller.abort();
 
-    this.#callHooks('cancel');
+    this.callHooks('cancel');
   }
 
   /**
@@ -140,12 +139,12 @@ export default class FetchDoggy {
     if (typeof func !== 'function') {
       throw Error(`trying to set non-function on ${hook} hook`);
     }
-    if (!Object.prototype.hasOwnProperty.call(this.#hooks, hook)) {
+    if (!Object.prototype.hasOwnProperty.call(this.hooks, hook)) {
       throw Error(`hook unavailable: ${hook}`);
     }
 
     const s = Symbol(hook);
-    this.#hooks[hook][s] = func;
+    this.hooks[hook][s] = func;
     return s;
   }
 
@@ -194,9 +193,9 @@ export default class FetchDoggy {
    * @param target <Symbol> hook to be destroyed. If undefined, destroys all hooks.
    */
   off(target) {
-    Reflect.ownKeys(this.#hooks).forEach((hook) => {
-      Reflect.ownKeys(this.#hooks[hook]).forEach((s) => {
-        if (target === s || target === undefined) delete this.#hooks[hook][s];
+    Reflect.ownKeys(this.hooks).forEach((hook) => {
+      Reflect.ownKeys(this.hooks[hook]).forEach((s) => {
+        if (target === s || target === undefined) delete this.hooks[hook][s];
       });
     });
   }
@@ -204,14 +203,14 @@ export default class FetchDoggy {
   /**
    * support for multiple hooks and different hooks
    */
-  #hooks = {
+  hooks = {
     progress: {},
     complete: {},
     cancel: {},
     error: {},
   };
 
-  #callHooks(hook, ...args) {
-    Reflect.ownKeys(this.#hooks[hook]).forEach((s) => this.#hooks[hook][s](...args));
+  callHooks(hook, ...args) {
+    Reflect.ownKeys(this.hooks[hook]).forEach((s) => this.hooks[hook][s](...args));
   }
 }
