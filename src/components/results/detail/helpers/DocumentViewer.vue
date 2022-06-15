@@ -2,15 +2,15 @@
   <div>
     <v-alert
       v-if="error"
-      border="left"
-      color="red lighten-2"
+      border
+      color="red-lighten-2"
     >
       <i>Error loading preview: {{ error }}</i>
     </v-alert>
     <v-alert
       v-else-if="extension === 'pdf' && !srcURL"
       border
-      color="blue lighten-4"
+      color="blue-lighten-4"
     >
       <i>Loading preview</i>
       <v-progress-linear
