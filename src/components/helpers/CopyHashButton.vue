@@ -1,7 +1,9 @@
 <template>
   <v-btn
     icon
-    color="grey"
+    variant="contained-flat"
+    class="text-grey"
+    size="x-small"
     @click.stop="copyHash"
   >
     <v-icon>mdi-content-copy</v-icon>

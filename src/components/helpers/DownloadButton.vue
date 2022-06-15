@@ -1,7 +1,9 @@
 <template>
   <v-btn
     icon
-    color="grey"
+    variant="contained-flat"
+    class="text-grey"
+    size="x-small"
     target="_blank"
     :href="getURL()"
   >

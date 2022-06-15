@@ -32,7 +32,6 @@
 </template>
 
 <script setup>
-
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
 import Retriever from '@/helpers/FetchDoggy';
