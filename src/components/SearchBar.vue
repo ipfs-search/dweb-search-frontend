@@ -8,19 +8,19 @@ const { smAndDown } = useDisplay()
     <div class="search flex-grow-1">
       <v-text-field
         ref="input"
+        variant="contained"
+        class="bg-white rounded-pill"
         v-model="searchPhrase"
-        placeholder="Search"
+        @keyup.enter="enterSearchPhrase"
         v-closable="{ handler: 'onClick' }"
-        light
-        rounded
+        placeholder="Search"
+        theme="light"
         height="42"
         autocomplete="off"
         autofocus
-        dense
-        solo
-        validate-on-blur
+        density="compact"
+        flat
         hide-details
-        @keyup.enter="enterSearchPhrase"
       >
         <template #append>
           <v-menu
@@ -58,21 +58,17 @@ const { smAndDown } = useDisplay()
             </v-list>
           </v-menu>
         </template>
-        <template
-          v-if="!smAndDown"
-          #append-outer
-        >
-          <v-icon
-            style="margin-top: -2px;"
-            size="34"
-            color="white"
-            @click="enterSearchPhrase"
-          >
-            mdi-magnify
-          </v-icon>
-        </template>
       </v-text-field>
     </div>
+    <v-icon
+      v-if="!smAndDown"
+      style="margin-top: -2px;"
+      size="34"
+      color="white"
+      @click="enterSearchPhrase"
+    >
+      mdi-magnify
+    </v-icon>
   </v-container>
 </template>
 
@@ -165,5 +161,14 @@ export default {
 .search {
   max-width: 960px;
   z-index: 10000;
+}
+</style>
+
+<style lang="scss">
+// FIXME: This is a hack; the style box ought to be scoped and this style should be added by
+// class="border-pill" on the v-text-field, but this does not work. Most likely a bug in vuetify
+.search .v-field {
+  background: transparent;
+  box-shadow: none;
 }
 </style>

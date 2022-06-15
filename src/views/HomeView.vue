@@ -314,11 +314,11 @@ const { mdAndUp } = useDisplay()
 </template>
 
 <script>
-// @ is an alias to /src
 import SearchBar from '@/components/SearchBar.vue';
 import SettingsMenu from '@/components/SettingsMenu.vue';
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     SearchBar,
     SettingsMenu,
@@ -352,7 +352,7 @@ export default {
       },
     ],
   }),
-};
+});
 </script>
 
 <style lang="scss" scoped>
