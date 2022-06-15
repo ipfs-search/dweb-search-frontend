@@ -1,6 +1,6 @@
 <script setup>
-import DownloadButton from '@/components/helpers/DownloadButton.vue';
-import CopyHashButton from '@/components/helpers/CopyHashButton.vue';
+import DownloadButton from '@/components/results/detail/helpers/DownloadButton.vue';
+import CopyHashButton from '@/components/results/detail/helpers/CopyHashButton.vue';
 import prettyBytes from 'pretty-bytes';
 
 </script>
