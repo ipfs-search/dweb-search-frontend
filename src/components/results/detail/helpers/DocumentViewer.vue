@@ -5,17 +5,17 @@
       border="left"
       color="red lighten-2"
     >
-      <i>Error loading preview</i>
+      <i>Error loading preview: {{ error }}</i>
     </v-alert>
     <v-alert
       v-else-if="extension === 'pdf' && !srcURL"
-      border="left"
+      border
       color="blue lighten-4"
     >
       <i>Loading preview</i>
       <v-progress-linear
         :indeterminate="!progress"
-        :value="progress"
+        :model-value="progress"
       />
     </v-alert>
     <iframe
@@ -31,93 +31,91 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
 import Retriever from '@/helpers/FetchDoggy';
+import { defineProps, reactive, ref, computed } from 'vue';
 
-export default {
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  file: {
+    type: Object,
+    required: true,
   },
-  data() {
-    return {
-      error: false,
-      retriever: new Retriever(),
-    };
+  active: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    extension() {
-      return mime.getExtension(this.$props.file.mimetype);
-    },
-    srcURL() {
-      switch (this.extension) {
-        case 'epub':
-          return `https://readium.web.app/?epub=${getResourceURL(this.file.hash)}`;
-        case 'rtf': // rtf does not work for some reason
-          return '';
-        case 'doc':
-        case 'xls':
-        case 'ppt':
-        case 'docx':
-        case 'xlsx':
-        case 'pptx':
-        case 'odf':
-        case 'odt':
-        case 'ods':
-        case 'odp':
-          return `https://view.officeapps.live.com/op/embed.aspx?src=${
-            getResourceURL(this.file.hash)}`;
-        case 'html':
-        case 'txt':
-        case 'json':
-          return getResourceURL(this.file.hash);
-        case 'pdf':
-          return this.retriever.objectURL;
-        default:
-          return undefined;
-      }
-    },
-    progress() {
-      return (this.$data.retriever.progress / this.$data.retriever.total) * 100;
-    },
-  },
-  watch: {
-    active(active) {
-      if (active) {
-        this.error = undefined;
-        this.fetch();
-      } else if (this.retriever && this.progress < 100) {
-        // if you slide the document out of view, cancel unfinished download.
-        this.retriever.cancel();
-      }
-    },
-  },
-  created() {
-    this.fetch();
-  },
-  methods: {
-    fetch() {
-      if (this.srcURL) return Promise.resolve();
-      if (this.retriever.objectURL) {
-        return Promise.resolve(this.retriever.objectURL);
-      }
+})
 
-      return this.retriever.fetch(getResourceURL(this.$props.file.hash))
-        .catch((error) => {
-          console.error(error);
-          this.$data.error = error;
-        });
-    },
-  },
+let error = ref(undefined);
+const retriever = reactive(new Retriever());
+const extension = mime.getExtension(props.file.mimetype);
+
+const progress = computed(() => retriever.progress / retriever.total * 100)
+
+const srcURL = computed(() => {
+  switch (extension) {
+    case 'epub':
+      return `https://readium.web.app/?epub=${getResourceURL(props.file.hash)}`;
+    case 'rtf': // rtf does not work for some reason
+      return '';
+    case 'doc':
+    case 'xls':
+    case 'ppt':
+    case 'docx':
+    case 'xlsx':
+    case 'pptx':
+    case 'odf':
+    case 'odt':
+    case 'ods':
+    case 'odp':
+      return `https://view.officeapps.live.com/op/embed.aspx?src=${
+        getResourceURL(props.file.hash)}`;
+    case 'html':
+    case 'txt':
+    case 'json':
+      return getResourceURL(props.file.hash);
+    case 'pdf':
+      return retriever.objectURL;
+    default:
+      return undefined;
+  }
+});
+
+const fetch = function fetch() {
+  if (srcURL.value) return Promise.resolve();
+  if (retriever.objectURL) {
+    return Promise.resolve(retriever.objectURL);
+  }
+  return retriever.fetch(getResourceURL(props.file.hash))
+    .catch((fetchError) => {
+      console.error(fetchError);
+      error.value = fetchError;
+    });
 };
+fetch();
 
+// This watch intends to cancel the download of files you cycle out of view.
+// It sort of works, but has a lot of side-effects which are hard to test and to fix.
+// Side effects may even be serverside at the ipfs-gateway, it seems that an aborted call can
+// not even always be restarted, but in stead throws a 504 gateway-timeout.
+// Leaving it in for now, to show that it has been tried/what has been tried.
+//
+// Can be fixed another time, or simply removed.
+/*
+watch(() => props.active, (active) => {
+  if (active) {
+    console.log('resetting', props.file.hash)
+    // when you cycle forward and backward, reset any errors.
+    error.value = undefined;
+    if (progress.value !== 100) fetch();
+  } else if (progress.value !== 100) {
+    console.log('aborting', props.file.hash)
+    // if you slide the document out of view, cancel unfinished download.
+    retriever.cancel();
+  }
+})
+*/
 </script>
