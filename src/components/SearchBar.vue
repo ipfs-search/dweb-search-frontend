@@ -4,7 +4,7 @@ const { smAndDown } = useDisplay()
 </script>
 
 <template>
-  <v-container class="d-flex justify-center">
+  <v-container class="d-flex justify-center align-center">
     <div class="search flex-grow-1">
       <v-text-field
         ref="input"
@@ -24,12 +24,11 @@ const { smAndDown } = useDisplay()
       >
         <template #append>
           <v-menu
-            style="top: -12px"
             offset-y
           >
             <template #activator="{ props }">
               <div
-                class="mr-n3 grey--text d-flex align-center"
+                class="mr-3 text-grey d-flex align-start"
                 v-bind="props"
               >
                 <span
@@ -62,7 +61,7 @@ const { smAndDown } = useDisplay()
     </div>
     <v-icon
       v-if="!smAndDown"
-      style="margin-top: -2px;"
+      style="margin-top: -2px; margin-left: 7px"
       size="34"
       color="white"
       @click="enterSearchPhrase"
@@ -170,5 +169,8 @@ export default {
 .search .v-field {
   background: transparent;
   box-shadow: none;
+  margin-bottom: 6px;
+  margin-top: -4px;
+  padding-left: 5px;
 }
 </style>
