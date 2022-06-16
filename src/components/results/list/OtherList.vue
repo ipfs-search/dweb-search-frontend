@@ -11,8 +11,10 @@
       v-for="(hit, index) in shownHits"
       :key="index"
     >
+    <v-hover v-slot="{ hover }">
       <v-card
         @click="goToDetailPage(index)"
+        :elevation="hover ? 12 : 2"
       >
         <v-card-subtitle class="text-caption mb-n7 text-truncate">
           <span
@@ -34,6 +36,7 @@
           v-html="hit.description"
         />
       </v-card>
+    </v-hover>
     </v-col>
   </ListBase>
 </template>
@@ -58,3 +61,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.text-subtitle-1 {
+  display: inline-block;
+}
+</style>
