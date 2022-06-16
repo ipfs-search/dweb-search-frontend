@@ -15,7 +15,6 @@ const { smAndDown } = useDisplay()
         v-closable="{ handler: 'onClick' }"
         placeholder="Search"
         theme="light"
-        height="42"
         autocomplete="off"
         autofocus
         density="compact"
@@ -61,7 +60,7 @@ const { smAndDown } = useDisplay()
     </div>
     <v-icon
       v-if="!smAndDown"
-      style="margin-top: -2px; margin-left: 7px"
+      style="margin-left: 9px"
       size="34"
       color="white"
       @click="enterSearchPhrase"
@@ -158,7 +157,8 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  max-width: 960px;
+  max-width: 915px;
+  height: 44px;
   z-index: 10000;
 }
 </style>
@@ -171,6 +171,15 @@ export default {
   box-shadow: none;
   margin-bottom: 6px;
   margin-top: -4px;
-  padding-left: 5px;
+  padding-left: 9px;
+  caret-color: auto;
+}
+::placeholder {
+  color: #c0c0c0;
+  opacity: 1;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: red;
 }
 </style>

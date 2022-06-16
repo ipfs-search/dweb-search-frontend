@@ -83,11 +83,12 @@ const { mdAndUp } = useDisplay()
     <v-img
       src="/assets/background-02.png"
       aspect-ratio="1.83"
+      cover
       class="hero"
     >
-      <v-container class="pa-0 fill-height align-content-end">
-        <v-row>
-          <v-col class="white--text">
+      <v-container class="pa-0 fill-height d-flex">
+        <v-row class="align-content-end">
+          <v-col class="pa-2 text-white">
             <h3 class="mb-2 text-center hidden-sm-and-down">
               Search the Distributed&#160;Web
             </h3>
