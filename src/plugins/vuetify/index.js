@@ -3,7 +3,7 @@ import { createVuetify } from 'vuetify';
 import 'vuetify/styles'
 
 import store from '@/store';
-import ipfsTheme from './theme';
+import ipfsTheme from './theme'
 
 export default createVuetify({
   theme: {
