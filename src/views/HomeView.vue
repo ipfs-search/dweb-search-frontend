@@ -1,6 +1,8 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 import HomeViewCard from '@/views/HomeViewCard.vue';
+import SearchBar from '@/components/SearchBar.vue';
+import SettingsMenu from '@/components/SettingsMenu.vue';
 const { mdAndUp } = useDisplay()
 </script>
 
@@ -9,9 +11,9 @@ const { mdAndUp } = useDisplay()
     <v-app-bar
       app
       height="56"
-      class="px-4"
+      class="px-4 bg-appBar"
       elevate-on-scroll
-      light
+      theme="light"
     >
       <v-container
         class="px-0"
@@ -40,13 +42,10 @@ const { mdAndUp } = useDisplay()
               v-for="(link, i) in links"
               :key="i"
               :href="link.href"
-              text
-              small
+              :text="link.title"
+              size="small"
               class="my-2 mx-1 hidden-sm-and-down"
-            >
-              {{ link.title }}
-            </v-btn>
-
+            />
             <settings-menu />
 
             <v-menu
@@ -183,16 +182,9 @@ const { mdAndUp } = useDisplay()
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar.vue';
-import SettingsMenu from '@/components/SettingsMenu.vue';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: {
-    SearchBar,
-    SettingsMenu,
-  },
-
   data: () => ({
     links: [
       {

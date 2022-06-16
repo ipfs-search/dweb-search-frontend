@@ -1,5 +1,5 @@
 const ipfsTheme = {
-  dark: undefined,
+  dark: false,
   colors: {
     ipfsPrimary: '#0e3344',
     ipfsSecondary: '#00bcd4',
@@ -10,6 +10,7 @@ const ipfsTheme = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
+    appBar: '#f5f5f5',
   }
 }
 
