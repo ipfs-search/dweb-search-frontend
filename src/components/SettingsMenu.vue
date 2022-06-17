@@ -1,9 +1,8 @@
 <template>
   <div>
     <v-menu
-      :close-on-content-click="true"
-      :nudge-width="200"
-      offset-x
+      location="start"
+      :close-on-content-click="false"
     >
       <template #activator="{ props }">
         <v-btn
@@ -18,24 +17,32 @@
         </v-btn>
       </template>
 
-      <v-card>
-        <v-list>
-          <v-list-item>
-            <v-list-item-action>
+      <v-card
+        class="mx-auto"
+      >
+        <v-list
+          density="compact"
+        >
+          <v-list-item
+          >
+            <v-list-item-title>
               <v-switch
                 v-model="blurExplicitImages"
+                label="Blur explicit images"
+                color="ipfsPrimary"
               />
-            </v-list-item-action>
-            <v-list-item-title>Blur explicit images</v-list-item-title>
+            </v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-action>
+          <v-list-item
+          >
+            <v-list-item-title>
               <v-switch
                 v-model="darkMode"
+                label="Enable dark mode"
+                color="ipfsPrimary"
               />
-            </v-list-item-action>
-            <v-list-item-title>Enable dark mode</v-list-item-title>
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-card>
