@@ -1,6 +1,28 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 const { smAndUp } = useDisplay()
+const footer_links = [
+  {
+    icon: 'mdi-mastodon',
+    href: 'https://mastodon.social/@ipfssearch',
+  },
+  {
+    icon: 'mdi-twitter',
+    href: 'https://twitter.com/SearchIpfs',
+  },
+  {
+    icon: 'mdi-github',
+    href: 'https://github.com/ipfs-search/ipfs-search',
+  },
+  {
+    icon: 'mdi-hand-coin',
+    href: 'https://opencollective.com/ipfs-search#category-CONTRIBUTE',
+  },
+  {
+    icon: 'mdi-email',
+    href: 'mailto:info@ipfs-search.com',
+  },
+]
 </script>
 
 <template>
@@ -67,28 +89,6 @@ export default {
     audioPlayer,
     lastScrollPosition: 0,
     showFooter: true,
-    footer_links: [
-      {
-        icon: 'mdi-mastodon',
-        href: 'https://mastodon.social/@ipfssearch',
-      },
-      {
-        icon: 'mdi-twitter',
-        href: 'https://twitter.com/SearchIpfs',
-      },
-      {
-        icon: 'mdi-github',
-        href: 'https://github.com/ipfs-search/ipfs-search',
-      },
-      {
-        icon: 'mdi-hand-coin',
-        href: 'https://opencollective.com/ipfs-search#category-CONTRIBUTE',
-      },
-      {
-        icon: 'mdi-email',
-        href: 'mailto:info@ipfs-search.com',
-      },
-    ],
   }),
 
   computed: {

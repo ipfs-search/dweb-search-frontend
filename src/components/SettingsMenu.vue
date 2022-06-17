@@ -20,29 +20,22 @@
       <v-card
         class="mx-auto"
       >
-        <v-list
-          density="compact"
-        >
-          <v-list-item
-          >
-            <v-list-item-title>
-              <v-switch
-                v-model="blurExplicitImages"
-                label="Blur explicit images"
-                color="ipfsPrimary"
-              />
-            </v-list-item-title>
+        <v-list>
+          <v-list-item>
+            <v-switch
+              v-model="blurExplicitImages"
+              label="Blur explicit images"
+              color="ipfsPrimary"
+              hide-details
+            />
           </v-list-item>
-
-          <v-list-item
-          >
-            <v-list-item-title>
-              <v-switch
-                v-model="darkMode"
-                label="Enable dark mode"
-                color="ipfsPrimary"
-              />
-            </v-list-item-title>
+          <v-list-item>
+            <v-switch
+              v-model="darkMode"
+              label="Enable dark mode"
+              color="ipfsPrimary"
+              hide-details
+            />
           </v-list-item>
         </v-list>
       </v-card>

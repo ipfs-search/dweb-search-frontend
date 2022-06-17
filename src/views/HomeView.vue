@@ -46,7 +46,6 @@ const { mdAndUp } = useDisplay()
               size="small"
               class="my-2 mx-1 hidden-sm-and-down"
             />
-            <settings-menu />
 
             <v-menu
               bottom
@@ -75,6 +74,8 @@ const { mdAndUp } = useDisplay()
                 </v-list-item>
               </v-list>
             </v-menu>
+
+            <settings-menu />
           </v-col>
         </v-row>
       </v-container>
