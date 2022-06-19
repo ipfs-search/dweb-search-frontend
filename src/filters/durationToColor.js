@@ -8,15 +8,15 @@ export default function durationToColor(value) {
   const duration = moment.duration(difference);
 
   if (duration < moment.duration({ hours: 24 })) {
-    return 'green--text';
+    return 'text-green';
   }
 
   if (duration < moment.duration({ days: 7 })) {
-    return 'orange--text';
+    return 'text-orange';
   }
 
   if (duration > moment.duration({ days: 7 })) {
-    return 'red--text';
+    return 'text-red';
   }
 
   return null;
