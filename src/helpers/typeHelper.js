@@ -8,6 +8,16 @@ export const Types = {
   other: 'other',
 };
 
+export const TypeListNames = {
+  any: 'Any',
+  text: 'Documents',
+  audio: 'Audio',
+  images: 'Images',
+  video: 'Video',
+  directories: 'Directories',
+  other: 'Other',
+};
+
 export const searchTypes = Object.values(Types);
 
 export default {

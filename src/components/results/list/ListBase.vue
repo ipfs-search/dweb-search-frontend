@@ -1,5 +1,41 @@
 <script setup>
+  import { TypeListNames } from '@/helpers/typeHelper';
+  import { fileListComposable } from './fileListComposable'
+  import { onMounted } from 'vue';
+  import { onBeforeRouteUpdate } from 'vue-router';
 
+  const props = defineProps({
+    fileType: {
+      type: String,
+      required: true,
+    },
+    infinite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  })
+
+  const {
+    resultsTotal,
+    anyFileType,
+    queryPage,
+    pageCount,
+    error,
+    loading,
+    setFileType,
+    handleQueryChange,
+  } = fileListComposable(props);
+
+  onMounted(() => {
+    handleQueryChange()
+  });
+
+  // replaces watch on route.query
+  onBeforeRouteUpdate(({ query }, from, next) => {
+    handleQueryChange(query);
+    next()
+  })
 </script>
 
 <template>
@@ -12,22 +48,26 @@
         offset-xl="2"
       >
 <!--        replaced v-subheader with v-list-subheader -->
-        <v-list-subheader class="text-subtitle-1 mt-n2 mb-n3 d-flex justify-space-between">
-          <div><slot name="type" /></div>
-          <div v-if="anyFileType ">
-            <a
-              class="text-subtitle-1 text-decoration-none text--secondary"
-              @click.prevent="setFileType"
-            >
-              View all
-            </a>
-          </div>
-        </v-list-subheader>
+        <v-toolbar>
+          <v-toolbar-title class="text-subtitle-1 mt-n2 mb-n3 d-flex justify-space-between">
+            <div>
+              {{ TypeListNames[fileType] }} ({{ resultsTotal }})
+            </div>
+            <div v-if="anyFileType ">
+              <a
+                class="text-subtitle-1 text-decoration-none text-secondary"
+                @click.prevent="setFileType"
+              >
+                View all
+              </a>
+            </div>
+          </v-toolbar-title>
+        </v-toolbar>
       </v-col>
     </v-row>
 
     <v-row
-      v-if="$parent.error"
+      v-if="error"
     >
       <v-col
         cols="12"
@@ -43,13 +83,13 @@
       </v-col>
     </v-row>
     <v-row
-      v-if="$parent.resultsTotal !== 0"
+      v-if="resultsTotal !== 0"
       dense
     >
       <slot />
     </v-row>
     <v-row
-      v-if="$parent.loading"
+      v-if="loading"
       dense
       justify="center"
     >
@@ -65,36 +105,10 @@
       style="margin-bottom: 135px !important"
     >
       <v-pagination
-        v-model="$parent.queryPage"
+        v-model="queryPage"
         :length="pageCount"
         total-visible="9"
       />
     </div>
   </v-container>
 </template>
-
-<script>
-import { maxPages } from '@/helpers/ApiHelper';
-import { enterSearchQuery } from '@/helpers/routerHelper';
-
-export default {
-  data() {
-    return {
-      infinite: this.$parent.infinite === true,
-    };
-  },
-  computed: {
-    anyFileType() {
-      return this.$route.query.type === 'any' || this.$route.query.type === undefined;
-    },
-    pageCount() {
-      return Math.min(this.$parent.pageCount, maxPages);
-    },
-  },
-  methods: {
-    setFileType() {
-      enterSearchQuery({ type: this.$parent.fileType });
-    },
-  },
-};
-</script>

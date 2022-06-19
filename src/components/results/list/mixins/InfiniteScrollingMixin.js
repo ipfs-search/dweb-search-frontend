@@ -89,12 +89,7 @@ export default {
      * overrides FileListMixin
      */
     handleQueryChange(query) {
-      if (query.type === this.fileType) {
-        document.addEventListener('scroll', this.infiniteScroll, true);
-      } else {
-        document.removeEventListener('scroll', this.infiniteScroll, true);
-      }
-      this.getInfiniteResults();
+    // TODO: migrate to composable
     },
   },
   beforeDestroy() {

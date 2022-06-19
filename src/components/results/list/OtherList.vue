@@ -46,14 +46,12 @@ import prettyBytes from 'pretty-bytes';
 <script>
 import durationToColor from '@/filters/durationToColor';
 import { Types } from '@/helpers/typeHelper';
-import FileListMixin from './mixins/FileListMixin';
 
 export default {
   filters: {
     durationToColor,
   },
   mixins: [
-    FileListMixin,
   ],
   data() {
     return {

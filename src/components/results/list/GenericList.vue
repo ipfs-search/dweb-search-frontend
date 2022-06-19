@@ -1,15 +1,20 @@
 <script setup>
-import prettyBytes from 'pretty-bytes';
-import durationToColor from '@/filters/durationToColor';
+import { fileListComposable, fileListProps, imports } from './fileListComposable';
+
+const props = defineProps(fileListProps)
+
+const {
+  shownHits,
+  goToDetailPage
+} = fileListComposable(props)
+const { mime, ListBase, prettyBytes, durationToColor } = imports
 
 </script>
 
 <template>
-  <ListBase>
-    <template #type>
-      Documents ({{ resultsTotal }})
-    </template>
-
+  <ListBase
+    :file-type="fileType"
+  >
     <v-col
       v-for="(hit, index) in shownHits"
       :key="index"
@@ -36,13 +41,16 @@ import durationToColor from '@/filters/durationToColor';
               </v-card-subtitle>
               <v-card-subtitle class="text-caption text-truncate">
                 <span v-if="hit.size">Size {{ prettyBytes(hit.size) }}</span>
-                <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
+                <span v-if="hit.mimetype">&nbsp;| {{ mime.getExtension(hit.mimetype) }}</span>
               </v-card-subtitle>
               <v-card-title class="text-subtitle-1">
-                <span v-html="hit.title"/>
+                <span v-html="hit.title || hit.hash "/>
               </v-card-title>
               <v-card-text class="text-body-2 text-grey">
                 <span v-html="hit.description"/>
+                <span data-test-id="banana">
+                  {{ hit.description }}
+                </span>
               </v-card-text>
             </v-card-header-text>
           </v-card-header>
@@ -52,26 +60,6 @@ import durationToColor from '@/filters/durationToColor';
   </ListBase>
 </template>
 
-<script>
-import mime from 'mime';
-import { Types } from '@/helpers/typeHelper';
-import FileListMixin from './mixins/FileListMixin';
-
-export default {
-  mixins: [FileListMixin],
-  data() {
-    return {
-      fileType: Types.text,
-      shortList: 3,
-    };
-  },
-  methods: {
-    showFileType(mimeType) {
-      return mime.getExtension(mimeType);
-    },
-  },
-};
-</script>
 <style scoped>
 .text-subtitle-1 {
   display: inline-block;

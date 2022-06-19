@@ -90,10 +90,9 @@ import prettyBytes from 'pretty-bytes';
 import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
 import { Types } from '@/helpers/typeHelper';
 import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
-import FileListMixin from './mixins/FileListMixin';
 
 export default {
-  mixins: [FileListMixin, InfiniteScrollingMixin],
+  mixins: [InfiniteScrollingMixin],
   setup() {
     return { blurExplicit };
   },

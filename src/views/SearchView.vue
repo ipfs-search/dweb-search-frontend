@@ -1,4 +1,15 @@
 <script setup>
+import SearchBar from '@/components/SearchBar.vue';
+import SearchFilters from '@/components/SearchFilters.vue';
+import SettingsMenu from '@/components/SettingsMenu.vue';
+import GenericList from '@/components/results/list/GenericList.vue';
+import ImageList from '@/components/results/list/ImageList.vue';
+import AudioList from '@/components/results/list/AudioList.vue';
+import VideoList from '@/components/results/list/VideoList.vue';
+import OtherList from '@/components/results/list/OtherList.vue';
+
+import { Types } from '@/helpers/typeHelper';
+
 import { useDisplay } from 'vuetify'
 const { smAndDown, mdAndUp } = useDisplay()
 </script>
@@ -64,42 +75,18 @@ const { smAndDown, mdAndUp } = useDisplay()
 
     <SearchFilters />
 
-    <DocumentList v-if="listType(Types.text)" />
-    <AudioList v-if="listType(Types.audio)" />
-    <ImageList v-if="listType(Types.images)" />
-    <VideoList v-if="listType(Types.video)" />
-    <DirectoryList v-if="listType(Types.directories)" />
-    <OtherList v-if="listType(Types.other)" />
+    <GenericList :file-type="Types.text" v-if="listType(Types.text)" />
+    <AudioList :file-type="Types.audio" v-if="listType(Types.audio)" />
+    <ImageList :file-type="Types.images" v-if="listType(Types.images)" />
+    <VideoList :file-type="Types.video" v-if="listType(Types.video)" />
+    <GenericList :file-type="Types.directories" v-if="listType(Types.directories)" />
+    <GenericList :file-type="Types.other" v-if="listType(Types.other)" />
   </div>
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar.vue';
-import SearchFilters from '@/components/SearchFilters.vue';
-import SettingsMenu from '@/components/SettingsMenu.vue';
-import DocumentList from '@/components/results/list/DocumentList.vue';
-import ImageList from '@/components/results/list/ImageList.vue';
-import AudioList from '@/components/results/list/AudioList.vue';
-import VideoList from '@/components/results/list/VideoList.vue';
-import DirectoryList from '@/components/results/list/DirectoryList.vue';
-import OtherList from '@/components/results/list/OtherList.vue';
-import { Types } from '@/helpers/typeHelper';
 
 export default {
-  components: {
-    SearchBar,
-    SearchFilters,
-    SettingsMenu,
-    DocumentList,
-    ImageList,
-    AudioList,
-    VideoList,
-    DirectoryList,
-    OtherList,
-  },
-  created() {
-    this.Types = Types;
-  },
   methods: {
     goHome() {
       this.$router.push({ path: '/' });
