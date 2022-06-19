@@ -1,6 +1,13 @@
 <script setup>
+import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
+
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
+
+import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+const props = defineProps(detailProps)
+const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
@@ -31,7 +38,7 @@ const { mdAndUp } = useDisplay()
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="$props.file" />
+                <MediaHeader :file="props.file" />
 
                 <!-- Content -->
                 <v-row>
@@ -42,13 +49,13 @@ const { mdAndUp } = useDisplay()
                         height: calc(100vh - 200px);
                         border: 1px solid #BDBDBD;
                       "
-                      :src="`https://gateway.ipfs.io/ipfs/${$props.file.hash}`"
+                      :src="resourceURL"
                     />
                   </v-col>
                 </v-row>
 
                 <MetaDataPanel
-                  :file="$props.file"
+                  :file="props.file"
                   test-class="metadatapanel"
                 />
               </v-col>
@@ -59,23 +66,3 @@ const { mdAndUp } = useDisplay()
     </v-row>
   </v-sheet>
 </template>
-
-<script>
-import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
-
-export default {
-  components: {
-    MetaDataPanel,
-    MediaHeader,
-  },
-  mixins: [
-    DetailMixin,
-  ],
-};
-</script>
-
-<style lang="scss" scoped>
-
-</style>

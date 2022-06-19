@@ -1,6 +1,13 @@
 <script setup>
+import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
+
+import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+const props = defineProps(detailProps)
+const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
@@ -31,9 +38,9 @@ const { mdAndUp } = useDisplay()
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="$props.file" />
+                <MediaHeader :file="file" />
                 <MetaDataPanel
-                  :file="$props.file"
+                  :file="file"
                   :expanded="true"
                 />
               </v-col>
@@ -44,23 +51,3 @@ const { mdAndUp } = useDisplay()
     </v-row>
   </v-sheet>
 </template>
-
-<script>
-import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
-
-export default {
-  components: {
-    MetaDataPanel,
-    MediaHeader,
-  },
-  mixins: [
-    DetailMixin,
-  ],
-};
-</script>
-
-<style lang="scss" scoped>
-
-</style>

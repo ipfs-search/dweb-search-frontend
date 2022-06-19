@@ -1,6 +1,14 @@
 <script setup>
+import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+import 'video.js/dist/video-js.css';
+
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
+
+import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+const props = defineProps(detailProps)
+const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
@@ -31,7 +39,7 @@ const { mdAndUp } = useDisplay()
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="$props.file" />
+                <MediaHeader :file="file" />
                 <!-- Video -->
                 <v-row>
                   <v-col>
@@ -46,7 +54,7 @@ const { mdAndUp } = useDisplay()
                 </v-row>
 
                 <MetaDataPanel
-                  :file="$props.file"
+                  :file="file"
                   test-class="metadatapanel"
                 />
               </v-col>
@@ -59,21 +67,12 @@ const { mdAndUp } = useDisplay()
 </template>
 
 <script>
-import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
 import VideoPlayer from '@/components/VideoPlayer.vue';
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
-import 'video.js/dist/video-js.css';
 
 export default {
   components: {
-    MetaDataPanel,
-    MediaHeader,
     VideoPlayer,
   },
-  mixins: [
-    DetailMixin,
-  ],
   computed: {
     videoOptions() {
       return {

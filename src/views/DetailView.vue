@@ -1,16 +1,22 @@
 <script setup>
 import SettingsMenu from '@/components/SettingsMenu.vue';
+
 import AudioDetail from '@/components/results/detail/AudioDetail.vue';
 import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
+import ImageDetail from '@/components/results/detail/ImageDetail.vue';
+import VideoDetail from '@/components/results/detail/VideoDetail.vue';
+import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
+import OtherDetail from '@/components/results/detail/OtherDetail.vue';
+
 import { Types } from '@/helpers/typeHelper';
 
 const DetailComponent = {
   [Types.text]: DocumentDetail,
   [Types.audio]: AudioDetail,
-  [Types.images]: () => import('@/components/results/detail/ImageDetail.vue'),
-  [Types.video]: () => import('@/components/results/detail/VideoDetail.vue'),
-  [Types.directories]: () => import('@/components/results/detail/DirectoryDetail.vue'),
-  [Types.other]: () => import('@/components/results/detail/OtherDetail.vue'),
+  [Types.images]: ImageDetail,
+  [Types.video]: VideoDetail,
+  [Types.directories]: DirectoryDetail,
+  [Types.other]: OtherDetail,
 };
 </script>
 

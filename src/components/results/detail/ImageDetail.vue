@@ -1,6 +1,13 @@
 <script setup>
+import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+import '@/scss/blurExplicitImages.scss';
+import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
+import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+const props = defineProps(detailProps)
+const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
@@ -40,7 +47,7 @@ const { mdAndUp } = useDisplay()
                       offset-md="1"
                     >
                       <MediaHeader
-                        :file="$props.file"
+                        :file="file"
                       />
                     </v-col>
                   </v-row>
@@ -58,7 +65,7 @@ const { mdAndUp } = useDisplay()
                       >
                       <MetaDataPanel
                         class="mt-2"
-                        :file="$props.file"
+                        :file="file"
                         test-class="metadatapanel"
                       />
                     </v-col>
@@ -72,27 +79,6 @@ const { mdAndUp } = useDisplay()
     </v-row>
   </v-sheet>
 </template>
-
-<script>
-import '@/scss/blurExplicitImages.scss';
-import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
-import DetailMixin from './mixins/DetailMixin';
-
-export default {
-  components: {
-    MetaDataPanel,
-    MediaHeader,
-  },
-  mixins: [
-    DetailMixin,
-  ],
-  setup() {
-    return { blurExplicit };
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 

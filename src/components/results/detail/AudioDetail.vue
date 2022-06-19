@@ -1,6 +1,24 @@
 <script setup>
+import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
+import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+import AudioDetailButton from '@/components/helpers/AudioDetailButton.vue';
+
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
+
+import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+const props = defineProps(detailProps)
+const { resourceUrl, file, active } = useDetail(props)
+
+import {
+  loading, playing, loadSoundFile, play, pause, audioData,
+} from '@/mixins/AudioControlsModule';
+import { ref, computed } from 'vue';
+const currentlyLoadedInPlayer = computed(
+  () => file.hash === audioData.audioPlayer.sourceFile?.hash,
+);
+const audioError = ref(audioData.audioError)
+
 </script>
 
 <template>
@@ -41,7 +59,7 @@ const { mdAndUp } = useDisplay()
                       offset-md="2"
                     >
                       <MediaHeader
-                        :file="$props.file"
+                        :file="file"
                       />
                     </v-col>
                   </v-row>
@@ -68,7 +86,7 @@ const { mdAndUp } = useDisplay()
                             </AudioDetailButton>
                             <AudioDetailButton
                               v-else-if="!currentlyLoadedInPlayer"
-                              @click="loadSoundFile($props.file)"
+                              @click="loadSoundFile(file)"
                             >
                               mdi-play
                             </AudioDetailButton>
@@ -93,7 +111,7 @@ const { mdAndUp } = useDisplay()
                       </v-row>
 
                       <MetaDataPanel
-                        :file="$props.file"
+                        :file="file"
                         test-class="metadatapanel"
                       />
                     </v-col>
@@ -107,48 +125,6 @@ const { mdAndUp } = useDisplay()
     </v-row>
   </v-sheet>
 </template>
-
-<script>
-import { ref, computed } from 'vue';
-import {
-  loading, playing, loadSoundFile, play, pause, audioData,
-} from '@/mixins/AudioControlsModule';
-import DetailMixin from '@/components/results/detail/mixins/DetailMixin';
-import MediaHeader from '@/components/results/detail/helpers/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/helpers/MetaDataPanel.vue';
-import AudioDetailButton from '@/components/helpers/AudioDetailButton.vue';
-
-export default {
-  components: {
-    AudioDetailButton,
-    MetaDataPanel,
-    MediaHeader,
-  },
-  mixins: [
-    DetailMixin,
-  ],
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup(props) {
-    const currentlyLoadedInPlayer = computed(
-      () => props.file.hash === audioData.audioPlayer.sourceFile?.hash,
-    );
-    return {
-      loading,
-      playing,
-      loadSoundFile,
-      play,
-      pause,
-      audioError: ref(audioData.audioError),
-      currentlyLoadedInPlayer,
-    };
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .highlight {
