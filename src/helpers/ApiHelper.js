@@ -49,10 +49,12 @@ export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
   )
     .then((results) => {
       results.hits.forEach((hit) => {
-        api.metadatahashGet(hit.hash).then((metadata) => {
-          // eslint-disable-next-line no-param-reassign
-          hit.metadata = metadata;
-        });
+        if (hit.type !== 'directory') {
+          api.metadatahashGet(hit.hash).then((metadata) => {
+            // eslint-disable-next-line no-param-reassign
+            hit.metadata = metadata;
+          });
+        }
       });
       return results;
     })
