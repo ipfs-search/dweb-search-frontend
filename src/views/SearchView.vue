@@ -2,11 +2,10 @@
 import SearchBar from '@/components/SearchBar.vue';
 import SearchFilters from '@/components/SearchFilters.vue';
 import SettingsMenu from '@/components/SettingsMenu.vue';
-import GenericList from '@/components/results/list/GenericList.vue';
+import GenericList from '@/components/results/list/BaseList.vue';
 import ImageList from '@/components/results/list/ImageList.vue';
 import AudioList from '@/components/results/list/AudioList.vue';
 import VideoList from '@/components/results/list/VideoList.vue';
-import OtherList from '@/components/results/list/OtherList.vue';
 
 import { Types } from '@/helpers/typeHelper';
 

@@ -1,14 +1,22 @@
 <script setup>
-import prettyBytes from 'pretty-bytes';
+import { fileListComposable, fileListProps } from './fileListComposable';
+import ListCardHeader from '@/components/results/list/subcomponents/genericListCardHeader.vue';
+import ListBase from './BaseList.vue'
+
+const props = defineProps(fileListProps)
+
+const {
+  shownHits,
+  goToDetailPage
+} = fileListComposable(props)
 
 </script>
 
-<template>
-  <ListBase>
-    <template #type>
-      Video ({{ resultsTotal }})
-    </template>
 
+<template>
+  <ListBase
+    :file-type="fileType"
+  >
     <v-col
       v-for="(hit, index) in shownHits"
       :key="index"
@@ -17,10 +25,12 @@ import prettyBytes from 'pretty-bytes';
       offset-xl="2"
       class="my-2 mb-4"
     >
-      <v-hover v-slot="{ hover }">
+      <v-hover v-slot="{ isHovering, props }">
         <v-card
-          :elevation="hover ? 12 : 2"
+          v-if="hit"
+          :elevation="isHovering ? 12 : 2"
           @click="goToDetailPage(index)"
+          v-bind="props"
         >
           <v-row>
             <v-col
@@ -57,26 +67,7 @@ import prettyBytes from 'pretty-bytes';
               lg="10"
               class="py-sm-0 ml-sm-n6"
             >
-              <v-card-subtitle class="text-caption mb-n7 text-truncate">
-                <span
-                  :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
-                >
-                  &#9679;
-                </span>
-                <span v-if="hit['last-seen']">
-                  Last seen <timeago :datetime="hit['last-seen']" />
-                </span><br>
-                <span v-if="hit.size">Size {{ prettyBytes(hit.size) }}</span>
-                <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
-              </v-card-subtitle>
-              <v-card-title
-                class="text-subtitle-1"
-                v-html="hit.title"
-              />
-              <v-card-subtitle
-                class="text-body-2"
-                v-html="hit.description"
-              />
+              <ListCardHeader :hit="hit" />
             </v-col>
           </v-row>
         </v-card>
@@ -85,31 +76,3 @@ import prettyBytes from 'pretty-bytes';
   </ListBase>
 </template>
 
-<script>
-import mime from 'mime';
-import durationToColor from '@/filters/durationToColor';
-import { Types } from '@/helpers/typeHelper';
-
-export default {
-  filters: {
-    durationToColor,
-  },
-  data() {
-    return {
-      fileType: Types.video,
-      shortList: 3,
-    };
-  },
-  methods: {
-    showFileType(mimeType) {
-      return mime.getExtension(mimeType);
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.text-subtitle-1 {
-  display: inline-block;
-}
-</style>

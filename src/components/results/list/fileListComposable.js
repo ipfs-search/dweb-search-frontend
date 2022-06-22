@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import store from '@/store';
 import { batchSize, maxPages } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
-import ListBase from '@/components/results/list/ListBase.vue';
 import prettyBytes from 'pretty-bytes';
 import durationToColor from '@/filters/durationToColor';
 import mime from 'mime';
@@ -119,5 +118,5 @@ export const fileListComposable = ({ fileType, shortList, infinite }) => {
 }
 
 export const imports = {
-  mime, durationToColor, ListBase, prettyBytes,
+  mime, durationToColor, prettyBytes,
 }
