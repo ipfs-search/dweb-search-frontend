@@ -75,7 +75,7 @@ const { smAndDown, mdAndUp } = useDisplay()
     <SearchFilters />
 
     <GenericList :file-type="Types.text" v-if="listType(Types.text)" />
-    <AudioList :file-type="Types.audio" v-if="listType(Types.audio)" />
+    <AudioList :file-type="Types.audio" short-list=6 v-if="listType(Types.audio)" />
     <ImageList :file-type="Types.images" v-if="listType(Types.images)" />
     <VideoList :file-type="Types.video" v-if="listType(Types.video)" />
     <GenericList :file-type="Types.directories" v-if="listType(Types.directories)" />

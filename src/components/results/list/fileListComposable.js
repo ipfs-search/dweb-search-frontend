@@ -7,6 +7,7 @@ import prettyBytes from 'pretty-bytes';
 import durationToColor from '@/filters/durationToColor';
 import mime from 'mime';
 import { Types } from '@/helpers/typeHelper';
+import loremPicsum from 'lorem-picsum';
 
 export const fileListProps = {
   fileType: {
@@ -103,6 +104,12 @@ export const fileListComposable = ({ fileType, shortList, infinite }) => {
     enterSearchQuery({ type: fileType });
   }
 
+  // Generate random image
+  const picsum = (opts = {}) => {
+    const p = loremPicsum({width: 200, height: 200, random: true, ...opts})
+    return `${p}&n=${Math.random()}`
+  }
+
   return {
     shownHits,
     resultsTotal,
@@ -114,6 +121,7 @@ export const fileListComposable = ({ fileType, shortList, infinite }) => {
     goToDetailPage,
     handleQueryChange,
     setFileType,
+    picsum,
   }
 }
 

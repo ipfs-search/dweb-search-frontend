@@ -8,7 +8,8 @@ const props = defineProps(fileListProps)
 
 const {
   shownHits,
-  goToDetailPage
+  goToDetailPage,
+  picsum,
 } = fileListComposable(props)
 
 </script>
@@ -45,7 +46,7 @@ const {
                 class="ma-3 mr-sm-0"
                 cover
                 aspect-ratio="1.778"
-                :src="hit.src"
+                :src="hit.src || picsum()"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               >
                 <media-center-icon icon="mdi-video"/>

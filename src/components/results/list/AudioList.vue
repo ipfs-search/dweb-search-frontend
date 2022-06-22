@@ -9,8 +9,8 @@ const props = defineProps(fileListProps)
 const {
   shownHits,
   goToDetailPage,
+  picsum,
 } = fileListComposable(props)
-
 </script>
 
 <template>
@@ -42,7 +42,7 @@ const {
               v-bind="props"
             >
               <v-img
-                :src="hit.src"
+                :src="hit.src || picsum()"
                 class="text-white align-end"
                 :aspect-ratio="1"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
