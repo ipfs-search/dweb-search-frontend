@@ -2,6 +2,7 @@
 import { fileListComposable, fileListProps } from './fileListComposable';
 import ListCardHeader from '@/components/results/list/subcomponents/genericListCardHeader.vue';
 import ListBase from './BaseList.vue'
+import MediaCenterIcon from '@/components/results/list/subcomponents/MediaCenterIcon.vue';
 
 const props = defineProps(fileListProps)
 
@@ -47,17 +48,7 @@ const {
                 :src="hit.src"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               >
-                <v-icon
-                  size="64"
-                  color="white"
-                  style="opacity: 0.3;
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);"
-                >
-                  mdi-video
-                </v-icon>
+                <media-center-icon icon="mdi-video"/>
               </v-img>
             </v-col>
             <v-col

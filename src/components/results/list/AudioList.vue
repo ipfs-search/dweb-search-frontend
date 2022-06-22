@@ -1,14 +1,22 @@
 <script setup>
-import prettyBytes from 'pretty-bytes';
+import { fileListComposable, fileListProps, imports } from './fileListComposable';
+import ListBase from './BaseList.vue'
+import MediaCenterIcon from '@/components/results/list/subcomponents/MediaCenterIcon.vue';
+
+const { durationToColor, mime, prettyBytes } = imports;
+const props = defineProps(fileListProps)
+
+const {
+  shownHits,
+  goToDetailPage,
+} = fileListComposable(props)
 
 </script>
 
 <template>
-  <ListBase>
-    <template #type>
-      Audio ({{ resultsTotal }})
-    </template>
-
+  <ListBase
+    :file-type="fileType"
+  >
     <v-col
       cols="12"
       xl="8"
@@ -26,17 +34,20 @@ import prettyBytes from 'pretty-bytes';
           md="3"
           lg="2"
         >
-          <v-hover v-slot="{ hover }">
+          <v-hover v-slot="{ isHovering, props }">
             <v-card
-              :elevation="hover ? 12 : 2"
+              v-if="hit"
+              :elevation="isHovering ? 12 : 2"
               @click="goToDetailPage(index)"
+              v-bind="props"
             >
               <v-img
                 :src="hit.src"
-                class="white--text align-end"
+                class="text-white align-end"
                 :aspect-ratio="1"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               >
+                <media-center-icon icon="mdi-music"/>
                 <v-icon
                   size="64"
                   color="white"
@@ -51,8 +62,9 @@ import prettyBytes from 'pretty-bytes';
 
                 <v-card-text
                   class="text-subtitle-2"
-                  v-html="hit.title"
-                />
+                >
+                  <span v-html="hit.title"/>
+                </v-card-text>
               </v-img>
 
               <v-card-text class="text-caption text-truncate">
@@ -60,7 +72,7 @@ import prettyBytes from 'pretty-bytes';
                   class="my-n2 d-block-inline text-truncate"
                 >
                   <span
-                    :class="`${$options.filters.durationToColor(hit['last-seen'])}`"
+                    :class="durationToColor(hit['last-seen'])"
                   >
                     &#9679;
                   </span>
@@ -69,7 +81,7 @@ import prettyBytes from 'pretty-bytes';
                   </span>
                   <br>
                   <span v-if="hit.size">Size {{ prettyBytes(hit.size) }}</span>
-                  <span v-if="hit.mimetype"> | {{ showFileType(hit.mimetype) }}</span>
+                  <span v-if="hit.mimetype"> | {{ mime.getExtension(hit.mimetype) }}</span>
                 </div>
               </v-card-text>
             </v-card>
@@ -79,26 +91,3 @@ import prettyBytes from 'pretty-bytes';
     </v-col>
   </ListBase>
 </template>
-
-<script>
-import mime from 'mime';
-import durationToColor from '@/filters/durationToColor';
-import { Types } from '@/helpers/typeHelper';
-
-export default {
-  filters: {
-    durationToColor,
-  },
-  data() {
-    return {
-      fileType: Types.audio,
-      shortList: 6,
-    };
-  },
-  methods: {
-    showFileType(mimeType) {
-      return mime.getExtension(mimeType);
-    },
-  },
-};
-</script>
