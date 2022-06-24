@@ -45,10 +45,11 @@
 
 <script>
 import theme from '@/plugins/vuetify/theme';
-import { blurExplicitImages } from '@/mixins/BlurExplicitImagesModule';
+import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
 
 export default {
   setup() {
+    const { blurExplicitImages } = useBlurExplicit()
     return { blurExplicitImages };
   },
   computed: {

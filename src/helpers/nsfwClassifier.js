@@ -12,8 +12,9 @@ export function classify({ hash, mimetype }) {
     headers: {
       Accept: 'application/json',
     },
+    mode: 'no-cors'
   })
-    .then((response) => response.json());
+    .then((response) => response ? response.json() : {})
 }
 
 /**
@@ -27,7 +28,6 @@ export function nsfw(classification) {
   const guiltyUntilProvenInnocent = true;
   // a missing classification defaults to:
   if (!classification) return guiltyUntilProvenInnocent;
-
   // eslint-disable-next-line no-restricted-syntax
   for (const classifier in nsfwThresholds) {
     if (nsfwThresholds[classifier] < classification[classifier]) {

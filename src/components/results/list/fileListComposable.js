@@ -3,11 +3,15 @@ import { computed } from 'vue';
 import store from '@/store';
 import { batchSize, maxPages } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';
+import loremPicsum from 'lorem-picsum';
+
 import prettyBytes from 'pretty-bytes';
 import durationToColor from '@/filters/durationToColor';
 import mime from 'mime';
 import { Types } from '@/helpers/typeHelper';
-import loremPicsum from 'lorem-picsum';
+import getResourceURL from '@/helpers/resourceURL';
+
+const infiniteScrollMargin = 200;
 
 export const fileListProps = {
   fileType: {
@@ -19,24 +23,21 @@ export const fileListProps = {
     required: false,
     default: 3,
   },
-  infinite: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
 }
 
-export const fileListComposable = ({ fileType, shortList, infinite }) => {
+export const fileListComposable = ({ fileType, shortList }) => {
   const route = useRoute();
   const router = useRouter();
 
   // Computed properties
   const shownHits= computed(() => {
-    const results = store.getters[`results/${fileType}/pageResults`](Number(route.query.page) || 1)
-    if (route.query.type === fileType) {
-      return results
+    const results = infinite.value
+      ? store.getters[`results/${fileType}/hits`]
+      : store.getters[`results/${fileType}/pageResults`](Number(route.query.page) || 1)
+    if (route.query.type === Types.any) {
+      return results.slice(0, shortList);
     }
-    return results.slice(0, shortList);
+    return results
   })
 
   const resultsTotal = computed(() => {
@@ -70,7 +71,57 @@ export const fileListComposable = ({ fileType, shortList, infinite }) => {
     return route.query.type === Types.any || route.query.type === undefined;
   })
 
+  const infinite = computed(() => route.query.type === Types.images)
+
+  const loadedPages = computed(
+    () => Math.ceil(store.getters[`results/${fileType}/hits`].length / batchSize)
+  )
+
   // Methods:
+  const getInfiniteResults = () => Promise.all(Array.from(
+    { length: Math.min(store.state.query.page + 1, maxPages) },
+    (_, i) => store.dispatch(`results/${fileType}/fetchPage`, { page: i + 1 }),
+  ));
+
+  /**
+   * See if the the page scrolled so far down that empty space opens up at the bottom.
+   * Also update the url
+   */
+  const infiniteScroll = () => {
+    if (!infinite.value) return;
+    const { scrollTop, scrollHeight } = document.documentElement;
+    // calculate, which page is currently in view
+    const scrollPage = Math.floor(loadedPages.value * (scrollTop / scrollHeight)) + 1;
+    // if needed, change the page in the URL
+    if (store.state.query.page !== scrollPage) {
+      enterSearchQuery(route.query, scrollPage, 'replace');
+    }
+    const nearBottom = window.innerHeight + infiniteScrollMargin > scrollHeight - scrollTop;
+    if (nearBottom && !store.getters[`results/${fileType}/loading`]) {
+      return store.dispatch(
+        `results/${fileType}/fetchPage`,
+        { page: loadedPages.value + 1 },
+      );
+    }
+  }
+
+  /**
+   * scroll down to the page from the query
+   */
+  const scrollDown = () => {
+    const scrollQueryPage = Number(route.query.page);
+    const { scrollHeight } = document.documentElement;
+    let top = 0;
+    if (scrollQueryPage > 1) {
+      top = ((scrollHeight - window.innerHeight) / loadedPages.value) * (scrollQueryPage + 1);
+    }
+    window.scrollTo({
+      top,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
+
   function goToDetailPage(index) {
     router.push({
       name: 'Detail',
@@ -82,21 +133,28 @@ export const fileListComposable = ({ fileType, shortList, infinite }) => {
       query: route.query,
     });
   }
-  /**
-   * specific for paginated file lists
-   * @param query
-   */
+
   function handleQueryChange(query = route.query) {
-    if (infinite) {
-      // TODO!! fix this
-      if (query.type === fileType) {
-        document.addEventListener('scroll', this.infiniteScroll, true);
-      } else {
-        document.removeEventListener('scroll', this.infiniteScroll, true);
-      }
-      this.getInfiniteResults();
+    if (infinite.value) {
+      // if (query.type === fileType) {
+      //   document.addEventListener('scroll', infiniteScroll, true);
+      // } else {
+      //   document.removeEventListener('scroll', infiniteScroll, true);
+      // }
+      return getInfiniteResults();
     } else {
-      store.dispatch(`results/${fileType}/fetchPage`, { page: query.page || 1 });
+      return store.dispatch(`results/${fileType}/fetchPage`, { page: query.page || 1 });
+    }
+  }
+
+  function getResultsOnMount() {
+    if(infinite.value) {
+      handleQueryChange()
+        .then(scrollDown)
+        .then(infiniteScroll);
+    }
+    else {
+      handleQueryChange()
     }
   }
 
@@ -118,13 +176,18 @@ export const fileListComposable = ({ fileType, shortList, infinite }) => {
     pageCount,
     anyFileType,
     queryPage,
+    infinite,
+    getInfiniteResults,
+    infiniteScroll,
+    scrollDown,
     goToDetailPage,
     handleQueryChange,
     setFileType,
+    getResultsOnMount,
     picsum,
   }
 }
 
 export const imports = {
-  mime, durationToColor, prettyBytes,
+  mime, durationToColor, prettyBytes, getResourceURL,
 }

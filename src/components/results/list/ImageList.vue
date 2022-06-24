@@ -1,14 +1,26 @@
 <script setup>
-import prettyBytes from 'pretty-bytes';
+import { fileListComposable, fileListProps, imports } from './fileListComposable';
+import ListBase from './BaseList.vue'
+import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
 
+const props = defineProps(fileListProps)
+
+const {
+  shownHits,
+  goToDetailPage,
+  infiniteScroll,
+} = fileListComposable(props)
+
+const { getResourceURL } = imports;
+
+const { blurExplicit } = useBlurExplicit()
 </script>
 
 <template>
-  <ListBase>
-    <template #type>
-      Images ({{ resultsTotal }})
-    </template>
-
+  <ListBase
+    :file-type="fileType"
+    v-scroll="infiniteScroll"
+  >
     <v-col
       id="resultsList"
       cols="12"
@@ -25,59 +37,61 @@ import prettyBytes from 'pretty-bytes';
           md="3"
           lg="2"
         >
-          <v-hover v-slot="{ hover }">
+          <v-hover v-slot="{ isHovering, props }">
             <v-card
               v-if="hit"
-              :id="hit.hash"
-              :class="{ blurExplicit: blurExplicit(hit)}"
-              :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
-              :data-nsfw="hit.nsfw"
-              :elevation="hover ? 12 : 2"
+              width="100%"
+              v-bind="props"
+              :elevation="isHovering ? 12 : 2"
               @click="goToDetailPage(index)"
             >
-              <v-tooltip
-                bottom
-                align="center"
+              <v-img
+                :src="getResourceURL(hit.hash)"
+                aspect-ratio="1"
+                :class="{ blurExplicit: blurExplicit(hit)}"
+                :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
+                :data-nsfw="hit.nsfw"
+                class="rounded grey lighten-2"
               >
-                <template #activator="{ on, attrs }">
-                  <v-img
-                    :src="getResourceURL(hit.hash)"
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                    v-bind="attrs"
-                    v-on="on"
+                <template #placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
                   >
-                    <template #placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        />
-                      </v-row>
-                    </template>
-                  </v-img>
+                    <v-progress-circular
+                      indeterminate
+                      color="ipfsPrimary"
+                    />
+                  </v-row>
                 </template>
-                <div aligh="center">
-                  <div v-if="blurExplicit(hit)">
-                    Blurring explicit content. See settings in menubar under
-                    <v-icon color="white">
-                      mdi-cog
-                    </v-icon>
+                <v-tooltip
+                  location="bottom"
+                  align="center"
+                  activator="parent"
+                >
+                  <div>
+                    <div v-if="hit.title" v-html="hit.title"></div>
+                    <div v-if="blurExplicit(hit)">
+                      Blurring explicit content. See settings in menubar under
+                      <v-icon color="white">
+                        mdi-cog
+                      </v-icon>
+                    </div>
+                    <div v-if="hit.nsfwClassification">
+                      {{
+                        Object.entries(hit.nsfwClassification)
+                          .reduce((p, [classifier, value]) =>
+                            `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
+                          )
+                      }}
+                    </div>
+                    <div v-else>
+                      NSFW classification not available
+                    </div>
                   </div>
-                  <div v-if="hit.nsfwClassification">
-                    {{
-                      Object.entries(hit.nsfwClassification)
-                        .reduce((p, [classifier, value]) =>
-                          `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
-                        )
-                    }}
-                  </div>
-                </div>
-              </v-tooltip>
+                </v-tooltip>
+              </v-img>
             </v-card>
           </v-hover>
         </v-col>
@@ -85,26 +99,3 @@ import prettyBytes from 'pretty-bytes';
     </v-col>
   </ListBase>
 </template>
-
-<script>
-import InfiniteScrollingMixin from '@/components/results/list/mixins/InfiniteScrollingMixin';
-import { Types } from '@/helpers/typeHelper';
-import { blurExplicit } from '@/mixins/BlurExplicitImagesModule';
-
-export default {
-  mixins: [InfiniteScrollingMixin],
-  setup() {
-    return { blurExplicit };
-  },
-  data() {
-    return {
-      fileType: Types.images,
-      shortList: 6,
-    };
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-@import "@/scss/blurExplicitImages";
-</style>

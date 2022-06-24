@@ -138,7 +138,7 @@ import {
   playing,
   play,
   pause,
-} from '@/mixins/AudioControlsModule';
+} from '@/composables/AudioControlsModule';
 
 export default {
   setup() {

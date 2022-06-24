@@ -22,12 +22,11 @@ const {
       xl="8"
       offset-xl="2"
     >
-      <v-row
-        dense
-      >
+      <v-row dense>
         <v-col
           v-for="(hit, index) in shownHits"
           :key="index"
+          class="d-flex child-flex"
           cols="6"
           xs="4"
           sm="4"

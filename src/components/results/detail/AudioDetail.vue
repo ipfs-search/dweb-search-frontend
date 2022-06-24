@@ -12,7 +12,7 @@ const { resourceUrl, file, active } = useDetail(props)
 
 import {
   loading, playing, loadSoundFile, play, pause, audioData,
-} from '@/mixins/AudioControlsModule';
+} from '@/composables/AudioControlsModule';
 import { ref, computed } from 'vue';
 const currentlyLoadedInPlayer = computed(
   () => file.hash === audioData.audioPlayer.sourceFile?.hash,

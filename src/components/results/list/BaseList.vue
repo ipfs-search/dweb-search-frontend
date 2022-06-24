@@ -1,7 +1,7 @@
 <script setup>
 import { TypeListNames } from '@/helpers/typeHelper';
 import { fileListComposable } from './fileListComposable'
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import ListCardheader from '@/components/results/list/subcomponents/genericListCardHeader.vue';
 
@@ -15,11 +15,6 @@ const props = defineProps({
     required: false,
     default: 3,
   },
-  infinite: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
 })
 
 const {
@@ -29,15 +24,15 @@ const {
   pageCount,
   error,
   loading,
+  infinite,
   setFileType,
   handleQueryChange,
   goToDetailPage,
   shownHits,
+  getResultsOnMount,
 } = fileListComposable(props);
 
-onMounted(() => {
-  handleQueryChange()
-});
+onBeforeMount(getResultsOnMount);
 
 // replaces watch on route.query
 onBeforeRouteUpdate(({ query }, from, next) => {
@@ -47,7 +42,8 @@ onBeforeRouteUpdate(({ query }, from, next) => {
 </script>
 
 <template>
-  <v-container>
+  <v-container
+  >
     <!--    results section -->
     <v-row dense>
       <v-col

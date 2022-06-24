@@ -41,11 +41,13 @@ export default (fileType) => ({
         if (fileType === Types.images) {
           classify(hit)
             .then(({ classification }) => {
+              console.log(hit, classification)
               this.commit(`results/${fileType}/setNsfw`, {
                 index: index + n,
                 classification,
               });
-            });
+            })
+            .catch(console.error)
         }
       });
 
