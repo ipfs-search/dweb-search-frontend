@@ -1,3 +1,12 @@
+<!-- 
+SPDX-FileCopyrightText: 2022 Mathijs de Bruin <mathijs@visualspace.nl>
+SPDX-FileCopyrightText: 2022 Dweb-search-frontend
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+Dweb-search-frontend
+-->
+
 <template>
   <v-container class="d-flex justify-center">
     <div class="search flex-grow-1">
