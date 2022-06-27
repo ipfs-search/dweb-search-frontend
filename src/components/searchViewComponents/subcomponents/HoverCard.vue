@@ -39,6 +39,7 @@ const {
           },
           query: route.query
         }"
+        style="text-decoration: none; color: inherit;"
       >
         <slot />
       </router-link>
