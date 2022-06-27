@@ -97,28 +97,6 @@ const DetailComponent = {
         hide-delimiter-background
         :continuous="false"
       >
-        <template #next="{ props }">
-          <v-btn
-            fab
-            small
-            @click="props.onClick"
-          >
-            <v-icon large>
-              mdi-chevron-right
-            </v-icon>
-          </v-btn>
-        </template>
-        <template #prev="{ props }">
-          <v-btn
-            fab
-            small
-            @click="props.onClick"
-          >
-            <v-icon large>
-              mdi-chevron-left
-            </v-icon>
-          </v-btn>
-        </template>
         <v-carousel-item
           v-for="(item, index) in items"
           :key="index"

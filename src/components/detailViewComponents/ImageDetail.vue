@@ -1,14 +1,13 @@
 <script setup>
 import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
 import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
-import '@/scss/blurExplicitImages.scss';
 
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
 import { useDetail, detailProps } from '@/composables/useDetail';
 const props = defineProps(detailProps)
-const { resourceUrl, file, active } = useDetail(props)
+const { resourceURL, file } = useDetail(props)
 
 import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
 const { blurExplicit } = useBlurExplicit();
@@ -61,11 +60,11 @@ const { blurExplicit } = useBlurExplicit();
                       cols="12"
                       md="10"
                       offset-md="1"
+                      :class="{ blurExplicit: blurExplicit(file)}"
                     >
                       <img
                         :src="resourceURL"
                         class="image-wrapper"
-                        :class="{ blurExplicit: blurExplicit(file)}"
                       >
                       <MetaDataPanel
                         class="mt-2"
