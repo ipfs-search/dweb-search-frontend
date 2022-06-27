@@ -2,12 +2,16 @@
 import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
 import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
 import '@/scss/blurExplicitImages.scss';
-import { blurExplicit } from '@/composables/BlurExplicitImagesComposable';
+
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
+
 import { useDetail, detailProps } from '@/components/results/detail/useDetail';
 const props = defineProps(detailProps)
 const { resourceUrl, file, active } = useDetail(props)
+
+import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
+const { blurExplicit } = useBlurExplicit();
 </script>
 
 <template>
