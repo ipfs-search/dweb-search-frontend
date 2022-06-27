@@ -1,20 +1,17 @@
 <script setup>
+import ListCardheader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
+import HoverCard from './subcomponents/HoverCard.vue'
 import { TypeListNames } from '@/helpers/typeHelper';
-import { fileListComposable } from '../../composables/fileListComposable'
+import { fileListComposable, fileListProps } from '@/composables/fileListComposable'
 import { onBeforeMount } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
-import ListCardheader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
 
 const props = defineProps({
   fileType: {
     type: String,
     required: true,
   },
-  shortList: {
-    type: Number,
-    required: false,
-    default: 3,
-  },
+  ...fileListProps,
 })
 
 const {
@@ -27,7 +24,6 @@ const {
   infinite,
   setFileType,
   handleQueryChange,
-  goToDetailPage,
   shownHits,
   getResultsOnMount,
 } = fileListComposable(props);
@@ -99,16 +95,9 @@ onBeforeRouteUpdate(({ query }, from, next) => {
           xl="8"
           offset-xl="2"
         >
-          <v-hover v-slot="{ isHovering, props }">
-            <v-card
-              v-if="hit"
-              :elevation="isHovering ? 12 : 2"
-              @click="goToDetailPage(index)"
-              v-bind="props"
-            >
-              <ListCardheader :hit="hit" />
-            </v-card>
-          </v-hover>
+          <hover-card :hit="hit" :index="index" :file-type="fileType">
+            <ListCardheader :hit="hit" />
+          </hover-card>
         </v-col>
       </slot>
     </v-row>

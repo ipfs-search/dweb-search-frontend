@@ -26,6 +26,7 @@ const routes = [
         ...query,
         page: Number(query.page),
       },
+      selectedIndex: Number(params.selectedIndex),
     }),
     component: () => import('@/components/DetailView.vue'),
   },

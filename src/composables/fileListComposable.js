@@ -14,10 +14,6 @@ import getResourceURL from '@/helpers/resourceURL';
 const infiniteScrollMargin = 200;
 
 export const fileListProps = {
-  fileType: {
-    type: String,
-    required: true,
-  },
   shortList: {
     type: Number,
     required: false,

@@ -1,13 +1,18 @@
 <script setup>
 import ListBase from './BaseList.vue'
+import HoverCard from './subcomponents/HoverCard.vue'
 import { fileListComposable, fileListProps, imports } from '@/composables/fileListComposable';
 import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
+import { Types } from '@/helpers/typeHelper';
 
-const props = defineProps(fileListProps)
+const props = defineProps({
+  ...fileListProps,
+})
+
+const fileType = Types.images;
 
 const {
   shownHits,
-  goToDetailPage,
   infiniteScroll,
 } = fileListComposable(props)
 
@@ -37,63 +42,59 @@ const { blurExplicit } = useBlurExplicit()
           md="3"
           lg="2"
         >
-          <v-hover v-slot="{ isHovering, props }">
-            <v-card
-              v-if="hit"
-              width="100%"
-              v-bind="props"
-              :elevation="isHovering ? 12 : 2"
-              @click="goToDetailPage(index)"
+          <hover-card
+            :hit="hit"
+            :index="index"
+            :file-type="fileType"
             >
-              <v-img
-                :src="getResourceURL(hit.hash)"
-                aspect-ratio="1"
-                :class="{ blurExplicit: blurExplicit(hit)}"
-                :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
-                :data-nsfw="hit.nsfw"
-                class="rounded grey lighten-2"
-              >
-                <template #placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular
-                      indeterminate
-                      color="ipfsPrimary"
-                    />
-                  </v-row>
-                </template>
-                <v-tooltip
-                  location="bottom"
+            <v-img
+              :src="getResourceURL(hit.hash)"
+              aspect-ratio="1"
+              :class="{ blurExplicit: blurExplicit(hit)}"
+              :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
+              :data-nsfw="hit.nsfw"
+              class="rounded grey lighten-2"
+            >
+              <template #placeholder>
+                <v-row
+                  class="fill-height ma-0"
                   align="center"
-                  activator="parent"
+                  justify="center"
                 >
-                  <div>
-                    <div v-if="hit.title" v-html="hit.title"></div>
-                    <div v-if="blurExplicit(hit)">
-                      Blurring explicit content. See settings in menubar under
-                      <v-icon color="white">
-                        mdi-cog
-                      </v-icon>
-                    </div>
-                    <div v-if="hit.nsfwClassification">
-                      {{
-                        Object.entries(hit.nsfwClassification)
-                          .reduce((p, [classifier, value]) =>
-                            `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
-                          )
-                      }}
-                    </div>
-                    <div v-else>
-                      NSFW classification not available
-                    </div>
+                  <v-progress-circular
+                    indeterminate
+                    color="ipfsPrimary"
+                  />
+                </v-row>
+              </template>
+              <v-tooltip
+                location="bottom"
+                align="center"
+                activator="parent"
+              >
+                <div>
+                  <div v-if="hit.title" v-html="hit.title"></div>
+                  <div v-if="blurExplicit(hit)">
+                    Blurring explicit content. See settings in menubar under
+                    <v-icon color="white">
+                      mdi-cog
+                    </v-icon>
                   </div>
-                </v-tooltip>
-              </v-img>
-            </v-card>
-          </v-hover>
+                  <div v-if="hit.nsfwClassification">
+                    {{
+                      Object.entries(hit.nsfwClassification)
+                        .reduce((p, [classifier, value]) =>
+                          `${p} ${classifier}: ${Math.round(value * 100)}%`, ''
+                        )
+                    }}
+                  </div>
+                  <div v-else>
+                    NSFW classification not available
+                  </div>
+                </div>
+              </v-tooltip>
+            </v-img>
+          </hover-card>
         </v-col>
       </v-row>
     </v-col>
