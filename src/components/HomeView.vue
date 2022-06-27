@@ -1,8 +1,8 @@
 <script setup>
 import { useDisplay } from 'vuetify'
-import HomeViewCard from '@/views/HomeViewCard.vue';
-import SearchBar from '@/components/SearchBar.vue';
-import SettingsMenu from '@/components/SettingsMenu.vue';
+import HomeViewCard from '@/components/homeViewComponents/HomeViewCard.vue';
+import SearchBar from '@/components/pageLayout/SearchBar.vue';
+import SettingsMenu from '@/components/pageLayout/SettingsMenu.vue';
 const { mdAndUp } = useDisplay()
 </script>
 

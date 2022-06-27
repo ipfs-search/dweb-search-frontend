@@ -1,8 +1,8 @@
 <script setup>
-import { fileListComposable, fileListProps } from './fileListComposable';
-import ListCardHeader from '@/components/results/list/subcomponents/genericListCardHeader.vue';
+import { fileListComposable, fileListProps } from '../../composables/fileListComposable';
+import ListCardHeader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
 import ListBase from './BaseList.vue'
-import MediaCenterIcon from '@/components/results/list/subcomponents/MediaCenterIcon.vue';
+import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 
 const props = defineProps(fileListProps)
 

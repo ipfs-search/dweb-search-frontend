@@ -1,8 +1,8 @@
 <template>
   <!-- container with nested row and col components to layout filters
       Filters are made with menu components that is triggered
-      via a click 'on'. The menu it self consists of list components
-      containing list-items which contains a list-item-title
+      via a click 'on'. The menu it self consists of search components
+      containing search-items which contains a search-item-title
     -->
   <v-container>
     <v-row>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import SelectFilter from '@/components/helpers/SelectFilter.vue';
+import SelectFilter from './SelectFilter.vue';
 
 export default {
   components: { SelectFilter },

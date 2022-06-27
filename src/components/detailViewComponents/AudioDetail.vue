@@ -1,12 +1,12 @@
 <script setup>
-import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
-import AudioDetailButton from '@/components/helpers/AudioDetailButton.vue';
+import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
+import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
+import AudioDetailButton from './SubComponents/AudioDetailButton.vue';
 
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+import { useDetail, detailProps } from '@/composables/useDetail';
 const props = defineProps(detailProps)
 const { resourceUrl, file, active } = useDetail(props)
 

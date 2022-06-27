@@ -1,7 +1,7 @@
 <script setup>
-import { fileListComposable, fileListProps, imports } from './fileListComposable';
+import { fileListComposable, fileListProps, imports } from '../../composables/fileListComposable';
 import ListBase from './BaseList.vue'
-import MediaCenterIcon from '@/components/results/list/subcomponents/MediaCenterIcon.vue';
+import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 
 const { durationToColor, mime, prettyBytes } = imports;
 const props = defineProps(fileListProps)

@@ -1,5 +1,5 @@
 <script setup>
-import { fileListComposable, fileListProps, imports } from './fileListComposable';
+import { fileListComposable, fileListProps, imports } from '../../composables/fileListComposable';
 import ListBase from './BaseList.vue'
 import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
 

@@ -1,11 +1,11 @@
 <script setup>
-import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
-import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
+import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
 
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+import { useDetail, detailProps } from '@/composables/useDetail';
 const props = defineProps(detailProps)
 const { resourceUrl, file, active } = useDetail(props)
 </script>
@@ -38,10 +38,25 @@ const { resourceUrl, file, active } = useDetail(props)
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="file" />
+                <MediaHeader :file="props.file" />
+
+                <!-- Content -->
+                <v-row>
+                  <v-col>
+                    <iframe
+                      style="
+                        width: 100%;
+                        height: calc(100vh - 200px);
+                        border: 1px solid #BDBDBD;
+                      "
+                      :src="resourceURL"
+                    />
+                  </v-col>
+                </v-row>
+
                 <MetaDataPanel
-                  :file="file"
-                  :expanded="true"
+                  :file="props.file"
+                  test-class="metadatapanel"
                 />
               </v-col>
             </v-row>

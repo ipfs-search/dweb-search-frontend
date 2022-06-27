@@ -1,21 +1,21 @@
 <script setup>
-import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
-import DocumentViewer from '@/components/results/detail/SubComponents/DocumentViewer.vue';
-import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
+import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
+import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
+import 'video.js/dist/video-js.css';
 
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+import { useDetail, detailProps } from '@/composables/useDetail';
 const props = defineProps(detailProps)
 const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
   <v-sheet
+    :light="!$vuetify.theme.dark"
     height="100%"
     tile
-    :light="!$vuetify.theme.dark"
   >
     <v-row
       class="fill-height ma-0 pa-0"
@@ -40,13 +40,16 @@ const { resourceUrl, file, active } = useDetail(props)
                 :class="mdAndUp ? 'mb-16' : ''"
               >
                 <MediaHeader :file="file" />
-                <!-- Text -->
+                <!-- Video -->
                 <v-row>
                   <v-col>
-                    <DocumentViewer
-                      :file="file"
-                      :active="active"
-                    />
+                    <div
+                      class="text-body-1"
+                    >
+                      <video-player
+                        :options="videoOptions"
+                      />
+                    </div>
                   </v-col>
                 </v-row>
 
@@ -62,3 +65,27 @@ const { resourceUrl, file, active } = useDetail(props)
     </v-row>
   </v-sheet>
 </template>
+
+<script>
+import VideoPlayer from '@/components/detailViewComponents/SubComponents/VideoPlayer.vue';
+
+export default {
+  components: {
+    VideoPlayer,
+  },
+  computed: {
+    videoOptions() {
+      return {
+        controls: true,
+        sources: [
+          {
+            src: this.resourceURL,
+            type: this.file.mimetype,
+          },
+        ],
+        fluid: true,
+      };
+    },
+  },
+};
+</script>

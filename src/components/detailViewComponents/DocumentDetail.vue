@@ -1,30 +1,31 @@
 <script setup>
-import MetaDataPanel from '@/components/results/detail/SubComponents/MetaDataPanel.vue';
-import MediaHeader from '@/components/results/detail/SubComponents/MediaHeader.vue';
+import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
+import DocumentViewer from '@/components/detailViewComponents/SubComponents/DocumentViewer.vue';
+import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
 
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import { useDetail, detailProps } from '@/components/results/detail/useDetail';
+import { useDetail, detailProps } from '@/composables/useDetail';
 const props = defineProps(detailProps)
 const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
   <v-sheet
-    :light="!$vuetify.theme.dark"
     height="100%"
     tile
+    :light="!$vuetify.theme.dark"
   >
     <v-row
       class="fill-height ma-0 pa-0"
     >
       <div
         style="position: absolute;
-                          top: 0;
-                          left: 0;
-                          bottom: 0;
-                          right: 0;"
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;"
       >
         <div
           class="inline-block"
@@ -38,24 +39,19 @@ const { resourceUrl, file, active } = useDetail(props)
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="props.file" />
-
-                <!-- Content -->
+                <MediaHeader :file="file" />
+                <!-- Text -->
                 <v-row>
                   <v-col>
-                    <iframe
-                      style="
-                        width: 100%;
-                        height: calc(100vh - 200px);
-                        border: 1px solid #BDBDBD;
-                      "
-                      :src="resourceURL"
+                    <DocumentViewer
+                      :file="file"
+                      :active="active"
                     />
                   </v-col>
                 </v-row>
 
                 <MetaDataPanel
-                  :file="props.file"
+                  :file="file"
                   test-class="metadatapanel"
                 />
               </v-col>

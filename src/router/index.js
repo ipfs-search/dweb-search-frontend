@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '@/views/HomeView.vue';
+import Home from '@/components/HomeView.vue';
 
 const routes = [
   {
@@ -10,17 +10,24 @@ const routes = [
   {
     path: '/search',
     name: 'Search',
-    props: (route) => ({ query: route.query }),
-    component: () => import('@/views/SearchView.vue'),
+    props: ({ query }) => ({ query: {
+        ...query,
+        page: Number(query.page),
+      }
+    }),
+    component: () => import('@/components/SearchView.vue'),
   },
   {
     path: '/search/detail/:fileType/:fileHash',
     name: 'Detail',
-    props: (route) => ({
-      ...route.params,
-      query: route.query,
+    props: ({params, query}) => ({
+      ...params,
+      query: {
+        ...query,
+        page: Number(query.page),
+      },
     }),
-    component: () => import('@/views/DetailView.vue'),
+    component: () => import('@/components/DetailView.vue'),
   },
 ];
 

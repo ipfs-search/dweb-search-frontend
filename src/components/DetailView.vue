@@ -1,12 +1,12 @@
 <script setup>
-import SettingsMenu from '@/components/SettingsMenu.vue';
+import SettingsMenu from '@/components/pageLayout/SettingsMenu.vue';
 
-import AudioDetail from '@/components/results/detail/AudioDetail.vue';
-import DocumentDetail from '@/components/results/detail/DocumentDetail.vue';
-import ImageDetail from '@/components/results/detail/ImageDetail.vue';
-import VideoDetail from '@/components/results/detail/VideoDetail.vue';
-import DirectoryDetail from '@/components/results/detail/DirectoryDetail.vue';
-import OtherDetail from '@/components/results/detail/OtherDetail.vue';
+import AudioDetail from '@/components/detailViewComponents/AudioDetail.vue';
+import DocumentDetail from '@/components/detailViewComponents/DocumentDetail.vue';
+import ImageDetail from '@/components/detailViewComponents/ImageDetail.vue';
+import VideoDetail from '@/components/detailViewComponents/VideoDetail.vue';
+import DirectoryDetail from '@/components/detailViewComponents/DirectoryDetail.vue';
+import OtherDetail from '@/components/detailViewComponents/OtherDetail.vue';
 
 import { Types } from '@/helpers/typeHelper';
 

@@ -1,5 +1,5 @@
 import store from '@/store';
-import SearchBar from '@/components/SearchBar.vue';
+import SearchBar from '@/components/pageLayout/SearchBar.vue';
 import { Types } from '@/helpers/typeHelper';
 import { localMount } from '../../vitest-helpers';
 

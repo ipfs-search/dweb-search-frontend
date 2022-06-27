@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import AudioPlayer from '@/components/AudioPlayer.vue';
-import AppFooter from '@/components/AppFooter.vue';
+import AudioPlayer from '@/components/pageLayout/AudioPlayer.vue';
+import AppFooter from '@/components/pageLayout/AppFooter.vue';
 
 export default {
   components: {

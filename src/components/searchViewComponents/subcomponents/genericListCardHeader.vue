@@ -1,5 +1,5 @@
 <script setup>
-import { imports } from '@/components/results/list/fileListComposable';
+import { imports } from '@/composables/fileListComposable';
 const { durationToColor, mime, prettyBytes } = imports;
 const props= defineProps({
   hit: {

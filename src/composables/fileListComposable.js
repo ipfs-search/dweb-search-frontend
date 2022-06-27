@@ -6,7 +6,7 @@ import { enterSearchQuery } from '@/helpers/routerHelper';
 import loremPicsum from 'lorem-picsum';
 
 import prettyBytes from 'pretty-bytes';
-import durationToColor from '@/filters/durationToColor';
+import durationToColor from '@/helpers/durationToColor';
 import mime from 'mime';
 import { Types } from '@/helpers/typeHelper';
 import getResourceURL from '@/helpers/resourceURL';

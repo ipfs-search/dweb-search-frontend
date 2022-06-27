@@ -35,7 +35,7 @@
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
 import Retriever from '@/helpers/FetchDoggy';
-import { defineProps, reactive, ref, computed } from 'vue';
+import { reactive, ref, computed } from 'vue';
 
 const props = defineProps({
   file: {

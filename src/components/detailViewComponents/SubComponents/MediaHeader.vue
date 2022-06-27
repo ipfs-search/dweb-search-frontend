@@ -1,8 +1,8 @@
 <script setup>
-import DownloadButton from '@/components/results/detail/SubComponents/DownloadButton.vue';
-import CopyHashButton from '@/components/results/detail/SubComponents/CopyHashButton.vue';
+import DownloadButton from '@/components/detailViewComponents/SubComponents/DownloadButton.vue';
+import CopyHashButton from '@/components/detailViewComponents/SubComponents/CopyHashButton.vue';
 import prettyBytes from 'pretty-bytes';
-import { detailProps, useDetail } from '@/components/results/detail/useDetail';
+import { detailProps, useDetail } from '@/composables/useDetail';
 
 const props = defineProps(detailProps)
 const { resourceUrl, file, active } = useDetail(props)

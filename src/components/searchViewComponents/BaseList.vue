@@ -1,9 +1,9 @@
 <script setup>
 import { TypeListNames } from '@/helpers/typeHelper';
-import { fileListComposable } from './fileListComposable'
+import { fileListComposable } from '../../composables/fileListComposable'
 import { onBeforeMount } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
-import ListCardheader from '@/components/results/list/subcomponents/genericListCardHeader.vue';
+import ListCardheader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
 
 const props = defineProps({
   fileType: {
@@ -91,7 +91,7 @@ onBeforeRouteUpdate(({ query }, from, next) => {
       dense
     >
       <slot>
-<!--    In this slot a custom list display    -->
+<!--    In this slot a custom search display    -->
         <v-col
           v-for="(hit, index) in shownHits"
           :key="index"

@@ -1,7 +1,7 @@
 import router from '@/router';
 
 /**
- * push new route query and execute search lookup with page=0
+ * push new route query and execute searchViewComponents lookup with page=0
  * should be called when a change to the search parameters is requested
  * @param newQuery
  * @param page? 1-based page number.
