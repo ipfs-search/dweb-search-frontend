@@ -62,10 +62,26 @@ const { blurExplicit } = useBlurExplicit();
                       offset-md="1"
                       :class="{ blurExplicit: blurExplicit(file)}"
                     >
-                      <img
+                      <v-img
+                        :data-nsfw-classification="JSON.stringify(file.nsfwClassification)"
+                        :data-nsfw="file.nsfw"
                         :src="resourceURL"
+                        max-height="400px"
                         class="image-wrapper"
                       >
+                        <template #placeholder>
+                          <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-progress-circular
+                              indeterminate
+                              color="ipfsPrimary"
+                            />
+                          </v-row>
+                        </template>
+                      </v-img>
                       <MetaDataPanel
                         class="mt-2"
                         :file="file"
