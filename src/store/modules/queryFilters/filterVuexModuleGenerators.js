@@ -23,7 +23,7 @@ function filterModule({ state, mutations: { setValue }, getters: { toProps, toSe
 
 const defaultValue = (items) => items
   .filter((item) => item.default)
-  .map((item) => item.value ?? item.text);
+  .map((item) => item.value ?? item.title);
 
 /**
  * Mutation (setter) for selecting a value in the select filter.
@@ -77,7 +77,7 @@ const multipleSelectFilterToSearchApi = (state) => {
  * label: (string), *
  * slug: (string), *
  * value: (string), *
- * items: {text: (string), value: (string), apiValue: (string | string[]), default: (boolean)}[] }}
+ * items: {title: (string), value: (string), apiValue: (string | string[]), default: (boolean)}[] }}
  */
 const mapDefinitionToState = ({
   label, slug, apiKey, items,
@@ -86,8 +86,8 @@ const mapDefinitionToState = ({
   slug: slug ?? label,
   apiKey,
   items: items?.map((item) => ({
-    text: item.text ?? item.value,
-    value: item.value ?? item.text,
+    title: item.title ?? item.value,
+    value: item.value ?? item.title,
     apiValue: item.apiValue,
     default: item.default,
   })),

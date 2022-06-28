@@ -47,17 +47,17 @@ export const typeFilterDefinition = {
   apiKey: 'metadata.Content-Type',
   items: [
     {
-      text: 'Any',
+      title: 'Any',
       value: Types.any,
       default: true,
       apiValue: [],
     },
     ...Object.entries(legacyTypes).map(([type, values]) => ({
-      text: type,
+      title: type,
       apiValue: values,
     })),
     {
-      text: 'Other',
+      title: 'Other',
       value: Types.other,
       apiValue: Object.values(legacyTypes).flat(), // gets negated
     },
@@ -66,10 +66,10 @@ export const typeFilterDefinition = {
 
 const languageOptions = Object.entries(languages).map(([alpha2, name]) => (
   {
-    text: name,
+    title: name,
     value: alpha2,
     apiValue: alpha2,
-  })).sort((a, b) => a.text < b.text); // alphabetize
+  })).sort((a, b) => a.title < b.title); // alphabetize
 
 export const languageFilterDefinition = {
   label: 'Language',
@@ -98,7 +98,7 @@ export const sizeFilterDefinition = {
       apiValue: ['>104857600', '<=1073741824'],
     },
     {
-      text: '1gb+',
+      title: '1gb+',
       value: '>1gb',
       apiValue: ['>1073741824'],
     },

@@ -8,6 +8,7 @@ import router from '@/router';
  * @param method? either 'push' or 'replace', to set router behavior.
  */
 export function enterSearchQuery(newQuery, page = 1, method = 'push') {
+  console.debug('search query', newQuery)
   router[method]({
     name: 'Search',
     query: {

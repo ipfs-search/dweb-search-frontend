@@ -1,43 +1,32 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 const { smAndDown } = useDisplay()
+
+import { enterSearchQuery } from '@/helpers/routerHelper';
+
+const props = defineProps({
+  filter: {
+    type: Object,
+      required: true,
+  },
+})
+
+const changeFilter = (value) => enterSearchQuery({ [props.filter.slug]: value });
 </script>
 
 <template>
   <v-select
     class="v-select"
-    dense
     height="38px"
+    variant="underlined"
     :outlined="smAndDown"
     :items="filter.items"
     :label="filter.label"
-    :value="filter.value"
-    :chips="filter.multiple"
+    :model-value="filter.value"
     :multiple="filter.multiple"
-    @change="change"
+    @update:modelValue="changeFilter"
   />
 </template>
-
-<script>
-import { enterSearchQuery } from '@/helpers/routerHelper';
-
-// TODO: make this a plugin of vue, to avoid the dependency
-const changeFilter = (slug) => (value) => enterSearchQuery({ [slug]: value });
-
-export default {
-  props: {
-    filter: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    change() {
-      return changeFilter(this.filter.slug);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .v-select {
