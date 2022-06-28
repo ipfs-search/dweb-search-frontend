@@ -5,9 +5,18 @@ import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaD
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import { useDetail, detailProps } from '@/composables/useDetail';
-const props = defineProps(detailProps)
-const { resourceUrl, file, active } = useDetail(props)
+import { detailProps } from '@/composables/useDetail';
+const props = defineProps({
+  ...detailProps,
+  expandMeta: {
+    type: Boolean,
+    default: false,
+  },
+  narrow: {
+    type: Boolean,
+    default: false,
+  }
+})
 </script>
 
 <template>
@@ -19,13 +28,7 @@ const { resourceUrl, file, active } = useDetail(props)
     <v-row
       class="fill-height ma-0 pa-0"
     >
-      <div
-        style="position: absolute;
-                          top: 0;
-                          left: 0;
-                          bottom: 0;
-                          right: 0;"
-      >
+      <div style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;">
         <div
           class="inline-block"
           style="height: 100% !important; overflow-y: auto !important;"
@@ -34,14 +37,17 @@ const { resourceUrl, file, active } = useDetail(props)
             <v-row>
               <v-col
                 cols="12"
+                :md="narrow ? 8 : undefined"
+                :offset-md="narrow ? 2 : undefined"
                 xl="8"
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
                 <MediaHeader :file="file" />
+                <slot/>
                 <MetaDataPanel
                   :file="file"
-                  :expanded="true"
+                  :expanded="expandMeta"
                 />
               </v-col>
             </v-row>

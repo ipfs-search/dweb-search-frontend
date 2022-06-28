@@ -4,6 +4,7 @@ import HoverCard from './subcomponents/HoverCard.vue'
 import { fileListComposable, fileListProps, imports } from '@/composables/fileListComposable';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 import { Types } from '@/helpers/typeHelper';
+import { picsum } from '@/helpers/picsum';
 
 const { durationToColor, mime, prettyBytes } = imports;
 const props = defineProps({
@@ -14,7 +15,6 @@ const fileType = Types.audio;
 
 const {
   shownHits,
-  picsum,
 } = fileListComposable({ fileType, ...props })
 </script>
 

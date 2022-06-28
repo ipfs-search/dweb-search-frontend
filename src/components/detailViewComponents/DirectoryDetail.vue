@@ -1,68 +1,23 @@
 <script setup>
-import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
-import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
-
-import { useDisplay } from 'vuetify'
-const { mdAndUp } = useDisplay()
-
 import { useDetail, detailProps } from '@/composables/useDetail';
+import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
 const props = defineProps(detailProps)
-const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
-  <v-sheet
-    :light="!$vuetify.theme.dark"
-    height="100%"
-    tile
-  >
-    <v-row
-      class="fill-height ma-0 pa-0"
-    >
-      <div
-        style="position: absolute;
-                          top: 0;
-                          left: 0;
-                          bottom: 0;
-                          right: 0;"
-      >
-        <div
-          class="inline-block"
-          style="height: 100% !important; overflow-y: auto !important;"
-        >
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12"
-                xl="8"
-                offset-xl="2"
-                :class="mdAndUp ? 'mb-16' : ''"
-              >
-                <MediaHeader :file="props.file" />
-
-                <!-- Content -->
-                <v-row>
-                  <v-col>
-                    <iframe
-                      style="
+  <generic-detail :file="file">
+    <!-- Content -->
+    <v-row>
+      <v-col>
+        <iframe
+          style="
                         width: 100%;
                         height: calc(100vh - 200px);
                         border: 1px solid #BDBDBD;
                       "
-                      :src="resourceURL"
-                    />
-                  </v-col>
-                </v-row>
-
-                <MetaDataPanel
-                  :file="props.file"
-                  test-class="metadatapanel"
-                />
-              </v-col>
-            </v-row>
-          </v-container>
-        </div>
-      </div>
+          :src="resourceURL"
+        />
+      </v-col>
     </v-row>
-  </v-sheet>
+  </generic-detail>
 </template>

@@ -6,7 +6,7 @@ import DocumentDetail from '@/components/detailViewComponents/DocumentDetail.vue
 import ImageDetail from '@/components/detailViewComponents/ImageDetail.vue';
 import VideoDetail from '@/components/detailViewComponents/VideoDetail.vue';
 import DirectoryDetail from '@/components/detailViewComponents/DirectoryDetail.vue';
-import OtherDetail from '@/components/detailViewComponents/OtherDetail.vue';
+import OtherDetail from '@/components/detailViewComponents/GenericDetail.vue';
 
 import { Types } from '@/helpers/typeHelper';
 
@@ -106,6 +106,7 @@ const DetailComponent = {
             :is="DetailComponent[fileType]"
             :file="item"
             :active="carouselIndex === index"
+            :expand-meta="fileType === Types.other"
           />
         </v-carousel-item>
       </v-carousel>
@@ -114,6 +115,7 @@ const DetailComponent = {
         :is="DetailComponent[fileType]"
         v-else
         :file="singleItem"
+        :expand-meta="fileType === Types.other"
       />
     </div>
   </div>

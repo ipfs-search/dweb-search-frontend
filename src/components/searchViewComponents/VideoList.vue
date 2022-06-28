@@ -5,6 +5,7 @@ import { fileListComposable, fileListProps } from '@/composables/fileListComposa
 import ListCardHeader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 import { Types } from '@/helpers/typeHelper';
+import { picsum } from '@/helpers/picsum';
 
 const props = defineProps({
   ...fileListProps,
@@ -14,7 +15,6 @@ const fileType = Types.video;
 
 const {
   shownHits,
-  picsum,
 } = fileListComposable({ fileType, ...props })
 
 </script>

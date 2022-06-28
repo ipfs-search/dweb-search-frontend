@@ -16,5 +16,17 @@ export function useDetail(props){
   const resourceURL = computed(
     () => getResourceURL(props.file.hash)
   )
-  return {resourceURL, ...props}
+
+  const videoOptions = computed(() => ({
+    controls: true,
+    sources: [
+      {
+        src: resourceURL.value,
+        type: props.file.mimetype,
+      },
+    ],
+    fluid: true,
+  }))
+
+  return {resourceURL, videoOptions}
 }

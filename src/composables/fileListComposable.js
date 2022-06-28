@@ -158,12 +158,6 @@ export const fileListComposable = ({ fileType, shortList }) => {
     enterSearchQuery({ type: fileType });
   }
 
-  // Generate random image
-  const picsum = (opts = {}) => {
-    const p = loremPicsum({width: 200, height: 200, random: true, ...opts})
-    return `${p}&n=${Math.random()}`
-  }
-
   return {
     shownHits,
     resultsTotal,
@@ -180,7 +174,6 @@ export const fileListComposable = ({ fileType, shortList }) => {
     handleQueryChange,
     setFileType,
     getResultsOnMount,
-    picsum,
   }
 }
 

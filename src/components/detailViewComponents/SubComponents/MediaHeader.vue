@@ -2,10 +2,9 @@
 import DownloadButton from '@/components/detailViewComponents/SubComponents/DownloadButton.vue';
 import CopyHashButton from '@/components/detailViewComponents/SubComponents/CopyHashButton.vue';
 import prettyBytes from 'pretty-bytes';
-import { detailProps, useDetail } from '@/composables/useDetail';
+import { detailProps } from '@/composables/useDetail';
 
 const props = defineProps(detailProps)
-const { resourceUrl, file, active } = useDetail(props)
 </script>
 
 <template>
