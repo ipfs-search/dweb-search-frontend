@@ -10,6 +10,7 @@ const props = defineProps({
       required: true,
   },
 })
+console.log(props.filter.label, props.filter.value)
 
 const changeFilter = (value) => enterSearchQuery({ [props.filter.slug]: value });
 </script>

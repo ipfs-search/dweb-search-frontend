@@ -1,6 +1,41 @@
 <script setup>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore();
+import { useRoute } from 'vue-router';
+const route = useRoute()
 import { useDisplay } from 'vuetify'
 const { smAndDown } = useDisplay()
+import { useMobileDevices } from '@/composables/useMobileDevices'
+const { hideKeyBoardOnAndroid, onIphoneClick } = useMobileDevices()
+import { searchTypes } from '@/helpers/typeHelper';
+import { enterSearchQuery } from '@/helpers/routerHelper';
+
+let searchPhraseProxy = store.state.query.searchPhrase
+const searchPhrase = computed({
+  get: () => store.state.query.searchPhrase,
+  set: (newSearchPhrase) => {
+    searchPhraseProxy = newSearchPhrase;
+  },
+})
+const enterSearchPhrase = () => {
+  if (route.query.q !== searchPhraseProxy) {
+    enterSearchQuery({ q: searchPhraseProxy });
+    // We want to hide the keyboard after search has been done on Android
+    if (/android/i.test(navigator.userAgent)) {
+      hideKeyBoardOnAndroid();
+    }
+  }
+}
+
+const fileType = computed({
+  get: () => store.getters['query/filters/type/toProps'].value,
+  set: (newType) => {
+    if (fileType.value !== newType) {
+      enterSearchQuery({ type: newType });
+    }
+  },
+})
 </script>
 
 <template>
@@ -12,7 +47,7 @@ const { smAndDown } = useDisplay()
         class="bg-white rounded-pill"
         v-model="searchPhrase"
         @keyup.enter="enterSearchPhrase"
-        v-closable="{ handler: 'onClick' }"
+        v-closable="{ handler: 'onIphoneClick' }"
         placeholder="Search"
         theme="light"
         autocomplete="off"
@@ -33,7 +68,7 @@ const { smAndDown } = useDisplay()
                 <span
                   class="text-capitalize"
                   data-testid="type-filter-selector-value"
-                >{{ type }}</span>
+                >{{ fileType }}</span>
                 <v-icon
                   class="d-inline-block"
                 >
@@ -45,7 +80,7 @@ const { smAndDown } = useDisplay()
               <v-list-item
                 v-for="t in searchTypes"
                 :key="t"
-                @click="type = t"
+                @click="fileType = t"
               >
                 <v-list-item-title
                   class="text-capitalize"
@@ -69,91 +104,6 @@ const { smAndDown } = useDisplay()
     </v-icon>
   </v-container>
 </template>
-
-<script>
-import { searchTypes } from '@/helpers/typeHelper';
-import { enterSearchQuery } from '@/helpers/routerHelper';
-
-export default {
-  data() {
-    return {
-      searchPhraseProxy: this.$store.state.query.searchPhrase,
-    };
-  },
-  computed: {
-    searchPhrase: {
-      get() { return this.$store.state.query.searchPhrase; },
-      set(newSearchPhrase) {
-        this.$data.searchPhraseProxy = newSearchPhrase;
-      },
-    },
-    type: {
-      get() {
-        return this.$store.getters['query/filters/type/toProps'].value;
-      },
-      set(newType) {
-        if (this.type !== newType) {
-          enterSearchQuery({ type: newType });
-        }
-      },
-    },
-  },
-  created() {
-    this.searchTypes = searchTypes;
-  },
-  methods: {
-    hideKeyBoardOnAndroid() {
-      // This is a bit experimental. It might show some side effects.
-      // https://stackoverflow.com/questions/8335834/how-can-i-hide-the-android-keyboard-using-javascript
-      setTimeout(() => {
-        // Creating temp field
-        const field = document.createElement('input');
-        field.setAttribute('type', 'text');
-        // Hiding temp field from peoples eyes
-        // -webkit-user-modify is nessesary for Android 4.x
-        field.setAttribute('style', `position:absolute;
-          top: 0px;
-          opacity: 0;
-          -webkit-user-modify: read-write-plaintext-only;
-          left:0px;`);
-        document.body.appendChild(field);
-
-        // Adding onfocus event handler for out temp field
-        field.onfocus = () => {
-          // This timeout of 200ms is nessasary for Android 2.3.x
-          setTimeout(() => {
-            field.setAttribute('style', 'display:none;');
-            setTimeout(() => {
-              document.body.removeChild(field);
-              document.body.focus();
-            }, 14);
-          }, 200);
-        };
-        // Focusing it
-        field.focus();
-      }, 50);
-    },
-
-    enterSearchPhrase() {
-      if (this.$route.query.q !== this.searchPhraseProxy) {
-        enterSearchQuery({ q: this.searchPhraseProxy });
-        // We want to hide the keyboard after search has been done on Android
-        if (/android/i.test(navigator.userAgent)) {
-          this.hideKeyBoardOnAndroid();
-        }
-      }
-    },
-
-    onClick() {
-      // This is necessary for hiding the soft keyboard on iPhone
-      // see v-closable="{ handler: 'onClick' }" in v-text-field
-      // https://medium.com/@Taha_Shashtari/the-easy-vue-solution-to-dismiss-ios-keyboard-on-outside-click-2bb8be3c3347
-      // Needs to be conditional; otherwise, (some) non-iphone devices will cause console errors
-      this.$refs?.input?.blur();
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .search {
