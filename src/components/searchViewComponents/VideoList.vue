@@ -15,7 +15,7 @@ const fileType = Types.video;
 const {
   shownHits,
   picsum,
-} = fileListComposable(props)
+} = fileListComposable({ fileType, ...props })
 
 </script>
 

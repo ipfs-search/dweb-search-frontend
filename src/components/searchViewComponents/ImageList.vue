@@ -14,7 +14,7 @@ const fileType = Types.images;
 const {
   shownHits,
   infiniteScroll,
-} = fileListComposable(props)
+} = fileListComposable({ fileType, ...props })
 
 const { getResourceURL } = imports;
 
@@ -42,11 +42,7 @@ const { blurExplicit } = useBlurExplicit()
           md="3"
           lg="2"
         >
-          <hover-card
-            :hit="hit"
-            :index="index"
-            :file-type="fileType"
-            >
+          <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="getResourceURL(hit.hash)"
               aspect-ratio="1"

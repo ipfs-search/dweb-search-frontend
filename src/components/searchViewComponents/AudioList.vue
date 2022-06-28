@@ -15,7 +15,7 @@ const fileType = Types.audio;
 const {
   shownHits,
   picsum,
-} = fileListComposable(props)
+} = fileListComposable({ fileType, ...props })
 </script>
 
 <template>
@@ -38,7 +38,7 @@ const {
           md="3"
           lg="2"
         >
-          <hover-card :hit="hit" :index="index" :file-type="type">
+          <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="hit.src || picsum()"
               class="text-white align-end"
