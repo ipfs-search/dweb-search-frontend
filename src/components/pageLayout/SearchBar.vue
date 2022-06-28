@@ -4,12 +4,13 @@ import { useStore } from 'vuex'
 const store = useStore();
 import { useRoute } from 'vue-router';
 const route = useRoute()
+import { enterSearchQuery } from '@/router';
+
 import { useDisplay } from 'vuetify'
 const { smAndDown } = useDisplay()
 import { useMobileDevices } from '@/composables/useMobileDevices'
 const { hideKeyBoardOnAndroid, onIphoneClick } = useMobileDevices()
 import { searchTypes } from '@/helpers/typeHelper';
-import { enterSearchQuery } from '@/helpers/routerHelper';
 
 let searchPhraseProxy = store.state.query.searchPhrase
 const searchPhrase = computed({

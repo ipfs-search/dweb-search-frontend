@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, useRoute } from 'vue-router';
 import Home from '@/components/HomeView.vue';
 
 const routes = [
@@ -32,7 +32,28 @@ const routes = [
   },
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
+
+export default router
+
+/**
+ * push new route query and execute searchViewComponents lookup with page=0
+ * should be called when a change to the search parameters is requested
+ * @param newQuery
+ * @param page? 1-based page number.
+ * @param method? either 'push' or 'replace', to set router behavior.
+ */
+export function enterSearchQuery(newQuery, page = 1, method = 'push') {
+  router[method]({
+    name: 'Search',
+    query: {
+      ...router.currentRoute.value.query,
+      ...newQuery,
+      page,
+    },
+  });
+}
+

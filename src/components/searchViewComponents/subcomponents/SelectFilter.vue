@@ -2,7 +2,7 @@
 import { useDisplay } from 'vuetify'
 const { smAndDown } = useDisplay()
 
-import { enterSearchQuery } from '@/helpers/routerHelper';
+import { enterSearchQuery } from '@/router';
 
 const props = defineProps({
   filter: {
@@ -24,7 +24,7 @@ const changeFilter = (value) => enterSearchQuery({ [props.filter.slug]: value })
     :label="filter.label"
     :model-value="filter.value"
     :multiple="filter.multiple"
-    @update:modelValue="changeFilter"
+    @update:model-value="changeFilter"
   />
 </template>
 

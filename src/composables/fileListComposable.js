@@ -2,7 +2,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
 import store from '@/store';
 import { batchSize, maxPages } from '@/helpers/ApiHelper';
-import { enterSearchQuery } from '@/helpers/routerHelper';
+import { enterSearchQuery } from '@/router';
 import loremPicsum from 'lorem-picsum';
 
 import prettyBytes from 'pretty-bytes';
