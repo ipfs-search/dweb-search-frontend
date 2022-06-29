@@ -16,13 +16,14 @@ const currentlyLoadedInPlayer = computed(
   () => props.file.hash === audioData.audioPlayer.sourceFile?.hash,
 );
 const audioError = ref(audioData.audioError)
+// TODO: make this (more) responsive
 </script>
 
 <template>
   <generic-detail :file="file" narrow>
-    <!-- Left - video or preview image with title and subcaption above -->
     <v-img
-      :src="picsum()"
+      style="max-height: 100%;"
+      :src="picsum({width: 400, height: 200})"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
     >
       <AudioDetailButton

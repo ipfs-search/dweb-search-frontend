@@ -1,10 +1,10 @@
 <template>
   <v-btn
-    large
-    fab
+    size="x-large"
+    icon
     dark
     color="black"
-    :loading="$props.loading"
+    :loading="true"
     style="
       opacity: 0.5;
       position: absolute;
@@ -14,8 +14,15 @@
     "
     @click="$emit('click')"
   >
+    <v-progress-circular
+      style="transform: translate(-1px, 0)"
+      indeterminate
+      v-if="loading"
+    />
     <v-icon
-      size="42"
+      style="transform: translate(-1px, -1px)"
+      v-else
+      size="45"
       color="white"
     >
       <slot />
