@@ -1,5 +1,6 @@
 <script setup>
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify';
+
 const { smAndUp } = useDisplay()
 const footer_links = [
   {
@@ -26,17 +27,15 @@ const footer_links = [
 </script>
 
 <template>
-  <v-footer
-    v-if="!($route.name === 'Detail') && !playerActive"
-    fixed
-    padless
-    :class="{ 'footer--hidden': !showFooter }"
-  >
     <v-card
-      flat
+      v-scroll="onScroll"
+      :class="{ 'footer--hidden': hideFooter }"
+      position="fixed"
+      variant="flat"
       tile
-      class="lighten-1 text-center"
-      width="100%"
+      class="footer bg-ipfsPrimary-lighten-1 text-center"
+      rounded="0"
+      width="101%"
     >
       <v-card-text
         class="ipfsPrimary lighten-1 py-1"
@@ -46,7 +45,7 @@ const footer_links = [
           :key="i"
           :href="link.href"
           :class="smAndUp ? 'mx-4' : 'mx-1'"
-          icon
+          variant="flat"
         >
           <v-icon
             :size="smAndUp ? 24 : 18"
@@ -57,10 +56,11 @@ const footer_links = [
         </v-btn>
       </v-card-text>
       <v-divider
-        class="ipfsPrimary lighten-4"
+        color="ipfsPrimary-lighten-4"
+        length="100%"
       />
       <v-card-text
-        class="ipfsPrimary lighten-1 white--text text-center text-caption py-7"
+        class="ipfsPrimary-lighten-1 text-white text-center text-caption py-7"
         style="margin: auto;"
       >
         <div
@@ -78,7 +78,6 @@ const footer_links = [
         </div>
       </v-card-text>
     </v-card>
-  </v-footer>
 </template>
 
 <script>
@@ -88,7 +87,7 @@ export default {
   data: () => ({
     audioPlayer,
     lastScrollPosition: 0,
-    showFooter: true,
+    hideFooter : false,
   }),
 
   computed: {
@@ -96,40 +95,28 @@ export default {
       return this.audioPlayer.sourceFile && this.audioPlayer.sound;
     },
   },
-
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener('scroll', this.onScroll);
-    });
-  },
-
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.onScroll);
-  },
-
   methods: {
     onScroll() {
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      if (currentScrollPosition < 0) {
-        return;
-      }
-      // Scroll threshold
-      if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 300) {
-        return;
-      }
-      this.showFooter = currentScrollPosition < this.lastScrollPosition;
-      this.lastScrollPosition = currentScrollPosition;
+      const { scrollTop } = document.documentElement;
+      this.hideFooter = (scrollTop > 300) && (scrollTop > this.lastScrollPosition);
+      this.lastScrollPosition = document.documentElement.scrollTop;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .v-footer {
-    transform: translate3d(0, 0, 0);
-    transition: 200ms all ease-in-out;
-    &.footer--hidden {
-      transform: translate3d(0, 100%, 0);
-    }
-  }
+.footer {
+  transition: 200ms all ease-in-out;
+  bottom: 0;
+}
+.footer:not(.footer--hidden) {
+  transform: translate3d(0, 0, 0);
+}
+.footer--hidden {
+  transform: translate3d(0, 100%, 0);
+}
+.v-card-text a {
+  color: #78909c;
+}
 </style>

@@ -2,6 +2,8 @@ const ipfsTheme = {
   dark: false,
   colors: {
     ipfsPrimary: '#0e3344',
+    'ipfsPrimary-lighten-1': '#284a5c',
+    'ipfsPrimary-lighten-4': '#7394a8',
     ipfsSecondary: '#00bcd4',
     primary: '#78909C',
     secondary: '#424242',

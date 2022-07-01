@@ -20,7 +20,7 @@ const { smAndDown, mdAndUp } = useDisplay()
     <v-app-bar
       app
       class="px-4"
-      color="ipfsPrimary lighten-1"
+      color="ipfsPrimary-lighten-1"
       height="56"
     >
       <v-container

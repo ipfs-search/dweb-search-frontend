@@ -1,15 +1,24 @@
+<script setup>
+import {useRoute} from 'vue-router'
+const route = useRoute()
+
+import {
+  playerActive
+} from '@/composables/AudioControlsModule';
+
+</script>
 <template>
   <v-app
     dark
     hidden
   >
-    <AudioPlayer />
 
     <v-main>
       <router-view />
     </v-main>
 
-    <AppFooter />
+    <AudioPlayer v-if="playerActive"/>
+    <AppFooter v-else-if="(route.name !== 'Detail')"/>
   </v-app>
 </template>
 

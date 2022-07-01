@@ -5,7 +5,6 @@ const { mdAndUp } = useDisplay()
 import { audioPlayer } from '@/plugins/audioPlugin';
 import {
   audioData,
-  playerActive,
   closePlayer,
   loading,
   progress,
@@ -27,11 +26,10 @@ onBeforeUnmount(() => {
 
 <template>
   <v-footer
-    v-if="playerActive"
-    dark
-    :height="100"
-    fixed
-    padless
+    position="fixed"
+    location="bottom"
+    color="black"
+    height="100"
     style="z-index: 10000;"
   >
     <v-card
