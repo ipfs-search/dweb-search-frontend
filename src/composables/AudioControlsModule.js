@@ -68,6 +68,3 @@ export const progress = computed({
     }
   },
 });
-
-export default {
-};
