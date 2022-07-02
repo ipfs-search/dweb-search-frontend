@@ -39,10 +39,10 @@ const DetailComponent = {
             <div
               class="ml-2"
             >
-              <div
+              <router-link
+                to="/"
                 class="d-flex align-center"
                 style="cursor: pointer;"
-                @click="goHome"
               >
                 <v-img
                   v-if="$vuetify.theme.dark"
@@ -62,7 +62,7 @@ const DetailComponent = {
                   height="28"
                   :aspect-ratio="6.00840336"
                 />
-              </div>
+              </router-link>
             </div>
             <v-spacer />
 
@@ -231,9 +231,6 @@ export default {
           break;
         default:
       }
-    },
-    goHome() {
-      this.$router.push({ path: '/' });
     },
     closeDetail() {
       const { query } = this.$route;

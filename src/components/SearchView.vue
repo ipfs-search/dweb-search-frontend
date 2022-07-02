@@ -35,10 +35,10 @@ const { smAndDown, mdAndUp } = useDisplay()
             <div
               class="ml-2"
             >
-              <div
+              <router-link
+                to="/"
                 class="d-flex align-center"
                 style="cursor: pointer;"
-                @click="goHome"
               >
                 <v-img
                   v-if="mdAndUp"
@@ -57,7 +57,7 @@ const { smAndDown, mdAndUp } = useDisplay()
                   width="28"
                   height="28"
                 />
-              </div>
+              </router-link>
             </div>
             <div class="flex-grow-1">
               <SearchBar />
@@ -87,9 +87,6 @@ const { smAndDown, mdAndUp } = useDisplay()
 
 export default {
   methods: {
-    goHome() {
-      this.$router.push({ path: '/' });
-    },
     listType(t) {
       return [t, 'any', undefined].includes(this.$route.query.type);
     },
@@ -98,7 +95,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
   h2 {
     font-size: 120%;
     letter-spacing: 0.09em;
@@ -115,5 +111,4 @@ export default {
     top: 0;
     bottom:0;
   }
-
 </style>
