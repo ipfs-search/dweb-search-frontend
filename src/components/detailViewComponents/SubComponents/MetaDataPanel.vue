@@ -1,7 +1,7 @@
 <script setup>
 import prettyBytes from 'pretty-bytes';
 import resourceURL from '@/helpers/resourceURL';
-import { Types } from '@/helpers/typeHelper';
+import moment from 'moment';
 
 </script>
 
@@ -46,15 +46,15 @@ import { Types } from '@/helpers/typeHelper';
                     </tr>
                     <tr v-if="file.creation_date">
                       <th>Created:</th>
-                      <td v-html="new Date(file.creation_date)" />
+                      <td v-html="moment(file.creation_date)" />
                     </tr>
                     <tr v-if="file['first-seen']">
                       <th>First seen:</th>
-                      <td v-html="new Date(file['first-seen'])" />
+                      <td v-html="moment(file['first-seen'])" />
                     </tr>
                     <tr v-if="file['last-seen']">
                       <th>Last seen:</th>
-                      <td v-html="new Date(file['last-seen'])" />
+                      <td v-html="moment(file['last-seen'])" />
                     </tr>
                     <tr v-if="file.mimetype">
                       <th>Mimetype:</th>
@@ -103,9 +103,7 @@ import { Types } from '@/helpers/typeHelper';
                           >
                             <th>{{ item.label }}:</th>
                             <td>
-                              {{ Date.parse(item.value)
-                                ? Date(item.value)
-                                : decodeURI(item.value) }}
+                              {{ decodeURI(item.value) }}
                             </td>
                           </tr>
                         </tbody>
