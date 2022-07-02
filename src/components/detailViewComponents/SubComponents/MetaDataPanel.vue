@@ -1,5 +1,7 @@
 <script setup>
 import prettyBytes from 'pretty-bytes';
+import resourceURL from '@/helpers/resourceURL';
+import { Types } from '@/helpers/typeHelper';
 
 </script>
 
@@ -23,6 +25,10 @@ import prettyBytes from 'pretty-bytes';
                 <v-table>
                   <tbody>
                     <tr>
+                      <th>Location:</th>
+                      <td><a :href="resourceURL(file.hash)" v-html="resourceURL(file.hash)"/></td>
+                    </tr>
+                    <tr>
                       <th>Title:</th>
                       <td v-html="file.title" />
                     </tr>
@@ -34,7 +40,7 @@ import prettyBytes from 'pretty-bytes';
                       <th>Description:</th>
                       <td v-html="file.description" />
                     </tr>
-                    <tr>
+                    <tr v-if="file.size">
                       <th>Size:</th>
                       <td>{{ prettyBytes(file.size) }}</td>
                     </tr>
@@ -50,7 +56,7 @@ import prettyBytes from 'pretty-bytes';
                       <th>Last seen:</th>
                       <td v-html="new Date(file['last-seen'])" />
                     </tr>
-                    <tr>
+                    <tr v-if="file.mimetype">
                       <th>Mimetype:</th>
                       <td>{{ file.mimetype }}</td>
                     </tr>
@@ -79,7 +85,7 @@ import prettyBytes from 'pretty-bytes';
                     </tr>
                   </tbody>
                 </v-table>
-                <v-expansion-panels>
+                <v-expansion-panels v-if="extraData.length">
                   <v-expansion-panel>
                     <v-expansion-panel-title>
                       <i>Extra metadata from
@@ -157,7 +163,7 @@ export default {
           value: english.languages[this.file.metadata.language.language],
         });
       }
-      return extraData.concat(Object.entries(this.file.metadata?.metadata)
+      return extraData.concat(Object.entries(this.file.metadata?.metadata ?? {})
         .map(([label, value]) => ({
           label,
           value: value.join(', '),

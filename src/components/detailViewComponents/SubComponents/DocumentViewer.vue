@@ -1,37 +1,5 @@
-<template>
-  <div>
-    <v-alert
-      v-if="error"
-      border
-      color="red-lighten-2"
-    >
-      <i>Error loading preview: {{ error }}</i>
-    </v-alert>
-    <v-alert
-      v-else-if="extension === 'pdf' && !srcURL"
-      border
-      color="blue-lighten-4"
-    >
-      <i>Loading preview</i>
-      <v-progress-linear
-        :indeterminate="!progress"
-        :model-value="progress"
-      />
-    </v-alert>
-    <iframe
-      v-else-if="srcURL"
-      :src="srcURL"
-      width="100%"
-      style="
-        width: 100%;
-        height: calc(100vh - 300px);
-        border: 1px solid #BDBDBD;
-      "
-    />
-  </div>
-</template>
-
 <script setup>
+import VIframe from '@/components/detailViewComponents/SubComponents/VIframe.vue';
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
 import Retriever from '@/helpers/FetchDoggy';
@@ -118,3 +86,29 @@ watch(() => props.active, (active) => {
 })
 */
 </script>
+
+<template>
+  <div>
+    <v-alert
+      v-if="error"
+      border
+      color="red-lighten-2"
+    >
+      <i>Error loading preview: {{ error }}</i>
+    </v-alert>
+    <v-alert
+      v-else-if="extension === 'pdf' && !srcURL"
+      border
+      color="blue-lighten-4"
+    >
+      <i>Loading preview</i>
+      <v-progress-linear
+        :indeterminate="!progress"
+        :model-value="progress"
+      />
+    </v-alert>
+    <v-iframe v-else-if="srcURL" :src="srcURL"/>
+  </div>
+</template>
+
+
