@@ -23,14 +23,8 @@ const {
 
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card
-      v-if="hit"
-      width="100%"
-      v-bind="props"
-      :elevation="isHovering ? 12 : 2"
-    >
-      <router-link
-        :to="{
+    <router-link
+      :to="{
           name: 'Detail',
           params: {
             fileType,
@@ -39,10 +33,16 @@ const {
           },
           query: route.query
         }"
-        style="text-decoration: none; color: inherit;"
+      style="text-decoration: none; color: inherit;"
+    >
+      <v-card
+        v-if="hit"
+        width="100%"
+        v-bind="props"
+        :elevation="isHovering ? 12 : 2"
       >
         <slot />
-      </router-link>
-    </v-card>
+      </v-card>
+    </router-link>
   </v-hover>
 </template>

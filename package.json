@@ -5,7 +5,7 @@
   "author": "Kees van Drongelen <kees@visualspace.nl>",
   "scripts": {
     "serve": "vite",
-    "preview": "vite preview --open --port 8080",
+    "preview": "vite preview --open",
     "build": "vite build --out-dir dist",
     "lint": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src",
     "lint:fix": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src --fix",

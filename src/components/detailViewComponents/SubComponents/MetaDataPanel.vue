@@ -26,7 +26,9 @@ import moment from 'moment';
                   <tbody>
                     <tr>
                       <th>Location:</th>
-                      <td><a :href="resourceURL(file.hash)" v-html="resourceURL(file.hash)"/></td>
+                      <td>
+                        <a :href="resourceURL(file.hash)" v-html="resourceURL(file.hash)" target="_blank"/>
+                      </td>
                     </tr>
                     <tr>
                       <th>Title:</th>

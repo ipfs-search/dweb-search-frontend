@@ -38,8 +38,7 @@ onBeforeRouteUpdate(({ query }, from, next) => {
 </script>
 
 <template>
-  <v-container
-  >
+  <v-container>
     <!--    results section -->
     <v-row dense>
       <v-col

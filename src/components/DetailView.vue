@@ -1,6 +1,5 @@
 <script setup>
-import SettingsMenu from '@/components/pageLayout/SettingsMenu.vue';
-
+import AppHeader from '@/components/pageLayout/AppHeader.vue';
 import AudioDetail from '@/components/detailViewComponents/AudioDetail.vue';
 import DocumentDetail from '@/components/detailViewComponents/DocumentDetail.vue';
 import ImageDetail from '@/components/detailViewComponents/ImageDetail.vue';
@@ -21,103 +20,36 @@ const DetailComponent = {
 </script>
 
 <template>
-  <div>
-    <v-app-bar
-      app
-      class="px-4"
-      height="56"
+  <div class="detail">
+    <app-header/>
+    <v-carousel
+      v-if="!singleItem"
+      v-model="carouselIndex"
+      height="100%"
+      hide-delimiters
+      hide-delimiter-background
+      :continuous="false"
     >
-      <v-container
-        fluid
-        class="px-0 align-start"
+      <v-carousel-item
+        v-for="(item, index) in items"
+        :key="index"
       >
-        <v-row>
-          <v-col
-            cols="12"
-            class="px-0 d-flex justify-space-between align-center"
-          >
-            <div
-              class="ml-2"
-            >
-              <router-link
-                to="/"
-                class="d-flex align-center"
-                style="cursor: pointer;"
-              >
-                <v-img
-                  v-if="$vuetify.theme.dark"
-                  alt="ipfs-search.com logo"
-                  contain
-                  src="/assets/logo-white.svg"
-                  width="168"
-                  height="28"
-                  :aspect-ratio="6.00840336"
-                />
-                <v-img
-                  v-else
-                  alt="ipfs-search.com logo"
-                  contain
-                  src="/assets/logo-black.svg"
-                  width="168"
-                  height="28"
-                  :aspect-ratio="6.00840336"
-                />
-              </router-link>
-            </div>
-            <v-spacer />
-
-            <settings-menu />
-
-            <v-btn
-              icon
-              @click="closeDetail"
-            >
-              <v-icon>
-                mdi-close
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app-bar>
-
-    <div
-      class="detail"
-      style="position: absolute;
-              top: 0;
-              left: 0;
-              bottom: 0;
-              right: 0;"
-    >
-      <v-carousel
-        v-if="!singleItem"
-        v-model="carouselIndex"
-        height="100%"
-        hide-delimiters
-        hide-delimiter-background
-        :continuous="false"
-      >
-        <v-carousel-item
-          v-for="(item, index) in items"
-          :key="index"
-        >
-          <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
-          <component
-            :is="DetailComponent[fileType]"
-            :file="item"
-            :active="carouselIndex === index"
-            :expand-meta="fileType === Types.other"
-          />
-        </v-carousel-item>
-      </v-carousel>
-      <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
-      <component
-        :is="DetailComponent[fileType]"
-        v-else
-        :file="singleItem"
-        :expand-meta="fileType === Types.other"
-      />
-    </div>
+        <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
+        <component
+          :is="DetailComponent[fileType]"
+          :file="item"
+          :active="carouselIndex === index"
+          :expand-meta="fileType === Types.other"
+        />
+      </v-carousel-item>
+    </v-carousel>
+    <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
+    <component
+      :is="DetailComponent[fileType]"
+      v-else
+      :file="singleItem"
+      :expand-meta="fileType === Types.other"
+    />
   </div>
 </template>
 
@@ -232,17 +164,16 @@ export default {
         default:
       }
     },
-    closeDetail() {
-      const { query } = this.$route;
-      this.$router.replace({
-        name: 'Search',
-        query,
-      });
-    },
   },
 };
 </script>
 
 <style lang="scss">
-
+.detail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 </style>

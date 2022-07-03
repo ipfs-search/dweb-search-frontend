@@ -1,68 +1,68 @@
-<template>
-  <div>
-    <v-menu
-      location="start"
-      :close-on-content-click="false"
-    >
-      <template #activator="{ props }">
-        <v-btn
-          icon
-          v-bind="props"
-        >
-          <v-icon
-            :color="cogwheelColor"
-          >
-            mdi-cog
-          </v-icon>
-        </v-btn>
-      </template>
+<script setup>
+import { computed } from 'vue';
+import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
+const { blurExplicitImages } = useBlurExplicit()
 
-      <v-card
-        class="mx-auto"
+import { useTheme } from 'vuetify'
+const theme = useTheme()
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
+const cogwheelColor = computed(() => {
+  if (route.name === 'Detail' && !theme.current.value.dark) {
+    return theme.primary;
+  }
+  if (route.name === 'Home') return theme.ipfsPrimary;
+  return 'white';
+})
+</script>
+
+<template>
+  <v-menu
+    location="start"
+    :close-on-content-click="false"
+  >
+    <template #activator="{ props }">
+      <v-btn
+        icon
+        v-bind="props"
       >
-        <v-list>
-          <v-list-item>
-            <v-switch
-              v-model="blurExplicitImages"
-              label="Blur explicit images"
-              color="ipfsPrimary"
-              hide-details
-            />
-          </v-list-item>
-          <v-list-item>
-            <v-switch
-              v-model="darkMode"
-              label="Enable dark mode"
-              color="ipfsPrimary"
-              hide-details
-            />
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-menu>
-  </div>
+        <v-icon
+          :color="cogwheelColor"
+        >
+          mdi-cog
+        </v-icon>
+      </v-btn>
+    </template>
+    <v-card
+      class="mx-auto"
+    >
+      <v-list>
+        <v-list-item>
+          <v-switch
+            v-model="blurExplicitImages"
+            label="Blur explicit images"
+            color="ipfsPrimary"
+            hide-details
+          />
+        </v-list-item>
+        <v-list-item>
+          <v-switch
+            v-model="darkMode"
+            label="Enable dark mode"
+            color="ipfsPrimary"
+            hide-details
+          />
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </v-menu>
 </template>
 
 <script>
-import theme from '@/plugins/vuetify/theme';
-import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
-
 export default {
-  setup() {
-    const { blurExplicitImages } = useBlurExplicit()
-    return { blurExplicitImages };
-  },
   computed: {
-    cogwheelColor() {
-      // On detail page, in light theme, the top bar is white. So a dark icon is needed.
-      // The detail page primary color is grey
-      if (this.$route.name === 'Detail' && !this.$store.state.localStorage.darkMode) {
-        return theme.primary;
-      }
-      // The home page banner is white, the home page primary color is called ipfs-primary
-      if (this.$route.name === 'Home') return theme.ipfsPrimary;
-      return 'white';
-    },
+    // TODO: Fix this!
     darkMode: {
       get() { return this.$store.state.localStorage.darkMode; },
       set(value) {
@@ -73,3 +73,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-list {
+  background-color: white;
+}
+</style>

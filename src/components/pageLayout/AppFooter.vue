@@ -38,18 +38,20 @@ const footer_links = [
       width="101%"
     >
       <v-card-text
-        class="ipfsPrimary lighten-1 py-1"
+        class="ipfsPrimary-lighten-1 justify-center d-flex flex-row text-caption py-1"
       >
         <v-btn
           v-for="(link, i) in footer_links"
           :key="i"
           :href="link.href"
           :class="smAndUp ? 'mx-4' : 'mx-1'"
-          variant="flat"
+          icon
+          flat
+          class="text-white bg-transparent"
         >
           <v-icon
             :size="smAndUp ? 24 : 18"
-            color="white"
+            class="ipfsPrimary-lighten-1"
           >
             {{ link.icon }}
           </v-icon>

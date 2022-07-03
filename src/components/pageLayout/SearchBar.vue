@@ -56,6 +56,7 @@ const fileType = computed({
         density="compact"
         flat
         hide-details
+        style="height: 42px;"
       >
         <template #append>
           <v-menu
@@ -109,7 +110,6 @@ const fileType = computed({
 <style lang="scss" scoped>
 .search {
   max-width: 915px;
-  height: 44px;
   z-index: 10000;
 }
 </style>
@@ -121,7 +121,7 @@ const fileType = computed({
   background: transparent;
   box-shadow: none;
   margin-bottom: 6px;
-  margin-top: -4px;
+  margin-top: -6px;
   padding-left: 9px;
   caret-color: auto;
 }

@@ -5,6 +5,7 @@ const ipfsTheme = {
     'ipfsPrimary-lighten-1': '#284a5c',
     'ipfsPrimary-lighten-4': '#7394a8',
     ipfsSecondary: '#00bcd4',
+    'toolbar-light': '#f5f5f5',
     primary: '#78909C',
     secondary: '#424242',
     accent: '#82B1FF',
