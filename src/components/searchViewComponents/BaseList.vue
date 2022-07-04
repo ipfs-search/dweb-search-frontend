@@ -4,7 +4,10 @@ import HoverCard from './subcomponents/HoverCard.vue'
 import { TypeListNames } from '@/helpers/typeHelper';
 import { fileListComposable } from '@/composables/fileListComposable'
 import { onBeforeMount } from 'vue';
-import { onBeforeRouteUpdate } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import Hyperlink from '@/components/shared/Hyperlink.vue';
+
+const route = useRoute()
 
 const props = defineProps({
   fileType: {
@@ -46,18 +49,18 @@ onBeforeRouteUpdate(({ query }, from, next) => {
         offset-xl="2"
       >
         <v-card flat>
-          <v-card-header class="mb-n3 justify-space-between">
-            <v-card-subtitle class="text-subtitle-1 d-flex justify-space-between">
+          <v-card-header class="justify-space-between d-flex flex-row ">
+            <v-card-subtitle class="text-subtitle-1">
               {{ TypeListNames[fileType] }} ({{ resultsTotal }})
             </v-card-subtitle>
-            <v-card-subtitle class="text-subtitle-1 d-flex justify-space-between">
-              <a
+            <v-card-subtitle class="text-subtitle-1">
+              <hyperlink
+                :to="{...route, query: { ...route.query, type: fileType}}"
                 v-if="anyFileType"
-                class="text-subtitle-1 text-decoration-none text-secondary"
-                @click.prevent="setFileType"
+                class="text-subtitle-1 text-secondary"
               >
                 View all
-              </a>
+              </hyperlink>
             </v-card-subtitle>
           </v-card-header>
         </v-card>
