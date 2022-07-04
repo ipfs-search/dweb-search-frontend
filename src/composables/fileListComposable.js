@@ -12,28 +12,16 @@ import getResourceURL from '@/helpers/resourceURL';
 
 const infiniteScrollMargin = 200;
 
-export const fileListProps = {
-  shortList: {
-    type: Number,
-    required: false,
-    default: 3,
-  },
-}
-
-export const fileListComposable = ({ fileType, shortList }) => {
+export const fileListComposable = ({ fileType }) => {
   const route = useRoute();
   const router = useRouter();
 
   // Computed properties
-  const shownHits= computed(() => {
-    const results = infinite.value
-      ? store.getters[`results/${fileType}/hits`]
-      : store.getters[`results/${fileType}/pageResults`](Number(route.query.page) || 1)
-    if (route.query.type === Types.any) {
-      return results.slice(0, shortList);
-    }
-    return results
-  })
+  const pageHits = computed(() =>
+    store.getters[`results/${fileType}/pageResults`](Number(route.query.page) || 1)
+  )
+
+  const infiniteHits = computed(() => store.getters[`results/${fileType}/hits`])
 
   const resultsTotal = computed(() => {
     const resultsTotalMax = 10000;
@@ -122,7 +110,7 @@ export const fileListComposable = ({ fileType, shortList }) => {
       name: 'Detail',
       params: {
         fileType: fileType,
-        fileHash: shownHits.value[index].hash,
+        fileHash: pageHits.value[index].hash,
         selectedIndex: index,
       },
       query: route.query,
@@ -157,8 +145,19 @@ export const fileListComposable = ({ fileType, shortList }) => {
     enterSearchQuery({ type: fileType });
   }
 
+  function slicedHits(slice = 3) {
+    if(anyFileType.value) {
+      return pageHits.value.slice(0, slice)
+    }
+    if (infinite.value) {
+      return infiniteHits.value
+    }
+    return pageHits.value;
+  }
+
   return {
-    shownHits,
+    pageHits,
+    infiniteHits,
     resultsTotal,
     loading,
     error,
@@ -173,6 +172,7 @@ export const fileListComposable = ({ fileType, shortList }) => {
     handleQueryChange,
     setFileType,
     getResultsOnMount,
+    slicedHits,
   }
 }
 

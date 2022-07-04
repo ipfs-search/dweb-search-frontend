@@ -1,21 +1,17 @@
 <script setup>
 import ListBase from './BaseList.vue'
 import HoverCard from './subcomponents/HoverCard.vue'
-import { fileListComposable, fileListProps } from '@/composables/fileListComposable';
-import ListCardHeader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
+import { fileListComposable } from '@/composables/fileListComposable';
+import ListCard from '@/components/searchViewComponents/subcomponents/genericListCard.vue';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 import { Types } from '@/helpers/typeHelper';
 import { picsum } from '@/helpers/picsum';
 
-const props = defineProps({
-  ...fileListProps,
-})
-
 const fileType = Types.video;
 
 const {
-  shownHits,
-} = fileListComposable({ fileType, ...props })
+  slicedHits,
+} = fileListComposable({ fileType })
 
 </script>
 
@@ -25,7 +21,7 @@ const {
     :file-type="fileType"
   >
     <v-col
-      v-for="(hit, index) in shownHits"
+      v-for="(hit, index) in slicedHits(3)"
       :key="index"
       cols="12"
       xl="8"
@@ -58,7 +54,7 @@ const {
             lg="10"
             class="py-sm-0 ml-sm-n6"
           >
-            <ListCardHeader :hit="hit" />
+            <ListCard :hit="hit" />
           </v-col>
         </v-row>
       </hover-card>

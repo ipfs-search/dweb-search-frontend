@@ -1,20 +1,16 @@
 <script setup>
 import ListBase from './BaseList.vue'
 import HoverCard from './subcomponents/HoverCard.vue'
-import { fileListComposable, fileListProps, imports } from '@/composables/fileListComposable';
+import { fileListComposable, imports } from '@/composables/fileListComposable';
 import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
 import { Types } from '@/helpers/typeHelper';
-
-const props = defineProps({
-  ...fileListProps,
-})
 
 const fileType = Types.images;
 
 const {
-  shownHits,
+  slicedHits,
   infiniteScroll,
-} = fileListComposable({ fileType, ...props })
+} = fileListComposable({ fileType })
 
 const { getResourceURL } = imports;
 
@@ -34,7 +30,7 @@ const { blurExplicit } = useBlurExplicit()
     >
       <v-row dense>
         <v-col
-          v-for="(hit, index) in shownHits"
+          v-for="(hit, index) in slicedHits(6)"
           :key="index"
           class="d-flex child-flex"
           cols="6"

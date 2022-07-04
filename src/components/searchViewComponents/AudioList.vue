@@ -1,23 +1,21 @@
 <script setup>
 import ListBase from './BaseList.vue'
 import HoverCard from './subcomponents/HoverCard.vue'
-import { fileListComposable, fileListProps, imports } from '@/composables/fileListComposable';
+import { fileListComposable, imports } from '@/composables/fileListComposable';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 import { Types } from '@/helpers/typeHelper';
 import { picsum } from '@/helpers/picsum';
 
 const { durationToColor, mime, prettyBytes } = imports;
-const props = defineProps({
-  ...fileListProps,
-})
-
 const fileType = Types.audio;
 
 const {
-  shownHits,
-} = fileListComposable({ fileType, ...props })
+  slicedHits,
+} = fileListComposable({ fileType })
+
 </script>
 
+pageHits.value.slice(0,
 <template>
   <ListBase
     :file-type="fileType"
@@ -29,9 +27,8 @@ const {
     >
       <v-row dense>
         <v-col
-          v-for="(hit, index) in shownHits"
+          v-for="(hit, index) in slicedHits(6)"
           :key="index"
-          class="d-flex child-flex"
           cols="6"
           xs="4"
           sm="4"

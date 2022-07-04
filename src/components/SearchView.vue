@@ -16,8 +16,8 @@ import { Types } from '@/helpers/typeHelper';
     <SearchFilters />
 
     <GenericList :file-type="Types.text" v-if="listType(Types.text)" />
-    <AudioList :short-list=6 v-if="listType(Types.audio)" />
-    <ImageList :short-list=6 v-if="listType(Types.images)" />
+    <AudioList v-if="listType(Types.audio)" />
+    <ImageList v-if="listType(Types.images)" />
     <VideoList v-if="listType(Types.video)" />
     <GenericList :file-type="Types.directories" v-if="listType(Types.directories)" />
     <GenericList :file-type="Types.other" v-if="listType(Types.other)" />

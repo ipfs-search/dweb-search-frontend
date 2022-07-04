@@ -1,11 +1,14 @@
 <script setup>
 import { useRoute } from 'vue-router';
 const route = useRoute();
-import { fileListComposable, fileListProps } from '@/composables/fileListComposable';
+import { fileListComposable } from '@/composables/fileListComposable';
 import Hyperlink from '@/components/shared/Hyperlink.vue';
 
 const props = defineProps({
-  fileType: fileListProps.fileType,
+  fileType: {
+    type: String,
+    required: true,
+  },
   index: {
     type: Number,
     required: true,
@@ -17,7 +20,7 @@ const props = defineProps({
 })
 
 const {
-  shownHits,
+  pageHits,
 } = fileListComposable(props)
 
 </script>
@@ -30,7 +33,7 @@ const {
         name: 'Detail',
         params: {
           fileType,
-          fileHash: shownHits[index].hash,
+          fileHash: pageHits[index].hash,
           selectedIndex: Number(index),
         },
       }"

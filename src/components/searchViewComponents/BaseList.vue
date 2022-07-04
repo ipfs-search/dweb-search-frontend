@@ -1,8 +1,8 @@
 <script setup>
-import ListCardheader from '@/components/searchViewComponents/subcomponents/genericListCardHeader.vue';
+import ListCard from '@/components/searchViewComponents/subcomponents/genericListCard.vue';
 import HoverCard from './subcomponents/HoverCard.vue'
 import { TypeListNames } from '@/helpers/typeHelper';
-import { fileListComposable, fileListProps } from '@/composables/fileListComposable'
+import { fileListComposable } from '@/composables/fileListComposable'
 import { onBeforeMount } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 
@@ -11,7 +11,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  ...fileListProps,
 })
 
 const {
@@ -24,7 +23,7 @@ const {
   infinite,
   setFileType,
   handleQueryChange,
-  shownHits,
+  slicedHits,
   getResultsOnMount,
 } = fileListComposable(props);
 
@@ -88,14 +87,14 @@ onBeforeRouteUpdate(({ query }, from, next) => {
       <slot>
 <!--    In this slot a custom search display    -->
         <v-col
-          v-for="(hit, index) in shownHits"
+          v-for="(hit, index) in slicedHits(3)"
           :key="index"
           cols="12"
           xl="8"
           offset-xl="2"
         >
           <hover-card :hit="hit" :index="index" :file-type="fileType">
-            <ListCardheader :hit="hit" />
+            <ListCard :hit="hit" />
           </hover-card>
         </v-col>
       </slot>
