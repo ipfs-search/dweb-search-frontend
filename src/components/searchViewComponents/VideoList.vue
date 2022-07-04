@@ -26,7 +26,6 @@ const {
       cols="12"
       xl="8"
       offset-xl="2"
-      class="my-2 mb-4"
     >
       <hover-card :hit="hit" :index="index" :file-type="fileType">
         <v-row>
@@ -35,7 +34,6 @@ const {
             sm="4"
             md="3"
             lg="2"
-            class="mb-sm-n2 mb-n10 mt-n2"
           >
             <v-img
               class="ma-3 mr-sm-0"
