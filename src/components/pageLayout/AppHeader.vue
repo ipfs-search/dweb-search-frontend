@@ -9,6 +9,7 @@ import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
 import { useTheme } from 'vuetify'
+import Hyperlink from '@/components/shared/Hyperlink.vue';
 const theme = useTheme()
 
 const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Search')
@@ -32,10 +33,9 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
           class="px-0 d-flex justify-space-between align-center"
         >
           <div class="ml-2">
-            <router-link
+            <hyperlink
               to="/"
               class="d-flex align-center"
-              style="cursor: pointer;"
             >
               <v-img
                 v-if="mdAndUp || route.name === 'Detail'"
@@ -54,7 +54,7 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
                 width="28"
                 height="28"
               />
-            </router-link>
+            </hyperlink>
           </div>
 
           <div v-if="route.name === 'Search'" class="flex-grow-1">
@@ -69,11 +69,10 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
 
           <settings-menu />
 
-          <router-link
+          <hyperlink
             v-if="route.name === 'Detail'"
             :to="{ name: 'Search', query: route.query}"
             replace
-            style="text-decoration: none; color: inherit;"
           >
             <v-btn
               icon
@@ -82,7 +81,7 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
                 mdi-close
               </v-icon>
             </v-btn>
-          </router-link>
+          </hyperlink>
 
         </v-col>
       </v-row>

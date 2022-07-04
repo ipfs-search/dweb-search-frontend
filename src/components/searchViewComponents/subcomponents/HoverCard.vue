@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router';
 const route = useRoute();
 import { fileListComposable, fileListProps } from '@/composables/fileListComposable';
+import Hyperlink from '@/components/shared/Hyperlink.vue';
 
 const props = defineProps({
   fileType: fileListProps.fileType,
@@ -23,17 +24,16 @@ const {
 
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <router-link
+    <hyperlink
       :to="{
-          name: 'Detail',
-          params: {
-            fileType,
-            fileHash: shownHits[index].hash,
-            selectedIndex: Number(index),
-          },
-          query: route.query
-        }"
-      style="text-decoration: none; color: inherit;"
+        ...route,
+        name: 'Detail',
+        params: {
+          fileType,
+          fileHash: shownHits[index].hash,
+          selectedIndex: Number(index),
+        },
+      }"
     >
       <v-card
         v-if="hit"
@@ -43,6 +43,6 @@ const {
       >
         <slot />
       </v-card>
-    </router-link>
+    </hyperlink>
   </v-hover>
 </template>
