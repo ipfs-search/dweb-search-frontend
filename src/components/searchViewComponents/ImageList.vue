@@ -32,7 +32,6 @@ const { blurExplicit } = useBlurExplicit()
         <v-col
           v-for="(hit, index) in slicedHits(6)"
           :key="index"
-          class="d-flex child-flex"
           cols="6"
           sm="4"
           md="3"

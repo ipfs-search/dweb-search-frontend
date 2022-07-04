@@ -152,7 +152,7 @@ export const fileListComposable = ({ fileType }) => {
     if (infinite.value) {
       return infiniteHits.value
     }
-    return pageHits.value;
+    return pageHits.value
   }
 
   return {
