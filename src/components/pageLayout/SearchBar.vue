@@ -80,6 +80,7 @@ const fileType = computed({
             </template>
             <v-list>
               <v-list-item
+                class="bg-white"
                 v-for="t in searchTypes"
                 :key="t"
                 @click="fileType = t"

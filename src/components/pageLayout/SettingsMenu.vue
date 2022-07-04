@@ -37,7 +37,7 @@ const cogwheelColor = computed(() => {
     <v-card
       class="mx-auto"
     >
-      <v-list>
+      <v-list class="bg-white">
         <v-list-item>
           <v-switch
             v-model="blurExplicitImages"
@@ -74,8 +74,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.v-list {
-  background-color: white;
-}
-</style>
+
