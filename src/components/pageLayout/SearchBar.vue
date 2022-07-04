@@ -85,9 +85,7 @@ const fileType = computed({
                 :key="t"
                 @click="fileType = t"
               >
-                <v-list-item-title
-                  class="text-capitalize"
-                >
+                <v-list-item-title class="text-capitalize">
                   {{ t }}
                 </v-list-item-title>
               </v-list-item>

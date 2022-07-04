@@ -2,7 +2,7 @@
 import ListBase from './BaseList.vue'
 import HoverCard from './subcomponents/HoverCard.vue'
 import { fileListComposable } from '@/composables/fileListComposable';
-import ListCard from '@/components/searchViewComponents/subcomponents/genericListCard.vue';
+import CardContent from '@/components/searchViewComponents/subcomponents/genericCardContent.vue';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
 import { Types } from '@/helpers/typeHelper';
 import { picsum } from '@/helpers/picsum';
@@ -52,7 +52,7 @@ const {
             lg="10"
             class="py-sm-0 ml-sm-n6"
           >
-            <ListCard :hit="hit" />
+            <CardContent :hit="hit" />
           </v-col>
         </v-row>
       </hover-card>

@@ -1,5 +1,5 @@
 <script setup>
-import ListCard from '@/components/searchViewComponents/subcomponents/genericListCard.vue';
+import CardContent from '@/components/searchViewComponents/subcomponents/genericCardContent.vue';
 import HoverCard from './subcomponents/HoverCard.vue'
 import { TypeListNames } from '@/helpers/typeHelper';
 import { fileListComposable } from '@/composables/fileListComposable'
@@ -24,7 +24,6 @@ const {
   error,
   loading,
   infinite,
-  setFileType,
   handleQueryChange,
   slicedHits,
   getResultsOnMount,
@@ -49,7 +48,7 @@ onBeforeRouteUpdate(({ query }, from, next) => {
         offset-xl="2"
       >
         <v-card flat>
-          <v-card-header class="justify-space-between d-flex flex-row ">
+          <div class="justify-space-between d-flex flex-row ">
             <v-card-subtitle class="text-subtitle-1">
               {{ TypeListNames[fileType] }} ({{ resultsTotal }})
             </v-card-subtitle>
@@ -62,7 +61,7 @@ onBeforeRouteUpdate(({ query }, from, next) => {
                 View all
               </hyperlink>
             </v-card-subtitle>
-          </v-card-header>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -88,7 +87,6 @@ onBeforeRouteUpdate(({ query }, from, next) => {
       dense
     >
       <slot>
-<!--    In this slot a custom search display    -->
         <v-col
           v-for="(hit, index) in slicedHits(3)"
           :key="index"
@@ -97,7 +95,7 @@ onBeforeRouteUpdate(({ query }, from, next) => {
           offset-xl="2"
         >
           <hover-card :hit="hit" :index="index" :file-type="fileType">
-            <ListCard :hit="hit" />
+            <CardContent :hit="hit" />
           </hover-card>
         </v-col>
       </slot>

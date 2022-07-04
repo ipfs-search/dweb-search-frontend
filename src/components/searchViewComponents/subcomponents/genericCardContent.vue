@@ -9,8 +9,6 @@ const props= defineProps({
 })
 </script>
 <template>
-  <v-card-header>
-    <v-card-header-text>
       <v-card-subtitle class="text-caption text-truncate pt-4">
         <span :class="`${durationToColor(hit['last-seen'])}`">
           &#9679;&nbsp;
@@ -32,8 +30,6 @@ const props= defineProps({
       >
         <span v-html="hit.description"/>
       </v-card-text>
-    </v-card-header-text>
-  </v-card-header>
 </template>
 
 <style lang="scss" scoped>

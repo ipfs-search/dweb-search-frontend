@@ -2,7 +2,7 @@
 <script setup>
 const props = defineProps({
   to: {
-    type: Object,
+    type: [Object, String],
     required: true,
   },
   replace: {
@@ -14,7 +14,7 @@ const props = defineProps({
 
 <template>
   <router-link
-    :to=to
+    :to="to"
     :replace="replace"
     style="text-decoration: none; color: inherit;"
   >
