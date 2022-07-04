@@ -44,8 +44,8 @@ const fileType = computed({
     <div class="search flex-grow-1">
       <v-text-field
         ref="input"
-        variant="contained"
-        class="bg-white rounded-pill"
+        variant="plain"
+        class="bg-white rounded-pill pl-5"
         v-model="searchPhrase"
         @keyup.enter="enterSearchPhrase"
         v-closable="{ handler: 'onIphoneClick' }"
@@ -98,7 +98,7 @@ const fileType = computed({
     </div>
     <v-icon
       v-if="!smAndDown"
-      style="margin-left: 9px"
+      class="ml-2"
       size="34"
       color="white"
       @click="enterSearchPhrase"
@@ -115,23 +115,4 @@ const fileType = computed({
 }
 </style>
 
-<style lang="scss">
-// FIXME: This is a hack; the style box ought to be scoped and this style should be added by
-// class="border-pill" on the v-text-field, but this does not work. Most likely a bug in vuetify
-.search .v-field {
-  background: transparent;
-  box-shadow: none;
-  margin-bottom: 6px;
-  margin-top: -6px;
-  padding-left: 9px;
-  caret-color: auto;
-}
-::placeholder {
-  color: #c0c0c0;
-  opacity: 1;
-}
 
-::-ms-input-placeholder { /* Microsoft Edge */
-  color: red;
-}
-</style>

@@ -89,8 +89,8 @@ const { mdAndUp } = useDisplay()
     >
       <v-container class="pa-0 fill-height d-flex">
         <v-row class="align-content-end">
-          <v-col class="pa-2 text-white">
-            <h3 class="mb-2 text-center hidden-sm-and-down">
+          <v-col class="pa-2">
+            <h3 class="mb-2 text-center hidden-sm-and-down text-white">
               Search the Distributed&#160;Web
             </h3>
             <SearchBar />
