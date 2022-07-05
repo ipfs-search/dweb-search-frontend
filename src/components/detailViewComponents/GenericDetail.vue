@@ -1,5 +1,5 @@
 <script setup>
-import MediaHeader from '@/components/detailViewComponents/SubComponents/MediaHeader.vue';
+import DetailHeader from '@/components/detailViewComponents/SubComponents/DetailHeader.vue';
 import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
 
 import { useDisplay } from 'vuetify'
@@ -43,7 +43,7 @@ const props = defineProps({
                 offset-xl="2"
                 :class="mdAndUp ? 'mb-16' : ''"
               >
-                <MediaHeader :file="file" />
+                <DetailHeader :file="file" />
                 <slot/>
                 <MetaDataPanel
                   :file="file"
