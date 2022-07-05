@@ -4,13 +4,25 @@ import { mdiTrayArrowDown } from '@mdi/js'
 
 <template>
   <v-btn
-    :icon="mdiTrayArrowDown"
     variant="contained-flat"
     class="text-grey"
-    size="x-small"
     target="_blank"
     :href="getURL()"
-  />
+    icon
+  >
+      <v-tooltip
+        activator="parent"
+        location="bottom"
+      >
+        <template #activator="{props}">
+          <v-icon
+            :icon="mdiTrayArrowDown"
+            v-bind="props"
+          />
+        </template>
+        Download file
+      </v-tooltip>
+  </v-btn>
 </template>
 
 <script>

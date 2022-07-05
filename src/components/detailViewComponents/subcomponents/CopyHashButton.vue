@@ -4,12 +4,24 @@ import { mdiContentCopy } from '@mdi/js'
 
 <template>
   <v-btn
-    :icon="mdiContentCopy"
     variant="contained-flat"
     class="text-grey"
-    size="x-small"
     @click.stop="copyHash"
-  />
+    icon
+  >
+    <v-tooltip
+      activator="parent"
+      location="bottom"
+    >
+      <template #activator="{props}">
+        <v-icon
+          :icon="mdiContentCopy"
+          v-bind="props"
+        />
+      </template>
+      Copy Hash to Clipboard
+    </v-tooltip>
+  </v-btn>
 </template>
 
 <script>

@@ -2,6 +2,7 @@
 import DownloadButton from '@/components/detailViewComponents/subcomponents/DownloadButton.vue';
 import CopyHashButton from '@/components/detailViewComponents/subcomponents/CopyHashButton.vue';
 import prettyBytes from 'pretty-bytes';
+import mime from 'mime';
 import { detailProps } from '@/composables/useDetail';
 
 const props = defineProps(detailProps)
@@ -11,20 +12,18 @@ const props = defineProps(detailProps)
   <!-- Subheader -->
   <v-row test-class="subheader">
     <v-col>
-      <div class="text-caption mb-n4 text-truncate">
-          <span v-if="file['last-seen']">
-            Last seen <timeago :datetime="file['last-seen']" />
-          </span>
-        <span v-if="file.size"> | Size {{ prettyBytes(file.size) }}</span>
-        <span v-if="file['mimetype']"> | {{ showFileType(file['mimetype']) }}</span>
+      <div class="text-caption text-truncate d-flex flex-row align-center">
+        <span v-if="file['last-seen']">
+          Last seen <timeago :datetime="file['last-seen']" />
+        </span>
+        <span v-if="file.size">&nbsp;| Size {{ prettyBytes(file.size) }}</span>
+        <span v-if="file['mimetype']">&nbsp;| {{ mime.getExtension(file['mimetype']) }}</span>
         <DownloadButton
           v-if="file.size"
-          class="ml-1"
           :file="file"
         />
         <CopyHashButton
           v-if="file.size"
-          class="ml-1"
           :hash="file.hash"
         />
       </div>
@@ -43,15 +42,3 @@ const props = defineProps(detailProps)
     </v-col>
   </v-row>
 </template>
-
-<script>
-import mime from 'mime';
-
-export default {
-  methods: {
-    showFileType(mimeType) {
-      return mime.getExtension(mimeType);
-    },
-  },
-};
-</script>
