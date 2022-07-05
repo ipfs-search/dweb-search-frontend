@@ -42,7 +42,7 @@ const fileType = computed({
 
 <template>
   <v-container class="d-flex justify-center align-center">
-    <div class="search flex-grow-1">
+    <div id="search" class="flex-grow-1">
       <v-text-field
         ref="input"
         variant="plain"
@@ -78,9 +78,10 @@ const fileType = computed({
                 />
               </div>
             </template>
-            <v-list>
+            <v-list
+              class="bg-white"
+            >
               <v-list-item
-                class="bg-white"
                 v-for="t in searchTypes"
                 :key="t"
                 @click="fileType = t"
@@ -106,7 +107,7 @@ const fileType = computed({
 </template>
 
 <style lang="scss" scoped>
-.search {
+#search {
   max-width: 915px;
   z-index: 10000;
 }
