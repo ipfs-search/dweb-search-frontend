@@ -1,26 +1,27 @@
 <script setup>
 import { useDisplay } from 'vuetify';
+import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from '@mdi/js'
 
 const { smAndUp } = useDisplay()
 const footer_links = [
   {
-    icon: 'mdi-mastodon',
+    icon: mdiMastodon,
     href: 'https://mastodon.social/@ipfssearch',
   },
   {
-    icon: 'mdi-twitter',
+    icon: mdiTwitter,
     href: 'https://twitter.com/SearchIpfs',
   },
   {
-    icon: 'mdi-github',
+    icon: mdiGithub,
     href: 'https://github.com/ipfs-search/ipfs-search',
   },
   {
-    icon: 'mdi-hand-coin',
+    icon: mdiHandCoin,
     href: 'https://opencollective.com/ipfs-search#category-CONTRIBUTE',
   },
   {
-    icon: 'mdi-email',
+    icon: mdiEmail,
     href: 'mailto:info@ipfs-search.com',
   },
 ]
@@ -52,9 +53,8 @@ const footer_links = [
           <v-icon
             :size="smAndUp ? 24 : 18"
             class="ipfsPrimary-lighten-1"
-          >
-            {{ link.icon }}
-          </v-icon>
+            :icon="link.icon"
+          />
         </v-btn>
       </v-card-text>
       <v-divider

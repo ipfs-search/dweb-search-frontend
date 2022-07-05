@@ -32,7 +32,7 @@
 const props = defineProps({
   icon: {
     type: String,
-    default: 'mdi-wrench',
+    default: '',
   },
   title: {
     type: String,

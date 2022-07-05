@@ -1,6 +1,7 @@
 <script setup>
 import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
 import AudioDetailButton from './SubComponents/AudioDetailButton.vue';
+import { mdiAlert, mdiPlay, mdiPause} from '@mdi/js'
 import { ref, computed } from 'vue';
 
 import { picsum } from '@/helpers/picsum';
@@ -29,15 +30,13 @@ const audioError = ref(audioData.audioError)
       <AudioDetailButton
         v-if="audioError"
         :title="audioError"
-      >
-        mdi-alert
-      </AudioDetailButton>
+        :icon="mdiAlert"
+      />
       <AudioDetailButton
         v-else-if="!currentlyLoadedInPlayer"
         @click="loadSoundFile(file)"
-      >
-        mdi-play
-      </AudioDetailButton>
+        :icon="mdiPlay"
+      />
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer && loading"
         loading
@@ -45,15 +44,13 @@ const audioError = ref(audioData.audioError)
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer && playing"
         @click="pause"
-      >
-        mdi-pause
-      </AudioDetailButton>
+        :icon="mdiPause"
+      />
       <AudioDetailButton
         v-else
         @click="play"
-      >
-        mdi-play
-      </AudioDetailButton>
+        :icon="mdiPlay"
+      />
     </v-img>
   </generic-detail>
 </template>

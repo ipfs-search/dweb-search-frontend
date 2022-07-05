@@ -1,14 +1,16 @@
+<script setup>
+import { mdiTrayArrowDown } from '@mdi/js'
+</script>
+
 <template>
   <v-btn
-    icon
+    :icon="mdiTrayArrowDown"
     variant="contained-flat"
     class="text-grey"
     size="x-small"
     target="_blank"
     :href="getURL()"
-  >
-    <v-icon>mdi-tray-arrow-down</v-icon>
-  </v-btn>
+  />
 </template>
 
 <script>

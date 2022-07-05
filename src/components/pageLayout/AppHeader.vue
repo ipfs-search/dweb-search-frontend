@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
+import { mdiClose } from '@mdi/js'
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
@@ -77,9 +78,7 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
             <v-btn
               icon
             >
-              <v-icon>
-                mdi-close
-              </v-icon>
+              <v-icon :icon="mdiClose"/>
             </v-btn>
           </hyperlink>
 

@@ -24,9 +24,8 @@
       v-else
       size="45"
       color="white"
-    >
-      <slot />
-    </v-icon>
+      :icon="icon"
+    />
   </v-btn>
 </template>
 
@@ -38,6 +37,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    icon: {
+      type: String,
+      required: false,
+    }
   },
 };
 </script>

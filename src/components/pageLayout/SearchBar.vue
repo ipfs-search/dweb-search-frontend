@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute()
 import { enterSearchQuery } from '@/router';
 
+import { mdiMenuDown, mdiMagnify } from '@mdi/js'
 import { useDisplay } from 'vuetify'
 const { smAndDown } = useDisplay()
 import { useMobileDevices } from '@/composables/useMobileDevices'
@@ -73,9 +74,8 @@ const fileType = computed({
                 >{{ fileType }}</span>
                 <v-icon
                   class="d-inline-block"
-                >
-                  mdi-menu-down
-                </v-icon>
+                  :icon="mdiMenuDown"
+                />
               </div>
             </template>
             <v-list>
@@ -100,9 +100,8 @@ const fileType = computed({
       size="34"
       color="white"
       @click="enterSearchPhrase"
-    >
-      mdi-magnify
-    </v-icon>
+      :icon="mdiMagnify"
+    />
   </v-container>
 </template>
 

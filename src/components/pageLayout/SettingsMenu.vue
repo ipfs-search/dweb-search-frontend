@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
+import { mdiCog } from '@mdi/js'
 const { blurExplicitImages } = useBlurExplicit()
 
 import { useTheme } from 'vuetify'
@@ -29,9 +30,8 @@ const cogwheelColor = computed(() => {
       >
         <v-icon
           :color="cogwheelColor"
-        >
-          mdi-cog
-        </v-icon>
+          :icon="mdiCog"
+        />
       </v-btn>
     </template>
     <v-card

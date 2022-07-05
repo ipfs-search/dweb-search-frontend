@@ -4,6 +4,7 @@ import HoverCard from './subcomponents/HoverCard.vue'
 import { fileListComposable, imports } from '@/composables/fileListComposable';
 import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
 import { Types } from '@/helpers/typeHelper';
+import {mdiCog} from '@mdi/js'
 
 const fileType = Types.images;
 
@@ -67,9 +68,7 @@ const { blurExplicit } = useBlurExplicit()
                   <div v-if="hit.title" v-html="hit.title"></div>
                   <div v-if="blurExplicit(hit)">
                     Blurring explicit content. See settings in menubar under
-                    <v-icon color="white">
-                      mdi-cog
-                    </v-icon>
+                    <v-icon color="white" :icon="mdiCog" />
                   </div>
                   <div v-if="hit.nsfwClassification">
                     {{

@@ -3,6 +3,7 @@ import ListBase from './BaseList.vue'
 import HoverCard from './subcomponents/HoverCard.vue'
 import { fileListComposable, imports } from '@/composables/fileListComposable';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
+import { mdiMusic } from '@mdi/js'
 import { Types } from '@/helpers/typeHelper';
 import { picsum } from '@/helpers/picsum';
 
@@ -42,19 +43,7 @@ pageHits.value.slice(0,
               :aspect-ratio="1"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
-              <media-center-icon icon="mdi-music"/>
-              <v-icon
-                size="64"
-                color="white"
-                style="opacity: 0.3;
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);"
-              >
-                mdi-music
-              </v-icon>
-
+              <media-center-icon :icon="mdiMusic"/>
               <v-card-text
                 class="text-subtitle-2"
               >

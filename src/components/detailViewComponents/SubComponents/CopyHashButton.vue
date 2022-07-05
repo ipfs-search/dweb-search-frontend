@@ -1,13 +1,15 @@
+<script setup>
+import { mdiContentCopy } from '@mdi/js'
+</script>
+
 <template>
   <v-btn
-    icon
+    :icon="mdiContentCopy"
     variant="contained-flat"
     class="text-grey"
     size="x-small"
     @click.stop="copyHash"
-  >
-    <v-icon>mdi-content-copy</v-icon>
-  </v-btn>
+  />
 </template>
 
 <script>

@@ -1,4 +1,5 @@
 <script setup>
+import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from  '@mdi/js'
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
@@ -71,9 +72,8 @@ onBeforeUnmount(() => {
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%);"
-                  >
-                    mdi-music
-                  </v-icon>
+                    :icon="mdiMusic"
+                  />
                 </v-img>
               </v-list-item-avatar>
               <!--                <v-search-item-content>-->
@@ -93,9 +93,8 @@ onBeforeUnmount(() => {
                   <v-icon
                     v-if="audioError"
                     :title="audioError"
-                  >
-                    mdi-alert
-                  </v-icon>
+                    :icon="mdiAlert"
+                  />
                   <v-btn
                     v-else-if="loading"
                     icon
@@ -103,22 +102,14 @@ onBeforeUnmount(() => {
                   />
                   <v-btn
                     v-else-if="playing"
-                    icon
                     @click="pause"
-                  >
-                    <v-icon>
-                      mdi-pause
-                    </v-icon>
-                  </v-btn>
+                    :icon="mdiPause"
+                  />
                   <v-btn
                     v-else
-                    icon
+                    :icon="mdiPlay"
                     @click="play"
-                  >
-                    <v-icon>
-                      mdi-play
-                    </v-icon>
-                  </v-btn>
+                  />
                 </v-list-item-icon>
 
                 <v-list-item-icon
@@ -126,11 +117,9 @@ onBeforeUnmount(() => {
                   :class="{ 'mr-3': mdAndUp }"
                 >
                   <v-btn
-                    icon
+                    :icon="mdiClose"
                     @click="closePlayer"
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
+                  />
                 </v-list-item-icon>
               </div>
             </v-list-item>

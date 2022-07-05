@@ -3,6 +3,7 @@ import { useDisplay } from 'vuetify'
 import HomeViewCard from '@/components/homeViewComponents/HomeViewCard.vue';
 import SearchBar from '@/components/pageLayout/SearchBar.vue';
 import SettingsMenu from '@/components/pageLayout/SettingsMenu.vue';
+import { mdiDotsVertical, mdiWrench, mdiShareVariant, mdiEarth, mdiOpenSourceInitiative, mdiAccountMultiple, mdiFlash } from '@mdi/js'
 const { mdAndUp } = useDisplay()
 </script>
 
@@ -54,12 +55,10 @@ const { mdAndUp } = useDisplay()
             >
               <template #activator="{ props }">
                 <v-btn
-                  icon
                   v-bind="props"
                   class="my-2 mx-0 mr-n2 hidden-md-and-up"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
+                  :icon="mdiDotsVertical"
+                />
               </template>
 
               <v-list>
@@ -110,7 +109,7 @@ const { mdAndUp } = useDisplay()
           <v-container class="pa-0">
             <v-row align-center>
               <home-view-card
-                icon="mdi-wrench"
+                :icon="mdiWrench"
                 title="Publicly available search"
                 text="We wish to provide publicly available search and discovery services in the
             interest of our users, funded through donations and/or subscriptions and/or
@@ -118,7 +117,7 @@ const { mdAndUp } = useDisplay()
             to provide public search functionality for free."
               />
               <home-view-card
-                icon="mdi-share-variant"
+                :icon="mdiShareVariant"
                 title="For external organisations"
                 text="We recognise that the expertise and team spirit attained during the
                 development of the public service can be harnessed to implement similar services for
@@ -126,7 +125,7 @@ const { mdAndUp } = useDisplay()
                 clouds and/or ipfs clusters."
               />
               <home-view-card
-                icon="mdi-earth"
+                :icon="mdiEarth"
                 title="Next generation internet"
                 text="In the long run, we aspire to scale out and implement truly
                       decentralised/distributed search for the next generation internet, providing
@@ -134,7 +133,7 @@ const { mdAndUp } = useDisplay()
                       the users as well as the openness of our architecture and data."
               />
               <home-view-card
-                icon="mdi-open-source-initiative"
+                :icon="mdiOpenSourceInitiative"
                 title="World class documentation"
                 text="It is our personal experience that many FOSS projects become overly
                     dependent on a very select group of developers, effectively creating a closed
@@ -143,7 +142,7 @@ const { mdAndUp } = useDisplay()
                     improving upon it, using it pinpointing essential mistakes."
               />
               <home-view-card
-                icon="mdi-account-multiple"
+                :icon="mdiAccountMultiple"
                 title="Pragmatic solution"
                 text="
                     Since its very inception, we wanted to create
@@ -156,7 +155,7 @@ const { mdAndUp } = useDisplay()
                     fork our project."
               />
               <home-view-card
-                icon="mdi-flash"
+                :icon="mdiFlash"
                 title="Darker visions"
                 text="
                     Like many who recognise themselves as part of

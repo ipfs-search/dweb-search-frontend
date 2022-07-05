@@ -4,6 +4,7 @@ import HoverCard from './subcomponents/HoverCard.vue'
 import { fileListComposable } from '@/composables/fileListComposable';
 import CardContent from '@/components/searchViewComponents/subcomponents/genericCardContent.vue';
 import MediaCenterIcon from '@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue';
+import { mdiVideo } from '@mdi/js'
 import { Types } from '@/helpers/typeHelper';
 import { picsum } from '@/helpers/picsum';
 
@@ -42,7 +43,7 @@ const {
               :src="hit.src || picsum()"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
-              <media-center-icon icon="mdi-video"/>
+              <media-center-icon :icon="mdiVideo"/>
             </v-img>
           </v-col>
           <v-col

@@ -3,8 +3,6 @@
 import 'core-js/stable'; // only stable feature also is possible with only `core-js`
 import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
 
-import '@mdi/font/css/materialdesignicons.css'; // https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
-
 import { createApp } from 'vue';
 import timeago from 'vue-timeago3';
 import VueClosable from 'vue-closable';
