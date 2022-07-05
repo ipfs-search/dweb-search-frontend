@@ -1,5 +1,5 @@
 <script setup>
-import VideoPlayer from '@/components/detailViewComponents/SubComponents/VideoPlayer.vue';
+import VideoPlayer from '@/components/detailViewComponents/subcomponents/VideoPlayer.vue';
 import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
 import 'video.js/dist/video-js.css';
 

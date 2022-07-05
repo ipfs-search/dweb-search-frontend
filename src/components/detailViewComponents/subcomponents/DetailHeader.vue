@@ -1,6 +1,6 @@
 <script setup>
-import DownloadButton from '@/components/detailViewComponents/SubComponents/DownloadButton.vue';
-import CopyHashButton from '@/components/detailViewComponents/SubComponents/CopyHashButton.vue';
+import DownloadButton from '@/components/detailViewComponents/subcomponents/DownloadButton.vue';
+import CopyHashButton from '@/components/detailViewComponents/subcomponents/CopyHashButton.vue';
 import prettyBytes from 'pretty-bytes';
 import { detailProps } from '@/composables/useDetail';
 

@@ -1,6 +1,6 @@
 <script setup>
-import DetailHeader from '@/components/detailViewComponents/SubComponents/DetailHeader.vue';
-import MetaDataPanel from '@/components/detailViewComponents/SubComponents/MetaDataPanel.vue';
+import DetailHeader from '@/components/detailViewComponents/subcomponents/DetailHeader.vue';
+import MetaDataPanel from '@/components/detailViewComponents/subcomponents/MetaDataPanel.vue';
 
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()

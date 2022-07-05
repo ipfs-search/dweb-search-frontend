@@ -1,7 +1,7 @@
 <script setup>
 import { useDetail, detailProps } from '@/composables/useDetail';
 import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
-import VIframe from '@/components/detailViewComponents/SubComponents/VIframe.vue';
+import VIframe from '@/components/detailViewComponents/subcomponents/VIframe.vue';
 const props = defineProps(detailProps)
 const { resourceURL } = useDetail(props)
 </script>

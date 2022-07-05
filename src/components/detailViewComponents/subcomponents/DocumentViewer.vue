@@ -1,5 +1,5 @@
 <script setup>
-import VIframe from '@/components/detailViewComponents/SubComponents/VIframe.vue';
+import VIframe from '@/components/detailViewComponents/subcomponents/VIframe.vue';
 import mime from 'mime';
 import getResourceURL from '@/helpers/resourceURL';
 import Retriever from '@/helpers/FetchDoggy';

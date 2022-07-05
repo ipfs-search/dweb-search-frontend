@@ -1,6 +1,6 @@
 <script setup>
 import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
-import AudioDetailButton from './SubComponents/AudioDetailButton.vue';
+import AudioDetailButton from './subcomponents/AudioDetailButton.vue';
 import { mdiAlert, mdiPlay, mdiPause} from '@mdi/js'
 import { ref, computed } from 'vue';
 
@@ -17,7 +17,6 @@ const currentlyLoadedInPlayer = computed(
   () => props.file.hash === audioData.audioPlayer.sourceFile?.hash,
 );
 const audioError = ref(audioData.audioError)
-// TODO: make this (more) responsive
 </script>
 
 <template>
