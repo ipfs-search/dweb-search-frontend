@@ -1,5 +1,5 @@
 <!-- 
-SPDX-FileCopyrightText: 2022 Mathijs de Bruin <mathijs@visualspace.nl>
+SPDX-FileCopyrightText: 2022 Mathijs de Bruin <mathijs@mathijsfietst.nl>
 SPDX-FileCopyrightText: 2022 Dweb-search-frontend
 
 SPDX-License-Identifier: AGPL-3.0-only
