@@ -1,3 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2022 Mathijs de Bruin <mathijs@visualspace.nl>
+SPDX-FileCopyrightText: 2022 Dweb-search-frontend
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+Dweb-search-frontend
+-->
+
 <template>
   <!-- container with nested row and col components to layout filters
       Filters are made with menu components that is triggered

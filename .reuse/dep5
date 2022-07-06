@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Dweb-search-frontend
+Upstream-Contact: Mathijs de Bruin <mathijs@visualspace.nl>
+Source: https://github.com/ipfs-search/dweb-search-frontend.git
+
+Files: src/assets/*
+Copyright: 2022 Dweb-search-frontend
+License: AGPL-3.0-only
