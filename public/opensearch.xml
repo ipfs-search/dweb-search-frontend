@@ -1,3 +1,13 @@
+<!-- 
+SPDX-FileCopyrightText: 2022 Mathijs de Bruin <mathijs@mathijsfietst.nl>
+SPDX-FileCopyrightText: 2022 Dweb-search-frontend
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+Dweb-search-frontend
+-->
+
+
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>ipfs-search.com</ShortName>
   <Description>Search the Distributed Web.</Description>

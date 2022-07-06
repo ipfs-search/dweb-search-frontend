@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 2022 Mathijs de Bruin, <mathijs@mathijsfietst.nl> et al.
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import ListBase from '@/components/results/list/ListBase';
 import store from '@/store';
 import getResourceURL from '@/helpers/resourceURL';

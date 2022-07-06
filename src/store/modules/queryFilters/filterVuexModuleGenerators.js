@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 2022 Mathijs de Bruin, <mathijs@mathijsfietst.nl> et al.
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 //
 // This file exports a number of generator functions to create vuex modules, to serve as filters.
 // Filters are created by sending a state object (such as from filterDefinitions.js) and the

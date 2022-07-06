@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Mathijs de Bruin, <mathijs@mathijsfietst.nl> et al.
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // loosely adapted from: https://github.com/AnthumChris/fetch-progress-indicators/blob/master/fetch-enhanced/supported-browser.js
 
 /**

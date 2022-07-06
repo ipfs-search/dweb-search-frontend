@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 2022 Mathijs de Bruin, <mathijs@mathijsfietst.nl> et al.
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // Recomendation of babeljs (https://babeljs.io/docs/en/babel-polyfill)
 import 'core-js/stable'; // only stable feature also is possible with only `core-js`
 import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
