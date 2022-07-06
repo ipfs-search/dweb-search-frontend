@@ -12,7 +12,7 @@ import { mdiTrayArrowDown } from '@mdi/js'
   >
       <v-tooltip
         activator="parent"
-        location="bottom"
+        location="top"
       >
         <template #activator="{props}">
           <v-icon
