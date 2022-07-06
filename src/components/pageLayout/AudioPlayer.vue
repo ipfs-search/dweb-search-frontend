@@ -3,25 +3,11 @@ import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from  '@mdi/js'
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import { audioPlayer } from '@/plugins/audioPlugin';
-import {
-  audioData,
-  closePlayer,
-  loading,
-  progress,
-  sourceFile,
-  timer,
-  duration,
-  playing,
-  play,
-  pause,
-} from '@/composables/AudioControlsModule';
+import * as audioControls from '@/composables/audioControls';
+
 import { onBeforeUnmount } from 'vue';
-
-const audioError = audioData.audioError;
-
 onBeforeUnmount(() => {
-  audioPlayer.close();
+  audioControls.close();
 })
 </script>
 
@@ -41,8 +27,8 @@ onBeforeUnmount(() => {
     >
       <div class="small-viewer">
         <v-progress-linear
-          v-if="!loading"
-          v-model="progress"
+          v-if="!audioControls.loading"
+          v-model="audioControls.progress"
           color="white"
           class="progress-bar"
           height="3"
@@ -62,7 +48,7 @@ onBeforeUnmount(() => {
                   aspect-ratio="1"
                   bac
                   gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-                  :src="sourceFile.src"
+                  :src="audioControls.sourceFile.src"
                 >
                   <v-icon
                     size="32"
@@ -77,10 +63,10 @@ onBeforeUnmount(() => {
                 </v-img>
               </v-list-item-avatar>
               <!--                <v-search-item-content>-->
-              <v-list-item-title v-html="sourceFile.title" />
+              <v-list-item-title v-html="audioControls.sourceFile.title" />
               <v-list-item-subtitle>
-                <span v-html="sourceFile.author" />
-                <span>{{ timer }} / {{ duration }}</span>
+                <span v-html="audioControls.sourceFile.author" />
+                <span>{{ audioControls.timer }} / {{ audioControls.duration }}</span>
               </v-list-item-subtitle>
               <!--                </v-search-item-content>-->
 
@@ -91,24 +77,24 @@ onBeforeUnmount(() => {
                   :class="{ 'mx-5': mdAndUp }"
                 >
                   <v-icon
-                    v-if="audioError"
-                    :title="audioError"
+                    v-if="audioControls.audioError"
+                    :title="audioControls.audioError"
                     :icon="mdiAlert"
                   />
                   <v-btn
-                    v-else-if="loading"
+                    v-else-if="audioControls.loading"
                     icon
                     loading
                   />
                   <v-btn
-                    v-else-if="playing"
-                    @click="pause"
+                    v-else-if="audioControls.playing"
                     :icon="mdiPause"
+                    @click="audioControls.pause"
                   />
                   <v-btn
                     v-else
                     :icon="mdiPlay"
-                    @click="play"
+                    @click="audioControls.play"
                   />
                 </v-list-item-icon>
 
@@ -118,7 +104,7 @@ onBeforeUnmount(() => {
                 >
                   <v-btn
                     :icon="mdiClose"
-                    @click="closePlayer"
+                    @click="audioControls.close"
                   />
                 </v-list-item-icon>
               </div>

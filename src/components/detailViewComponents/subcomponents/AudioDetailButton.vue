@@ -4,7 +4,7 @@
     icon
     dark
     color="black"
-    :loading="true"
+    :loading="loading"
     style="
       opacity: 0.5;
       position: absolute;
@@ -15,12 +15,10 @@
     @click="$emit('click')"
   >
     <v-progress-circular
-      style="transform: translate(-1px, 0)"
       indeterminate
       v-if="loading"
     />
     <v-icon
-      style="transform: translate(-1px, -1px)"
       v-else
       size="45"
       color="white"

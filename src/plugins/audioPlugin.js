@@ -1,3 +1,4 @@
+// TODO: obsolete file
 import { Howl, Howler } from 'howler';
 import { getFileExtension } from '@/helpers/fileHelper';
 
@@ -34,9 +35,12 @@ class AudioPlayer {
     if (!file || !file.hash) {
       throw Error('No proper file specified');
     }
+    // FIXME: Howler plans to implement accepting mimetype parameter in the future... since 2015
+    // https://github.com/goldfire/howler.js/issues/411
+    // find workaround
     const fileExtension = getFileExtension(file);
     if (!Howler.codecs(fileExtension)) {
-      throw Error('Unsupported/undetected file type');
+      throw Error(`Unsupported/undetected file type: '${fileExtension}'`);
     }
 
     this.unregister();// unregister any hooks

@@ -4,7 +4,7 @@ const route = useRoute()
 
 import {
   playerActive
-} from '@/composables/AudioControlsModule';
+} from '@/composables/audioControls';
 
 </script>
 <template>

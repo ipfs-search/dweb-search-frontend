@@ -2,21 +2,18 @@
 import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
 import AudioDetailButton from './subcomponents/AudioDetailButton.vue';
 import { mdiAlert, mdiPlay, mdiPause} from '@mdi/js'
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 import { picsum } from '@/helpers/picsum';
 
 import { detailProps } from '@/composables/useDetail';
 const props = defineProps(detailProps)
 
-import {
-  loading, playing, loadSoundFile, play, pause, audioData,
-} from '@/composables/AudioControlsModule';
+import * as audioControls from '@/composables/audioControls';
 
 const currentlyLoadedInPlayer = computed(
-  () => props.file.hash === audioData.audioPlayer.sourceFile?.hash,
+  () => (props.file.hash === audioControls.sourceFile.value.hash)
 );
-const audioError = ref(audioData.audioError)
 </script>
 
 <template>
@@ -27,27 +24,27 @@ const audioError = ref(audioData.audioError)
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
     >
       <AudioDetailButton
-        v-if="audioError"
-        :title="audioError"
+        v-if="audioControls.audioError.value"
+        :title="audioControls.audioError.value"
         :icon="mdiAlert"
       />
       <AudioDetailButton
         v-else-if="!currentlyLoadedInPlayer"
-        @click="loadSoundFile(file)"
+        @click="audioControls.load(file)"
         :icon="mdiPlay"
       />
       <AudioDetailButton
-        v-else-if="currentlyLoadedInPlayer && loading"
+        v-else-if="currentlyLoadedInPlayer && audioControls.loading.value"
         loading
       />
       <AudioDetailButton
-        v-else-if="currentlyLoadedInPlayer && playing"
-        @click="pause"
+        v-else-if="currentlyLoadedInPlayer && audioControls.playing.value"
+        @click="audioControls.pause"
         :icon="mdiPause"
       />
       <AudioDetailButton
         v-else
-        @click="play"
+        @click="audioControls.play"
         :icon="mdiPlay"
       />
     </v-img>

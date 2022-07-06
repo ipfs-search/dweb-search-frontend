@@ -24,6 +24,7 @@ import * as mime from 'mime/lite';
 
 mime.define({
   'audio/mpeg': ['mp3'],
+  'audio/x-flac': ['flac'],
 }, true);
 
 /**

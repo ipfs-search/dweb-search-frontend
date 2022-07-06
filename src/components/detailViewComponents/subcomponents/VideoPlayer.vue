@@ -9,7 +9,7 @@
 
 <script>
 import videojs from 'video.js';
-import { audioPlayer } from '@/plugins/audioPlugin';
+import * as audioControls from '@/composables/audioControls';
 
 export default {
   name: 'VideoPlayer',
@@ -29,8 +29,8 @@ export default {
   mounted() {
     this.player = videojs(this.$refs.videoPlayer, this.options, () => {
       this.player.on('play', () => {
-        audioPlayer.stop();
-        audioPlayer.close();
+        audioControls.stop();
+        audioControls.close();
       });
     });
   },
