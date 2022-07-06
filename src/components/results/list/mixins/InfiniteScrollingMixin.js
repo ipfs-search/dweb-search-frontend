@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 2022 Mathijs de Bruin, <mathijs@visualspace.nl> et al.
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
 import store from '@/store';
 import { batchSize, maxPages } from '@/helpers/ApiHelper';
 import { enterSearchQuery } from '@/helpers/routerHelper';

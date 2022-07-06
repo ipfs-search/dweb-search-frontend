@@ -1,13 +1,3 @@
-<!-- 
-SPDX-FileCopyrightText: 2022 Mathijs de Bruin <mathijs@visualspace.nl>
-SPDX-FileCopyrightText: 2022 Dweb-search-frontend
-
-SPDX-License-Identifier: AGPL-3.0-only
-
-Dweb-search-frontend
--->
-
-
 # dweb-search-frontend
 [![Pipeline Status](https://gitlab.com/ipfs-search.com/dweb-search-frontend/badges/master/pipeline.svg)](https://gitlab.com/ipfs-search.com/dweb-search-frontend/-/commits/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1373bd46347115e764d2/maintainability)](https://codeclimate.com/github/ipfs-search/dweb-search-frontend/maintainability)
