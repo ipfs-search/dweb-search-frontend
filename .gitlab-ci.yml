@@ -13,3 +13,10 @@ variables:
   AUTO_DEVOPS_BUILD_CACHE: "registry"
   AUTO_BUILD_IMAGE_VERSION: "v1.6.0"
   AUTO_DEVOPS_BUILD_CACHE_REF: "$CI_REGISTRY_IMAGE/cache:latest"
+
+reuse:
+  image:
+    name: fsfe/reuse:latest
+    entrypoint: [""]
+  script:
+    - reuse lint
