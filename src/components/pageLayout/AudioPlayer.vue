@@ -3,117 +3,117 @@ import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from  '@mdi/js'
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
 
-import * as audioControls from '@/composables/audioControls';
+import {
+  playerActive,
+  play,
+  pause,
+  close,
+  audioError,
+  loading,
+  playing,
+  sourceFile,
+  formattedTime as time,
+  formattedDuration as duration,
+  progress } from '@/composables/audioControls';
 
 import { onBeforeUnmount } from 'vue';
 onBeforeUnmount(() => {
-  audioControls.close();
+  close();
 })
 </script>
 
 <template>
-  <v-footer
+  <v-card
+    v-if="playerActive"
+    transition="scroll-y-reverse-transition"
+    style="z-index: 10000"
     position="fixed"
     location="bottom"
     color="black"
+    class="d-flex audio-player-card"
+    tile
+    width="101%"
     height="100"
-    style="z-index: 10000;"
   >
-    <v-card
-      class="audio-player-card"
-      tile
-      width="100%"
-      height="100"
+    <v-progress-linear
+      v-if="!loading"
+      v-model="progress"
+      color="ipfsPrimary-lighten-4"
+      class="progress-bar"
+      height="3"
+      clickable
+    />
+    <v-avatar
+      rounded="0"
+      size="60"
     >
-      <div class="small-viewer">
-        <v-progress-linear
-          v-if="!audioControls.loading"
-          v-model="audioControls.progress"
+      <v-img
+        height="60"
+        aspect-ratio="1"
+        bac
+        gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
+        :src="sourceFile.src"
+      >
+        <v-icon
+          size="32"
           color="white"
-          class="progress-bar"
-          height="3"
+          style="opacity: 0.3;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);"
+          :icon="mdiMusic"
         />
+      </v-img>
+    </v-avatar>
 
-        <v-menu transition="scroll-y-reverse-transition">
-          <v-list>
-            <v-list-item
-              dark
-            >
-              <v-list-item-avatar
-                tile
-                size="60"
-              >
-                <v-img
-                  height="60"
-                  aspect-ratio="1"
-                  bac
-                  gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-                  :src="audioControls.sourceFile.src"
-                >
-                  <v-icon
-                    size="32"
-                    color="white"
-                    style="opacity: 0.3;
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);"
-                    :icon="mdiMusic"
-                  />
-                </v-img>
-              </v-list-item-avatar>
-              <!--                <v-search-item-content>-->
-              <v-list-item-title v-html="audioControls.sourceFile.title" />
-              <v-list-item-subtitle>
-                <span v-html="audioControls.sourceFile.author" />
-                <span>{{ audioControls.timer }} / {{ audioControls.duration }}</span>
-              </v-list-item-subtitle>
-              <!--                </v-search-item-content>-->
 
-              <div
-                style="height: 100%;"
-              >
-                <v-list-item-icon
-                  :class="{ 'mx-5': mdAndUp }"
-                >
-                  <v-icon
-                    v-if="audioControls.audioError"
-                    :title="audioControls.audioError"
-                    :icon="mdiAlert"
-                  />
-                  <v-btn
-                    v-else-if="audioControls.loading"
-                    icon
-                    loading
-                  />
-                  <v-btn
-                    v-else-if="audioControls.playing"
-                    :icon="mdiPause"
-                    @click="audioControls.pause"
-                  />
-                  <v-btn
-                    v-else
-                    :icon="mdiPlay"
-                    @click="audioControls.play"
-                  />
-                </v-list-item-icon>
+    <v-card-title
+      class="font-weight-regular"
+      style="font-size: 16px;"
+      v-html="sourceFile.title"
+    />
+    <v-card-subtitle>
+      <span v-html="sourceFile.author" />
+      <span>{{ time }} / {{ duration }}</span>
+    </v-card-subtitle>
 
-                <v-list-item-icon
-                  class="ml-0"
-                  :class="{ 'mr-3': mdAndUp }"
-                >
-                  <v-btn
-                    :icon="mdiClose"
-                    @click="audioControls.close"
-                  />
-                </v-list-item-icon>
-              </div>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>
-    </v-card>
-  </v-footer>
+    <div
+      class="h-100"
+    >
+      <v-icon
+        :class="{ 'mx-5': mdAndUp }"
+        class="bg-transparent ml-0"
+        v-if="audioError"
+        :title="audioError"
+        :icon="mdiAlert"
+      />
+      <v-btn
+        v-else-if="loading"
+        class="bg-transparent ml-0"
+        icon
+        loading
+      />
+      <v-btn
+        v-else-if="playing"
+        class="bg-transparent ml-0"
+        :icon="mdiPause"
+        @click="pause"
+      />
+      <v-btn
+        v-else
+        class="bg-transparent ml-0"
+        :icon="mdiPlay"
+        @click="play"
+      />
+      <v-btn
+        class="bg-transparent ml-0"
+        :class="{ 'mr-3': mdAndUp }"
+        :icon="mdiClose"
+        @click="close"
+      />
+    </div>
+  </v-card>
 </template>
 
 <style lang="scss" scoped>

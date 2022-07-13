@@ -1,9 +1,4 @@
 <template>
-  <!-- container with nested row and col components to layout filters
-      Filters are made with menu components that is triggered
-      via a click 'on'. The menu it self consists of search components
-      containing search-items which contains a search-item-title
-    -->
   <v-container>
     <v-row>
       <v-col

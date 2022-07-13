@@ -4,7 +4,7 @@ import { mdiTrayArrowDown } from '@mdi/js'
 
 <template>
   <v-btn
-    variant="contained-flat"
+    variant="flat"
     class="text-grey"
     target="_blank"
     :href="getURL()"

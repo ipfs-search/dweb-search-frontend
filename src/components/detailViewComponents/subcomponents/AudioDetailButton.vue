@@ -1,4 +1,4 @@
-<template>
+<template props>
   <v-btn
     size="x-large"
     icon
@@ -14,12 +14,8 @@
     "
     @click="$emit('click')"
   >
-    <v-progress-circular
-      indeterminate
-      v-if="loading"
-    />
     <v-icon
-      v-else
+      v-if="icon"
       size="45"
       color="white"
       :icon="icon"
@@ -27,18 +23,18 @@
   </v-btn>
 </template>
 
-<script>
-
-export default {
-  props: {
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    icon: {
-      type: String,
-      required: false,
-    }
+<script setup>
+defineProps({
+  loading: {
+    type: Boolean,
+    default: false,
   },
-};
+  icon: {
+    type: String,
+    required: false,
+    default: undefined,
+  }
+})
+
+defineEmits(['click'])
 </script>

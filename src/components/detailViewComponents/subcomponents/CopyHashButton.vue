@@ -4,7 +4,7 @@ import { mdiContentCopy } from '@mdi/js'
 
 <template>
   <v-btn
-    variant="contained-flat"
+    variant="flat"
     class="text-grey"
     @click.stop="copyHash"
     icon

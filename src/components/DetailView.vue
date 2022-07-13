@@ -1,5 +1,4 @@
 <script setup>
-import AppHeader from '@/components/pageLayout/AppHeader.vue';
 import AudioDetail from '@/components/detailViewComponents/AudioDetail.vue';
 import DocumentDetail from '@/components/detailViewComponents/DocumentDetail.vue';
 import ImageDetail from '@/components/detailViewComponents/ImageDetail.vue';
@@ -20,37 +19,34 @@ const DetailComponent = {
 </script>
 
 <template>
-  <div class="detail">
-    <app-header/>
-    <v-carousel
-      v-if="!singleItem"
-      v-model="carouselIndex"
-      height="100%"
-      hide-delimiters
-      hide-delimiter-background
-      :continuous="false"
+  <v-carousel
+    v-if="!singleItem"
+    v-model="carouselIndex"
+    height="100%"
+    hide-delimiters
+    hide-delimiter-background
+    :continuous="false"
+  >
+    <v-carousel-item
+      v-for="(item, index) in items"
+      :key="index"
     >
-      <v-carousel-item
-        v-for="(item, index) in items"
-        :key="index"
-      >
-        <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
-        <component
-          :is="DetailComponent[fileType]"
-          :file="item"
-          :active="carouselIndex === index"
-          :expand-meta="fileType === Types.other"
-        />
-      </v-carousel-item>
-    </v-carousel>
-    <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
-    <component
-      :is="DetailComponent[fileType]"
-      v-else
-      :file="singleItem"
-      :expand-meta="fileType === Types.other"
-    />
-  </div>
+      <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
+      <component
+        :is="DetailComponent[fileType]"
+        :file="item"
+        :active="carouselIndex === index"
+        :expand-meta="fileType === Types.other"
+      />
+    </v-carousel-item>
+  </v-carousel>
+  <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
+  <component
+    :is="DetailComponent[fileType]"
+    v-else
+    :file="singleItem"
+    :expand-meta="fileType === Types.other"
+  />
 </template>
 
 <script>

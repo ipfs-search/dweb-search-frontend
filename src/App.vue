@@ -1,4 +1,7 @@
 <script setup>
+//TODO: make AppHeader generic also for homeview
+import AppHeader from '@/components/pageLayout/AppHeader.vue';
+
 import {useRoute} from 'vue-router'
 const route = useRoute()
 
@@ -11,7 +14,9 @@ import {
   <v-app
     dark
     hidden
+    class="overflow-hidden"
   >
+    <app-header v-if="route.name !== 'Home'"/>
 
     <v-main id="main">
       <router-view />

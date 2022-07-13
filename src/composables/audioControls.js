@@ -5,15 +5,17 @@ import getResourceURL from '@/helpers/resourceURL';
 
 let audioPlayer
 let interval
+const emptyObject = {}
 
 export const audioError = ref(null)
 export const loading = ref(false)
 export const playing = ref(false)
 export const loaded = ref(false)
-export const sourceFile = ref({})
+export const sourceFile = ref(emptyObject)
 export const time = ref(0)
-export const timer = ref(0)
+export const formattedTime = computed(() => formatTime(time.value))
 export const duration = ref(0)
+export const formattedDuration = computed(() => formatTime(duration.value))
 
   /**
    * load a sound file from ipfs into the Howl audio player and attach necessary hooks.
@@ -78,12 +80,12 @@ function unregister() {
     loaded.value = false;
     time.value = 0;
     duration.value = 0;
-    sourceFile.value = null;
+    sourceFile.value = emptyObject;
   }
 }
 
 
-export const playerActive = computed(() => sourceFile.value && audioPlayer);
+export const playerActive = computed(() => Object.keys(sourceFile.value) && audioPlayer);
 export const progress = computed({
   get() {
     return (time.value / duration.value) * 100;

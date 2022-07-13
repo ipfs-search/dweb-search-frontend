@@ -30,8 +30,8 @@ const currentlyLoadedInPlayer = computed(
       />
       <AudioDetailButton
         v-else-if="!currentlyLoadedInPlayer"
-        @click="audioControls.load(file)"
         :icon="mdiPlay"
+        @click="audioControls.load(file)"
       />
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer && audioControls.loading.value"

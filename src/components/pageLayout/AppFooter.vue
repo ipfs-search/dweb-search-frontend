@@ -1,4 +1,6 @@
 <script setup>
+import { playerActive } from '@/composables/audioControls';
+
 import { useDisplay } from 'vuetify';
 import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from '@mdi/js'
 
@@ -28,75 +30,66 @@ const footer_links = [
 </script>
 
 <template>
-    <v-card
-      v-scroll="onScroll"
-      :class="{ 'footer--hidden': hideFooter }"
-      position="fixed"
-      variant="flat"
-      tile
-      class="footer bg-ipfsPrimary-lighten-1 text-center"
-      rounded="0"
-      width="101%"
+  <v-card
+    v-scroll="onScroll"
+    :class="{ 'footer--hidden': hideFooter && !playerActive }"
+    position="fixed"
+    variant="flat"
+    tile
+    class="footer bg-ipfsPrimary-lighten-1 text-center"
+    rounded="0"
+    width="101%"
+  >
+    <v-card-text
+      class="ipfsPrimary-lighten-1 justify-center d-flex flex-row text-caption py-1"
     >
-      <v-card-text
-        class="ipfsPrimary-lighten-1 justify-center d-flex flex-row text-caption py-1"
+      <v-btn
+        v-for="(link, i) in footer_links"
+        :key="i"
+        :href="link.href"
+        :class="smAndUp ? 'mx-4' : 'mx-1'"
+        icon
+        flat
+        class="text-white bg-transparent"
       >
-        <v-btn
-          v-for="(link, i) in footer_links"
-          :key="i"
-          :href="link.href"
-          :class="smAndUp ? 'mx-4' : 'mx-1'"
-          icon
-          flat
-          class="text-white bg-transparent"
-        >
-          <v-icon
-            :size="smAndUp ? 24 : 18"
-            class="ipfsPrimary-lighten-1"
-            :icon="link.icon"
-          />
-        </v-btn>
-      </v-card-text>
-      <v-divider
-        color="ipfsPrimary-lighten-4"
-        length="100%"
-      />
-      <v-card-text
-        class="ipfsPrimary-lighten-1 text-white text-center text-caption py-7"
-        style="margin: auto;"
+        <v-icon
+          :size="smAndUp ? 24 : 18"
+          class="ipfsPrimary-lighten-1"
+          :icon="link.icon"
+        />
+      </v-btn>
+    </v-card-text>
+    <v-divider
+      color="ipfsPrimary-lighten-4"
+      length="100%"
+    />
+    <v-card-text
+      class="ipfsPrimary-lighten-1 text-white text-center text-caption py-7"
+      style="margin: auto;"
+    >
+      <div
+        :style="smAndUp ? 'margin-top: -7px;' : 'margin-top: -14px;'"
       >
-        <div
-          :style="smAndUp ? 'margin-top: -7px;' : 'margin-top: -14px;'"
+        Funded through the
+        <a
+          href="https://nlnet.nl/project/IPFS-search/"
         >
-          Funded through the
-          <a
-            href="https://nlnet.nl/project/IPFS-search/"
-          >
-            NLNet/NGI0 Discovery Fund
-          </a>
-          and&nbsp;proudly&nbsp;sponsered&nbsp;by&nbsp;<a
-            href="https://redpencil.io/"
-          >redpencil.io</a>
-        </div>
-      </v-card-text>
-    </v-card>
+          NLNet/NGI0 Discovery Fund
+        </a>
+        and&nbsp;proudly&nbsp;sponsered&nbsp;by&nbsp;<a
+        href="https://redpencil.io/"
+      >redpencil.io</a>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
-import { audioPlayer } from '@/plugins/audioPlugin';
-
 export default {
   data: () => ({
-    audioPlayer,
     lastScrollPosition: 0,
     hideFooter : false,
   }),
-
-  computed: {
-    playerActive() {
-      return this.audioPlayer.sourceFile && this.audioPlayer.sound;
-    },
-  },
   methods: {
     onScroll() {
       const { scrollTop } = document.documentElement;

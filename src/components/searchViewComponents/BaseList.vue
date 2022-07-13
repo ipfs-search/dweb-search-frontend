@@ -39,8 +39,9 @@ onBeforeRouteUpdate(({ query }, from, next) => {
 </script>
 
 <template>
-  <v-container>
-    <!--    results section -->
+  <v-container
+    class="overflow-y-auto h-100"
+  >
     <v-row dense>
       <v-col
         cols="12"
