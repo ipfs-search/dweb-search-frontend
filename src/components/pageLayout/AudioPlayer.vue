@@ -23,97 +23,117 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <v-card
-    v-if="playerActive"
-    transition="scroll-y-reverse-transition"
-    style="z-index: 10000"
-    position="fixed"
-    location="bottom"
-    color="black"
-    class="d-flex audio-player-card"
-    tile
-    width="101%"
-    height="100"
-  >
-    <v-progress-linear
-      v-if="!loading"
-      v-model="progress"
-      color="ipfsPrimary-lighten-4"
-      class="progress-bar"
-      height="3"
-      clickable
-    />
-    <v-avatar
-      rounded="0"
-      size="60"
+  <v-fade-transition class="audio-player-card">
+    <v-card
+      v-if="playerActive"
+      transition="fade-transition"
+      style="z-index: 10000"
+      position="fixed"
+      location="bottom"
+      color="black"
+      class="d-flex"
+      tile
+      width="101%"
+      height="100"
     >
-      <v-img
-        height="60"
-        aspect-ratio="1"
-        bac
-        gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-        :src="sourceFile.src"
-      >
-        <v-icon
-          size="32"
-          color="white"
-          style="opacity: 0.3;
+      <v-progress-linear
+        active
+        style="position: absolute"
+        v-if="!loading"
+        v-model="progress"
+        color="ipfsPrimary-lighten-4"
+        class="bg-ipfsPrimary progress-bar"
+        height="3"
+        clickable
+      />
+      <div class="d-flex w-100 px-4">
+        <v-avatar
+          v-if="mdAndUp"
+          class="my-auto"
+          rounded="0"
+          size="70"
+        >
+          <v-img
+            aspect-ratio="1"
+            bac
+            gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
+            style="filter: blur(2px);"
+            :src="sourceFile.src"
+          >
+          </v-img>
+          <v-icon
+            size="42"
+            color="white"
+            style="opacity: 0.3;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);"
-          :icon="mdiMusic"
-        />
-      </v-img>
-    </v-avatar>
-
-
-    <v-card-title
-      class="font-weight-regular"
-      style="font-size: 16px;"
-      v-html="sourceFile.title"
-    />
-    <v-card-subtitle>
-      <span v-html="sourceFile.author" />
-      <span>{{ time }} / {{ duration }}</span>
-    </v-card-subtitle>
-
-    <div
-      class="h-100"
-    >
-      <v-icon
-        :class="{ 'mx-5': mdAndUp }"
-        class="bg-transparent ml-0"
-        v-if="audioError"
-        :title="audioError"
-        :icon="mdiAlert"
-      />
-      <v-btn
-        v-else-if="loading"
-        class="bg-transparent ml-0"
-        icon
-        loading
-      />
-      <v-btn
-        v-else-if="playing"
-        class="bg-transparent ml-0"
-        :icon="mdiPause"
-        @click="pause"
-      />
-      <v-btn
-        v-else
-        class="bg-transparent ml-0"
-        :icon="mdiPlay"
-        @click="play"
-      />
-      <v-btn
-        class="bg-transparent ml-0"
-        :class="{ 'mr-3': mdAndUp }"
-        :icon="mdiClose"
-        @click="close"
-      />
-    </div>
-  </v-card>
+            :icon="mdiMusic"
+          />
+        </v-avatar>
+        <div class="flex-column my-auto align-center" style="min-width: 0px">
+          <v-card-title
+            class="font-weight-default d-flex"
+            style="font-size: 16px;"
+          >
+            <span v-html="sourceFile.title"/>
+          </v-card-title>
+          <v-card-subtitle
+            class="d-flex py-2"
+          >
+            <span v-html="sourceFile.author" />
+          </v-card-subtitle>
+        </div>
+        <div
+          class="h-100 d-flex align-center ml-auto my-auto"
+          :class="mdAndUp ? 'flex-row': 'flex-column'"
+        >
+          <v-card-title
+            :style="{fontSize: mdAndUp ? '20px' : '16px'}"
+          >{{ time }} / {{ duration }}</v-card-title>
+          <div class="d-inline-flex flex-row">
+            <v-icon
+              :class="{ 'mx-5': mdAndUp }"
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :size="mdAndUp ? 'large' : 'default'"
+              v-if="audioError"
+              :title="audioError"
+              :icon="mdiAlert"
+            />
+            <v-btn
+              v-else-if="loading"
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :size="mdAndUp ? 'large' : 'default'"
+              icon
+              loading
+            />
+            <v-btn
+              v-else-if="playing"
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :size="mdAndUp ? 'large' : 'default'"
+              :icon="mdiPause"
+              @click="pause"
+            />
+            <v-btn
+              v-else
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :size="mdAndUp ? 'large' : 'default'"
+              :icon="mdiPlay"
+              @click="play"
+            />
+            <v-btn
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :class="{ 'mr-3': mdAndUp }"
+              :size="mdAndUp ? 'large' : 'default'"
+              :icon="mdiClose"
+              @click="close"
+            />
+          </div>
+        </div>
+      </div>
+    </v-card>
+  </v-fade-transition>
 </template>
 
 <style lang="scss" scoped>

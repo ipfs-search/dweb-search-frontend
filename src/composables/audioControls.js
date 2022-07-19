@@ -85,7 +85,7 @@ function unregister() {
 }
 
 
-export const playerActive = computed(() => Object.keys(sourceFile.value) && audioPlayer);
+export const playerActive = computed(() => Object.keys(sourceFile.value).length && audioPlayer);
 export const progress = computed({
   get() {
     return (time.value / duration.value) * 100;
