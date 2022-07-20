@@ -1,4 +1,5 @@
 <script setup>
+import Marquee from '@/components/shared/Marquee.vue';
 import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from  '@mdi/js'
 import { useDisplay } from 'vuetify'
 const { mdAndUp } = useDisplay()
@@ -46,12 +47,12 @@ onBeforeUnmount(() => {
         height="3"
         clickable
       />
-      <div class="d-flex w-100 px-4">
+      <div class="d-flex w-100">
         <v-avatar
           v-if="mdAndUp"
-          class="my-auto"
+          class="my-auto ml-4"
           rounded="0"
-          size="70"
+          size="75"
         >
           <v-img
             aspect-ratio="1"
@@ -72,22 +73,26 @@ onBeforeUnmount(() => {
             :icon="mdiMusic"
           />
         </v-avatar>
-        <div class="flex-column my-auto align-center" style="min-width: 0px">
-          <v-card-title
-            class="font-weight-default d-flex"
-            style="font-size: 16px;"
-          >
-            <span v-html="sourceFile.title"/>
-          </v-card-title>
-          <v-card-subtitle
-            class="d-flex py-2"
-          >
-            <span v-html="sourceFile.author" />
-          </v-card-subtitle>
+        <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0px">
+          <marquee>
+            <v-card-title
+              class="font-weight-default d-flex px-0"
+              style="font-size: 16px"
+            >
+              <span v-html="sourceFile.title"/>
+            </v-card-title>
+          </marquee>
+          <marquee>
+            <v-card-subtitle
+              class="d-flex py-2 px-0"
+            >
+              <span v-html="sourceFile.author" />
+            </v-card-subtitle>
+          </marquee>
         </div>
         <div
-          class="h-100 d-flex align-center ml-auto my-auto"
-          :class="mdAndUp ? 'flex-row': 'flex-column'"
+          class="h-100 d-flex align-center my-auto"
+          :class="mdAndUp ? 'flex-row ml-auto': 'flex-column'"
         >
           <v-card-title
             :style="{fontSize: mdAndUp ? '20px' : '16px'}"
