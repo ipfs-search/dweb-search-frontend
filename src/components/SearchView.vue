@@ -5,31 +5,28 @@ import ImageList from '@/components/searchViewComponents/ImageList.vue';
 import AudioList from '@/components/searchViewComponents/AudioList.vue';
 import VideoList from '@/components/searchViewComponents/VideoList.vue';
 
+import { useRoute } from 'vue-router';
 import { Types } from '@/helpers/typeHelper';
 
+const route = useRoute()
+
+function listType(t) {
+  return [t, Types.any, undefined].includes(route.query.type);
+}
 </script>
 
 <template>
-  <SearchFilters />
+  <div>
+    <SearchFilters />
 
-  <GenericList :file-type="Types.text" v-if="listType(Types.text)" />
-  <AudioList v-if="listType(Types.audio)" />
-  <ImageList v-if="listType(Types.images)" />
-  <VideoList v-if="listType(Types.video)" />
-  <GenericList :file-type="Types.directories" v-if="listType(Types.directories)" />
-  <GenericList :file-type="Types.other" v-if="listType(Types.other)" />
+    <GenericList :file-type="Types.text" v-if="listType(Types.text)" />
+    <AudioList v-if="listType(Types.audio)" />
+    <ImageList v-if="listType(Types.images)" />
+    <VideoList v-if="listType(Types.video)" />
+    <GenericList :file-type="Types.directories" v-if="listType(Types.directories)" />
+    <GenericList :file-type="Types.other" v-if="listType(Types.other)" />
+  </div>
 </template>
-
-<script>
-
-export default {
-  methods: {
-    listType(t) {
-      return [t, 'any', undefined].includes(this.$route.query.type);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 h2 {
