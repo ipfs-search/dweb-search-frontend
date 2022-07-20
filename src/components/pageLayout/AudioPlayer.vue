@@ -98,11 +98,10 @@ onBeforeUnmount(() => {
             :style="{fontSize: mdAndUp ? '20px' : '16px'}"
           >{{ time }} / {{ duration }}</v-card-title>
           <div class="d-inline-flex flex-row">
-            <v-icon
-              :class="{ 'mx-5': mdAndUp }"
+            <v-btn
+              v-if="audioError"
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
-              v-if="audioError"
               :title="audioError"
               :icon="mdiAlert"
             />
@@ -111,6 +110,7 @@ onBeforeUnmount(() => {
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               icon
+              title="Loading"
               loading
             />
             <v-btn
@@ -118,6 +118,7 @@ onBeforeUnmount(() => {
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiPause"
+              title="Pause"
               @click="pause"
             />
             <v-btn
@@ -125,6 +126,7 @@ onBeforeUnmount(() => {
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiPlay"
+              title="Play"
               @click="play"
             />
             <v-btn
@@ -132,6 +134,7 @@ onBeforeUnmount(() => {
               :class="{ 'mr-3': mdAndUp }"
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiClose"
+              title="Close"
               @click="close"
             />
           </div>

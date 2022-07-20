@@ -24,14 +24,9 @@ const currentlyLoadedInPlayer = computed(
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
     >
       <AudioDetailButton
-        v-if="audioControls.audioError.value"
+        v-if="currentlyLoadedInPlayer && audioControls.audioError.value"
         :title="audioControls.audioError.value"
         :icon="mdiAlert"
-      />
-      <AudioDetailButton
-        v-else-if="!currentlyLoadedInPlayer"
-        :icon="mdiPlay"
-        @click="audioControls.load(file)"
       />
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer && audioControls.loading.value"
@@ -40,11 +35,19 @@ const currentlyLoadedInPlayer = computed(
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer && audioControls.playing.value"
         @click="audioControls.pause"
+        title="Pause"
         :icon="mdiPause"
       />
       <AudioDetailButton
-        v-else
+        v-else-if="currentlyLoadedInPlayer"
         @click="audioControls.play"
+        title="Play"
+        :icon="mdiPlay"
+      />
+      <AudioDetailButton
+        v-else
+        @click="audioControls.load(file)"
+        title="Play"
         :icon="mdiPlay"
       />
     </v-img>

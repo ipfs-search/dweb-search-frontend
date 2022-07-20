@@ -7,7 +7,14 @@ let audioPlayer
 let interval
 const emptyObject = {}
 
-export const audioError = ref(null)
+const errorCode = {
+  1: 'User aborted request',
+  2: 'Network error',
+  3: 'Decoding error',
+  4: 'Resource unsuitable/unavailable',
+}
+
+export const audioError = ref('')
 export const loading = ref(false)
 export const playing = ref(false)
 export const loaded = ref(false)
@@ -59,20 +66,20 @@ export function load(file, options) {
         }, 100);
         duration.value = audioPlayer.duration();
       },
-      onloaderror: (source, message) => soundError(message),
-      onplayerror: (source, message) => soundError(message),
+      onloaderror: (source, message) => soundError(`Loading Error: ${errorCode[message]}`),
+      onplayerror: (source, message) => soundError(`Playback Error: ${errorCode[message]}`),
       ...options,
     });
   }
 
-  function soundError(error) {
-    console.error('Sound error:', error);
-    audioError.value = error;
+  function soundError(errorMessage) {
+    console.error(`Audio Player ${errorMessage}`);
+    audioError.value = errorMessage;
   }
 
 function unregister() {
   if (audioPlayer) {
-    audioError.value = null;
+    audioError.value = '';
     audioPlayer.off();
     audioPlayer.unload();
     playing.value = false;
