@@ -1,26 +1,26 @@
 <script setup>
-import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
-import AudioDetailButton from './subcomponents/AudioDetailButton.vue';
-import { mdiAlert, mdiPlay, mdiPause} from '@mdi/js'
-import { computed } from 'vue';
+import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
+import AudioDetailButton from "./subcomponents/AudioDetailButton.vue";
+import { mdiAlert, mdiPlay, mdiPause } from "@mdi/js";
+import { computed } from "vue";
 
-import { picsum } from '@/helpers/picsum';
+import { picsum } from "@/helpers/picsum";
 
-import { detailProps } from '@/composables/useDetail';
-const props = defineProps(detailProps)
+import { detailProps } from "@/composables/useDetail";
+const props = defineProps(detailProps);
 
-import * as audioControls from '@/composables/audioControls';
+import * as audioControls from "@/composables/audioControls";
 
 const currentlyLoadedInPlayer = computed(
-  () => (props.file.hash === audioControls.sourceFile.value.hash)
+  () => props.file.hash === audioControls.sourceFile.value.hash
 );
 </script>
 
 <template>
   <generic-detail :file="file" narrow>
     <v-img
-      style="max-height: 100%;"
-      :src="picsum({width: 400, height: 200})"
+      style="max-height: 100%"
+      :src="picsum({ width: 400, height: 200 })"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
     >
       <AudioDetailButton
@@ -44,12 +44,7 @@ const currentlyLoadedInPlayer = computed(
         title="Play"
         :icon="mdiPlay"
       />
-      <AudioDetailButton
-        v-else
-        @click="audioControls.load(file)"
-        title="Play"
-        :icon="mdiPlay"
-      />
+      <AudioDetailButton v-else @click="audioControls.load(file)" title="Play" :icon="mdiPlay" />
     </v-img>
   </generic-detail>
 </template>

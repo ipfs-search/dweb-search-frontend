@@ -6,7 +6,7 @@
 // There a number of standard mutation/getter methods defined for standard filters
 //
 // The filterModule function explains the shape of the module:
-import { Types } from '@/helpers/typeHelper';
+import { Types } from "@/helpers/typeHelper";
 
 /**
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
@@ -17,13 +17,15 @@ import { Types } from '@/helpers/typeHelper';
  */
 function filterModule({ state, mutations: { setValue }, getters: { toProps, toSearchQuery } }) {
   return {
-    namespaced: true, state, mutations: { setValue }, getters: { toProps, toSearchQuery },
+    namespaced: true,
+    state,
+    mutations: { setValue },
+    getters: { toProps, toSearchQuery },
   };
 }
 
-const defaultValue = (items) => items
-  .filter((item) => item.default)
-  .map((item) => item.value ?? item.title);
+const defaultValue = (items) =>
+  items.filter((item) => item.default).map((item) => item.value ?? item.title);
 
 /**
  * Mutation (setter) for selecting a value in the select filter.
@@ -33,8 +35,7 @@ const defaultValue = (items) => items
  * @param selection
  */
 const selectFilterValue = (state, selection) => {
-  state.value = selection
-    ?? defaultValue(state.items);
+  state.value = selection ?? defaultValue(state.items);
 };
 
 /**
@@ -53,20 +54,20 @@ const selectFilterToSearchApi = (state) => {
   const value = Array.isArray(state.value) ? state.value[0] : state.value;
   const { apiValue } = state.items.find((item) => item.value === value);
   if (Array.isArray(apiValue)) {
-    return apiValue.map((entry) => `${state.apiKey}:${entry}`).join(' ');
+    return apiValue.map((entry) => `${state.apiKey}:${entry}`).join(" ");
   }
   return `${state.apiKey}:${apiValue}`;
 };
 
 const multipleSelectFilterToSearchApi = (state) => {
-  const apiValueFormatter = (x) => (x.includes('*') ? x : `"${x}"`);
+  const apiValueFormatter = (x) => (x.includes("*") ? x : `"${x}"`);
   const value = [state.value].flat(); // coerces the value to an array type
   // get array of api values for the selected item(s)
   const apiValues = state.items
     .filter((item) => value.includes(item.value))
     .flatMap(({ apiValue }) => apiValue);
-  if (!apiValues.length) return '';
-  return `${state.apiKey}:(${apiValues.map(apiValueFormatter).join(' OR ')})`;
+  if (!apiValues.length) return "";
+  return `${state.apiKey}:(${apiValues.map(apiValueFormatter).join(" OR ")})`;
 };
 
 /**
@@ -79,9 +80,7 @@ const multipleSelectFilterToSearchApi = (state) => {
  * value: (string), *
  * items: {title: (string), value: (string), apiValue: (string | string[]), default: (boolean)}[] }}
  */
-const mapDefinitionToState = ({
-  label, slug, apiKey, items,
-}) => ({
+const mapDefinitionToState = ({ label, slug, apiKey, items }) => ({
   label: label ?? slug,
   slug: slug ?? label,
   apiKey,
@@ -99,10 +98,12 @@ const mapDefinitionToState = ({
  * @param { ...state }
  * @returns {{multiple, label, items, value, slug}}
  */
-const toProps = ({
-  label, slug, items, value, multiple,
-}) => ({
-  label, slug, items, value: multiple ? value : [value].flat()[0], multiple,
+const toProps = ({ label, slug, items, value, multiple }) => ({
+  label,
+  slug,
+  items,
+  value: multiple ? value : [value].flat()[0],
+  multiple,
 });
 
 /**
@@ -110,35 +111,37 @@ const toProps = ({
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-export const selectFilterModule = (filterProperties) => filterModule({
-  state: mapDefinitionToState(filterProperties),
-  mutations: {
-    setValue: selectFilterValue,
-  },
-  getters: {
-    toProps,
-    toSearchQuery: selectFilterToSearchApi,
-  },
-});
+export const selectFilterModule = (filterProperties) =>
+  filterModule({
+    state: mapDefinitionToState(filterProperties),
+    mutations: {
+      setValue: selectFilterValue,
+    },
+    getters: {
+      toProps,
+      toSearchQuery: selectFilterToSearchApi,
+    },
+  });
 
 /**
  * Multiple select filter vuex module generator
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-export const multipleSelectFilterModule = (filterProperties) => filterModule({
-  state: {
-    ...mapDefinitionToState(filterProperties),
-    multiple: true,
-  },
-  mutations: {
-    setValue: selectMultipleFilterValues,
-  },
-  getters: {
-    toProps,
-    toSearchQuery: multipleSelectFilterToSearchApi,
-  },
-});
+export const multipleSelectFilterModule = (filterProperties) =>
+  filterModule({
+    state: {
+      ...mapDefinitionToState(filterProperties),
+      multiple: true,
+    },
+    mutations: {
+      setValue: selectMultipleFilterValues,
+    },
+    getters: {
+      toProps,
+      toSearchQuery: multipleSelectFilterToSearchApi,
+    },
+  });
 
 /**
  * The typefilter acts as a single select component, but to transform to search API, the
@@ -147,21 +150,25 @@ export const multipleSelectFilterModule = (filterProperties) => filterModule({
  * @param filterProperties
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-export const typeFilterModule = (filterProperties) => filterModule({
-  state: mapDefinitionToState(filterProperties),
-  mutations: {
-    setValue: selectFilterValue,
-  },
-  getters: {
-    // for the transformation of the type filter to the search api, we need to know the requested
-    // type, because the 'any' type requires each of the available types to be searched.
-    toSearchQuery: (state) => (fileType) => (fileType === Types.other ? 'NOT ' : '')
-      + multipleSelectFilterToSearchApi({ ...state, value: fileType }),
-    toProps: ({
-      label, slug, items, value, multiple,
-    }) => ({
-      // coerce value to primitive value (in case it is an array)
-      label, slug, items, multiple, value: Array.isArray(value) ? value[0] : value,
-    }),
-  },
-});
+export const typeFilterModule = (filterProperties) =>
+  filterModule({
+    state: mapDefinitionToState(filterProperties),
+    mutations: {
+      setValue: selectFilterValue,
+    },
+    getters: {
+      // for the transformation of the type filter to the search api, we need to know the requested
+      // type, because the 'any' type requires each of the available types to be searched.
+      toSearchQuery: (state) => (fileType) =>
+        (fileType === Types.other ? "NOT " : "") +
+        multipleSelectFilterToSearchApi({ ...state, value: fileType }),
+      toProps: ({ label, slug, items, value, multiple }) => ({
+        // coerce value to primitive value (in case it is an array)
+        label,
+        slug,
+        items,
+        multiple,
+        value: Array.isArray(value) ? value[0] : value,
+      }),
+    },
+  });

@@ -1,33 +1,21 @@
 <script setup>
-import { mdiTrayArrowDown } from '@mdi/js'
+import { mdiTrayArrowDown } from "@mdi/js";
 </script>
 
 <template>
-  <v-btn
-    variant="flat"
-    class="text-grey"
-    target="_blank"
-    :href="getURL()"
-    icon
-  >
-      <v-tooltip
-        activator="parent"
-        location="top"
-      >
-        <template #activator="{props}">
-          <v-icon
-            :icon="mdiTrayArrowDown"
-            v-bind="props"
-          />
-        </template>
-        Download file
-      </v-tooltip>
+  <v-btn variant="flat" class="text-grey" target="_blank" :href="getURL()" icon>
+    <v-tooltip activator="parent" location="top">
+      <template #activator="{ props }">
+        <v-icon :icon="mdiTrayArrowDown" v-bind="props" />
+      </template>
+      Download file
+    </v-tooltip>
   </v-btn>
 </template>
 
 <script>
-import getResourceURL from '@/helpers/resourceURL';
-import { getFileExtension } from '@/helpers/fileHelper';
+import getResourceURL from "@/helpers/resourceURL";
+import { getFileExtension } from "@/helpers/fileHelper";
 
 export default {
   props: {
@@ -45,10 +33,10 @@ export default {
       const reference = this.file.references?.[0];
 
       if (reference) {
-        params.append('filename', reference.name);
+        params.append("filename", reference.name);
       } else {
         const ext = getFileExtension(this.file);
-        params.append('filename', `${this.file.hash}.${ext}`);
+        params.append("filename", `${this.file.hash}.${ext}`);
       }
 
       const url = getResourceURL(this.file.hash);

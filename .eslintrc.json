@@ -8,42 +8,35 @@
     "plugin:vue/vue3-essential",
     "plugin:vue/strongly-recommended",
     "plugin:vue/vue3-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": [
-    "vue", "html"
-  ],
+  "plugins": ["vue", "html"],
   "settings": {
     "import/resolver": {
       "alias": {
-        "map": [
-          [
-            "@", "./src"
-          ]
-        ],
-        "extensions": [
-          ".ts", ".js", ".jsx", ".json"
-        ]
+        "map": [["@", "./src"]],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
       }
     }
   },
   "rules": {
     "no-console": "off",
     "max-len": [
-      "warn", {
+      "warn",
+      {
         "code": 100,
         "ignoreUrls": true
       }
     ],
     "import/prefer-default-export": "off",
     "import/named": "off",
-    "no-param-reassign": [
-      "error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }]
   },
   "overrides": [
     {
@@ -56,9 +49,5 @@
       }
     }
   ],
-  "ignorePatterns": [
-    "components.d.ts",
-    "coverage/",
-    "tests/vitest-setup.ts"
-  ]
+  "ignorePatterns": ["components.d.ts", "coverage/", "tests/vitest-setup.ts"]
 }

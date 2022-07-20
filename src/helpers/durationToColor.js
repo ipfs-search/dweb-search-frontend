@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from "moment";
 
 export default function durationToColor(value) {
   const then = moment().diff(value);
@@ -8,15 +8,15 @@ export default function durationToColor(value) {
   const duration = moment.duration(difference);
 
   if (duration < moment.duration({ hours: 24 })) {
-    return 'text-green';
+    return "text-green";
   }
 
   if (duration < moment.duration({ days: 7 })) {
-    return 'text-orange';
+    return "text-orange";
   }
 
   if (duration > moment.duration({ days: 7 })) {
-    return 'text-red';
+    return "text-red";
   }
 
   return null;

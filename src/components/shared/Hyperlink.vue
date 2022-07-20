@@ -9,15 +9,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 </script>
 
 <template>
-  <router-link
-    :to="to"
-    :replace="replace"
-    style="text-decoration: none; color: inherit;"
-  >
-    <slot/>
+  <router-link :to="to" :replace="replace" style="text-decoration: none; color: inherit">
+    <slot />
   </router-link>
 </template>

@@ -1,19 +1,19 @@
 <script setup>
-import SearchBar from '@/components/pageLayout/SearchBar.vue';
-import SettingsMenu from '@/components/pageLayout/SettingsMenu.vue';
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-const route = useRoute()
+import SearchBar from "@/components/pageLayout/SearchBar.vue";
+import SettingsMenu from "@/components/pageLayout/SettingsMenu.vue";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 
-import { mdiClose } from '@mdi/js'
-import { useDisplay } from 'vuetify'
-const { mdAndUp } = useDisplay()
+import { mdiClose } from "@mdi/js";
+import { useDisplay } from "vuetify";
+const { mdAndUp } = useDisplay();
 
-import { useTheme } from 'vuetify'
-import Hyperlink from '@/components/shared/Hyperlink.vue';
-const theme = useTheme()
+import { useTheme } from "vuetify";
+import Hyperlink from "@/components/shared/Hyperlink.vue";
+const theme = useTheme();
 
-const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Search')
+const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");
 </script>
 
 <template>
@@ -24,20 +24,11 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
     theme="route.name === Search ? 'dark' : 'light'"
     :color="route.name === 'Search' ? 'ipfsPrimary-lighten-1' : 'toolbar-light'"
   >
-    <v-container
-      fluid
-      class="px-0 align-start"
-    >
+    <v-container fluid class="px-0 align-start">
       <v-row>
-        <v-col
-          cols="12"
-          class="px-0 d-flex justify-space-between align-center"
-        >
+        <v-col cols="12" class="px-0 d-flex justify-space-between align-center">
           <div class="ml-2">
-            <hyperlink
-              to="/"
-              class="d-flex align-center"
-            >
+            <hyperlink to="/" class="d-flex align-center">
               <v-img
                 v-if="mdAndUp || route.name === 'Detail'"
                 alt="ipfs-search.com logo"
@@ -61,33 +52,24 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === 'Sea
           <div v-if="route.name === 'Search'" class="flex-grow-1">
             <SearchBar />
           </div>
-          <div
-            v-if="route.name === 'Search'"
-            class="d-none d-lg-block"
-            style="min-width: 200px"
-          />
+          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />
           <v-spacer v-else />
 
           <settings-menu />
 
           <hyperlink
             v-if="route.name === 'Detail'"
-            :to="{ name: 'Search', query: route.query}"
+            :to="{ name: 'Search', query: route.query }"
             replace
           >
-            <v-btn
-              icon
-            >
-              <v-icon :icon="mdiClose"/>
+            <v-btn icon>
+              <v-icon :icon="mdiClose" />
             </v-btn>
           </hyperlink>
-
         </v-col>
       </v-row>
     </v-container>
   </v-app-bar>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

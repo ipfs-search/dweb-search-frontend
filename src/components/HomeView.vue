@@ -1,35 +1,27 @@
 <script setup>
-import { useDisplay } from 'vuetify'
-import HomeViewCard from '@/components/homeViewComponents/HomeViewCard.vue';
-import SearchBar from '@/components/pageLayout/SearchBar.vue';
-import SettingsMenu from '@/components/pageLayout/SettingsMenu.vue';
-import { mdiDotsVertical, mdiWrench, mdiShareVariant, mdiEarth, mdiOpenSourceInitiative, mdiAccountMultiple, mdiFlash } from '@mdi/js'
-const { mdAndUp } = useDisplay()
+import { useDisplay } from "vuetify";
+import HomeViewCard from "@/components/homeViewComponents/HomeViewCard.vue";
+import SearchBar from "@/components/pageLayout/SearchBar.vue";
+import SettingsMenu from "@/components/pageLayout/SettingsMenu.vue";
+import {
+  mdiDotsVertical,
+  mdiWrench,
+  mdiShareVariant,
+  mdiEarth,
+  mdiOpenSourceInitiative,
+  mdiAccountMultiple,
+  mdiFlash,
+} from "@mdi/js";
+const { mdAndUp } = useDisplay();
 </script>
 
 <template>
   <div class="home">
-    <v-app-bar
-      app
-      height="56"
-      class="px-4 bg-appBar"
-      elevate-on-scroll
-      theme="light"
-    >
-      <v-container
-        class="px-0"
-      >
+    <v-app-bar app height="56" class="px-4 bg-appBar" elevate-on-scroll theme="light">
+      <v-container class="px-0">
         <v-row>
-          <v-col
-            cols="12"
-            xl="8"
-            offset-xl="2"
-            class="d-flex justify-space-between align-center"
-          >
-            <div
-              class="d-flex align-center"
-              :class="mdAndUp ? 'ml-6' : ''"
-            >
+          <v-col cols="12" xl="8" offset-xl="2" class="d-flex justify-space-between align-center">
+            <div class="d-flex align-center" :class="mdAndUp ? 'ml-6' : ''">
               <v-img
                 alt="ipfs-search.com logo"
                 contain
@@ -48,11 +40,7 @@ const { mdAndUp } = useDisplay()
               class="my-2 mx-1 hidden-sm-and-down"
             />
 
-            <v-menu
-              bottom
-              left
-              class=""
-            >
+            <v-menu bottom left class="">
               <template #activator="{ props }">
                 <v-btn
                   v-bind="props"
@@ -62,11 +50,7 @@ const { mdAndUp } = useDisplay()
               </template>
 
               <v-list>
-                <v-list-item
-                  v-for="(link, i) in links"
-                  :key="i"
-                  :href="link.href"
-                >
+                <v-list-item v-for="(link, i) in links" :key="i" :href="link.href">
                   <v-list-item-title>
                     {{ link.title }}
                   </v-list-item-title>
@@ -80,12 +64,7 @@ const { mdAndUp } = useDisplay()
       </v-container>
     </v-app-bar>
 
-    <v-img
-      src="/assets/background-02.png"
-      aspect-ratio="1.83"
-      cover
-      class="hero"
-    >
+    <v-img src="/assets/background-02.png" aspect-ratio="1.83" cover class="hero">
       <v-container class="pa-0 fill-height d-flex">
         <v-row class="align-content-end">
           <v-col class="pa-2">
@@ -100,12 +79,7 @@ const { mdAndUp } = useDisplay()
 
     <v-container class="mx-auto pt-4">
       <v-row>
-        <v-col
-          cols="12"
-          xl="8"
-          offset-xl="2"
-          :class="mdAndUp ? 'mb-16' : ''"
-        >
+        <v-col cols="12" xl="8" offset-xl="2" :class="mdAndUp ? 'mb-16' : ''">
           <v-container class="pa-0">
             <v-row align-center>
               <home-view-card
@@ -182,34 +156,34 @@ const { mdAndUp } = useDisplay()
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
   data: () => ({
     links: [
       {
-        title: 'Donate',
-        href: 'https://opencollective.com/ipfs-search#category-CONTRIBUTE',
+        title: "Donate",
+        href: "https://opencollective.com/ipfs-search#category-CONTRIBUTE",
       },
       {
-        title: 'Blog',
-        href: 'https://blog.ipfs-search.com/',
+        title: "Blog",
+        href: "https://blog.ipfs-search.com/",
       },
       {
-        title: 'API',
-        href: 'https://api.ipfs-search.com/',
+        title: "API",
+        href: "https://api.ipfs-search.com/",
       },
       {
-        title: 'Docs',
-        href: 'https://ipfs-search.readthedocs.io/en/latest/',
+        title: "Docs",
+        href: "https://ipfs-search.readthedocs.io/en/latest/",
       },
       {
-        title: 'Code',
-        href: 'https://github.com/ipfs-search/',
+        title: "Code",
+        href: "https://github.com/ipfs-search/",
       },
       {
-        title: 'Contact',
-        href: 'mailto:info@ipfs-search.com',
+        title: "Contact",
+        href: "mailto:info@ipfs-search.com",
       },
     ],
   }),
@@ -231,7 +205,7 @@ h2 {
   }
 }
 h3 {
-  font-family: 'Heebo', sans-serif;
+  font-family: "Heebo", sans-serif;
   letter-spacing: -0.02em;
   font-size: 150%;
   font-weight: 700;

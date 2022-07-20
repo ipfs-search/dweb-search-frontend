@@ -1,18 +1,8 @@
 <template>
-  <v-col
-    cols="12"
-    md="4"
-    sm="6"
-  >
-    <v-card
-      flat
-      class="transparent"
-    >
+  <v-col cols="12" md="4" sm="6">
+    <v-card flat class="transparent">
       <v-card-text class="text-center">
-        <v-icon
-          size="42px"
-          class="ml-n4 text-ipfsSecondary lighten-1"
-        >
+        <v-icon size="42px" class="ml-n4 text-ipfsSecondary lighten-1">
           {{ props.icon }}
         </v-icon>
       </v-card-text>
@@ -32,15 +22,15 @@
 const props = defineProps({
   icon: {
     type: String,
-    default: '',
+    default: "",
   },
   title: {
     type: String,
-    default: '',
+    default: "",
   },
   text: {
     type: String,
-    default: '',
+    default: "",
   },
-})
+});
 </script>

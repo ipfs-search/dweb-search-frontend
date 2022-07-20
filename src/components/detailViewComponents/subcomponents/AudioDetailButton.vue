@@ -5,21 +5,10 @@
     dark
     color="black"
     :loading="loading"
-    style="
-      opacity: 0.5;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    "
+    style="opacity: 0.5; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
     @click="$emit('click')"
   >
-    <v-icon
-      v-if="icon"
-      size="45"
-      color="white"
-      :icon="icon"
-    />
+    <v-icon v-if="icon" size="45" color="white" :icon="icon" />
   </v-btn>
 </template>
 
@@ -33,8 +22,8 @@ defineProps({
     type: String,
     required: false,
     default: undefined,
-  }
-})
+  },
+});
 
-defineEmits(['click'])
+defineEmits(["click"]);
 </script>

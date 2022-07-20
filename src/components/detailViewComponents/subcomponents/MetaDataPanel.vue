@@ -1,23 +1,18 @@
 <script setup>
-import prettyBytes from 'pretty-bytes';
-import resourceURL from '@/helpers/resourceURL';
-import moment from 'moment';
-
+import prettyBytes from "pretty-bytes";
+import resourceURL from "@/helpers/resourceURL";
+import moment from "moment";
 </script>
 
 <template>
   <v-row>
     <v-col>
       <div class="text-body-1">
-        <v-expansion-panels
-          v-model="expand"
-        >
+        <v-expansion-panels v-model="expand">
           <v-expansion-panel>
             <v-expansion-panel-title>
               <template #default="{ expanded }">
-                <div>
-                  {{ `${expanded ? 'Hide' : 'Show'}` }} file info
-                </div>
+                <div>{{ `${expanded ? "Hide" : "Show"}` }} file info</div>
               </template>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="ml-n2 mr-0">
@@ -27,7 +22,11 @@ import moment from 'moment';
                     <tr>
                       <th>Location:</th>
                       <td>
-                        <a :href="resourceURL(file.hash)" v-html="resourceURL(file.hash)" target="_blank"/>
+                        <a
+                          :href="resourceURL(file.hash)"
+                          v-html="resourceURL(file.hash)"
+                          target="_blank"
+                        />
                       </td>
                     </tr>
                     <tr>
@@ -65,24 +64,15 @@ import moment from 'moment';
                   </tbody>
                   <tbody>
                     <tr>
-                      <th>
-                        Referenced in:
-                      </th>
-                      <td v-if="! references.length">
+                      <th>Referenced in:</th>
+                      <td v-if="!references.length">
                         <i>No references</i>
                       </td>
                     </tr>
-                    <tr
-                      v-for="(item, index) in references"
-                      :key="index"
-                    >
+                    <tr v-for="(item, index) in references" :key="index">
                       <td />
                       <td>
-                        <a
-                          :href="item.url"
-                          target="_blank"
-                          v-html="item.name"
-                        />
+                        <a :href="item.url" target="_blank" v-html="item.name" />
                       </td>
                     </tr>
                   </tbody>
@@ -90,8 +80,11 @@ import moment from 'moment';
                 <v-expansion-panels v-if="extraData.length">
                   <v-expansion-panel>
                     <v-expansion-panel-title>
-                      <i>Extra metadata from
-                        <a href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__">
+                      <i
+                        >Extra metadata from
+                        <a
+                          href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__"
+                        >
                           metadata API:
                         </a>
                       </i>
@@ -99,10 +92,7 @@ import moment from 'moment';
                     <v-expansion-panel-text>
                       <v-table>
                         <tbody>
-                          <tr
-                            v-for="(item, index) in extraData"
-                            :key="index"
-                          >
+                          <tr v-for="(item, index) in extraData" :key="index">
                             <th>{{ item.label }}:</th>
                             <td>
                               {{ decodeURI(item.value) }}
@@ -123,8 +113,8 @@ import moment from 'moment';
 </template>
 
 <script>
-import getResourceURL from '@/helpers/resourceURL';
-import english from '@cospired/i18n-iso-languages/langs/en.json';
+import getResourceURL from "@/helpers/resourceURL";
+import english from "@cospired/i18n-iso-languages/langs/en.json";
 
 export default {
   props: {
@@ -159,15 +149,16 @@ export default {
       const extraData = [];
       if (this.file.metadata?.language?.rawScore > 0.95) {
         extraData.push({
-          label: 'language',
+          label: "language",
           value: english.languages[this.file.metadata.language.language],
         });
       }
-      return extraData.concat(Object.entries(this.file.metadata?.metadata ?? {})
-        .map(([label, value]) => ({
+      return extraData.concat(
+        Object.entries(this.file.metadata?.metadata ?? {}).map(([label, value]) => ({
           label,
-          value: value.join(', '),
-        })));
+          value: value.join(", "),
+        }))
+      );
     },
   },
 };

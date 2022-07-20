@@ -1,6 +1,6 @@
 // TODO: obsolete file
-import { Howl, Howler } from 'howler';
-import { getFileExtension } from '@/helpers/fileHelper';
+import { Howl, Howler } from "howler";
+import { getFileExtension } from "@/helpers/fileHelper";
 
 /**
  * abstract from howl player, to make properties observable for Vue.
@@ -31,9 +31,9 @@ class AudioPlayer {
    * @param options: optional extra options to pass to howl player or overrides.
    */
   load(file, options) {
-    console.debug('registering new howl player for ', file);
+    console.debug("registering new howl player for ", file);
     if (!file || !file.hash) {
-      throw Error('No proper file specified');
+      throw Error("No proper file specified");
     }
     // FIXME: Howler plans to implement accepting mimetype parameter in the future... since 2015
     // https://github.com/goldfire/howler.js/issues/411
@@ -43,7 +43,7 @@ class AudioPlayer {
       throw Error(`Unsupported/undetected file type: '${fileExtension}'`);
     }
 
-    this.unregister();// unregister any hooks
+    this.unregister(); // unregister any hooks
     clearInterval(this.#interval);
     this.loading = true;
     this.sourceFile = file;
@@ -52,12 +52,20 @@ class AudioPlayer {
       src: [`https://gateway.ipfs.io/ipfs/${file.hash}`],
       format: [fileExtension],
       html5: true,
-      preload: 'metadata',
+      preload: "metadata",
       autoplay: true,
-      onend: () => { this.playing = false; },
-      onstop: () => { this.playing = false; },
-      onpause: () => { this.playing = false; },
-      onplay: () => { this.playing = true; },
+      onend: () => {
+        this.playing = false;
+      },
+      onstop: () => {
+        this.playing = false;
+      },
+      onpause: () => {
+        this.playing = false;
+      },
+      onplay: () => {
+        this.playing = true;
+      },
       onload: () => {
         this.loading = false;
         this.loaded = true;
@@ -121,7 +129,7 @@ class AudioPlayer {
    * destructor method
    */
   close() {
-    console.debug('closing the audio player');
+    console.debug("closing the audio player");
     this.unregister();
     clearInterval(this.#interval);
   }

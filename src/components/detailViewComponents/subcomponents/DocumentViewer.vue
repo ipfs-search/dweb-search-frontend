@@ -1,9 +1,9 @@
 <script setup>
-import VIframe from '@/components/shared/VIframe.vue';
-import mime from 'mime';
-import getResourceURL from '@/helpers/resourceURL';
-import Retriever from '@/helpers/FetchDoggy';
-import { reactive, ref, computed } from 'vue';
+import VIframe from "@/components/shared/VIframe.vue";
+import mime from "mime";
+import getResourceURL from "@/helpers/resourceURL";
+import Retriever from "@/helpers/FetchDoggy";
+import { reactive, ref, computed } from "vue";
 
 const props = defineProps({
   file: {
@@ -14,37 +14,38 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
 let error = ref(undefined);
 const retriever = reactive(new Retriever());
 const extension = mime.getExtension(props.file.mimetype);
 
-const progress = computed(() => retriever.progress / retriever.total * 100)
+const progress = computed(() => (retriever.progress / retriever.total) * 100);
 
 const srcURL = computed(() => {
   switch (extension) {
-    case 'epub':
+    case "epub":
       return `https://readium.web.app/?epub=${getResourceURL(props.file.hash)}`;
-    case 'rtf': // rtf does not work for some reason
-      return '';
-    case 'doc':
-    case 'xls':
-    case 'ppt':
-    case 'docx':
-    case 'xlsx':
-    case 'pptx':
-    case 'odf':
-    case 'odt':
-    case 'ods':
-    case 'odp':
-      return `https://view.officeapps.live.com/op/embed.aspx?src=${
-        getResourceURL(props.file.hash)}`;
-    case 'html':
-    case 'txt':
-    case 'json':
+    case "rtf": // rtf does not work for some reason
+      return "";
+    case "doc":
+    case "xls":
+    case "ppt":
+    case "docx":
+    case "xlsx":
+    case "pptx":
+    case "odf":
+    case "odt":
+    case "ods":
+    case "odp":
+      return `https://view.officeapps.live.com/op/embed.aspx?src=${getResourceURL(
+        props.file.hash
+      )}`;
+    case "html":
+    case "txt":
+    case "json":
       return getResourceURL(props.file.hash);
-    case 'pdf':
+    case "pdf":
       return retriever.objectURL;
     default:
       return undefined;
@@ -56,11 +57,10 @@ const fetch = function fetch() {
   if (retriever.objectURL) {
     return Promise.resolve(retriever.objectURL);
   }
-  return retriever.fetch(getResourceURL(props.file.hash))
-    .catch((fetchError) => {
-      console.error(fetchError);
-      error.value = fetchError;
-    });
+  return retriever.fetch(getResourceURL(props.file.hash)).catch((fetchError) => {
+    console.error(fetchError);
+    error.value = fetchError;
+  });
 };
 fetch();
 
@@ -89,26 +89,13 @@ watch(() => props.active, (active) => {
 
 <template>
   <div>
-    <v-alert
-      v-if="error"
-      border
-      color="red-lighten-2"
-    >
+    <v-alert v-if="error" border color="red-lighten-2">
       <i>Error loading preview: {{ error }}</i>
     </v-alert>
-    <v-alert
-      v-else-if="extension === 'pdf' && !srcURL"
-      border
-      color="blue-lighten-4"
-    >
+    <v-alert v-else-if="extension === 'pdf' && !srcURL" border color="blue-lighten-4">
       <i>Loading preview</i>
-      <v-progress-linear
-        :indeterminate="!progress"
-        :model-value="progress"
-      />
+      <v-progress-linear :indeterminate="!progress" :model-value="progress" />
     </v-alert>
-    <v-iframe v-else-if="srcURL" :src="srcURL"/>
+    <v-iframe v-else-if="srcURL" :src="srcURL" />
   </div>
 </template>
-
-

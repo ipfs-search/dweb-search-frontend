@@ -25,7 +25,7 @@
  * N.b. these properties are normal public properties so that Vue can make them reactive
  */
 export default class FetchDoggy {
-  progress
+  progress;
 
   total;
 
@@ -36,33 +36,35 @@ export default class FetchDoggy {
   controller = new AbortController();
 
   // mimic native fetch() instantiation and return Promise
-  fetch(input, init = {}, extraOptions = { mimetype: 'application/pdf' }) {
-    const request = (input instanceof Request) ? input : new Request(input);
+  fetch(input, init = {}, extraOptions = { mimetype: "application/pdf" }) {
+    const request = input instanceof Request ? input : new Request(input);
 
     const { signal } = this.controller;
 
     return fetch(request, { signal, ...init })
       .then((response) => {
         if (!response.body) {
-          throw Error('ReadableStream is not yet supported in this browser.');
+          throw Error("ReadableStream is not yet supported in this browser.");
         }
 
         if (!response.ok) {
           // HTTP error server response
           const error = Error(`Server responded ${response.status} ${response.statusText}`);
-          this.callHooks('error', error);
+          this.callHooks("error", error);
           throw error;
         }
 
         // to access headers, server must send CORS header
         // "Access-Control-Expose-Headers: content-encoding, content-length x-file-size"
         // server must send custom x-file-size header if gzip or other content-encoding is used
-        const contentEncoding = response.headers.get('content-encoding');
+        const contentEncoding = response.headers.get("content-encoding");
         // eslint-disable-next-line max-len
-        const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+        const contentLength = response.headers.get(
+          contentEncoding ? "x-file-size" : "content-length"
+        );
         if (contentLength === null) {
           // don't evaluate download progress if we can't compare against a total size
-          throw Error('Response size header unavailable');
+          throw Error("Response size header unavailable");
         }
 
         this.total = parseInt(contentLength, 10);
@@ -70,8 +72,8 @@ export default class FetchDoggy {
 
         // ensure onProgress called when content-length=0
         if (this.total === 0) {
-          this.callHooks('progress');
-          this.callHooks('complete');
+          this.callHooks("progress");
+          this.callHooks("complete");
         }
 
         const responseReader = response.body.getReader();
@@ -93,20 +95,19 @@ export default class FetchDoggy {
                   ({ value, done } = await responseReader.read());
                   if (done) break;
                   me.progress += value.byteLength;
-                  me.callHooks('progress');
+                  me.callHooks("progress");
                   controller.enqueue(value);
                 }
-                me.callHooks('complete');
+                me.callHooks("complete");
                 controller.close();
               }
 
-              await read()
-                .catch((error) => {
-                  controller(error);
-                  me.callHooks('error');
-                });
+              await read().catch((error) => {
+                controller(error);
+                me.callHooks("error");
+              });
             },
-          }),
+          })
         );
       })
       .then((response) => response.arrayBuffer())
@@ -125,7 +126,7 @@ export default class FetchDoggy {
 
     this.controller.abort();
 
-    this.callHooks('cancel');
+    this.callHooks("cancel");
   }
 
   /**
@@ -136,7 +137,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   on(hook, func) {
-    if (typeof func !== 'function') {
+    if (typeof func !== "function") {
       throw Error(`trying to set non-function on ${hook} hook`);
     }
     if (!Object.prototype.hasOwnProperty.call(this.hooks, hook)) {
@@ -155,7 +156,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onComplete(func) {
-    return this.on('complete', func);
+    return this.on("complete", func);
   }
 
   /**
@@ -165,7 +166,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onCancel(func) {
-    return this.on('cancel', func);
+    return this.on("cancel", func);
   }
 
   /**
@@ -175,7 +176,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onProgress(func) {
-    return this.on('progress', func);
+    return this.on("progress", func);
   }
 
   /**
@@ -185,7 +186,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onError(func) {
-    return this.on('error', func);
+    return this.on("error", func);
   }
 
   /**

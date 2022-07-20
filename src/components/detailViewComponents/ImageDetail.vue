@@ -1,22 +1,17 @@
 <script setup>
-import { useDetail, detailProps } from '@/composables/useDetail';
-const props = defineProps(detailProps)
-const { resourceURL } = useDetail(props)
+import { useDetail, detailProps } from "@/composables/useDetail";
+const props = defineProps(detailProps);
+const { resourceURL } = useDetail(props);
 
-import { useBlurExplicit } from '@/composables/BlurExplicitImagesComposable';
-import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
+import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
+import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
 const { blurExplicit } = useBlurExplicit();
 </script>
 
 <template>
   <generic-detail :file="file">
     <v-row>
-      <v-col
-        cols="12"
-        md="10"
-        offset-md="1"
-        :class="{ blurExplicit: blurExplicit(file)}"
-      >
+      <v-col cols="12" md="10" offset-md="1" :class="{ blurExplicit: blurExplicit(file) }">
         <v-img
           :data-nsfw-classification="JSON.stringify(file.nsfwClassification)"
           :data-nsfw="file.nsfw"
@@ -25,15 +20,8 @@ const { blurExplicit } = useBlurExplicit();
           class="image-wrapper"
         >
           <template #placeholder>
-            <v-row
-              class="fill-height ma-0"
-              align="center"
-              justify="center"
-            >
-              <v-progress-circular
-                indeterminate
-                color="ipfsPrimary"
-              />
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular indeterminate color="ipfsPrimary" />
             </v-row>
           </template>
         </v-img>
@@ -43,7 +31,6 @@ const { blurExplicit } = useBlurExplicit();
 </template>
 
 <style lang="scss" scoped>
-
 .image-wrapper {
   width: 100% !important;
   background-repeat: no-repeat;

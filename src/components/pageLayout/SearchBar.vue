@@ -1,25 +1,25 @@
 <script setup>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { computed } from "vue";
+import { useStore } from "vuex";
 const store = useStore();
-import { useRoute } from 'vue-router';
-const route = useRoute()
-import { enterSearchQuery } from '@/router';
+import { useRoute } from "vue-router";
+const route = useRoute();
+import { enterSearchQuery } from "@/router";
 
-import { mdiMenuDown, mdiMagnify } from '@mdi/js'
-import { useDisplay } from 'vuetify'
-const { smAndDown } = useDisplay()
-import { useMobileDevices } from '@/composables/useMobileDevices'
-const { hideKeyBoardOnAndroid, onIphoneClick } = useMobileDevices()
-import { searchTypes } from '@/helpers/typeHelper';
+import { mdiMenuDown, mdiMagnify } from "@mdi/js";
+import { useDisplay } from "vuetify";
+const { smAndDown } = useDisplay();
+import { useMobileDevices } from "@/composables/useMobileDevices";
+const { hideKeyBoardOnAndroid, onIphoneClick } = useMobileDevices();
+import { searchTypes } from "@/helpers/typeHelper";
 
-let searchPhraseProxy = store.state.query.searchPhrase
+let searchPhraseProxy = store.state.query.searchPhrase;
 const searchPhrase = computed({
   get: () => store.state.query.searchPhrase,
   set: (newSearchPhrase) => {
     searchPhraseProxy = newSearchPhrase;
   },
-})
+});
 const enterSearchPhrase = () => {
   if (route.query.q !== searchPhraseProxy) {
     enterSearchQuery({ q: searchPhraseProxy });
@@ -28,16 +28,16 @@ const enterSearchPhrase = () => {
       hideKeyBoardOnAndroid();
     }
   }
-}
+};
 
 const fileType = computed({
-  get: () => store.getters['query/filters/type/toProps'].value,
+  get: () => store.getters["query/filters/type/toProps"].value,
   set: (newType) => {
     if (fileType.value !== newType) {
       enterSearchQuery({ type: newType });
     }
   },
-})
+});
 </script>
 
 <template>
@@ -57,35 +57,20 @@ const fileType = computed({
         density="compact"
         flat
         hide-details
-        style="height: 42px;"
+        style="height: 42px"
       >
         <template #append>
-          <v-menu
-            offset-y
-          >
+          <v-menu offset-y>
             <template #activator="{ props }">
-              <div
-                class="mr-3 text-grey d-flex align-start"
-                v-bind="props"
-              >
-                <span
-                  class="text-capitalize"
-                  data-testid="type-filter-selector-value"
-                >{{ fileType }}</span>
-                <v-icon
-                  class="d-inline-block"
-                  :icon="mdiMenuDown"
-                />
+              <div class="mr-3 text-grey d-flex align-start" v-bind="props">
+                <span class="text-capitalize" data-testid="type-filter-selector-value">{{
+                  fileType
+                }}</span>
+                <v-icon class="d-inline-block" :icon="mdiMenuDown" />
               </div>
             </template>
-            <v-list
-              class="bg-white"
-            >
-              <v-list-item
-                v-for="t in searchTypes"
-                :key="t"
-                @click="fileType = t"
-              >
+            <v-list class="bg-white">
+              <v-list-item v-for="t in searchTypes" :key="t" @click="fileType = t">
                 <v-list-item-title class="text-capitalize">
                   {{ t }}
                 </v-list-item-title>
@@ -112,5 +97,3 @@ const fileType = computed({
   z-index: 10000;
 }
 </style>
-
-

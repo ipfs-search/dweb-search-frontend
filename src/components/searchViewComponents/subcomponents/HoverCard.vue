@@ -1,7 +1,7 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 const route = useRoute();
-import Hyperlink from '@/components/shared/Hyperlink.vue';
+import Hyperlink from "@/components/shared/Hyperlink.vue";
 
 const componentProps = defineProps({
   fileType: {
@@ -15,8 +15,8 @@ const componentProps = defineProps({
   hit: {
     type: Object,
     required: true,
-  }
-})
+  },
+});
 </script>
 
 <template>
@@ -32,12 +32,7 @@ const componentProps = defineProps({
         },
       }"
     >
-      <v-card
-        v-if="hit"
-        width="100%"
-        v-bind="props"
-        :elevation="isHovering ? 12 : 2"
-      >
+      <v-card v-if="hit" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
         <slot />
       </v-card>
     </hyperlink>

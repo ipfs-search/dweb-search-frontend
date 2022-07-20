@@ -1,15 +1,16 @@
-import { Types } from '@/helpers/typeHelper';
+import { Types } from "@/helpers/typeHelper";
 import {
   typeFilterDefinition,
   languageFilterDefinition,
   sizeFilterDefinition,
   lastSeenFilterDefinition,
-} from '@/store/modules/queryFilters/filterDefinitions';
+} from "@/store/modules/queryFilters/filterDefinitions";
 
 import {
   selectFilterModule,
-  multipleSelectFilterModule, typeFilterModule,
-} from '@/store/modules/queryFilters/filterVuexModuleGenerators';
+  multipleSelectFilterModule,
+  typeFilterModule,
+} from "@/store/modules/queryFilters/filterVuexModuleGenerators";
 
 const TYPE = typeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
@@ -25,10 +26,9 @@ const mutations = {
    */
   setRouteParams(state, routeParams) {
     // map query parameters to state
-    Object.keys(state)
-      .forEach((filterSlug) => {
-        this.commit(`query/filters/${filterSlug}/setValue`, routeParams[filterSlug]);
-      });
+    Object.keys(state).forEach((filterSlug) => {
+      this.commit(`query/filters/${filterSlug}/setValue`, routeParams[filterSlug]);
+    });
   },
 };
 
@@ -44,8 +44,8 @@ export default {
           return [SIZE, LASTSEEN];
       }
     },
-    filterWidgets: (state, getters) => getters.applicableFilters
-      .map((filter) => getters[`${filter}/toProps`]),
+    filterWidgets: (state, getters) =>
+      getters.applicableFilters.map((filter) => getters[`${filter}/toProps`]),
   },
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),

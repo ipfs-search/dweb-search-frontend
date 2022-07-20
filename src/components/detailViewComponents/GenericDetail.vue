@@ -1,11 +1,11 @@
 <script setup>
-import DetailHeader from '@/components/detailViewComponents/subcomponents/DetailHeader.vue';
-import MetaDataPanel from '@/components/detailViewComponents/subcomponents/MetaDataPanel.vue';
+import DetailHeader from "@/components/detailViewComponents/subcomponents/DetailHeader.vue";
+import MetaDataPanel from "@/components/detailViewComponents/subcomponents/MetaDataPanel.vue";
 
-import { useDisplay } from 'vuetify'
-const { mdAndUp } = useDisplay()
+import { useDisplay } from "vuetify";
+const { mdAndUp } = useDisplay();
 
-import { detailProps } from '@/composables/useDetail';
+import { detailProps } from "@/composables/useDetail";
 const props = defineProps({
   ...detailProps,
   expandMeta: {
@@ -15,21 +15,15 @@ const props = defineProps({
   narrow: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 </script>
 
 <template>
-  <v-sheet
-    :light="!$vuetify.theme.dark"
-    class="h-100"
-    tile
-  >
-    <v-row
-      class="fill-height ma-0 pa-0"
-    >
+  <v-sheet :light="!$vuetify.theme.dark" class="h-100" tile>
+    <v-row class="fill-height ma-0 pa-0">
       <v-col
-        style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;"
+        style="position: absolute; top: 0; left: 0; bottom: 0; right: 0"
         class="inline-block h-100 overflow-y-auto"
       >
         <v-container>
@@ -43,11 +37,8 @@ const props = defineProps({
               :class="mdAndUp ? 'mb-16' : ''"
             >
               <DetailHeader :file="file" />
-              <slot/>
-              <MetaDataPanel
-                :file="file"
-                :expanded="expandMeta"
-              />
+              <slot />
+              <MetaDataPanel :file="file" :expanded="expandMeta" />
             </v-col>
           </v-row>
         </v-container>

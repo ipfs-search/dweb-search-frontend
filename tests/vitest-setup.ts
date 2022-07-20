@@ -1,5 +1,5 @@
-import { vi, expect } from 'vitest';
-Object.defineProperty(window, 'matchMedia', {
+import { vi, expect } from "vitest";
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
@@ -13,15 +13,14 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-import { createApp } from 'vue';
+import { createApp } from "vue";
 // @ts-ignore
-import vuetify from '../src/plugins/vuetify';
-import App from '../src/App.vue';
+import vuetify from "../src/plugins/vuetify";
+import App from "../src/App.vue";
 // @ts-ignore
-import * as matchers from 'jest-extended';
+import * as matchers from "jest-extended";
 
 const Vue = createApp(App);
 Vue.use(vuetify);
 
 expect.extend(matchers);
-

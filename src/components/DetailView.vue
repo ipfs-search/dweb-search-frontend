@@ -1,12 +1,12 @@
 <script setup>
-import AudioDetail from '@/components/detailViewComponents/AudioDetail.vue';
-import DocumentDetail from '@/components/detailViewComponents/DocumentDetail.vue';
-import ImageDetail from '@/components/detailViewComponents/ImageDetail.vue';
-import VideoDetail from '@/components/detailViewComponents/VideoDetail.vue';
-import DirectoryDetail from '@/components/detailViewComponents/DirectoryDetail.vue';
-import OtherDetail from '@/components/detailViewComponents/GenericDetail.vue';
+import AudioDetail from "@/components/detailViewComponents/AudioDetail.vue";
+import DocumentDetail from "@/components/detailViewComponents/DocumentDetail.vue";
+import ImageDetail from "@/components/detailViewComponents/ImageDetail.vue";
+import VideoDetail from "@/components/detailViewComponents/VideoDetail.vue";
+import DirectoryDetail from "@/components/detailViewComponents/DirectoryDetail.vue";
+import OtherDetail from "@/components/detailViewComponents/GenericDetail.vue";
 
-import { Types } from '@/helpers/typeHelper';
+import { Types } from "@/helpers/typeHelper";
 
 const DetailComponent = {
   [Types.text]: DocumentDetail,
@@ -27,10 +27,7 @@ const DetailComponent = {
     hide-delimiter-background
     :continuous="false"
   >
-    <v-carousel-item
-      v-for="(item, index) in items"
-      :key="index"
-    >
+    <v-carousel-item v-for="(item, index) in items" :key="index">
       <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
       <component
         :is="DetailComponent[fileType]"
@@ -50,18 +47,18 @@ const DetailComponent = {
 </template>
 
 <script>
-import store from '@/store';
-import { apiMetadataQuery, batchSize } from '@/helpers/ApiHelper';
+import store from "@/store";
+import { apiMetadataQuery, batchSize } from "@/helpers/ApiHelper";
 
 export default {
   props: {
     fileType: {
       type: String,
-      default: '',
+      default: "",
     },
     fileHash: {
       type: String,
-      default: '',
+      default: "",
     },
     selectedIndex: {
       type: Number,
@@ -102,12 +99,14 @@ export default {
 
         // handle fetching missing items from the api
         const currentPage = Number(this.$route.query.page);
-        if (index + 1 === this.items?.length
-          || (index + 1 < this.items?.length && this.items[index + 1] === undefined)) {
-          console.debug('last page item: loading items for page', currentPage + 1);
+        if (
+          index + 1 === this.items?.length ||
+          (index + 1 < this.items?.length && this.items[index + 1] === undefined)
+        ) {
+          console.debug("last page item: loading items for page", currentPage + 1);
           store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage + 1 });
-        } else if (index === ((currentPage - 1) * 15) && currentPage > 1) {
-          console.debug('first page item: loading items for page', currentPage - 1);
+        } else if (index === (currentPage - 1) * 15 && currentPage > 1) {
+          console.debug("first page item: loading items for page", currentPage - 1);
           store.dispatch(`results/${this.fileType}/fetchPage`, { page: currentPage - 1 });
         }
       },
@@ -119,9 +118,10 @@ export default {
       this.$data.carouselIndex = this.selectedIndex;
       this.$data.singleItem = undefined;
     } else {
-      store.dispatch(`results/${this.fileType}/fetchPage`, {
-        page: Number(this.$route.query.page),
-      })
+      store
+        .dispatch(`results/${this.fileType}/fetchPage`, {
+          page: Number(this.$route.query.page),
+        })
         .then(() => {
           // take index parameter from route props, if available. Else fallback on hash match.
           const index = this.items?.findIndex((item) => item?.hash === this.fileHash);
@@ -130,20 +130,19 @@ export default {
             this.$data.singleItem = undefined;
           } else {
             console.debug(`No items matching ${this.fileHash}; requesting metadata.`);
-            apiMetadataQuery(this.fileHash)
-              .then((metadata) => {
-                this.singleItem = metadata;
-              });
+            apiMetadataQuery(this.fileHash).then((metadata) => {
+              this.singleItem = metadata;
+            });
           }
         })
         .catch(console.error);
     }
   },
   mounted() {
-    window.addEventListener('keydown', this.arrowKeyEventHandler);
+    window.addEventListener("keydown", this.arrowKeyEventHandler);
   },
   unmounted() {
-    window.removeEventListener('keydown', this.arrowKeyEventHandler);
+    window.removeEventListener("keydown", this.arrowKeyEventHandler);
   },
   methods: {
     arrowKeyEventHandler(event) {
@@ -151,10 +150,10 @@ export default {
         return; // Do nothing if event already handled
       }
       switch (event.code) {
-        case 'ArrowLeft':
+        case "ArrowLeft":
           this.carouselIndex -= 1;
           break;
-        case 'ArrowRight':
+        case "ArrowRight":
           this.carouselIndex += 1;
           break;
         default:

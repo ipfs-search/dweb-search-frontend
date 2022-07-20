@@ -1,10 +1,9 @@
 {
- "build": {
-   "image": "node:16",
-   "command": "npm ci && npm run build",
-   "publicDir": "dist",
-   "baseDir": ".",
-   "environment": {
-   }
- }
+  "build": {
+    "image": "node:16",
+    "command": "npm ci && npm run build",
+    "publicDir": "dist",
+    "baseDir": ".",
+    "environment": {}
+  }
 }

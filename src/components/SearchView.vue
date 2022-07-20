@@ -1,14 +1,14 @@
 <script setup>
-import SearchFilters from '@/components/searchViewComponents/subcomponents/SearchFilters.vue';
-import GenericList from '@/components/searchViewComponents/BaseList.vue';
-import ImageList from '@/components/searchViewComponents/ImageList.vue';
-import AudioList from '@/components/searchViewComponents/AudioList.vue';
-import VideoList from '@/components/searchViewComponents/VideoList.vue';
+import SearchFilters from "@/components/searchViewComponents/subcomponents/SearchFilters.vue";
+import GenericList from "@/components/searchViewComponents/BaseList.vue";
+import ImageList from "@/components/searchViewComponents/ImageList.vue";
+import AudioList from "@/components/searchViewComponents/AudioList.vue";
+import VideoList from "@/components/searchViewComponents/VideoList.vue";
 
-import { useRoute } from 'vue-router';
-import { Types } from '@/helpers/typeHelper';
+import { useRoute } from "vue-router";
+import { Types } from "@/helpers/typeHelper";
 
-const route = useRoute()
+const route = useRoute();
 
 function listType(t) {
   return [t, Types.any, undefined].includes(route.query.type);
@@ -43,6 +43,6 @@ h2 {
   left: 0;
   right: 0;
   top: 0;
-  bottom:0;
+  bottom: 0;
 }
 </style>

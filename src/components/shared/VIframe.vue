@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 const iframeLoading = ref(true);
 const props = defineProps({
   src: {
     type: String,
     required: true,
-  }
-})
+  },
+});
 </script>
 
 <template>
@@ -16,18 +16,24 @@ const props = defineProps({
         <i>Loading...</i>
       </v-progress-circular>
     </div>
-    <iframe @load="iframeLoading = false" :src="src"/>
+    <iframe @load="iframeLoading = false" :src="src" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 iframe {
-  width: 100%; height: calc(100vh - 200px);border: 1px solid #BDBDBD;
+  width: 100%;
+  height: calc(100vh - 200px);
+  border: 1px solid #bdbdbd;
 }
 #iframe-container {
   position: relative;
 }
 #iframe-spinner {
-  position: absolute; text-align: center; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

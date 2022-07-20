@@ -1,15 +1,12 @@
 /// <reference types="vitest" />
 import { fileURLToPath, URL } from "url";
-import { defineConfig } from 'vite';
-import vuetify from 'vite-plugin-vuetify';
+import { defineConfig } from "vite";
+import vuetify from "vite-plugin-vuetify";
 
-import createVuePlugin from '@vitejs/plugin-vue';
+import createVuePlugin from "@vitejs/plugin-vue";
 
 export default defineConfig({
-  plugins: [
-    createVuePlugin(),
-    vuetify(),
-  ],
+  plugins: [createVuePlugin(), vuetify()],
   server: {
     port: 8080,
   },
@@ -17,7 +14,7 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
+    extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
   },
   build: {
     // chunkSizeWarningLimit: 600,
@@ -28,18 +25,12 @@ export default defineConfig({
       inline: ["vuetify"],
     },
     globals: true,
-    environment: 'jsdom',
-    setupFiles: [
-      "vuetify.config.js",
-      './tests/vitest-setup.ts',
-    ],
+    environment: "jsdom",
+    setupFiles: ["vuetify.config.js", "./tests/vitest-setup.ts"],
     mockReset: true,
     coverage: {
-      reporter: ['text', 'html'],
-      exclude: [
-        'node_modules/',
-        'src/setupTests.ts',
-      ],
+      reporter: ["text", "html"],
+      exclude: ["node_modules/", "src/setupTests.ts"],
     },
   },
 });

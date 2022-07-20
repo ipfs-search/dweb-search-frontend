@@ -1,15 +1,15 @@
 <script setup>
-import { useDisplay } from 'vuetify'
-const { smAndDown } = useDisplay()
+import { useDisplay } from "vuetify";
+const { smAndDown } = useDisplay();
 
-import { enterSearchQuery } from '@/router';
+import { enterSearchQuery } from "@/router";
 
 const props = defineProps({
   filter: {
     type: Object,
-      required: true,
+    required: true,
   },
-})
+});
 
 const changeFilter = (value) => enterSearchQuery({ [props.filter.slug]: value });
 </script>
@@ -31,6 +31,6 @@ const changeFilter = (value) => enterSearchQuery({ [props.filter.slug]: value })
 <style lang="scss" scoped>
 .v-select {
   margin-bottom: 0 !important;
-  height: 38px !important
+  height: 38px !important;
 }
 </style>

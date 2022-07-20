@@ -1,12 +1,11 @@
 <script setup>
-import VideoPlayer from '@/components/detailViewComponents/subcomponents/VideoPlayer.vue';
-import GenericDetail from '@/components/detailViewComponents/GenericDetail.vue';
-import 'video.js/dist/video-js.css';
+import VideoPlayer from "@/components/detailViewComponents/subcomponents/VideoPlayer.vue";
+import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
+import "video.js/dist/video-js.css";
 
-import { useDetail, detailProps } from '@/composables/useDetail';
-const props = defineProps(detailProps)
+import { useDetail, detailProps } from "@/composables/useDetail";
+const props = defineProps(detailProps);
 const { videoOptions } = useDetail(props);
-
 </script>
 
 <template>
@@ -14,12 +13,8 @@ const { videoOptions } = useDetail(props);
     <!-- Video -->
     <v-row>
       <v-col>
-        <div
-          class="text-body-1"
-        >
-          <video-player
-            :options="videoOptions"
-          />
+        <div class="text-body-1">
+          <video-player :options="videoOptions" />
         </div>
       </v-col>
     </v-row>

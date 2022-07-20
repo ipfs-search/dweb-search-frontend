@@ -1,26 +1,27 @@
-import { createRouter, createWebHashHistory, useRoute } from 'vue-router';
-import Home from '@/components/HomeView.vue';
+import { createRouter, createWebHashHistory, useRoute } from "vue-router";
+import Home from "@/components/HomeView.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/search',
-    name: 'Search',
-    props: ({ query }) => ({ query: {
+    path: "/search",
+    name: "Search",
+    props: ({ query }) => ({
+      query: {
         ...query,
         page: Number(query.page),
-      }
+      },
     }),
-    component: () => import('@/components/SearchView.vue'),
+    component: () => import("@/components/SearchView.vue"),
   },
   {
-    path: '/search/detail/:fileType/:fileHash',
-    name: 'Detail',
-    props: ({params, query}) => ({
+    path: "/search/detail/:fileType/:fileHash",
+    name: "Detail",
+    props: ({ params, query }) => ({
       ...params,
       query: {
         ...query,
@@ -28,16 +29,16 @@ const routes = [
       },
       selectedIndex: Number(params.selectedIndex),
     }),
-    component: () => import('@/components/DetailView.vue'),
+    component: () => import("@/components/DetailView.vue"),
   },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
-})
+});
 
-export default router
+export default router;
 
 /**
  * push new route query and execute searchViewComponents lookup with page=0
@@ -46,9 +47,9 @@ export default router
  * @param page? 1-based page number.
  * @param method? either 'push' or 'replace', to set router behavior.
  */
-export function enterSearchQuery(newQuery, page = 1, method = 'push') {
+export function enterSearchQuery(newQuery, page = 1, method = "push") {
   router[method]({
-    name: 'Search',
+    name: "Search",
     query: {
       ...router.currentRoute.value.query,
       ...newQuery,
@@ -56,4 +57,3 @@ export function enterSearchQuery(newQuery, page = 1, method = 'push') {
     },
   });
 }
-

@@ -1,19 +1,11 @@
-import {
-  shallowMount,
-  mount,
-} from '@vue/test-utils';
-import VueClosable from 'vue-closable';
-import vuetify from '@/plugins/vuetify';
-import store from '@/store';
-import router from '@/router';
+import { shallowMount, mount } from "@vue/test-utils";
+import VueClosable from "vue-closable";
+import vuetify from "@/plugins/vuetify";
+import store from "@/store";
+import router from "@/router";
 
 const global = {
-  plugins: [
-    VueClosable,
-    vuetify,
-    store,
-    router,
-  ],
+  plugins: [VueClosable, vuetify, store, router],
 };
 
 const mounter = (mountFunction, component, options = {}) => {
@@ -29,8 +21,5 @@ const mounter = (mountFunction, component, options = {}) => {
 };
 
 export const localMount = (component, options = {}) => mounter(mount, component, options);
-export const localShallowMount = (component, options = {}) => mounter(
-  shallowMount,
-  component,
-  options,
-);
+export const localShallowMount = (component, options = {}) =>
+  mounter(shallowMount, component, options);

@@ -4,22 +4,25 @@ export const useMobileDevices = () => {
     // https://stackoverflow.com/questions/8335834/how-can-i-hide-the-android-keyboard-using-javascript
     setTimeout(() => {
       // Creating temp field
-      const field = document.createElement('input');
-      field.setAttribute('type', 'text');
+      const field = document.createElement("input");
+      field.setAttribute("type", "text");
       // Hiding temp field from peoples eyes
       // -webkit-user-modify is nessesary for Android 4.x
-      field.setAttribute('style', `position:absolute;
+      field.setAttribute(
+        "style",
+        `position:absolute;
           top: 0px;
           opacity: 0;
           -webkit-user-modify: read-write-plaintext-only;
-          left:0px;`);
+          left:0px;`
+      );
       document.body.appendChild(field);
 
       // Adding onfocus event handler for out temp field
       field.onfocus = () => {
         // This timeout of 200ms is nessasary for Android 2.3.x
         setTimeout(() => {
-          field.setAttribute('style', 'display:none;');
+          field.setAttribute("style", "display:none;");
           setTimeout(() => {
             document.body.removeChild(field);
             document.body.focus();
@@ -42,6 +45,5 @@ export const useMobileDevices = () => {
   return {
     hideKeyBoardOnAndroid,
     onIphoneClick,
-  }
-
-}
+  };
+};

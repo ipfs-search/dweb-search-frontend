@@ -1,18 +1,17 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 
-const marquee = ref(null)
+const marquee = ref(null);
 
-const textWidth = computed(() => marquee.value?.firstChild.clientWidth)
-const overflowing = computed(() => marquee.value?.clientWidth < textWidth.value)
-const scrollDistance = computed(() => `${marquee.value?.clientWidth - textWidth.value}px`)
-
+const textWidth = computed(() => marquee.value?.firstChild.clientWidth);
+const overflowing = computed(() => marquee.value?.clientWidth < textWidth.value);
+const scrollDistance = computed(() => `${marquee.value?.clientWidth - textWidth.value}px`);
 </script>
 
 <template>
-  <div data-id="Marquee" ref="marquee" :class="{bounce: overflowing}" style="overflow: hidden">
+  <div data-id="Marquee" ref="marquee" :class="{ bounce: overflowing }" style="overflow: hidden">
     <div style="overflow: auto; display: block; width: fit-content">
-      <slot/>
+      <slot />
     </div>
   </div>
 </template>

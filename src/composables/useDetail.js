@@ -1,5 +1,5 @@
-import { computed } from 'vue'
-import getResourceURL from '@/helpers/resourceURL';
+import { computed } from "vue";
+import getResourceURL from "@/helpers/resourceURL";
 
 export const detailProps = {
   file: {
@@ -11,12 +11,10 @@ export const detailProps = {
     type: Boolean,
     default: false,
   },
-}
+};
 
-export function useDetail(props){
-  const resourceURL = computed(
-    () => getResourceURL(props.file.hash)
-  )
+export function useDetail(props) {
+  const resourceURL = computed(() => getResourceURL(props.file.hash));
 
   const videoOptions = computed(() => ({
     controls: true,
@@ -27,7 +25,7 @@ export function useDetail(props){
       },
     ],
     fluid: true,
-  }))
+  }));
 
-  return {resourceURL, videoOptions}
+  return { resourceURL, videoOptions };
 }

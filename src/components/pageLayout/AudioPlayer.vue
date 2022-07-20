@@ -1,8 +1,8 @@
 <script setup>
-import Marquee from '@/components/shared/Marquee.vue';
-import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from  '@mdi/js'
-import { useDisplay } from 'vuetify'
-const { mdAndUp } = useDisplay()
+import Marquee from "@/components/shared/Marquee.vue";
+import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from "@mdi/js";
+import { useDisplay } from "vuetify";
+const { mdAndUp } = useDisplay();
 
 import {
   playerActive,
@@ -15,12 +15,13 @@ import {
   sourceFile,
   formattedTime as time,
   formattedDuration as duration,
-  progress } from '@/composables/audioControls';
+  progress,
+} from "@/composables/audioControls";
 
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount } from "vue";
 onBeforeUnmount(() => {
   close();
-})
+});
 </script>
 
 <template>
@@ -48,55 +49,47 @@ onBeforeUnmount(() => {
         clickable
       />
       <div class="d-flex w-100">
-        <v-avatar
-          v-if="mdAndUp"
-          class="my-auto ml-4"
-          rounded="0"
-          size="75"
-        >
+        <v-avatar v-if="mdAndUp" class="my-auto ml-4" rounded="0" size="75">
           <v-img
             aspect-ratio="1"
             bac
             gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-            style="filter: blur(2px);"
+            style="filter: blur(2px)"
             :src="sourceFile.src"
           >
           </v-img>
           <v-icon
             size="42"
             color="white"
-            style="opacity: 0.3;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);"
+            style="
+              opacity: 0.3;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            "
             :icon="mdiMusic"
           />
         </v-avatar>
         <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0px">
           <marquee>
-            <v-card-title
-              class="font-weight-default d-flex px-0"
-              style="font-size: 16px"
-            >
-              <span v-html="sourceFile.title"/>
+            <v-card-title class="font-weight-default d-flex px-0" style="font-size: 16px">
+              <span v-html="sourceFile.title" />
             </v-card-title>
           </marquee>
           <marquee>
-            <v-card-subtitle
-              class="d-flex py-2 px-0"
-            >
+            <v-card-subtitle class="d-flex py-2 px-0">
               <span v-html="sourceFile.author" />
             </v-card-subtitle>
           </marquee>
         </div>
         <div
           class="h-100 d-flex align-center my-auto"
-          :class="mdAndUp ? 'flex-row ml-auto': 'flex-column'"
+          :class="mdAndUp ? 'flex-row ml-auto' : 'flex-column'"
         >
-          <v-card-title
-            :style="{fontSize: mdAndUp ? '20px' : '16px'}"
-          >{{ time }} / {{ duration }}</v-card-title>
+          <v-card-title :style="{ fontSize: mdAndUp ? '20px' : '16px' }"
+            >{{ time }} / {{ duration }}</v-card-title
+          >
           <div class="d-inline-flex flex-row">
             <v-btn
               v-if="audioError"
@@ -146,7 +139,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .progress-bar {
-  cursor: pointer
+  cursor: pointer;
 }
 .audio-player-card {
   transition: all 500ms ease-in-out;
