@@ -1,30 +1,24 @@
 import {
-  createLocalVue,
   shallowMount,
   mount,
 } from '@vue/test-utils';
-import Vuetify from 'vuetify';
-import Vuex from 'vuex';
-import router from '@/router';
 import VueClosable from 'vue-closable';
+import vuetify from '@/plugins/vuetify';
+import store from '@/store';
+import router from '@/router';
 
-// wrapper for mount, to include vuetify
-const localVue = createLocalVue();
-
-localVue.use(VueClosable);
-localVue.use(Vuex);
-
-const vuetify = new Vuetify();
-
-const inject = {
-  localVue,
-  router,
-  vuetify,
+const global = {
+  plugins: [
+    VueClosable,
+    vuetify,
+    store,
+    router,
+  ],
 };
 
 const mounter = (mountFunction, component, options = {}) => {
   const child = mountFunction(component, {
-    ...inject,
+    global,
     ...options,
   });
   const app = mount({

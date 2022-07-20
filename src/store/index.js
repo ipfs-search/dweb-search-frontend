@@ -22,7 +22,6 @@ export default createStore({
       },
     },
     // https://v3.vuex.vuejs.org/guide/strict.html#development-vs-production
-    // N.b. this won't work with vite
     strict: !import.meta.env.PROD,
   }
 );

@@ -1,15 +1,4 @@
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
-import Vuetify from 'vuetify';
 import { vi, expect } from 'vitest';
-// @ts-ignore
-import * as matchers from 'jest-extended';
-
-Vue.use(VueCompositionApi);
-Vue.use(Vuetify);
-
-expect.extend(matchers);
-
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
@@ -23,3 +12,16 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   })),
 });
+
+import { createApp } from 'vue';
+// @ts-ignore
+import vuetify from '../src/plugins/vuetify';
+import App from '../src/App.vue';
+// @ts-ignore
+import * as matchers from 'jest-extended';
+
+const Vue = createApp(App);
+Vue.use(vuetify);
+
+expect.extend(matchers);
+

@@ -1,4 +1,4 @@
-import { createStore } from '@/store';
+import { createStore } from 'vuex';
 import mockFilters from '../../mock-data';
 
 describe('Mapping filters to api query', () => {

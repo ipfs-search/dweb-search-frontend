@@ -24,9 +24,13 @@ export default defineConfig({
     // cssCodeSplit: false
   },
   test: {
+    deps: {
+      inline: ["vuetify"],
+    },
     globals: true,
     environment: 'jsdom',
     setupFiles: [
+      "vuetify.config.js",
       './tests/vitest-setup.ts',
     ],
     mockReset: true,
