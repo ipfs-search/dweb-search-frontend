@@ -9,9 +9,12 @@
     "build": "vite build --out-dir dist",
     "lint": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src",
     "lint:fix": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src --fix",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
     "test": "vitest watch",
     "test:once": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepare-githooks": "husky install"
   },
   "dependencies": {
     "@cospired/i18n-iso-languages": "^3.1.1",
@@ -51,8 +54,10 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-vue": "^9.1.0",
+    "husky": "^8.0.1",
     "jest-extended": "^2.0.0",
     "jsdom": "^19.0.0",
+    "lint-staged": "^13.0.3",
     "prettier": "2.7.1",
     "sass": "^1.53.0",
     "typescript": "^4.7.3",
@@ -68,5 +73,9 @@
   },
   "license": "AGPL-3.0",
   "repository": "github:ipfs-search/dweb-search-frontend",
-  "type": "module"
+  "type": "module",
+  "lint-staged": {
+    "*.{js,mjs,cjs,jsx,ts,tsx,vue}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
 }

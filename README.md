@@ -10,8 +10,8 @@ New frontend repository for [ipfs-search.com](https://ipfs-search.com). Master i
 ## Dependencies
 
 - [NodeJS 16 Gallium (LTS)](https://nodejs.org/)
-- [VueJS](https://vuejs.org/)
-- [VuetifyJS](https://vuetifyjs.com/)
+- [Vue 3](https://vuejs.org/)
+- [VuetifyJS 3 (beta)](https://next.vuetifyjs.com/)
 
 ## Project setup
 
@@ -19,27 +19,35 @@ New frontend repository for [ipfs-search.com](https://ipfs-search.com). Master i
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Scripts:
 
-```
-npm run serve
-```
+`npm run serve` Compiles and hot-reloads for development
 
-### Compiles and minifies for production
+`npm run build` Compiles and minifies for production
 
-```
-npm run build
-```
+`npm run preview` Serves the latest build locally
 
-### Lints and fixes files
+`npm run test` Run all tests and watch code
 
-```
-npm run lint
-```
+`npm run test:once` Run all tests only once
 
-### Customize configuration
+`npm run test:coverage` Run all tests once and create coverage report under './coverage'
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+`npm run lint` Run code through linter to check
+
+`npm run lint:fix` Run code through linter and fix (if automatically possible)
+
+`npm run prettier:check` Test if code is formatted according to prettier spec
+
+`npm run prettier:write` Format code according to prettier spec
+
+`npm run prepare-githooks` Setup githook to automatically run prettier pre-commit. If you like this.
+
+### So many scripts... which one do I need?
+
+Developers: you will likely want to run `npm run serve` in one terminal and `npm run test` in another. You can use `npm run prepare-githooks` to autoformat the code. Alternatively you can run `npm run prettier:write` before pushing.
+
+Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`, `npm run prettier:check`
 
 ## NSFW api
 
