@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # test coverage reports
 coverage
+
+# local codeclimate build
+codeclimate-*

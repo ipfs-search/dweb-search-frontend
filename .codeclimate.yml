@@ -1,10 +1,18 @@
+exclude_patterns:
+  - "node_modules/"
+  - "coverage/"
+  - "codeclimate-*/"
+  - ".husky/"
+  - ".idea/"
+  - ".vscode/"
+  - "dist/"
+  - "public/"
 plugins:
   eslint:
     enabled: true
     channel: "eslint-7"
     config:
       extensions:
-        - .es6
         - .js
         - .jsx
         - .mjs
