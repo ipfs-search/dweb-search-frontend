@@ -15,5 +15,15 @@ plugins:
       extensions:
         - .js
         - .jsx
+        - .ts
+        - .tsx
+        - .cjs
         - .mjs
         - .vue
+checks:
+  identical-code:
+    config:
+      threshold: 50
+  similar-code:
+    config:
+      threshold: 75
