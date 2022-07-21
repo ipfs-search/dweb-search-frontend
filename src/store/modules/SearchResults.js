@@ -102,10 +102,10 @@ export default (fileType) => ({
 
       // otherwise do api lookup
       commit("setLoading");
-      return apiSearch(state.queryString, fileType, batch, perPage)
+      return apiSearch(state.queryString, fileType, batch)
         .then((newResults) => commit("setResults", { newResults, index: batch * perPage }))
         .catch((error) => {
-          commit("setError", { error, batch, perPage });
+          commit("setError", { error, batch });
         });
     },
   },

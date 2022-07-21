@@ -20,6 +20,7 @@
     "@cospired/i18n-iso-languages": "^3.1.1",
     "@mdi/font": "^6.5.95",
     "core-js": "^3.22.8",
+    "dompurify": "^2.3.10",
     "howler": "^2.2.1",
     "ipfs-search-client": "^1.0.1",
     "lorem-picsum": "^1.0.0",

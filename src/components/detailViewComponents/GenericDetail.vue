@@ -6,7 +6,7 @@ import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 
 import { detailProps } from "@/composables/useDetail";
-const props = defineProps({
+defineProps({
   ...detailProps,
   expandMeta: {
     type: Boolean,

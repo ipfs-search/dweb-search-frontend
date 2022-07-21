@@ -16,7 +16,7 @@ const { blurExplicit } = useBlurExplicit();
 </script>
 
 <template>
-  <ListBase :file-type="fileType" v-scroll="infiniteScroll">
+  <ListBase v-scroll="infiniteScroll" :file-type="fileType">
     <v-col id="resultsList" cols="12" xl="8" offset-xl="2">
       <v-row dense>
         <v-col v-for="(hit, index) in slicedHits(6)" :key="index" cols="6" sm="4" md="3" lg="2">
@@ -36,7 +36,7 @@ const { blurExplicit } = useBlurExplicit();
               </template>
               <v-tooltip location="bottom" align="center" activator="parent">
                 <div>
-                  <div v-if="hit.title" v-html="hit.title"></div>
+                  <div v-if="hit.title" v-sane-html="hit.title"></div>
                   <div v-if="blurExplicit(hit)">
                     Blurring explicit content. See settings in menubar under
                     <v-icon color="white" :icon="mdiCog" />

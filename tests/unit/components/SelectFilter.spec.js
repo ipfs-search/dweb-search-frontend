@@ -1,4 +1,4 @@
-import SelectFilterComponent from "@/components/searchViewComponents/subcomponents/SelectFilter.vue";
+import SelectFilter from "@/components/searchViewComponents/subcomponents/SelectFilter.vue";
 import { localMount } from "../../vitest-helpers";
 import mockFilters from "../../mock-data";
 
@@ -6,7 +6,7 @@ let component;
 let componentHtml;
 
 beforeAll(() => {
-  component = localMount(SelectFilterComponent, {
+  component = localMount(SelectFilter, {
     propsData: {
       filter: mockFilters.icecream.getters.toProps(mockFilters.icecream.state),
     },

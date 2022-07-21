@@ -34,8 +34,7 @@ export function apiMetadataQuery(hash) {
  * @param perBatch: forward compatible parameter, currently unused
  * @returns {Promise<never>|Promise<SearchResultList>}
  */
-// eslint-disable-next-line no-unused-vars
-export function apiSearch(query, type, batch = 0, perBatch = batchSize) {
+export function apiSearch(query, type, batch = 0) {
   if (batch && batch > maxPages) return Promise.reject(Error("API error: Page limit exceeded"));
 
   // Legacy API workaround; only accepts file and directory

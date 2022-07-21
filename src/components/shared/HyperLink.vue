@@ -1,6 +1,6 @@
 <!-- This class exists to remove hyperlink styling to router-links -->
 <script setup>
-const props = defineProps({
+defineProps({
   to: {
     type: [Object, String],
     required: true,

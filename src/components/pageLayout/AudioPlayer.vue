@@ -1,5 +1,5 @@
 <script setup>
-import Marquee from "@/components/shared/Marquee.vue";
+import Marquee from "@/components/shared/MarqueeBox.vue";
 import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
@@ -39,10 +39,10 @@ onBeforeUnmount(() => {
       height="100"
     >
       <v-progress-linear
-        active
-        style="position: absolute"
         v-if="!loading"
         v-model="progress"
+        active
+        style="position: absolute"
         color="ipfsPrimary-lighten-4"
         class="bg-ipfsPrimary progress-bar"
         height="3"
@@ -74,12 +74,12 @@ onBeforeUnmount(() => {
         <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0px">
           <marquee>
             <v-card-title class="font-weight-default d-flex px-0" style="font-size: 16px">
-              <span v-html="sourceFile.title" />
+              <span v-sane-html="sourceFile.title" />
             </v-card-title>
           </marquee>
           <marquee>
             <v-card-subtitle class="d-flex py-2 px-0">
-              <span v-html="sourceFile.author" />
+              <span v-sane-html="sourceFile.author" />
             </v-card-subtitle>
           </marquee>
         </div>

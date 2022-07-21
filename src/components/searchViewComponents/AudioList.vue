@@ -36,7 +36,7 @@ pageHits.value.slice(0,
             >
               <media-center-icon :icon="mdiMusic" />
               <v-card-text class="text-subtitle-2">
-                <span v-html="hit.title" />
+                <span v-sane-html="hit.title" />
               </v-card-text>
             </v-img>
 

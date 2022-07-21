@@ -3,7 +3,7 @@ import { mdiContentCopy } from "@mdi/js";
 </script>
 
 <template>
-  <v-btn variant="flat" class="text-grey" @click.stop="copyHash" icon>
+  <v-btn variant="flat" class="text-grey" icon @click.stop="copyHash">
     <v-tooltip activator="parent" location="top">
       <template #activator="{ props }">
         <v-icon :icon="mdiContentCopy" v-bind="props" />

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 const iframeLoading = ref(true);
-const props = defineProps({
+defineProps({
   src: {
     type: String,
     required: true,
@@ -11,12 +11,12 @@ const props = defineProps({
 
 <template>
   <div id="iframe-container">
-    <div id="iframe-spinner" v-if="iframeLoading">
+    <div v-if="iframeLoading" id="iframe-spinner">
       <v-progress-circular indeterminate size="90" color="ipfsPrimary-lighten-4">
         <i>Loading...</i>
       </v-progress-circular>
     </div>
-    <iframe @load="iframeLoading = false" :src="src" />
+    <iframe :src="src" @load="iframeLoading = false" />
   </div>
 </template>
 

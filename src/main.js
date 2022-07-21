@@ -3,6 +3,7 @@
 import "core-js/stable"; // only stable feature also is possible with only `core-js`
 import "regenerator-runtime/runtime"; // To ensure that regeneratorRuntime is defined globally
 
+import DOMPurify from "dompurify";
 import { createApp } from "vue";
 import timeago from "vue-timeago3";
 import VueClosable from "vue-closable";
@@ -28,5 +29,9 @@ router.beforeEach((to, from, next) => {
 });
 
 Vue.use(timeago);
+
+Vue.directive("sane-html", (el, binding) => {
+  el.innerHTML = DOMPurify.sanitize(binding.value);
+});
 
 Vue.mount("#app");

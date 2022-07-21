@@ -2,7 +2,7 @@
 import DocumentViewer from "@/components/detailViewComponents/subcomponents/DocumentViewer.vue";
 import { detailProps } from "@/composables/useDetail";
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
-const props = defineProps(detailProps);
+defineProps(detailProps);
 </script>
 
 <template>

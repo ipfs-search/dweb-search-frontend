@@ -1,9 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router";
 const route = useRoute();
-import Hyperlink from "@/components/shared/Hyperlink.vue";
+import Hyperlink from "@/components/shared/HyperLink.vue";
 
-const componentProps = defineProps({
+defineProps({
   fileType: {
     type: String,
     required: true,

@@ -11,8 +11,8 @@ import moment from "moment";
         <v-expansion-panels v-model="expand">
           <v-expansion-panel>
             <v-expansion-panel-title>
-              <template #default="{ expanded }">
-                <div>{{ `${expanded ? "Hide" : "Show"}` }} file info</div>
+              <template #default="{ expanded: hide }">
+                <div>{{ `${hide ? "Hide" : "Show"}` }} file info</div>
               </template>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="ml-n2 mr-0">
@@ -23,23 +23,23 @@ import moment from "moment";
                       <th>Location:</th>
                       <td>
                         <a
+                          v-sane-html="resourceURL(file.hash)"
                           :href="resourceURL(file.hash)"
-                          v-html="resourceURL(file.hash)"
                           target="_blank"
                         />
                       </td>
                     </tr>
                     <tr>
                       <th>Title:</th>
-                      <td v-html="file.title" />
+                      <td v-sane-html="file.title" />
                     </tr>
                     <tr v-if="file.author">
                       <th>Author:</th>
-                      <td v-html="file.author" />
+                      <td v-sane-html="file.author" />
                     </tr>
                     <tr v-if="file.description">
                       <th>Description:</th>
-                      <td v-html="file.description" />
+                      <td v-sane-html="file.description" />
                     </tr>
                     <tr v-if="file.size">
                       <th>Size:</th>
@@ -47,15 +47,15 @@ import moment from "moment";
                     </tr>
                     <tr v-if="file.creation_date">
                       <th>Created:</th>
-                      <td v-html="moment(file.creation_date)" />
+                      <td v-sane-html="moment(file.creation_date)" />
                     </tr>
                     <tr v-if="file['first-seen']">
                       <th>First seen:</th>
-                      <td v-html="moment(file['first-seen'])" />
+                      <td v-sane-html="moment(file['first-seen'])" />
                     </tr>
                     <tr v-if="file['last-seen']">
                       <th>Last seen:</th>
-                      <td v-html="moment(file['last-seen'])" />
+                      <td v-sane-html="moment(file['last-seen'])" />
                     </tr>
                     <tr v-if="file.mimetype">
                       <th>Mimetype:</th>
@@ -72,7 +72,7 @@ import moment from "moment";
                     <tr v-for="(item, index) in references" :key="index">
                       <td />
                       <td>
-                        <a :href="item.url" target="_blank" v-html="item.name" />
+                        <a v-sane-html="item.name" :href="item.url" target="_blank" />
                       </td>
                     </tr>
                   </tbody>

@@ -25,22 +25,23 @@
  * N.b. these properties are normal public properties so that Vue can make them reactive
  */
 export default class FetchDoggy {
-  progress;
-
-  total;
-
-  blob;
-
-  objectURL;
-
-  controller = new AbortController();
+  constructor() {
+    this.progress = 0;
+    this.total = undefined;
+    this.objectURL = undefined;
+    this.controller = new AbortController();
+    this.hooks = {
+      progress: {},
+      complete: {},
+      cancel: {},
+      error: {},
+    };
+  }
 
   // mimic native fetch() instantiation and return Promise
   fetch(input, init = {}, extraOptions = { mimetype: "application/pdf" }) {
     const request = input instanceof Request ? input : new Request(input);
-
     const { signal } = this.controller;
-
     return fetch(request, { signal, ...init })
       .then((response) => {
         if (!response.body) {
@@ -57,18 +58,17 @@ export default class FetchDoggy {
         // to access headers, server must send CORS header
         // "Access-Control-Expose-Headers: content-encoding, content-length x-file-size"
         // server must send custom x-file-size header if gzip or other content-encoding is used
-        const contentEncoding = response.headers.get("content-encoding");
-        // eslint-disable-next-line max-len
         const contentLength = response.headers.get(
-          contentEncoding ? "x-file-size" : "content-length"
+          response.headers.get("content-encoding") ? "x-file-size" : "content-length"
         );
-        if (contentLength === null) {
-          // don't evaluate download progress if we can't compare against a total size
-          throw Error("Response size header unavailable");
-        }
+
+        // don't evaluate download progress if we can't compare against a total size
+        if (contentLength === null) throw Error("Response size header unavailable");
 
         this.total = parseInt(contentLength, 10);
-        this.progress = 0;
+        this.onProgress((amount) => {
+          this.progress += amount;
+        });
 
         // ensure onProgress called when content-length=0
         if (this.total === 0) {
@@ -77,7 +77,7 @@ export default class FetchDoggy {
         }
 
         const responseReader = response.body.getReader();
-        const me = this;
+        const callHooks = this.callHooks.bind(this);
 
         return new Response(
           new ReadableStream({
@@ -86,25 +86,21 @@ export default class FetchDoggy {
                 controller.close();
                 await responseReader.cancel();
               }
-
               async function read() {
                 let done = false;
                 let value;
                 while (!done) {
-                  // eslint-disable-next-line no-await-in-loop
                   ({ value, done } = await responseReader.read());
                   if (done) break;
-                  me.progress += value.byteLength;
-                  me.callHooks("progress");
+                  callHooks("progress", value.byteLength);
                   controller.enqueue(value);
                 }
-                me.callHooks("complete");
+                callHooks("complete");
                 controller.close();
               }
-
               await read().catch((error) => {
                 controller(error);
-                me.callHooks("error");
+                callHooks("error");
               });
             },
           })
@@ -113,7 +109,6 @@ export default class FetchDoggy {
       .then((response) => response.arrayBuffer())
       .then((arrayBuffer) => new Blob([arrayBuffer], { type: extraOptions.mimetype }))
       .then((blob) => {
-        this.blob = blob;
         if (this.progress === this.total) {
           this.objectURL = window.URL.createObjectURL(blob);
         }
@@ -122,10 +117,8 @@ export default class FetchDoggy {
 
   cancel() {
     this.total = undefined;
-    this.progress = undefined;
-
+    this.progress = 0;
     this.controller.abort();
-
     this.callHooks("cancel");
   }
 
@@ -143,7 +136,6 @@ export default class FetchDoggy {
     if (!Object.prototype.hasOwnProperty.call(this.hooks, hook)) {
       throw Error(`hook unavailable: ${hook}`);
     }
-
     const s = Symbol(hook);
     this.hooks[hook][s] = func;
     return s;
@@ -200,16 +192,6 @@ export default class FetchDoggy {
       });
     });
   }
-
-  /**
-   * support for multiple hooks and different hooks
-   */
-  hooks = {
-    progress: {},
-    complete: {},
-    cancel: {},
-    error: {},
-  };
 
   callHooks(hook, ...args) {
     Reflect.ownKeys(this.hooks[hook]).forEach((s) => this.hooks[hook][s](...args));

@@ -10,7 +10,7 @@ import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 
 import { useTheme } from "vuetify";
-import Hyperlink from "@/components/shared/Hyperlink.vue";
+import Hyperlink from "@/components/shared/HyperLink.vue";
 const theme = useTheme();
 
 const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");

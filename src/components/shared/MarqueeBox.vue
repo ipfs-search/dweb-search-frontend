@@ -9,7 +9,7 @@ const scrollDistance = computed(() => `${marquee.value?.clientWidth - textWidth.
 </script>
 
 <template>
-  <div data-id="Marquee" ref="marquee" :class="{ bounce: overflowing }" style="overflow: hidden">
+  <div ref="marquee" data-id="Marquee" :class="{ bounce: overflowing }" style="overflow: hidden">
     <div style="overflow: auto; display: block; width: fit-content">
       <slot />
     </div>

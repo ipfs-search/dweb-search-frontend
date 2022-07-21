@@ -5,7 +5,7 @@ import { TypeListNames } from "@/helpers/typeHelper";
 import { fileListComposable } from "@/composables/fileListComposable";
 import { onBeforeMount } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import Hyperlink from "@/components/shared/Hyperlink.vue";
+import Hyperlink from "@/components/shared/HyperLink.vue";
 
 const route = useRoute();
 
@@ -49,8 +49,8 @@ onBeforeRouteUpdate(({ query }, from, next) => {
             </v-card-subtitle>
             <v-card-subtitle class="text-subtitle-1">
               <hyperlink
-                :to="{ ...route, query: { ...route.query, type: fileType } }"
                 v-if="anyFileType"
+                :to="{ ...route, query: { ...route.query, type: fileType } }"
                 class="text-subtitle-1 text-secondary"
               >
                 View all

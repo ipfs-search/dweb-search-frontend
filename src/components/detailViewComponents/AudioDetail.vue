@@ -34,17 +34,17 @@ const currentlyLoadedInPlayer = computed(
       />
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer && audioControls.playing.value"
-        @click="audioControls.pause"
         title="Pause"
         :icon="mdiPause"
+        @click="audioControls.pause"
       />
       <AudioDetailButton
         v-else-if="currentlyLoadedInPlayer"
-        @click="audioControls.play"
         title="Play"
         :icon="mdiPlay"
+        @click="audioControls.play"
       />
-      <AudioDetailButton v-else @click="audioControls.load(file)" title="Play" :icon="mdiPlay" />
+      <AudioDetailButton v-else title="Play" :icon="mdiPlay" @click="audioControls.load(file)" />
     </v-img>
   </generic-detail>
 </template>

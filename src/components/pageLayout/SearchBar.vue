@@ -10,7 +10,7 @@ import { mdiMenuDown, mdiMagnify } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { smAndDown } = useDisplay();
 import { useMobileDevices } from "@/composables/useMobileDevices";
-const { hideKeyBoardOnAndroid, onIphoneClick } = useMobileDevices();
+const { hideKeyBoardOnAndroid } = useMobileDevices();
 import { searchTypes } from "@/helpers/typeHelper";
 
 let searchPhraseProxy = store.state.query.searchPhrase;
@@ -45,11 +45,10 @@ const fileType = computed({
     <div id="search" class="flex-grow-1">
       <v-text-field
         ref="input"
+        v-model="searchPhrase"
+        v-closable="{ handler: 'onIphoneClick' }"
         variant="plain"
         class="bg-white rounded-pill pl-5"
-        v-model="searchPhrase"
-        @keyup.enter="enterSearchPhrase"
-        v-closable="{ handler: 'onIphoneClick' }"
         placeholder="Search"
         theme="light"
         autocomplete="off"
@@ -58,6 +57,7 @@ const fileType = computed({
         flat
         hide-details
         style="height: 42px"
+        @keyup.enter="enterSearchPhrase"
       >
         <template #append>
           <v-menu offset-y>
@@ -85,8 +85,8 @@ const fileType = computed({
       class="ml-2"
       size="34"
       color="white"
-      @click="enterSearchPhrase"
       :icon="mdiMagnify"
+      @click="enterSearchPhrase"
     />
   </v-container>
 </template>
