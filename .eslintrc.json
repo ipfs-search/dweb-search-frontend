@@ -13,7 +13,7 @@
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 13,
+    "ecmaVersion": 12,
     "sourceType": "module"
   },
   "plugins": ["vue", "html"],
