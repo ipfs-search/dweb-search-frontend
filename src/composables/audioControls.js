@@ -37,14 +37,12 @@ export function load(file, options) {
   }
   // FIXME: Howler plans to implement accepting mimetype parameter in the future... since 2015
   // https://github.com/goldfire/howler.js/issues/411
-  // find workaround
   const fileExtension = getFileExtension(file);
   if (!Howler.codecs(fileExtension)) {
     throw Error(`Unsupported/undetected file type: '${fileExtension}'`);
   }
 
-  unregister(); // unregister any hooks
-  clearInterval(this.interval);
+  close(); // unregister any hooks
   loading.value = true;
   sourceFile.value = file;
 
@@ -54,18 +52,10 @@ export function load(file, options) {
     html5: true,
     preload: "metadata",
     autoplay: true,
-    onend: () => {
-      playing.value = false;
-    },
-    onstop: () => {
-      playing.value = false;
-    },
-    onpause: () => {
-      playing.value = false;
-    },
-    onplay: () => {
-      playing.value = true;
-    },
+    onend: () => (playing.value = false),
+    onstop: () => (playing.value = false),
+    onpause: () => (playing.value = false),
+    onplay: () => (playing.value = true),
     onload: () => {
       loading.value = false;
       loaded.value = true;
@@ -83,20 +73,6 @@ export function load(file, options) {
 function soundError(errorMessage) {
   console.error(`Audio Player ${errorMessage}`);
   audioError.value = errorMessage;
-}
-
-function unregister() {
-  if (audioPlayer) {
-    audioError.value = "";
-    audioPlayer.off();
-    audioPlayer.unload();
-    playing.value = false;
-    loading.value = false;
-    loaded.value = false;
-    time.value = 0;
-    duration.value = 0;
-    sourceFile.value = emptyObject;
-  }
 }
 
 export const playerActive = computed(() => Object.keys(sourceFile.value).length && audioPlayer);
@@ -132,8 +108,17 @@ export function stop() {
 }
 
 export function close() {
-  console.debug("closing the audio player");
-  unregister();
+  if (audioPlayer) {
+    audioError.value = "";
+    audioPlayer.off();
+    audioPlayer.unload();
+    playing.value = false;
+    loading.value = false;
+    loaded.value = false;
+    time.value = 0;
+    duration.value = 0;
+    sourceFile.value = emptyObject;
+  }
   clearInterval(interval);
 }
 
@@ -145,6 +130,5 @@ export function formatTime(secs) {
   if (secs === undefined) return "-";
   const minutes = Math.floor(secs / 60) || 0;
   const seconds = Math.floor(secs - minutes * 60) || 0;
-
   return `${minutes} : ${seconds < 10 ? "0" : ""}${seconds}`;
 }

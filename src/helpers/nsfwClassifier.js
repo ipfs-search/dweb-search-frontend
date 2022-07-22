@@ -13,7 +13,6 @@ export function classify({ hash, mimetype }) {
     headers: {
       Accept: "application/json",
     },
-    mode: "no-cors",
   }).then((response) => (response ? response.json() : {}));
 }
 

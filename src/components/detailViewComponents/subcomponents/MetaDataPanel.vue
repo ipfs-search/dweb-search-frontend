@@ -8,7 +8,7 @@ import moment from "moment";
   <v-row>
     <v-col>
       <div class="text-body-1">
-        <v-expansion-panels v-model="expand">
+        <v-expansion-panels v-model="$data.expand">
           <v-expansion-panel>
             <v-expansion-panel-title>
               <template #default="{ expanded: hide }">

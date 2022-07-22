@@ -21,7 +21,7 @@ const DetailComponent = {
 <template>
   <v-carousel
     v-if="!singleItem"
-    v-model="carouselIndex"
+    v-model="$data.carouselIndex"
     height="100%"
     hide-delimiters
     hide-delimiter-background
