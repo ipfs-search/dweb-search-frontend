@@ -1,7 +1,7 @@
 <script setup>
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
-import { fileListComposable, imports } from "@/composables/fileListComposable";
+import { useFileListComposable, imports } from "@/composables/useFileListComposable";
 import MediaCenterIcon from "@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue";
 import { mdiMusic } from "@mdi/js";
 import { Types } from "@/helpers/typeHelper";
@@ -10,7 +10,7 @@ import { picsum } from "@/helpers/picsum";
 const { durationToColor, mime, prettyBytes } = imports;
 const fileType = Types.audio;
 
-const { slicedHits } = fileListComposable({ fileType });
+const { slicedHits } = useFileListComposable({ fileType });
 </script>
 
 pageHits.value.slice(0,

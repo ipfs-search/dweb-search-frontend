@@ -2,7 +2,7 @@
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { TypeListNames } from "@/helpers/typeHelper";
-import { fileListComposable } from "@/composables/fileListComposable";
+import { useFileListComposable } from "@/composables/useFileListComposable";
 import { onBeforeMount } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import Hyperlink from "@/components/shared/HyperLink.vue";
@@ -27,7 +27,7 @@ const {
   handleQueryChange,
   slicedHits,
   getResultsOnMount,
-} = fileListComposable(props);
+} = useFileListComposable(props);
 
 onBeforeMount(getResultsOnMount);
 

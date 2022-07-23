@@ -1,7 +1,7 @@
 <script setup>
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
-import { fileListComposable } from "@/composables/fileListComposable";
+import { useFileListComposable } from "@/composables/useFileListComposable";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import MediaCenterIcon from "@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue";
 import { mdiVideo } from "@mdi/js";
@@ -10,7 +10,7 @@ import { picsum } from "@/helpers/picsum";
 
 const fileType = Types.video;
 
-const { slicedHits } = fileListComposable({ fileType });
+const { slicedHits } = useFileListComposable({ fileType });
 </script>
 
 <template>

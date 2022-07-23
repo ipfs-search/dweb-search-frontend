@@ -26,3 +26,6 @@ coverage
 
 # local codeclimate build
 codeclimate-*
+
+# cache
+.eslintcache

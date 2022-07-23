@@ -11,17 +11,14 @@ import { Types } from "@/helpers/typeHelper";
 import getResourceURL from "@/helpers/resourceURL";
 
 const infiniteScrollMargin = 200;
+const route = useRoute();
+const router = useRouter();
 
-export const fileListComposable = ({ fileType }) => {
-  const route = useRoute();
-  const router = useRouter();
-
+export const useFileListComposable = ({ fileType }) => {
   // Computed properties
   const pageHits = computed(() =>
     store.getters[`results/${fileType}/pageResults`](Number(route.query.page) || 1)
   );
-
-  const infiniteHits = computed(() => store.getters[`results/${fileType}/hits`]);
 
   const resultsTotal = computed(() => {
     const resultsTotalMax = 10000;
@@ -55,7 +52,7 @@ export const fileListComposable = ({ fileType }) => {
   });
 
   const anyFileType = computed(() => {
-    return route.query.type === Types.any || route.query.type === undefined;
+    return [Types.any, undefined].includes(route.query.type);
   });
 
   const infinite = computed(() => route.query.type === Types.images);
@@ -128,9 +125,8 @@ export const fileListComposable = ({ fileType }) => {
       //   document.removeEventListener('scroll', infiniteScroll, true);
       // }
       return getInfiniteResults();
-    } else {
-      return store.dispatch(`results/${fileType}/fetchPage`, { page: query.page || 1 });
     }
+    return store.dispatch(`results/${fileType}/fetchPage`, { page: query.page || 1 });
   }
 
   function getResultsOnMount() {
@@ -150,14 +146,12 @@ export const fileListComposable = ({ fileType }) => {
       return pageHits.value.slice(0, slice);
     }
     if (infinite.value) {
-      return infiniteHits.value;
+      return store.getters[`results/${fileType}/hits`];
     }
     return pageHits.value;
   }
 
   return {
-    pageHits,
-    infiniteHits,
     resultsTotal,
     loading,
     error,

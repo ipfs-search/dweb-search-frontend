@@ -24,6 +24,26 @@ export const formattedTime = computed(() => formatTime(time.value));
 export const duration = ref(0);
 export const formattedDuration = computed(() => formatTime(duration.value));
 
+const howlSettings = {
+  html5: true,
+  preload: "metadata",
+  autoplay: true,
+  onend: () => (playing.value = false),
+  onstop: () => (playing.value = false),
+  onpause: () => (playing.value = false),
+  onplay: () => (playing.value = true),
+  onload: () => {
+    loading.value = false;
+    loaded.value = true;
+    interval = setInterval(() => {
+      time.value = audioPlayer.seek();
+    }, 100);
+    duration.value = audioPlayer.duration();
+  },
+  onloaderror: (source, message) => soundError(`Loading Error: ${errorCode[message]}`),
+  onplayerror: (source, message) => soundError(`Playback Error: ${errorCode[message]}`),
+};
+
 /**
  * load a sound file from ipfs into the Howl audio player and attach necessary hooks.
  *
@@ -47,25 +67,9 @@ export function load(file, options) {
   sourceFile.value = file;
 
   audioPlayer = new Howl({
+    ...howlSettings,
     src: [getResourceURL(file.hash)],
     format: [fileExtension],
-    html5: true,
-    preload: "metadata",
-    autoplay: true,
-    onend: () => (playing.value = false),
-    onstop: () => (playing.value = false),
-    onpause: () => (playing.value = false),
-    onplay: () => (playing.value = true),
-    onload: () => {
-      loading.value = false;
-      loaded.value = true;
-      interval = setInterval(() => {
-        time.value = audioPlayer.seek();
-      }, 100);
-      duration.value = audioPlayer.duration();
-    },
-    onloaderror: (source, message) => soundError(`Loading Error: ${errorCode[message]}`),
-    onplayerror: (source, message) => soundError(`Playback Error: ${errorCode[message]}`),
     ...options,
   });
 }

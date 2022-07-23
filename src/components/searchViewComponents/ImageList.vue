@@ -1,14 +1,14 @@
 <script setup>
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
-import { fileListComposable, imports } from "@/composables/fileListComposable";
+import { useFileListComposable, imports } from "@/composables/useFileListComposable";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 import { Types } from "@/helpers/typeHelper";
 import { mdiCog } from "@mdi/js";
 
 const fileType = Types.images;
 
-const { slicedHits, infiniteScroll } = fileListComposable({ fileType });
+const { slicedHits, infiniteScroll } = useFileListComposable({ fileType });
 
 const { getResourceURL } = imports;
 
