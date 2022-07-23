@@ -22,22 +22,9 @@
     "import/resolver": {
       "alias": {
         "map": [["@", "./src"]],
-        "extensions": [".ts", ".js", ".jsx", ".json"]
+        "extensions": [".vue", ".ts", ".js", ".tsx", ".jsx", ".json"]
       }
     }
-  },
-  "rules": {
-    "no-console": "off",
-    "max-len": [
-      "warn",
-      {
-        "code": 100,
-        "ignoreUrls": true
-      }
-    ],
-    "import/prefer-default-export": "off",
-    "import/named": "off",
-    "no-param-reassign": ["error", { "props": false }]
   },
   "overrides": [
     {
