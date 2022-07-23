@@ -1,7 +1,9 @@
 {
   "root": true,
   "env": {
-    "node": true
+    "node": false,
+    "browser": true,
+    "es2020": true
   },
   "extends": [
     "eslint:recommended",
@@ -13,7 +15,6 @@
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 12,
     "sourceType": "module"
   },
   "plugins": ["vue", "html"],
