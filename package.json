@@ -32,8 +32,6 @@
     "ts-node": "^10.8.0",
     "url": "^0.11.0",
     "video.js": "^7.12.1",
-    "vite": "^3.0.2",
-    "vite-plugin-vuetify": "^1.0.0-alpha.11",
     "vue": "^3.2.13",
     "vue-closable": "0.0.3",
     "vue-masonry": "^0.11.8",
@@ -43,6 +41,8 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "vite": "^3.0.2",
+    "vite-plugin-vuetify": "^1.0.0-alpha.11",
     "@mdi/js": "^6.9.96",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",

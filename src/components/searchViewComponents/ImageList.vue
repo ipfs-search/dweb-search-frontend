@@ -8,7 +8,7 @@ import { mdiCog } from "@mdi/js";
 
 const fileType = Types.images;
 
-const { slicedHits, infiniteScroll } = useFileListComposable({ fileType });
+const { slicedHits } = useFileListComposable({ fileType });
 
 const { getResourceURL } = imports;
 
@@ -16,7 +16,7 @@ const { blurExplicit } = useBlurExplicit();
 </script>
 
 <template>
-  <ListBase v-scroll="infiniteScroll" :file-type="fileType">
+  <ListBase :file-type="fileType">
     <v-col id="resultsList" cols="12" xl="8" offset-xl="2">
       <v-row dense>
         <v-col v-for="(hit, index) in slicedHits(6)" :key="index" cols="6" sm="4" md="3" lg="2">
