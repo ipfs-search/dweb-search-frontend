@@ -23,7 +23,7 @@ const { slicedHits } = useFileListComposable({ fileType });
               class="ma-3 mr-sm-0"
               cover
               aspect-ratio="1.778"
-              :src="hit.src || picsum()"
+              :src="hit.src || picsum({ seed: hit.hash })"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
               <media-center-icon :icon="mdiVideo" />

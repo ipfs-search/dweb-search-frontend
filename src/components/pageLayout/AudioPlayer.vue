@@ -3,6 +3,7 @@ import Marquee from "@/components/shared/MarqueeBox.vue";
 import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
+import { picsum } from "@/helpers/picsum";
 
 import {
   playerActive,
@@ -54,15 +55,14 @@ onBeforeUnmount(() => {
             aspect-ratio="1"
             bac
             gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-            style="filter: blur(2px)"
-            :src="sourceFile.src"
+            :src="sourceFile.src || picsum({ width: 75, height: 75, seed: sourceFile.hash })"
           >
           </v-img>
           <v-icon
             size="42"
             color="white"
             style="
-              opacity: 0.3;
+              opacity: 0.6;
               position: absolute;
               top: 50%;
               left: 50%;

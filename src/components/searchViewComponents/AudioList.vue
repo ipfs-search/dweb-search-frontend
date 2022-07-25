@@ -29,7 +29,7 @@ pageHits.value.slice(0,
         >
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
-              :src="hit.src || picsum()"
+              :src="hit.src || picsum({ seed: hit.hash })"
               class="text-white align-end"
               :aspect-ratio="1"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"

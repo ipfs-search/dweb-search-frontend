@@ -67,7 +67,9 @@ export default {
   },
   data() {
     return {
-      singleItem: undefined,
+      singleItem: {
+        hash: this.$props.fileHash,
+      },
       carouselIndex: 0,
     };
   },

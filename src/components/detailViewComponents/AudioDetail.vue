@@ -14,13 +14,16 @@ import * as audioControls from "@/composables/audioControls";
 const currentlyLoadedInPlayer = computed(
   () => props.file.hash === audioControls.sourceFile.value.hash
 );
+const image = (file, width, height) => file?.src || picsum({ width, height, seed: file.hash });
+const imgSrc = computed(() => image(props.file, 400, 300));
 </script>
 
 <template>
   <generic-detail :file="file" narrow>
     <v-img
-      style="max-height: 100%"
-      :src="picsum({ width: 400, height: 200 })"
+      max-height="40%"
+      cover
+      :src="imgSrc"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
     >
       <AudioDetailButton
