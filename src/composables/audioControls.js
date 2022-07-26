@@ -51,7 +51,6 @@ const howlSettings = {
  * @param options: optional extra options to pass to howl player or overrides.
  */
 export function load(file, options) {
-  console.debug("registering new howl player for ", file);
   if (!file || !file.hash) {
     throw Error("No proper file specified");
   }

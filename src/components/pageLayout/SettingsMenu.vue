@@ -35,9 +35,9 @@ const cogwheelColor = computed(() => {
             hide-details
           />
         </v-list-item>
-        <v-list-item>
-          <v-switch v-model="darkMode" label="Enable dark mode" color="ipfsPrimary" hide-details />
-        </v-list-item>
+        <!--        <v-list-item>-->
+        <!--          <v-switch v-model="darkMode" label="Enable dark mode" color="ipfsPrimary" hide-details />-->
+        <!--        </v-list-item>-->
       </v-list>
     </v-card>
   </v-menu>
