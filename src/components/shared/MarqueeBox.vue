@@ -1,11 +1,29 @@
 <script setup>
-import { computed, ref } from "vue";
+import { ref, onBeforeMount, onBeforeUnmount, onMounted, onUpdated } from "vue";
 
 const marquee = ref(null);
 
-const textWidth = computed(() => marquee.value?.firstChild.clientWidth);
-const overflowing = computed(() => marquee.value?.clientWidth < textWidth.value);
-const scrollDistance = computed(() => `${marquee.value?.clientWidth - textWidth.value}px`);
+let textWidth = ref(0);
+let overflowing = ref(false);
+let scrollDistance = ref(0);
+
+const calculate = () => {
+  textWidth.value = marquee.value.firstChild.clientWidth;
+  overflowing.value = marquee.value.clientWidth < textWidth.value;
+  scrollDistance.value = `${marquee.value.clientWidth - textWidth.value}px`;
+};
+onBeforeMount(() => {
+  window.addEventListener("resize", calculate);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", calculate);
+});
+onMounted(() => {
+  calculate();
+});
+onUpdated(() => {
+  calculate();
+});
 </script>
 
 <template>
@@ -39,19 +57,19 @@ const scrollDistance = computed(() => `${marquee.value?.clientWidth - textWidth.
 }
 
 @-moz-keyframes bouncing-text {
-  0% {
+  5% {
     -moz-transform: translateX(0%);
   }
-  100% {
+  95% {
     -moz-transform: translateX(v-bind(scrollDistance));
   }
 }
 
 @-webkit-keyframes bouncing-text {
-  0% {
+  5% {
     -webkit-transform: translateX(0%);
   }
-  100% {
+  95% {
     -webkit-transform: translateX(v-bind(scrollDistance));
   }
 }
@@ -59,6 +77,12 @@ const scrollDistance = computed(() => `${marquee.value?.clientWidth - textWidth.
 @keyframes bouncing-text {
   0% {
     transform: translateX(0%);
+  }
+  5% {
+    transform: translateX(0%);
+  }
+  95% {
+    transform: translateX(v-bind(scrollDistance));
   }
   100% {
     transform: translateX(v-bind(scrollDistance));
