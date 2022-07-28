@@ -9,7 +9,7 @@ exclude_patterns:
   - "public/"
 plugins:
   eslint:
-    enabled: true
+    enabled: false
     channel: "eslint-8"
     config:
       extensions:
