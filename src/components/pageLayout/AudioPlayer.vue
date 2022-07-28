@@ -1,5 +1,5 @@
 <script setup>
-import Marquee from "@/components/shared/MarqueeBox.vue";
+import VMarquee from "@/components/shared/VMarquee.vue";
 import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
@@ -71,17 +71,17 @@ onBeforeUnmount(() => {
             :icon="mdiMusic"
           />
         </v-avatar>
-        <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0px">
-          <marquee>
-            <v-card-title class="font-weight-default d-flex px-0" style="font-size: 16px">
+        <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0">
+          <v-marquee>
+            <v-card-title class="font-weight-default d-flex px-0">
               <span v-sane-html="sourceFile.title" />
             </v-card-title>
-          </marquee>
-          <marquee>
+          </v-marquee>
+          <v-marquee>
             <v-card-subtitle class="d-flex py-2 px-0">
               <span v-sane-html="sourceFile.author" />
             </v-card-subtitle>
-          </marquee>
+          </v-marquee>
         </div>
         <div
           class="h-100 d-flex align-center my-auto"
