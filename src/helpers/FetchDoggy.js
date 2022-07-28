@@ -24,96 +24,94 @@
  *
  * N.b. these properties are normal public properties so that Vue can make them reactive
  */
+async function readResponse(responseReader, callHooks, controller) {
+  let done = false;
+  let value;
+  while (!done) {
+    ({ value, done } = await responseReader.read());
+    if (done) break;
+    callHooks("progress", value.byteLength);
+    controller.enqueue(value);
+  }
+  callHooks("complete");
+  controller.close();
+}
+function responseGenerator(responseReader, callHooks, signal) {
+  return new Response(
+    new ReadableStream({
+      async start(controller) {
+        if (signal.aborted) {
+          controller.close();
+          await responseReader.cancel();
+        }
+        await readResponse(responseReader, callHooks, controller).catch((error) => {
+          controller(error);
+          callHooks("error");
+        });
+      },
+    })
+  );
+}
+
+function testResponse(response) {
+  if (!response.body) {
+    throw Error("ReadableStream is not yet supported in this browser.");
+  }
+
+  if (!response.ok) {
+    // HTTP error server response
+    const error = Error(`Server responded ${response.status} ${response.statusText}`);
+    this.callHooks("error", error);
+    throw error;
+  }
+}
+
 export default class FetchDoggy {
-  progress;
-
-  total;
-
-  blob;
-
-  objectURL;
-
-  #controller = new AbortController();
+  constructor() {
+    this.progress = 0;
+    this.total = undefined;
+    this.objectURL = undefined;
+    this.controller = new AbortController();
+    this.hooks = {
+      progress: {},
+      complete: {},
+      cancel: {},
+      error: {},
+    };
+    this.onProgress((amount) => (this.progress += amount));
+  }
 
   // mimic native fetch() instantiation and return Promise
-  fetch(input, init = {}, extraOptions = { mimetype: 'application/pdf' }) {
-    const request = (input instanceof Request) ? input : new Request(input);
-
-    const { signal } = this.#controller;
-
+  fetch(input, init = {}, extraOptions = { mimetype: "application/pdf" }) {
+    const request = input instanceof Request ? input : new Request(input);
+    const { signal } = this.controller;
     return fetch(request, { signal, ...init })
       .then((response) => {
-        if (!response.body) {
-          throw Error('ReadableStream is not yet supported in this browser.');
-        }
-
-        if (!response.ok) {
-          // HTTP error server response
-          const error = Error(`Server responded ${response.status} ${response.statusText}`);
-          this.#callHooks('error', error);
-          throw error;
-        }
-
+        testResponse(response);
         // to access headers, server must send CORS header
         // "Access-Control-Expose-Headers: content-encoding, content-length x-file-size"
         // server must send custom x-file-size header if gzip or other content-encoding is used
-        const contentEncoding = response.headers.get('content-encoding');
-        // eslint-disable-next-line max-len
-        const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
-        if (contentLength === null) {
-          // don't evaluate download progress if we can't compare against a total size
-          throw Error('Response size header unavailable');
-        }
+        this.total = parseInt(
+          response.headers.get(
+            response.headers.get("content-encoding") ? "x-file-size" : "content-length"
+          ),
+          10
+        );
 
-        this.total = parseInt(contentLength, 10);
-        this.progress = 0;
+        // don't evaluate download progress if we can't compare against a total size
+        if (isNaN(this.total)) throw Error("Response size header unavailable");
 
         // ensure onProgress called when content-length=0
         if (this.total === 0) {
-          this.#callHooks('progress');
-          this.#callHooks('complete');
+          this.callHooks("progress", 0);
+          this.callHooks("complete");
         }
 
-        const responseReader = response.body.getReader();
-        const me = this;
-
-        return new Response(
-          new ReadableStream({
-            async start(controller) {
-              if (signal.aborted) {
-                controller.close();
-                await responseReader.cancel();
-              }
-
-              async function read() {
-                let done = false;
-                let value;
-                while (!done) {
-                  // eslint-disable-next-line no-await-in-loop
-                  ({ value, done } = await responseReader.read());
-                  if (done) break;
-                  me.progress += value.byteLength;
-                  me.#callHooks('progress');
-                  controller.enqueue(value);
-                }
-                me.#callHooks('complete');
-                controller.close();
-              }
-
-              await read()
-                .catch((error) => {
-                  controller(error);
-                  me.#callHooks('error');
-                  throw Error(error);
-                });
-            },
-          }),
-        );
+        return responseGenerator(response.body.getReader(), this.callHooks.bind(this), signal);
       })
       .then((response) => response.arrayBuffer())
       .then((arrayBuffer) => new Blob([arrayBuffer], { type: extraOptions.mimetype }))
       .then((blob) => {
-        this.blob = blob;
         if (this.progress === this.total) {
           this.objectURL = window.URL.createObjectURL(blob);
         }
@@ -122,11 +120,9 @@ export default class FetchDoggy {
 
   cancel() {
     this.total = undefined;
-    this.progress = undefined;
-
-    this.#controller.abort();
-
-    this.#callHooks('cancel');
+    this.progress = 0;
+    this.controller.abort();
+    this.callHooks("cancel");
   }
 
   /**
@@ -137,15 +133,14 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   on(hook, func) {
-    if (typeof func !== 'function') {
+    if (typeof func !== "function") {
       throw Error(`trying to set non-function on ${hook} hook`);
     }
-    if (!Object.prototype.hasOwnProperty.call(this.#hooks, hook)) {
+    if (!Object.prototype.hasOwnProperty.call(this.hooks, hook)) {
       throw Error(`hook unavailable: ${hook}`);
     }
-
     const s = Symbol(hook);
-    this.#hooks[hook][s] = func;
+    this.hooks[hook][s] = func;
     return s;
   }
 
@@ -156,7 +151,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onComplete(func) {
-    return this.on('complete', func);
+    return this.on("complete", func);
   }
 
   /**
@@ -166,7 +161,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onCancel(func) {
-    return this.on('cancel', func);
+    return this.on("cancel", func);
   }
 
   /**
@@ -176,7 +171,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onProgress(func) {
-    return this.on('progress', func);
+    return this.on("progress", func);
   }
 
   /**
@@ -186,7 +181,7 @@ export default class FetchDoggy {
    * @returns {symbol}
    */
   onError(func) {
-    return this.on('error', func);
+    return this.on("error", func);
   }
 
   /**
@@ -194,24 +189,14 @@ export default class FetchDoggy {
    * @param target <Symbol> hook to be destroyed. If undefined, destroys all hooks.
    */
   off(target) {
-    Reflect.ownKeys(this.#hooks).forEach((hook) => {
-      Reflect.ownKeys(this.#hooks[hook]).forEach((s) => {
-        if (target === s || target === undefined) delete this.#hooks[hook][s];
+    Reflect.ownKeys(this.hooks).forEach((hook) => {
+      Reflect.ownKeys(this.hooks[hook]).forEach((s) => {
+        if (target === s || target === undefined) delete this.hooks[hook][s];
       });
     });
   }
 
-  /**
-   * support for multiple hooks and different hooks
-   */
-  #hooks = {
-    progress: {},
-    complete: {},
-    cancel: {},
-    error: {},
-  };
-
-  #callHooks(hook, ...args) {
-    Reflect.ownKeys(this.#hooks[hook]).forEach((s) => this.#hooks[hook][s](...args));
+  callHooks(hook, ...args) {
+    Reflect.ownKeys(this.hooks[hook]).forEach((s) => this.hooks[hook][s](...args));
   }
 }

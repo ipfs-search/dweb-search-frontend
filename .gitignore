@@ -20,3 +20,12 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# test coverage reports
+coverage
+
+# local codeclimate build
+codeclimate-*
+
+# cache
+.eslintcache

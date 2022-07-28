@@ -1,11 +1,29 @@
+exclude_patterns:
+  - "node_modules/"
+  - "coverage/"
+  - "codeclimate-*/"
+  - ".husky/"
+  - ".idea/"
+  - ".vscode/"
+  - "dist/"
+  - "public/"
 plugins:
   eslint:
-    enabled: true
-    channel: "eslint-7"
+    enabled: false
+    channel: "eslint-8"
     config:
       extensions:
-        - .es6
         - .js
         - .jsx
+        - .ts
+        - .tsx
+        - .cjs
         - .mjs
         - .vue
+checks:
+  identical-code:
+    config:
+      threshold: 50
+  similar-code:
+    config:
+      threshold: 75

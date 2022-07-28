@@ -1,4 +1,4 @@
-const mime = require('mime/lite');
+import * as mime from "mime/lite";
 
 // Howler (audio player) requires the following extensions:
 // "mp3", "mpeg", "opus", "ogg", "oga", "wav", "aac", "caf", "m4a", "m4b",
@@ -22,9 +22,13 @@ const mime = require('mime/lite');
 //   // omitting weba and webm because they have the same mimetype
 // };
 
-mime.define({
-  'audio/mpeg': ['mp3'],
-}, true);
+mime.define(
+  {
+    "audio/mpeg": ["mp3"],
+    "audio/x-flac": ["flac"],
+  },
+  true
+);
 
 /**
  * Get file extension based on mimetype, or if inconclusive, the references of the file.
@@ -44,10 +48,10 @@ export function getFileExtension(file) {
     // Get filename extension, dealing with edge cases
     // https://www.jstips.co/en/javascript/get-file-extension/
     /* eslint no-bitwise: ["error", { "allow": [">>>"] }] */
-    return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
+    return filename.slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2);
   }
 
-  return '';
+  return "";
 }
 
 export default {

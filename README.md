@@ -1,4 +1,5 @@
 # dweb-search-frontend
+
 [![Pipeline Status](https://gitlab.com/ipfs-search.com/dweb-search-frontend/badges/master/pipeline.svg)](https://gitlab.com/ipfs-search.com/dweb-search-frontend/-/commits/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1373bd46347115e764d2/maintainability)](https://codeclimate.com/github/ipfs-search/dweb-search-frontend/maintainability)
 [![Backers on Open Collective](https://opencollective.com/ipfs-search/backers/badge.svg)](#backers)
@@ -7,40 +8,55 @@
 New frontend repository for [ipfs-search.com](https://ipfs-search.com). Master is automatically deployed through [Fleek](https://fleek.co/).
 
 ## Dependencies
-* [NodeJS 16 Gallium (LTS)](https://nodejs.org/)
-* [VueJS](https://vuejs.org/)
-* [VuetifyJS](https://vuetifyjs.com/)
+
+- [NodeJS 16 Gallium (LTS)](https://nodejs.org/)
+- [Vue 3](https://vuejs.org/)
+- [VuetifyJS 3 (beta)](https://next.vuetifyjs.com/)
 
 ## Project setup
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Scripts:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+`npm run serve` Compiles and hot-reloads for development
 
-### Lints and fixes files
-```
-npm run lint
-```
+`npm run build` Compiles and minifies for production
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+`npm run preview` Serves the latest build locally
+
+`npm run test` Run all tests and watch code
+
+`npm run test:once` Run all tests only once
+
+`npm run test:coverage` Run all tests once and create coverage report under './coverage'
+
+`npm run lint` Run code through linter to check
+
+`npm run lint:fix` Run code through linter and fix (if automatically possible)
+
+`npm run prettier:check` Test if code is formatted according to prettier spec
+
+`npm run prettier:write` Format code according to prettier spec
+
+`npm run prepare-githooks` Setup githook to automatically run prettier pre-commit. If you like this.
+
+### So many scripts... which one do I need?
+
+Developers: you will likely want to run `npm run serve` in one terminal and `npm run test` in another. You can use `npm run prepare-githooks` to autoformat the code. Alternatively you can run `npm run prettier:write` before pushing.
+
+Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`, `npm run prettier:check`
 
 ## NSFW api
-This build uses an API to check nsfw content. 
+
+This build uses an API to check nsfw content.
 
 The default API endpoint to is: https://api.ipfs-search.com/nsfw/
-. This can be overridden by injecting `process.env.NSFW_API` 
+. This can be overridden by injecting environment variable `VITE_NSFW_API`
 
-The API call should be: `<process.env.NSFW_API><CID>`, so e.g.
+The API call should be: `<VITE_NSFW_API><CID>`, so e.g.
 
 `https://api.ipfs-search.com/nsfw/QmSZzv7ux1LGwpehVcCMQ9ec945X6qE4qyjKDhCVwY25iw`
 https://api.ipfs-search.com/v1/nsfw/classify/

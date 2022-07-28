@@ -1,21 +1,21 @@
 import {
   multipleSelectFilterModule,
   selectFilterModule,
-} from '@/store/modules/queryFilters/filterVuexModuleGenerators';
-import filterSubModule from '@/store/modules/queryFilters/filterSubModule';
+} from "@/store/modules/queryFilters/filterVuexModuleGenerators";
+import filterSubModule from "@/store/modules/queryFilters/filterSubModule";
 
 /**
  * icecream is multiple select; you can have select 0 or more flavors
  * @type {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
 const icecream = multipleSelectFilterModule({
-  apiKey: 'icecream',
-  label: 'icecream',
+  apiKey: "icecream",
+  label: "icecream",
   items: [
-    { text: 'Pistachio', apiValue: 'pistachio', default: true },
-    { text: 'Chocolate', apiValue: 'chocolate', default: true },
-    { text: 'Mango', apiValue: 'mango', default: true },
-    { text: 'Stracciatella', apiValue: ['chocolate', 'vanilla'], default: true },
+    { text: "Pistachio", apiValue: "pistachio", default: true },
+    { text: "Chocolate", apiValue: "chocolate", default: true },
+    { text: "Mango", apiValue: "mango", default: true },
+    { text: "Stracciatella", apiValue: ["chocolate", "vanilla"], default: true },
   ],
 });
 
@@ -24,11 +24,11 @@ const icecream = multipleSelectFilterModule({
  * @type {{mutations: {setValue}, state, getters: {toComponentProps, toSearchApi}}}
  */
 const pizza = selectFilterModule({
-  label: 'pizza',
-  apiKey: 'pizza',
+  label: "pizza",
+  apiKey: "pizza",
   items: [
-    { text: 'Margherita', apiValue: ['mozzerella', 'tomato', 'basilicum'], default: true },
-    { text: 'Funghi', apiValue: 'mushrooms' },
+    { text: "Margherita", apiValue: ["mozzerella", "tomato", "basilicum"], default: true },
+    { text: "Funghi", apiValue: "mushrooms" },
   ],
 });
 

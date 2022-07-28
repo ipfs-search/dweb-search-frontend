@@ -1,19 +1,19 @@
-import { nsfwThresholds } from '@/helpers/constants/nsfwThresholds';
+import { nsfwThresholds } from "@/helpers/constants/nsfwThresholds";
 
-export const mimetypeExemptions = ['image/svg+xml'];
+export const mimetypeExemptions = ["image/svg+xml"];
 
 // for a local setup, typically use: http://localhost:8080/classify
-const nsfwApiEndpoint = process?.env?.NSFW_API || 'https://api.ipfs-search.com/v1/nsfw/classify/';
+const nsfwApiEndpoint =
+  import.meta.env.VITE_NSFW_API || "https://api.ipfs-search.com/v1/nsfw/classify/";
 
 export function classify({ hash, mimetype }) {
   if (mimetypeExemptions.includes(mimetype)) return Promise.resolve({});
   return fetch(`${nsfwApiEndpoint}${hash}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      Accept: 'application/json',
+      Accept: "application/json",
     },
-  })
-    .then((response) => response.json());
+  }).then((response) => (response ? response.json() : {}));
 }
 
 /**
@@ -27,7 +27,6 @@ export function nsfw(classification) {
   const guiltyUntilProvenInnocent = true;
   // a missing classification defaults to:
   if (!classification) return guiltyUntilProvenInnocent;
-
   // eslint-disable-next-line no-restricted-syntax
   for (const classifier in nsfwThresholds) {
     if (nsfwThresholds[classifier] < classification[classifier]) {

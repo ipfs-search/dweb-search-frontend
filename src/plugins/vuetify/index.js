@@ -1,19 +1,23 @@
-import Vue from 'vue';
+import { createVuetify } from "vuetify";
+import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
+import "vuetify/styles";
 
-// Faster builds
-// Ref: https://vuetifyjs.com/en/features/presets/#compilation-time
-import Vuetify from 'vuetify/lib/framework';
-import store from '@/store';
-import ipfsTheme from './theme';
+import store from "@/store";
+import ipfsTheme from "./theme";
 
-Vue.use(Vuetify);
-
-export default new Vuetify({
+export default createVuetify({
   theme: {
-    dark: store.state.localStorage.darkMode,
+    defaultTheme: store.state.localStorage.darkMode ? "dark" : "light",
     themes: {
       dark: ipfsTheme,
       light: ipfsTheme,
+    },
+  },
+  icons: {
+    defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi,
     },
   },
 });

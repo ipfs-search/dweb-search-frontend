@@ -1,13 +1,10 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import localStorage from '@/store/modules/localStorage';
-import { Types } from '@/helpers/typeHelper';
-import query from './modules/query';
-import SearchResults from './modules/SearchResults';
+import { createStore } from "vuex";
+import localStorage from "@/store/modules/localStorage";
+import { Types } from "@/helpers/typeHelper";
+import query from "./modules/query";
+import SearchResults from "./modules/SearchResults";
 
-Vue.use(Vuex);
-
-const storeConfiguration = {
+export default createStore({
   modules: {
     localStorage,
     query,
@@ -25,18 +22,5 @@ const storeConfiguration = {
     },
   },
   // https://v3.vuex.vuejs.org/guide/strict.html#development-vs-production
-  // N.b. this won't work with vite
-  strict: process.env.NODE_ENV !== 'production',
-};
-
-/**
- * create a store from a configuration and/or deepmerge an override into it.
- * @param configuration
- * @param storeOverrides
- * @returns {Store<{}>}
- */
-export function createStore(configuration = storeConfiguration) {
-  return new Vuex.Store(configuration);
-}
-
-export default createStore();
+  strict: !import.meta.env.PROD,
+});
