@@ -7,7 +7,6 @@
             <v-col class="hidden-sm-and-down">
               <span class="text-body-1"> Filter: </span>
             </v-col>
-
             <v-col v-for="filter in filters" :key="filter.slug" cols="6" md="3">
               <select-filter :filter="filter" />
             </v-col>

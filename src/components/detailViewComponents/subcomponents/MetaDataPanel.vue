@@ -2,6 +2,8 @@
 import prettyBytes from "pretty-bytes";
 import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
+import HyperLink from "@/components/shared/HyperLink.vue";
+const metadataLink = (item) => `metadata.${item.label}:"${item.value}"`;
 </script>
 
 <template>
@@ -82,11 +84,13 @@ import moment from "moment";
                     <v-expansion-panel-title>
                       <i
                         >Extra metadata from
-                        <a
-                          href="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__"
+                        <hyper-link
+                          style="z-index: 100000"
+                          to="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__"
+                          @click="(event) => event.stopPropagation()"
                         >
                           metadata API:
-                        </a>
+                        </hyper-link>
                       </i>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
@@ -94,9 +98,18 @@ import moment from "moment";
                         <tbody>
                           <tr v-for="(item, index) in extraData" :key="index">
                             <th>{{ item.label }}:</th>
-                            <td>
-                              {{ decodeURI(item.value) }}
-                            </td>
+                            <hyper-link
+                              :to="{
+                                name: 'Search',
+                                query: {
+                                  q: metadataLink(item),
+                                },
+                              }"
+                            >
+                              <td>
+                                {{ decodeURI(item.value) }}
+                              </td>
+                            </hyper-link>
                           </tr>
                         </tbody>
                       </v-table>
