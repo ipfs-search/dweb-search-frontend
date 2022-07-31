@@ -1,17 +1,18 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
-const store = useStore();
 import { useRoute } from "vue-router";
-const route = useRoute();
 import { enterSearchQuery } from "@/router";
-
 import { mdiMenuDown, mdiMagnify } from "@mdi/js";
 import { useDisplay } from "vuetify";
-const { smAndDown } = useDisplay();
 import { useMobileDevices } from "@/composables/useMobileDevices";
+import { searchTypes, listName, Types } from "@/helpers/typeHelper";
+
+const store = useStore();
+const route = useRoute();
+
+const { smAndDown } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
-import { searchTypes } from "@/helpers/typeHelper";
 
 let searchPhraseProxy = store.state.query.searchPhrase;
 const searchPhrase = computed({
@@ -63,16 +64,20 @@ const fileType = computed({
           <v-menu offset-y>
             <template #activator="{ props }">
               <div class="mr-3 text-grey d-flex align-start" v-bind="props">
-                <span class="text-capitalize" data-testid="type-filter-selector-value">{{
-                  fileType
-                }}</span>
+                <span class="text-capitalize" data-testid="type-filter-selector-value">
+                  {{ listName(fileType) }}
+                </span>
                 <v-icon class="d-inline-block" :icon="mdiMenuDown" />
               </div>
             </template>
             <v-list class="bg-white">
-              <v-list-item v-for="t in searchTypes" :key="t" @click="fileType = t">
+              <v-list-item
+                v-for="[type, typeName] in searchTypes"
+                :key="type"
+                @click="fileType = Types[type]"
+              >
                 <v-list-item-title class="text-capitalize">
-                  {{ t }}
+                  {{ typeName }}
                 </v-list-item-title>
               </v-list-item>
             </v-list>

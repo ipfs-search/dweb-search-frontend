@@ -1,7 +1,7 @@
-import { Types } from "@/helpers/typeHelper";
+import { TypeListNames, Types } from "@/helpers/typeHelper";
 import { languages } from "@cospired/i18n-iso-languages/langs/en.json";
 
-const legacyTypes = {
+const mainFileTypes = {
   [Types.directories]: [],
   [Types.text]: [
     // eBook types
@@ -12,8 +12,8 @@ const legacyTypes = {
     "image/vnd.djvu",
     "application/pdf",
     // HTML/plain text
-    "text/html",
-    "text/plain",
+    "text/html*",
+    "text/plain*",
     // Text editors
     "application/postscript",
     "application/rtf",
@@ -45,19 +45,24 @@ export const typeFilterDefinition = {
   apiKey: "metadata.Content-Type",
   items: [
     {
-      title: "Any",
-      value: Types.any,
+      title: TypeListNames.all,
+      value: Types.all,
       default: true,
       apiValue: [],
     },
-    ...Object.entries(legacyTypes).map(([type, values]) => ({
+    ...Object.entries(mainFileTypes).map(([type, values]) => ({
       title: type,
       apiValue: values,
     })),
     {
-      title: "Other",
+      title: TypeListNames.other,
       value: Types.other,
-      apiValue: Object.values(legacyTypes).flat(), // gets negated
+      apiValue: Object.values(mainFileTypes).flat(), // gets negated
+    },
+    {
+      title: TypeListNames.unfiltered,
+      value: Types.unfiltered,
+      apiValue: [],
     },
   ],
 };

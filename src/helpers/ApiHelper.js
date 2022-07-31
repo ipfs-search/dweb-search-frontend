@@ -59,6 +59,8 @@ export function apiSearch(query, type, batch = 0) {
     });
 }
 
+export const apiStringFormatter = (s) => s.replace(/([/:])/, (_, c) => `\\${c}`);
+
 export default {
   maxPages,
   batchSize,

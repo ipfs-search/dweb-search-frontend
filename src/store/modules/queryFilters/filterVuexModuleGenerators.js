@@ -7,6 +7,7 @@
 //
 // The filterModule function explains the shape of the module:
 import { Types } from "@/helpers/typeHelper";
+import { apiStringFormatter } from "@/helpers/ApiHelper";
 
 /**
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
@@ -60,14 +61,13 @@ const selectFilterToSearchApi = (state) => {
 };
 
 const multipleSelectFilterToSearchApi = (state) => {
-  const apiValueFormatter = (x) => (x.includes("*") ? x : `"${x}"`);
   const value = [state.value].flat(); // coerces the value to an array type
   // get array of api values for the selected item(s)
   const apiValues = state.items
     .filter((item) => value.includes(item.value))
     .flatMap(({ apiValue }) => apiValue);
   if (!apiValues.length) return "";
-  return `${state.apiKey}:(${apiValues.map(apiValueFormatter).join(" OR ")})`;
+  return `${state.apiKey}:(${apiValues.map(apiStringFormatter).join(" OR ")})`;
 };
 
 /**

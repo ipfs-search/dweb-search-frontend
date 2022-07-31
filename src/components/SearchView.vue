@@ -11,7 +11,7 @@ import { Types } from "@/helpers/typeHelper";
 const route = useRoute();
 
 function listType(t) {
-  return [t, Types.any, undefined].includes(route.query.type);
+  return [t, Types.all, undefined].includes(route.query.type);
 }
 </script>
 
@@ -24,6 +24,7 @@ function listType(t) {
     <VideoList v-if="listType(Types.video)" />
     <GenericList v-if="listType(Types.directories)" :file-type="Types.directories" />
     <GenericList v-if="listType(Types.other)" :file-type="Types.other" />
+    <GenericList v-if="route.query.type == Types.unfiltered" :file-type="Types.unfiltered" />
   </div>
 </template>
 
