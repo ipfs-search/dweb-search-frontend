@@ -14,6 +14,7 @@ const mainFileTypes = {
     // HTML/plain text
     "text/html*",
     "text/plain*",
+    "text/*markdown*",
     // Text editors
     "application/postscript",
     "application/rtf",
@@ -63,6 +64,57 @@ export const typeFilterDefinition = {
       title: TypeListNames.unfiltered,
       value: Types.unfiltered,
       apiValue: [],
+    },
+  ],
+};
+
+export const documentsSubTypeFilter = {
+  label: "Type",
+  slug: "subtype",
+  apiKey: "metadata.Content-Type",
+  items: [
+    {
+      title: "any",
+      apiValue: [],
+    },
+    {
+      title: "pdf",
+      apiValue: "application/pdf",
+    },
+    {
+      title: "text documents",
+      apiValue:
+        "(" +
+        "application/postscript OR " +
+        "application/rtf OR " +
+        // Open Office et al.
+        "application/vnd.oasis.opendocument.text OR " +
+        "application/vnd.sun.xml.writer OR " +
+        "application/vnd.stardivision.writer OR " +
+        "application/x-starwriter OR " +
+        // MS Word
+        "application/msword OR " +
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document OR " +
+        // Misc
+        "application/x-abiword" +
+        ")",
+    },
+    {
+      title: "ebook",
+      apiValue:
+        "(\
+        application/x-mobipocket-ebook OR \
+        application/epub+zip OR \
+        application/vnd.amazon.ebook \
+        )",
+    },
+    {
+      title: "html",
+      apiValue: "text/html*",
+    },
+    {
+      title: "plaintext or markdown",
+      apiValue: "(text/plain* OR text/*markdown*)",
     },
   ],
 };

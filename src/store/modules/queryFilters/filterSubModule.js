@@ -1,6 +1,7 @@
 import { Types } from "@/helpers/typeHelper";
 import {
   typeFilterDefinition,
+  documentsSubTypeFilter,
   languageFilterDefinition,
   sizeFilterDefinition,
   lastSeenFilterDefinition,
@@ -13,6 +14,7 @@ import {
 } from "@/store/modules/queryFilters/filterVuexModuleGenerators";
 
 const TYPE = typeFilterDefinition.slug;
+const DOCSUBTYPE = documentsSubTypeFilter.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
@@ -39,7 +41,7 @@ export default {
     applicableFilters: (state) => {
       switch (state.type.value) {
         case Types.text:
-          return [LANGUAGE, SIZE, LASTSEEN];
+          return [DOCSUBTYPE, LANGUAGE, SIZE, LASTSEEN];
         default:
           return [SIZE, LASTSEEN];
       }
@@ -49,6 +51,7 @@ export default {
   },
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
+    [DOCSUBTYPE]: selectFilterModule(documentsSubTypeFilter),
     [LANGUAGE]: multipleSelectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
