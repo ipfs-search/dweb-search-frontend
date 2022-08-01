@@ -7,7 +7,7 @@
 //
 // The filterModule function explains the shape of the module:
 import { Types } from "@/helpers/typeHelper";
-import { apiStringFormatter } from "@/helpers/ApiHelper";
+import { elasticSearchEscape } from "@/helpers/ApiHelper";
 
 /**
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
@@ -67,7 +67,7 @@ const multipleSelectFilterToSearchApi = (state) => {
     .filter((item) => value.includes(item.value))
     .flatMap(({ apiValue }) => apiValue);
   if (!apiValues.length) return "";
-  return `${state.apiKey}:(${apiValues.map(apiStringFormatter).join(" OR ")})`;
+  return `${state.apiKey}:(${apiValues.map(elasticSearchEscape).join(" OR ")})`;
 };
 
 /**
