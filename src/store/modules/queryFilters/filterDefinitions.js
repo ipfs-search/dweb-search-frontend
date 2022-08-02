@@ -156,7 +156,7 @@ export const documentsSubTypeFilter = {
   ],
 };
 
-export const imagesSubTypeFilter = {
+export const imagesTypesFilter = {
   label: "File Type",
   slug: "image-type",
   apiKey: "metadata.Content-Type",
@@ -191,7 +191,7 @@ export const imagesSubTypeFilter = {
     },
     {
       title: "bmp",
-      apiValue: "image/bmp",
+      apiValue: "image/*bmp",
     },
     {
       title: "ico",
@@ -204,7 +204,51 @@ export const imagesSubTypeFilter = {
   ],
 };
 
-export const audioSubTypeFilter = {
+export const videoTypesFilter = {
+  label: "File Type",
+  slug: "video-type",
+  apiKey: "metadata.Content-Type",
+  items: [
+    {
+      title: "Any",
+      apiValue: undefined,
+    },
+    {
+      title: "mp4",
+      apiValue: "video/mp4",
+    },
+    {
+      title: "mpeg",
+      apiValue: "video/mpeg",
+    },
+    {
+      title: "avi",
+      apiValue: "video/x-msvideo",
+    },
+    {
+      title: "wma / asf",
+      apiValue: "video/x-ms-asf",
+    },
+    {
+      title: "Quicktime",
+      apiValue: "video/quicktime",
+    },
+    {
+      title: "h264",
+      apiValue: "video/h264",
+    },
+    {
+      title: "WEBM",
+      apiValue: "video/webm",
+    },
+    {
+      title: "3gp",
+      apiValue: "video/3gp*",
+    },
+  ],
+};
+
+export const audioTypesFilter = {
   label: "File Type",
   slug: "audio-type",
   apiKey: "metadata.Content-Type",
@@ -240,6 +284,14 @@ export const audioSubTypeFilter = {
     {
       title: "mp4",
       apiValue: "audio/mp4",
+    },
+    {
+      title: "wma",
+      apiValue: "audio/x-ms-wma",
+    },
+    {
+      title: "3gp",
+      apiValue: "audio/3gp*",
     },
   ],
 };
