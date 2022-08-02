@@ -7,6 +7,9 @@ import VideoList from "@/components/searchViewComponents/VideoList.vue";
 
 import { useRoute } from "vue-router";
 import { Types } from "@/helpers/typeHelper";
+import { useDisplay } from "vuetify";
+import SearchFilterMenu from "@/components/searchViewComponents/subcomponents/SearchFilterMenu.vue";
+const { smAndDown } = useDisplay();
 
 const route = useRoute();
 
@@ -17,7 +20,8 @@ function listType(t) {
 
 <template>
   <div>
-    <SearchFilters />
+    <search-filter-menu v-if="smAndDown" />
+    <SearchFilters v-else />
     <GenericList v-if="listType(Types.text)" :file-type="Types.text" />
     <AudioList v-if="listType(Types.audio)" />
     <ImageList v-if="listType(Types.images)" />

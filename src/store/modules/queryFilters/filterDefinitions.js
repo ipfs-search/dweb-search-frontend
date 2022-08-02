@@ -77,7 +77,7 @@ export const typeFilterDefinition = {
 };
 
 export const documentsSubTypeFilter = {
-  label: "Type",
+  label: "File Type",
   slug: "doc-subtype",
   apiKey: "metadata.Content-Type",
   items: [
@@ -86,7 +86,7 @@ export const documentsSubTypeFilter = {
       apiValue: [],
     },
     {
-      title: "Portable Document Format (pdf)",
+      title: "pdf",
       apiValue: "application/pdf",
     },
     {
@@ -210,11 +210,11 @@ export const lastSeenFilterDefinition = {
     {
       value: "<7d",
       apiValue: "[ now/h-7d TO *]",
-      default: true,
     },
     {
       value: "<30d",
       apiValue: "[ now/d-30d TO *]",
+      default: true,
     },
     {
       value: "Any",

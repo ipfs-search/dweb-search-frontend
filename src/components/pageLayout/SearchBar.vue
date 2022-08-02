@@ -3,16 +3,20 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { enterSearchQuery } from "@/router";
-import { mdiMenuDown, mdiMagnify } from "@mdi/js";
+import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
 import { searchTypes, listName, Types } from "@/helpers/typeHelper";
+import SelectFilter from "@/components/shared/SelectFilter.vue";
+import SearchFilters from "@/components/searchViewComponents/subcomponents/SearchFilters.vue";
 
 const store = useStore();
 const route = useRoute();
 
 const { smAndDown } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
+
+const filters = store.getters["query/filters/filterWidgets"];
 
 let searchPhraseProxy = store.state.query.searchPhrase;
 const searchPhrase = computed({
@@ -82,6 +86,7 @@ const fileType = computed({
               </v-list-item>
             </v-list>
           </v-menu>
+          <v-icon v-if="smAndDown" class="mr-3" :icon="mdiFilter" data-id="filter-menu-activator" />
         </template>
       </v-text-field>
     </div>
