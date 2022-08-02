@@ -30,6 +30,9 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
+  // to align below header, which is 56px
+  margin-top: 56px;
+  position: fixed;
   width: 100%;
 }
 </style>
