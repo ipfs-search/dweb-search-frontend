@@ -6,6 +6,7 @@ import {
   languageFilterDefinition,
   sizeFilterDefinition,
   lastSeenFilterDefinition,
+  imagesSubTypeFilter,
 } from "@/store/modules/queryFilters/filterDefinitions";
 
 import {
@@ -14,8 +15,9 @@ import {
 } from "@/store/modules/queryFilters/filterVuexModuleGenerators";
 
 const TYPE = typeFilterDefinition.slug;
-const DOCSUBTYPE = documentsSubTypeFilter.slug;
-const AUDIOSUBTYPE = audioSubTypeFilter.slug;
+const DOCTYPE = documentsSubTypeFilter.slug;
+const AUDIOTYPE = audioSubTypeFilter.slug;
+const IMAGETYPE = imagesSubTypeFilter.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
@@ -42,9 +44,11 @@ export default {
     applicableFilters: (state) => {
       switch (state.type.value) {
         case Types.audio:
-          return [AUDIOSUBTYPE, SIZE, LASTSEEN];
+          return [AUDIOTYPE, SIZE, LASTSEEN];
+        case Types.images:
+          return [IMAGETYPE, SIZE, LASTSEEN];
         case Types.text:
-          return [DOCSUBTYPE, LANGUAGE, SIZE, LASTSEEN];
+          return [DOCTYPE, LANGUAGE, SIZE, LASTSEEN];
         default:
           return [SIZE, LASTSEEN];
       }
@@ -54,8 +58,9 @@ export default {
   },
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
-    [DOCSUBTYPE]: selectFilterModule(documentsSubTypeFilter),
-    [AUDIOSUBTYPE]: selectFilterModule(audioSubTypeFilter),
+    [DOCTYPE]: selectFilterModule(documentsSubTypeFilter),
+    [AUDIOTYPE]: selectFilterModule(audioSubTypeFilter),
+    [IMAGETYPE]: selectFilterModule(imagesSubTypeFilter),
     [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
