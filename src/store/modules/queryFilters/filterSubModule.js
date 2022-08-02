@@ -2,6 +2,7 @@ import { Types } from "@/helpers/typeHelper";
 import {
   typeFilterDefinition,
   documentsSubTypeFilter,
+  audioSubTypeFilter,
   languageFilterDefinition,
   sizeFilterDefinition,
   lastSeenFilterDefinition,
@@ -14,6 +15,7 @@ import {
 
 const TYPE = typeFilterDefinition.slug;
 const DOCSUBTYPE = documentsSubTypeFilter.slug;
+const AUDIOSUBTYPE = audioSubTypeFilter.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
@@ -39,6 +41,8 @@ export default {
   getters: {
     applicableFilters: (state) => {
       switch (state.type.value) {
+        case Types.audio:
+          return [AUDIOSUBTYPE, SIZE, LASTSEEN];
         case Types.text:
           return [DOCSUBTYPE, LANGUAGE, SIZE, LASTSEEN];
         default:
@@ -51,6 +55,7 @@ export default {
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
     [DOCSUBTYPE]: selectFilterModule(documentsSubTypeFilter),
+    [AUDIOSUBTYPE]: selectFilterModule(audioSubTypeFilter),
     [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),

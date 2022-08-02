@@ -78,12 +78,12 @@ export const typeFilterDefinition = {
 
 export const documentsSubTypeFilter = {
   label: "File Type",
-  slug: "doc-subtype",
+  slug: "doc-type",
   apiKey: "metadata.Content-Type",
   items: [
     {
       title: "Any",
-      apiValue: [],
+      apiValue: undefined,
     },
     {
       title: "pdf",
@@ -156,6 +156,46 @@ export const documentsSubTypeFilter = {
   ],
 };
 
+export const audioSubTypeFilter = {
+  label: "File Type",
+  slug: "audio-type",
+  apiKey: "metadata.Content-Type",
+  items: [
+    {
+      title: "Any",
+      apiValue: undefined,
+    },
+    {
+      title: "mp3 (mpeg)",
+      apiValue: "(audio/mp3 OR audio/mpeg)",
+    },
+    {
+      title: "midi",
+      apiValue: "audio/*midi",
+    },
+    {
+      title: "ogg vorbis",
+      apiValue: "audio/ogg",
+    },
+    {
+      title: "opus",
+      apiValue: "audio/opus",
+    },
+    {
+      title: "wav",
+      apiValue: "audio/*wav*",
+    },
+    {
+      title: "flac",
+      apiValue: "audio/*flac",
+    },
+    {
+      title: "mp4",
+      apiValue: "audio/mp4",
+    },
+  ],
+};
+
 const languageOptions = Object.entries(languages)
   .map(([alpha2, name]) => ({
     title: name,
@@ -172,6 +212,7 @@ export const languageFilterDefinition = {
     {
       title: "Any",
       apiValue: undefined,
+      default: true,
     },
     ...languageOptions,
   ],
