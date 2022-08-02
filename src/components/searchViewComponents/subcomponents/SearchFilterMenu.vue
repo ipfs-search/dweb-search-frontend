@@ -30,7 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
-  margin: 5px;
   width: 100%;
 }
 </style>
