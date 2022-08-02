@@ -126,9 +126,12 @@ export const documentsSubTypeFilter = {
       apiValue:
         "(\
         application/x-mobipocket-ebook OR \
-        application/epub+zip OR \
         application/vnd.amazon.ebook \
         )",
+    },
+    {
+      title: "ePub",
+      apiValue: "application/epub+zip",
     },
     {
       title: "Html",
