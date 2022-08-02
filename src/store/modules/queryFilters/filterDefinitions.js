@@ -82,35 +82,29 @@ export const documentsSubTypeFilter = {
   apiKey: "metadata.Content-Type",
   items: [
     {
-      title: "any",
+      title: "Any",
       apiValue: [],
     },
     {
-      title: "pdf",
+      title: "Portable Document Format (pdf)",
       apiValue: "application/pdf",
     },
     {
-      title: "openoffice documents",
+      title: "Office Documents",
       apiValue:
         "(" +
         // Open Office et al.
         "application/vnd.oasis.opendocument.text OR " +
         "application/vnd.sun.xml.writer OR " +
         "application/vnd.stardivision.writer OR " +
-        "application/x-starwriter" +
-        ")",
-    },
-    {
-      title: "ms office documents",
-      apiValue:
-        "(" +
+        "application/x-starwriter OR " +
         // MS Word
         "application/msword OR " +
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document OR " +
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" +
         ")",
     },
     {
-      title: "presentations",
+      title: "Presentations",
       apiValue:
         "(" +
         "application/vnd.ms-powerpoint OR " +
@@ -119,7 +113,7 @@ export const documentsSubTypeFilter = {
         ")",
     },
     {
-      title: "spreadsheets",
+      title: "Spreadsheets",
       apiValue:
         "(" +
         "application/vnd.ms-excel OR " +
@@ -128,7 +122,7 @@ export const documentsSubTypeFilter = {
         ")",
     },
     {
-      title: "ebook",
+      title: "Ebook",
       apiValue:
         "(\
         application/x-mobipocket-ebook OR \
@@ -137,28 +131,24 @@ export const documentsSubTypeFilter = {
         )",
     },
     {
-      title: "html",
+      title: "Html",
       apiValue: "text/html*",
     },
     {
-      title: "plaintext (txt)",
+      title: "Plaintext (txt)",
       apiValue: "text/plain*",
     },
     {
-      title: "markdown (md)",
+      title: "Markdown (md)",
       apiValue: "text/*markdown*",
     },
     {
-      title: "postscript (ps/ai)",
+      title: "Postscript (ps/ai)",
       apiValue: "application/postscript",
     },
     {
-      title: "rich text format (rtf)",
+      title: "Rich Text Format (rtf)",
       apiValue: "application/rtf",
-    },
-    {
-      title: "abiword (abw)",
-      apiValue: "application/x-abiword",
     },
   ],
 };
