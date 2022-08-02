@@ -26,6 +26,14 @@ const mainFileTypes = {
     // MS Word
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    // presentations
+    "application/vnd.ms-powerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "application/vnd.oasis.opendocument.presentation",
+    // spreadsheets
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/vnd.oasis.opendocument.spreadsheet",
     // Misc
     "application/x-abiword",
   ],
@@ -70,7 +78,7 @@ export const typeFilterDefinition = {
 
 export const documentsSubTypeFilter = {
   label: "Type",
-  slug: "subtype",
+  slug: "doc-subtype",
   apiKey: "metadata.Content-Type",
   items: [
     {
@@ -82,21 +90,41 @@ export const documentsSubTypeFilter = {
       apiValue: "application/pdf",
     },
     {
-      title: "text documents",
+      title: "openoffice documents",
       apiValue:
         "(" +
-        "application/postscript OR " +
-        "application/rtf OR " +
         // Open Office et al.
         "application/vnd.oasis.opendocument.text OR " +
         "application/vnd.sun.xml.writer OR " +
         "application/vnd.stardivision.writer OR " +
-        "application/x-starwriter OR " +
+        "application/x-starwriter" +
+        ")",
+    },
+    {
+      title: "ms office documents",
+      apiValue:
+        "(" +
         // MS Word
         "application/msword OR " +
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document OR " +
-        // Misc
-        "application/x-abiword" +
+        ")",
+    },
+    {
+      title: "presentations",
+      apiValue:
+        "(" +
+        "application/vnd.ms-powerpoint OR " +
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation OR " +
+        "application/vnd.oasis.opendocument.presentation" +
+        ")",
+    },
+    {
+      title: "spreadsheets",
+      apiValue:
+        "(" +
+        "application/vnd.ms-excel OR " +
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet OR " +
+        "application/vnd.oasis.opendocument.spreadsheet" +
         ")",
     },
     {
@@ -113,8 +141,24 @@ export const documentsSubTypeFilter = {
       apiValue: "text/html*",
     },
     {
-      title: "plaintext or markdown",
-      apiValue: "(text/plain* OR text/*markdown*)",
+      title: "plaintext (txt)",
+      apiValue: "text/plain*",
+    },
+    {
+      title: "markdown (md)",
+      apiValue: "text/*markdown*",
+    },
+    {
+      title: "postscript (ps/ai)",
+      apiValue: "application/postscript",
+    },
+    {
+      title: "rich text format (rtf)",
+      apiValue: "application/rtf",
+    },
+    {
+      title: "abiword (abw)",
+      apiValue: "application/x-abiword",
     },
   ],
 };
