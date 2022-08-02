@@ -9,7 +9,6 @@ import {
 
 import {
   selectFilterModule,
-  multipleSelectFilterModule,
   typeFilterModule,
 } from "@/store/modules/queryFilters/filterVuexModuleGenerators";
 
@@ -52,7 +51,7 @@ export default {
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
     [DOCSUBTYPE]: selectFilterModule(documentsSubTypeFilter),
-    [LANGUAGE]: multipleSelectFilterModule(languageFilterDefinition),
+    [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
   },

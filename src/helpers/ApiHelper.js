@@ -70,7 +70,7 @@ export function apiSearch(query, type, batch = 0) {
  * https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#_reserved_characters
  * @param s
  */
-export const elasticSearchEscape = (s) => s.replaceAll(/([/:])/g, (_, c) => `\\${c}`);
+export const elasticSearchEscape = (s) => s?.replaceAll(/([/:])/g, (_, c) => `\\${c}`);
 
 export default {
   maxPages,

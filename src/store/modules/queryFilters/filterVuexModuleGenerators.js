@@ -57,7 +57,7 @@ const selectFilterToSearchApi = (state) => {
   if (Array.isArray(apiValue)) {
     return apiValue.map((entry) => `${state.apiKey}:${elasticSearchEscape(entry)}`).join(" ");
   }
-  return `${state.apiKey}:${elasticSearchEscape(apiValue)}`;
+  return apiValue ? `${state.apiKey}:${elasticSearchEscape(apiValue)}` : "";
 };
 
 const multipleSelectFilterToSearchApi = (state) => {

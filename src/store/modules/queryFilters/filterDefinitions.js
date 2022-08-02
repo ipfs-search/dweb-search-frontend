@@ -168,7 +168,13 @@ export const languageFilterDefinition = {
   label: "Language",
   slug: "language",
   apiKey: "language.language",
-  items: [...languageOptions],
+  items: [
+    {
+      title: "Any",
+      apiValue: undefined,
+    },
+    ...languageOptions,
+  ],
 };
 
 export const sizeFilterDefinition = {
