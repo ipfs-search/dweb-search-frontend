@@ -86,7 +86,12 @@ const fileType = computed({
               </v-list-item>
             </v-list>
           </v-menu>
-          <v-icon v-if="smAndDown" class="mr-3" :icon="mdiFilter" data-id="filter-menu-activator" />
+          <v-icon
+            v-if="smAndDown && route.name !== 'Home'"
+            class="mr-3"
+            :icon="mdiFilter"
+            data-id="filter-menu-activator"
+          />
         </template>
       </v-text-field>
     </div>
