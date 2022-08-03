@@ -9,9 +9,11 @@ import Hyperlink from "@/components/shared/HyperLink.vue";
 import { enterSearchQuery } from "@/router";
 import store from "@/store";
 import { batchSize, maxPages } from "@/helpers/ApiHelper";
+import { useDisplay } from "vuetify";
 
 const infiniteScrollMargin = 200;
 const route = useRoute();
+const { smAndDown } = useDisplay();
 
 const props = defineProps({
   fileType: {
@@ -166,7 +168,7 @@ const queryPage = computed({
     <!--     PAGINATION -->
     <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->
     <div v-if="!anyFileType && !infinite" class="my-16" style="margin-bottom: 135px !important">
-      <v-pagination v-model="queryPage" :length="pageCount" total-visible="9" />
+      <v-pagination v-model="queryPage" :length="pageCount" :total-visible="smAndDown ? 3 : 9" />
     </div>
   </v-container>
 </template>
