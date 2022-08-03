@@ -8,6 +8,7 @@ import {
   lastSeenFilterDefinition,
   imagesTypesFilter,
   videoTypesFilter,
+  otherTypesFilter,
 } from "@/store/modules/queryFilters/filterDefinitions";
 
 import {
@@ -20,6 +21,7 @@ const DOCTYPE = documentsSubTypeFilter.slug;
 const AUDIOTYPE = audioTypesFilter.slug;
 const VIDEOTYPE = videoTypesFilter.slug;
 const IMAGETYPE = imagesTypesFilter.slug;
+const OTHERTYPE = otherTypesFilter.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
@@ -45,14 +47,16 @@ export default {
   getters: {
     applicableFilters: (state) => {
       switch (state.type.value) {
+        case Types.text:
+          return [DOCTYPE, LANGUAGE, SIZE, LASTSEEN];
         case Types.audio:
           return [AUDIOTYPE, SIZE, LASTSEEN];
         case Types.video:
           return [VIDEOTYPE, SIZE, LASTSEEN];
         case Types.images:
           return [IMAGETYPE, SIZE, LASTSEEN];
-        case Types.text:
-          return [DOCTYPE, LANGUAGE, SIZE, LASTSEEN];
+        case Types.other:
+          return [OTHERTYPE, SIZE, LASTSEEN];
         default:
           return [SIZE, LASTSEEN];
       }
@@ -66,6 +70,7 @@ export default {
     [AUDIOTYPE]: selectFilterModule(audioTypesFilter),
     [VIDEOTYPE]: selectFilterModule(videoTypesFilter),
     [IMAGETYPE]: selectFilterModule(imagesTypesFilter),
+    [OTHERTYPE]: selectFilterModule(otherTypesFilter),
     [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),

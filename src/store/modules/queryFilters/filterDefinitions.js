@@ -13,6 +13,7 @@ const mainFileTypes = {
     "application/pdf",
     // HTML/plain text
     "text/html*",
+    "text/x-html*",
     "text/plain*",
     "text/*markdown*",
     // Text editors
@@ -34,6 +35,7 @@ const mainFileTypes = {
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/vnd.oasis.opendocument.spreadsheet",
+    "text/csv",
     // Misc
     "application/x-abiword",
   ],
@@ -93,32 +95,39 @@ export const documentsSubTypeFilter = {
       title: "Office Documents",
       apiValue:
         "(" +
-        // Open Office et al.
-        "application/vnd.oasis.opendocument.text OR " +
-        "application/vnd.sun.xml.writer OR " +
-        "application/vnd.stardivision.writer OR " +
-        "application/x-starwriter OR " +
-        // MS Word
-        "application/msword OR " +
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" +
+        [
+          // Open Office et al.
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.sun.xml.writer",
+          "application/vnd.stardivision.writer",
+          "application/x-starwriter",
+          // MS Word
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ].join(" OR ") +
         ")",
     },
     {
       title: "Presentations",
       apiValue:
         "(" +
-        "application/vnd.ms-powerpoint OR " +
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation OR " +
-        "application/vnd.oasis.opendocument.presentation" +
+        [
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/vnd.oasis.opendocument.presentation",
+        ].join(" OR ") +
         ")",
     },
     {
       title: "Spreadsheets",
       apiValue:
         "(" +
-        "application/vnd.ms-excel OR " +
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet OR " +
-        "application/vnd.oasis.opendocument.spreadsheet" +
+        [
+          "application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "text/csv",
+        ].join(" OR ") +
         ")",
     },
     {
@@ -135,7 +144,7 @@ export const documentsSubTypeFilter = {
     },
     {
       title: "Html",
-      apiValue: "text/html*",
+      apiValue: "(text/html* OR text/x-html*)",
     },
     {
       title: "Plaintext (txt)",
@@ -248,6 +257,76 @@ export const videoTypesFilter = {
   ],
 };
 
+export const otherTypesFilter = {
+  label: "File Type",
+  slug: "other-type",
+  apiKey: "metadata.Content-Type",
+  items: [
+    {
+      title: "Any",
+      apiValue: undefined,
+    },
+    {
+      title: "Binary data",
+      apiValue: "application/octet-stream",
+    },
+    {
+      title: "Archives",
+      apiValue:
+        "(" +
+        [
+          "application/x-bzip*",
+          "application/gzip",
+          "application/vnd.rar",
+          "application/x-tar",
+          "application/zip",
+          "application/x-zip",
+          "application/x-zip-compressed",
+          "application/x-7z-compressed",
+          "application/gnutar",
+          "application/x-compressed",
+        ].join(" OR ") +
+        ")",
+    },
+    {
+      title: "Executables (programs)",
+      apiValue:
+        "(" +
+        [
+          "application/vnd.microsoft.portable-executable",
+          "application/vnd.android.package-archive",
+          "application/x-ios-app",
+          "application/vnd.apple.installer+xml",
+        ].join(" OR ") +
+        ")",
+    },
+    {
+      title: "Code",
+      apiValue:
+        "(" +
+        [
+          "text/javascript",
+          "application/*javascript",
+          "application/*json",
+          "application/x-sh",
+          "text/x-java-source",
+          "text/x-asm",
+          "text/x-fortran",
+          "text/x-script.phyton",
+        ].join(" OR ") +
+        ")",
+    },
+    {
+      title: "Calendars",
+      apiValue: "text/calendar",
+    },
+    {
+      title: "Fonts",
+      apiValue: "(font/* OR application/*font*)",
+    },
+  ],
+};
+
 export const audioTypesFilter = {
   label: "File Type",
   slug: "audio-type",
@@ -288,6 +367,10 @@ export const audioTypesFilter = {
     {
       title: "wma",
       apiValue: "audio/x-ms-wma",
+    },
+    {
+      title: "aif",
+      apiValue: "audio/*aiff",
     },
     {
       title: "3gp",
