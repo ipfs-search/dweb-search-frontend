@@ -78,7 +78,7 @@ export default {
   methods: {
     onScroll() {
       const { scrollTop } = document.documentElement;
-      this.hideFooter = scrollTop > 300 && scrollTop > this.lastScrollPosition;
+      this.hideFooter = scrollTop > 30 && scrollTop > this.lastScrollPosition;
       this.lastScrollPosition = document.documentElement.scrollTop;
     },
   },
