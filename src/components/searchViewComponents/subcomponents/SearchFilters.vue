@@ -9,13 +9,13 @@ const route = useRoute();
     <v-row>
       <v-col cols="12" offset-xl="2" class="bg-white px-8 d-flex justify-center">
         <v-container class="mx-0 px-0">
-          <v-row>
+          <v-row class="text-secondary">
             <v-col>
-              <span class="text-subtitle-1">Filters: </span>
+              <span class="text-h6">Filters: </span>
             </v-col>
             <v-col class="d-flex justify-end">
               <hyper-link :to="{ ...route, query: { q: route.query.q, type: route.query.type } }">
-                <v-icon :icon="mdiFilterOff" color="text-secondary" />
+                <v-icon :icon="mdiFilterOff" />
                 <v-tooltip activator="parent"> Reset filters </v-tooltip>
               </hyper-link>
             </v-col>

@@ -1,6 +1,6 @@
 //
 // This file exports a number of generator functions to create vuex modules, to serve as filters.
-// Filters are created by sending a state object (such as from filterDefinitions.js) and the
+// Filters are created by sending a state object and the
 // appropriate mutations and getters
 //
 // There a number of standard mutation/getter methods defined for standard filters

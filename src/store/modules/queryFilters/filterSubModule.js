@@ -1,27 +1,24 @@
 import { Types } from "@/helpers/typeHelper";
-import {
-  typeFilterDefinition,
-  documentsSubTypeFilter,
-  audioTypesFilter,
-  languageFilterDefinition,
-  sizeFilterDefinition,
-  lastSeenFilterDefinition,
-  imagesTypesFilter,
-  videoTypesFilter,
-  otherTypesFilter,
-} from "@/store/modules/queryFilters/filterDefinitions";
-
+import { typeFilterDefinition } from "./filterDefinitions/typeFilter";
+import { documentsTypeFilterDefinition } from "./filterDefinitions/documentsTypeFilter";
+import { imagesTypeFilterDefinition } from "./filterDefinitions/imagesTypeFilter";
+import { audioTypeFilterDefinition } from "./filterDefinitions/audioTypeFilter";
+import { videoTypeFilterDefinition } from "./filterDefinitions/videoTypeFilter";
+import { otherTypeFilterDefinition } from "./filterDefinitions/otherTypeFilter";
+import { languageFilterDefinition } from "./filterDefinitions/languageFilter";
+import { sizeFilterDefinition } from "./filterDefinitions/sizeFilter";
+import { lastSeenFilterDefinition } from "./filterDefinitions/lastSeenFilter";
 import {
   selectFilterModule,
   typeFilterModule,
 } from "@/store/modules/queryFilters/filterVuexModuleGenerators";
 
 const TYPE = typeFilterDefinition.slug;
-const DOCTYPE = documentsSubTypeFilter.slug;
-const AUDIOTYPE = audioTypesFilter.slug;
-const VIDEOTYPE = videoTypesFilter.slug;
-const IMAGETYPE = imagesTypesFilter.slug;
-const OTHERTYPE = otherTypesFilter.slug;
+const DOCTYPE = documentsTypeFilterDefinition.slug;
+const AUDIOTYPE = audioTypeFilterDefinition.slug;
+const VIDEOTYPE = videoTypeFilterDefinition.slug;
+const IMAGETYPE = imagesTypeFilterDefinition.slug;
+const OTHERTYPE = otherTypeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
@@ -66,11 +63,11 @@ export default {
   },
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
-    [DOCTYPE]: selectFilterModule(documentsSubTypeFilter),
-    [AUDIOTYPE]: selectFilterModule(audioTypesFilter),
-    [VIDEOTYPE]: selectFilterModule(videoTypesFilter),
-    [IMAGETYPE]: selectFilterModule(imagesTypesFilter),
-    [OTHERTYPE]: selectFilterModule(otherTypesFilter),
+    [DOCTYPE]: selectFilterModule(documentsTypeFilterDefinition),
+    [AUDIOTYPE]: selectFilterModule(audioTypeFilterDefinition),
+    [VIDEOTYPE]: selectFilterModule(videoTypeFilterDefinition),
+    [IMAGETYPE]: selectFilterModule(imagesTypeFilterDefinition),
+    [OTHERTYPE]: selectFilterModule(otherTypeFilterDefinition),
     [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
