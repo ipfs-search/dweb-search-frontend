@@ -1,7 +1,8 @@
 FROM node:lts-alpine AS build
 
 WORKDIR /src
-COPY ./package* ./
+
+COPY package*.json .npmrc .
 RUN npm ci
 
 COPY . .
