@@ -17,6 +17,7 @@ const changeFilter = (value) => enterSearchQuery({ [props.filter.slug]: value })
 <template>
   <v-select
     class="v-select"
+    :class="filter.isDefault && 'font-italic'"
     height="38px"
     variant="underlined"
     :outlined="smAndDown"

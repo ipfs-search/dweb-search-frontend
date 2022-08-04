@@ -12,11 +12,11 @@ const route = useRoute();
         <v-container class="mx-0 px-0">
           <v-row class="text-secondary">
             <v-col>
-              <span class="text-h6">Filters: </span>
+              <span class="text-h6"> Filters: </span>
             </v-col>
-            <v-col class="d-flex justify-end">
+            <v-col v-if="anyFiltersApplied" class="d-flex justify-end">
               <hyper-link :to="{ ...route, query: { q: route.query.q, type: route.query.type } }">
-                <v-icon :icon="mdiFilterOff" />
+                <v-icon :icon="mdiFilterOff" class="text-ipfsSecondary" />
                 <v-tooltip activator="parent"> Reset filters </v-tooltip>
               </hyper-link>
             </v-col>
@@ -38,7 +38,7 @@ export default {
     filters() {
       return this.$store.getters["query/filters/filterWidgets"];
     },
-    filtersApplied() {
+    anyFiltersApplied() {
       return this.$store.getters["query/filters/anyFiltersApplied"];
     },
   },

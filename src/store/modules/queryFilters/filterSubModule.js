@@ -61,7 +61,7 @@ export default {
     filterWidgets: (state, getters) =>
       getters.applicableFilters.map((filter) => getters[`${filter}/toProps`]),
     anyFiltersApplied: (state, getters) =>
-      getters.applicableFilters.some((filter) => !getters[`${filter}/isDefault`]),
+      getters.applicableFilters.some((filter) => !getters[`${filter}/toProps`].isDefault),
   },
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
