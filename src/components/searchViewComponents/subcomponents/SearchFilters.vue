@@ -1,4 +1,5 @@
 <script setup>
+import SelectFilter from "@/components/shared/SelectFilter.vue";
 import { useRoute } from "vue-router";
 import { mdiFilterOff } from "@mdi/js";
 import HyperLink from "@/components/shared/HyperLink.vue";
@@ -32,13 +33,13 @@ const route = useRoute();
 </template>
 
 <script>
-import SelectFilter from "@/components/shared/SelectFilter.vue";
-
 export default {
-  components: { SelectFilter },
   computed: {
     filters() {
       return this.$store.getters["query/filters/filterWidgets"];
+    },
+    filtersApplied() {
+      return this.$store.getters["query/filters/anyFiltersApplied"];
     },
   },
 };

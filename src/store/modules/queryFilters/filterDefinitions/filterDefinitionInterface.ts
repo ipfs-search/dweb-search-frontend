@@ -6,6 +6,6 @@ export interface filterDefinition {
     title: string;
     value?: string;
     default?: boolean;
-    apiValue: string | string[];
+    apiValue: string | string[] | undefined;
   }[];
 }

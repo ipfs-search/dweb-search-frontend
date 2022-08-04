@@ -8,6 +8,7 @@ export const documentsTypeFilterDefinition: filterDefinition = {
     {
       title: "Any",
       apiValue: undefined,
+      default: true,
     },
     {
       title: "pdf",

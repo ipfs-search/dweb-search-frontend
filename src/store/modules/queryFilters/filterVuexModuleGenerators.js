@@ -16,12 +16,23 @@ import { elasticSearchEscape } from "@/helpers/ApiHelper";
  * @param toSearchQuery: transform the state to a chunk of API input for the search
  * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
  */
-function filterModule({ state, mutations: { setValue }, getters: { toProps, toSearchQuery } }) {
+function filterModule({
+  state,
+  mutations: { setValue },
+  getters: { toProps, toSearchQuery, isDefault },
+}) {
   return {
     namespaced: true,
     state,
     mutations: { setValue },
-    getters: { toProps, toSearchQuery },
+    getters: {
+      toProps,
+      toSearchQuery,
+      isDefault: (...stuff) => {
+        console.log(state.slug, isDefault(...stuff), state);
+        return isDefault(...stuff);
+      },
+    },
   };
 }
 
@@ -119,6 +130,8 @@ export const selectFilterModule = (filterProperties) =>
     },
     getters: {
       toProps,
+      isDefault: ({ items, value }) =>
+        [value].flat()[0] === items.find((item) => item.default)?.value,
       toSearchQuery: selectFilterToSearchApi,
     },
   });
@@ -139,6 +152,8 @@ export const multipleSelectFilterModule = (filterProperties) =>
     },
     getters: {
       toProps,
+      // n.b. untested, and only works with a single default value
+      isDefault: ({ items, value }) => value[0] === items.find((item) => item.default)?.value,
       toSearchQuery: multipleSelectFilterToSearchApi,
     },
   });
@@ -170,5 +185,7 @@ export const typeFilterModule = (filterProperties) =>
         multiple,
         value: Array.isArray(value) ? value[0] : value,
       }),
+      // N.b. untested
+      isDefault: ({ items, value }) => value[0] === items.find((item) => item.default)?.value,
     },
   });

@@ -14,7 +14,8 @@ export const lastSeenFilterDefinition: filterDefinition = {
       apiValue: "[ now/h-7d TO *]",
     },
     {
-      title: "<30d",
+      title: "<30d (default)",
+      value: "<30d",
       apiValue: "[ now/d-30d TO *]",
       default: true,
     },

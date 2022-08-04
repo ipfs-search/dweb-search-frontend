@@ -7,8 +7,6 @@ import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
 import { searchTypes, listName, Types } from "@/helpers/typeHelper";
-import SelectFilter from "@/components/shared/SelectFilter.vue";
-import SearchFilters from "@/components/searchViewComponents/subcomponents/SearchFilters.vue";
 
 const store = useStore();
 const route = useRoute();
@@ -16,7 +14,7 @@ const route = useRoute();
 const { smAndDown } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
 
-const filters = store.getters["query/filters/filterWidgets"];
+const anyFiltersApplied = computed(() => store.getters["query/filters/anyFiltersApplied"]);
 
 let searchPhraseProxy = store.state.query.searchPhrase;
 const searchPhrase = computed({
@@ -88,6 +86,7 @@ const fileType = computed({
           </v-menu>
           <v-icon
             v-if="smAndDown && route.name !== 'Home'"
+            :class="anyFiltersApplied && `text-ipfsSecondary`"
             class="mr-3"
             :icon="mdiFilter"
             data-id="filter-menu-activator"
