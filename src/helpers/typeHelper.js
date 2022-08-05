@@ -10,14 +10,14 @@ export const Types = {
 };
 
 export const TypeListNames = {
-  all: "All types",
+  all: "All categories",
   text: "Documents",
   audio: "Audio",
   images: "Images",
   video: "Video",
   directories: "Directories",
   other: "Other",
-  unfiltered: "Any",
+  unfiltered: "Unsorted",
 };
 
 export const searchTypes = Object.entries(TypeListNames);

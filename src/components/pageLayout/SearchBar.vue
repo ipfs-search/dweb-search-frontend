@@ -6,7 +6,7 @@ import { enterSearchQuery } from "@/router";
 import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
-import { searchTypes, listName, Types } from "@/helpers/typeHelper";
+import { searchTypes, listName, Types, TypeListNames } from "@/helpers/typeHelper";
 
 const store = useStore();
 const route = useRoute();
@@ -63,7 +63,8 @@ const fileType = computed({
         @keyup.enter="enterSearchPhrase"
       >
         <template #append>
-          <v-menu offset-y>
+          <v-menu offset-y location="left">
+            <!-- FixMe: console warning about activator not being a reactive object-->
             <template #activator="{ props }">
               <div class="mr-3 text-grey d-flex align-start" v-bind="props">
                 <span class="text-capitalize" data-testid="type-filter-selector-value">
@@ -74,12 +75,20 @@ const fileType = computed({
             </template>
             <v-list class="bg-white">
               <v-list-item
-                v-for="[type, typeName] in searchTypes"
+                v-for="[type, typeName] in searchTypes.filter(
+                  ([t, n]) => n !== TypeListNames.unfiltered
+                )"
                 :key="type"
                 @click="fileType = Types[type]"
               >
                 <v-list-item-title class="text-capitalize">
                   {{ typeName }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-divider class="text-grey" thickness="2" />
+              <v-list-item @click="fileType = Types.unfiltered">
+                <v-list-item-title class="text-capitalize">
+                  {{ TypeListNames.unfiltered }}
                 </v-list-item-title>
               </v-list-item>
             </v-list>

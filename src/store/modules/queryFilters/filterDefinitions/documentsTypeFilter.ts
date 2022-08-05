@@ -11,10 +11,6 @@ export const documentsTypeFilterDefinition: filterDefinition = {
       default: true,
     },
     {
-      title: "pdf",
-      apiValue: "application/pdf",
-    },
-    {
       title: "Office Documents",
       apiValue:
         "(" +
@@ -52,6 +48,10 @@ export const documentsTypeFilterDefinition: filterDefinition = {
           "text/csv",
         ].join(" OR ") +
         ")",
+    },
+    {
+      title: "Pdf",
+      apiValue: "application/pdf",
     },
     {
       title: "Ebook",
