@@ -2,7 +2,7 @@ import { filterDefinition } from "./filterDefinitionInterface";
 
 // selection of languages, borrowed from @cospired/i18n-iso-languages
 // It is totally possible that some of the languages can be left out or should be added
-const languages = {
+export const languages = {
   // aa: "Afar",
   // "ab": "Abkhazian",
   // "ae": "Avestan",

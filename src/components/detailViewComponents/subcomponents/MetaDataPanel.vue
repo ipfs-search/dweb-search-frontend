@@ -114,7 +114,7 @@ import moment from "moment";
 
 <script>
 import getResourceURL from "@/helpers/resourceURL";
-import english from "@cospired/i18n-iso-languages/langs/en.json";
+import { languages } from "@/store/modules/queryFilters/filterDefinitions/languageFilter";
 
 export default {
   props: {
@@ -150,7 +150,8 @@ export default {
       if (this.file.metadata?.language?.rawScore > 0.95) {
         extraData.push({
           label: "language",
-          value: english.languages[this.file.metadata.language.language],
+          value:
+            languages[this.file.metadata.language.language] ?? this.file.metadata.language.language,
         });
       }
       return extraData.concat(
