@@ -8,7 +8,7 @@ const route = useRoute();
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" offset-xl="2" class="bg-white px-8 d-flex justify-center">
+      <v-col cols="12" offset-xl="2" xl="8" class="bg-white px-8 d-flex justify-center">
         <v-container class="mx-0 px-0">
           <v-row class="text-secondary">
             <v-col>

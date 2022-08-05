@@ -85,12 +85,6 @@ const fileType = computed({
                   {{ typeName }}
                 </v-list-item-title>
               </v-list-item>
-              <v-divider class="text-grey" thickness="2" />
-              <v-list-item @click="fileType = Types.unfiltered">
-                <v-list-item-title class="text-capitalize">
-                  {{ TypeListNames.unfiltered }}
-                </v-list-item-title>
-              </v-list-item>
             </v-list>
           </v-menu>
           <v-icon

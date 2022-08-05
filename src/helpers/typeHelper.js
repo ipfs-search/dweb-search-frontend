@@ -10,7 +10,7 @@ export const Types = {
 };
 
 export const TypeListNames = {
-  all: "All categories",
+  all: "All types",
   text: "Documents",
   audio: "Audio",
   images: "Images",
