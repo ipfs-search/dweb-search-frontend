@@ -1,18 +1,24 @@
 import { Types } from "@/helpers/typeHelper";
-import {
-  typeFilterDefinition,
-  languageFilterDefinition,
-  sizeFilterDefinition,
-  lastSeenFilterDefinition,
-} from "@/store/modules/queryFilters/filterDefinitions";
-
+import { typeFilterDefinition } from "./filterDefinitions/typeFilter";
+import { documentsTypeFilterDefinition } from "./filterDefinitions/documentsTypeFilter";
+import { imagesTypeFilterDefinition } from "./filterDefinitions/imagesTypeFilter";
+import { audioTypeFilterDefinition } from "./filterDefinitions/audioTypeFilter";
+import { videoTypeFilterDefinition } from "./filterDefinitions/videoTypeFilter";
+import { otherTypeFilterDefinition } from "./filterDefinitions/otherTypeFilter";
+import { languageFilterDefinition } from "./filterDefinitions/languageFilter";
+import { sizeFilterDefinition } from "./filterDefinitions/sizeFilter";
+import { lastSeenFilterDefinition } from "./filterDefinitions/lastSeenFilter";
 import {
   selectFilterModule,
-  multipleSelectFilterModule,
   typeFilterModule,
 } from "@/store/modules/queryFilters/filterVuexModuleGenerators";
 
 const TYPE = typeFilterDefinition.slug;
+const DOCTYPE = documentsTypeFilterDefinition.slug;
+const AUDIOTYPE = audioTypeFilterDefinition.slug;
+const VIDEOTYPE = videoTypeFilterDefinition.slug;
+const IMAGETYPE = imagesTypeFilterDefinition.slug;
+const OTHERTYPE = otherTypeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
@@ -39,17 +45,32 @@ export default {
     applicableFilters: (state) => {
       switch (state.type.value) {
         case Types.text:
-          return [LANGUAGE, SIZE, LASTSEEN];
+          return [DOCTYPE, LANGUAGE, SIZE, LASTSEEN];
+        case Types.audio:
+          return [AUDIOTYPE, SIZE, LASTSEEN];
+        case Types.video:
+          return [VIDEOTYPE, SIZE, LASTSEEN];
+        case Types.images:
+          return [IMAGETYPE, SIZE, LASTSEEN];
+        case Types.other:
+          return [OTHERTYPE, SIZE, LASTSEEN];
         default:
           return [SIZE, LASTSEEN];
       }
     },
     filterWidgets: (state, getters) =>
       getters.applicableFilters.map((filter) => getters[`${filter}/toProps`]),
+    anyFiltersApplied: (state, getters) =>
+      getters.applicableFilters.some((filter) => !getters[`${filter}/toProps`].isDefault),
   },
   modules: {
     [TYPE]: typeFilterModule(typeFilterDefinition),
-    [LANGUAGE]: multipleSelectFilterModule(languageFilterDefinition),
+    [DOCTYPE]: selectFilterModule(documentsTypeFilterDefinition),
+    [AUDIOTYPE]: selectFilterModule(audioTypeFilterDefinition),
+    [VIDEOTYPE]: selectFilterModule(videoTypeFilterDefinition),
+    [IMAGETYPE]: selectFilterModule(imagesTypeFilterDefinition),
+    [OTHERTYPE]: selectFilterModule(otherTypeFilterDefinition),
+    [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
   },

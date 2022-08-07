@@ -7,23 +7,28 @@ import VideoList from "@/components/searchViewComponents/VideoList.vue";
 
 import { useRoute } from "vue-router";
 import { Types } from "@/helpers/typeHelper";
+import { useDisplay } from "vuetify";
+import SearchFilterMenu from "@/components/searchViewComponents/subcomponents/SearchFilterMenu.vue";
+const { smAndDown } = useDisplay();
 
 const route = useRoute();
 
 function listType(t) {
-  return [t, Types.any, undefined].includes(route.query.type);
+  return [t, Types.all, undefined].includes(route.query.type);
 }
 </script>
 
 <template>
   <div>
-    <SearchFilters />
+    <search-filter-menu v-if="smAndDown" />
+    <SearchFilters v-else />
     <GenericList v-if="listType(Types.text)" :file-type="Types.text" />
     <AudioList v-if="listType(Types.audio)" />
     <ImageList v-if="listType(Types.images)" />
     <VideoList v-if="listType(Types.video)" />
     <GenericList v-if="listType(Types.directories)" :file-type="Types.directories" />
     <GenericList v-if="listType(Types.other)" :file-type="Types.other" />
+    <GenericList v-if="route.query.type == Types.unfiltered" :file-type="Types.unfiltered" />
   </div>
 </template>
 

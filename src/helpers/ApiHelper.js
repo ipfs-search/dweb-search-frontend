@@ -59,6 +59,19 @@ export function apiSearch(query, type, batch = 0) {
     });
 }
 
+/**
+ * How to make elastic search queries:
+ * Keys and values need to be escaped for reserved 'special' characters, using a prefix backslash.
+ * These are the reserved characters: + - = && || > < ! ( ) { } [ ] ^ " ~ * ? : \ /
+ * N.b., we don't escape the colons between keys and values, i.e. 'album:(exodus OR survival)',
+ * and we don't escape wildcard characters: '*' and '?'.
+ * Finally, if a string is placed between (double) quotes, it doesn't need to be escaped, and
+ * wildcards don't work.
+ * https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#_reserved_characters
+ * @param s
+ */
+export const elasticSearchEscape = (s) => s?.replaceAll(/([/:])/g, (_, c) => `\\${c}`);
+
 export default {
   maxPages,
   batchSize,

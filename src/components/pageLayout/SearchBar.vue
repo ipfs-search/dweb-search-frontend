@@ -1,17 +1,20 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
-const store = useStore();
 import { useRoute } from "vue-router";
-const route = useRoute();
 import { enterSearchQuery } from "@/router";
-
-import { mdiMenuDown, mdiMagnify } from "@mdi/js";
+import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
-const { smAndDown } = useDisplay();
 import { useMobileDevices } from "@/composables/useMobileDevices";
+import { searchTypes, listName, Types, TypeListNames } from "@/helpers/typeHelper";
+
+const store = useStore();
+const route = useRoute();
+
+const { smAndDown } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
-import { searchTypes } from "@/helpers/typeHelper";
+
+const anyFiltersApplied = computed(() => store.getters["query/filters/anyFiltersApplied"]);
 
 let searchPhraseProxy = store.state.query.searchPhrase;
 const searchPhrase = computed({
@@ -60,23 +63,37 @@ const fileType = computed({
         @keyup.enter="enterSearchPhrase"
       >
         <template #append>
-          <v-menu offset-y>
+          <v-menu offset-y location="left">
+            <!-- FixMe: console warning about activator not being a reactive object-->
             <template #activator="{ props }">
               <div class="mr-3 text-grey d-flex align-start" v-bind="props">
-                <span class="text-capitalize" data-testid="type-filter-selector-value">{{
-                  fileType
-                }}</span>
+                <span class="text-capitalize" data-testid="type-filter-selector-value">
+                  {{ listName(fileType) }}
+                </span>
                 <v-icon class="d-inline-block" :icon="mdiMenuDown" />
               </div>
             </template>
             <v-list class="bg-white">
-              <v-list-item v-for="t in searchTypes" :key="t" @click="fileType = t">
+              <v-list-item
+                v-for="[type, typeName] in searchTypes.filter(
+                  ([t, n]) => n !== TypeListNames.unfiltered
+                )"
+                :key="type"
+                @click="fileType = Types[type]"
+              >
                 <v-list-item-title class="text-capitalize">
-                  {{ t }}
+                  {{ typeName }}
                 </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
+          <v-icon
+            v-if="smAndDown && route.name !== 'Home'"
+            :class="anyFiltersApplied && `text-ipfsSecondary`"
+            class="mr-3"
+            :icon="mdiFilter"
+            data-id="filter-menu-activator"
+          />
         </template>
       </v-text-field>
     </div>

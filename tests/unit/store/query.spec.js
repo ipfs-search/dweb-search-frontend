@@ -4,7 +4,7 @@ import { Types } from "@/helpers/typeHelper";
 describe("Filters", () => {
   it("type filter functioning", () => {
     const typeFilterValue = store.getters["query/filters/type/toProps"].value;
-    expect(typeFilterValue?.toLowerCase()).toBe(Types.any);
+    expect(typeFilterValue?.toLowerCase()).toBe(Types.all);
     store.commit("query/setRouteParams", { type: Types.text });
     expect(store.getters["query/filters/type/toProps"].value?.toLowerCase()).toBe(Types.text);
   });

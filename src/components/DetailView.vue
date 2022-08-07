@@ -15,6 +15,7 @@ const DetailComponent = {
   [Types.video]: VideoDetail,
   [Types.directories]: DirectoryDetail,
   [Types.other]: OtherDetail,
+  [Types.unfiltered]: OtherDetail,
 };
 </script>
 

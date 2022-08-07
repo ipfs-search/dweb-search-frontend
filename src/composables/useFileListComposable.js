@@ -20,7 +20,7 @@ export const useFileListComposable = ({ fileType }) => {
   const loading = computed(() => store.getters[`results/${fileType}/loading`]);
 
   const anyFileType = computed(() => {
-    return [Types.any, undefined].includes(route.query.type);
+    return [Types.all, undefined].includes(route.query.type);
   });
 
   const infinite = computed(() => route.query.type === Types.images);

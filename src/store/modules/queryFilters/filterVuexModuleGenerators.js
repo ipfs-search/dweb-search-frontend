@@ -1,12 +1,13 @@
 //
 // This file exports a number of generator functions to create vuex modules, to serve as filters.
-// Filters are created by sending a state object (such as from filterDefinitions.js) and the
+// Filters are created by sending a state object and the
 // appropriate mutations and getters
 //
 // There a number of standard mutation/getter methods defined for standard filters
 //
 // The filterModule function explains the shape of the module:
 import { Types } from "@/helpers/typeHelper";
+import { elasticSearchEscape } from "@/helpers/ApiHelper";
 
 /**
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
@@ -20,7 +21,10 @@ function filterModule({ state, mutations: { setValue }, getters: { toProps, toSe
     namespaced: true,
     state,
     mutations: { setValue },
-    getters: { toProps, toSearchQuery },
+    getters: {
+      toProps,
+      toSearchQuery,
+    },
   };
 }
 
@@ -52,22 +56,21 @@ const selectMultipleFilterValues = (state, selection) => {
 
 const selectFilterToSearchApi = (state) => {
   const value = Array.isArray(state.value) ? state.value[0] : state.value;
-  const { apiValue } = state.items.find((item) => item.value === value);
+  const apiValue = state.items.find((item) => item.value === value)?.apiValue;
   if (Array.isArray(apiValue)) {
-    return apiValue.map((entry) => `${state.apiKey}:${entry}`).join(" ");
+    return apiValue.map((entry) => `${state.apiKey}:${elasticSearchEscape(entry)}`).join(" ");
   }
-  return `${state.apiKey}:${apiValue}`;
+  return apiValue ? `${state.apiKey}:${elasticSearchEscape(apiValue)}` : "";
 };
 
 const multipleSelectFilterToSearchApi = (state) => {
-  const apiValueFormatter = (x) => (x.includes("*") ? x : `"${x}"`);
   const value = [state.value].flat(); // coerces the value to an array type
   // get array of api values for the selected item(s)
   const apiValues = state.items
     .filter((item) => value.includes(item.value))
     .flatMap(({ apiValue }) => apiValue);
   if (!apiValues.length) return "";
-  return `${state.apiKey}:(${apiValues.map(apiValueFormatter).join(" OR ")})`;
+  return `${state.apiKey}:(${apiValues.map(elasticSearchEscape).join(" OR ")})`;
 };
 
 /**
@@ -104,6 +107,7 @@ const toProps = ({ label, slug, items, value, multiple }) => ({
   items,
   value: multiple ? value : [value].flat()[0],
   multiple,
+  isDefault: [value].flat()[0] === items.find((item) => item.default)?.value,
 });
 
 /**
@@ -139,6 +143,7 @@ export const multipleSelectFilterModule = (filterProperties) =>
     },
     getters: {
       toProps,
+      // n.b. untested, and only works with a single default value
       toSearchQuery: multipleSelectFilterToSearchApi,
     },
   });
@@ -169,6 +174,7 @@ export const typeFilterModule = (filterProperties) =>
         items,
         multiple,
         value: Array.isArray(value) ? value[0] : value,
+        isDefault: [value].flat()[0] === items.find((item) => item.default)?.value,
       }),
     },
   });

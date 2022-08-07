@@ -1,4 +1,4 @@
-import SelectFilter from "@/components/searchViewComponents/subcomponents/SelectFilter.vue";
+import SelectFilter from "@/components/shared/SelectFilter.vue";
 import { localMount } from "../../vitest-helpers";
 import mockFilters from "../../mock-data";
 
