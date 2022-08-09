@@ -3,6 +3,8 @@ import { computed } from "vue";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 import { mdiCog } from "@mdi/js";
 const { blurExplicitImages } = useBlurExplicit();
+import { useStore } from "vuex";
+const store = useStore;
 
 import { useTheme } from "vuetify";
 const theme = useTheme();
@@ -35,9 +37,14 @@ const cogwheelColor = computed(() => {
             hide-details
           />
         </v-list-item>
-        <!--        <v-list-item>-->
-        <!--          <v-switch v-model="darkMode" label="Enable dark mode" color="ipfsPrimary" hide-details />-->
-        <!--        </v-list-item>-->
+        <v-list-item>
+          <v-switch
+            v-model="darkMode"
+            label="Enable dark mode"
+            color="ipfsPrimary"
+            hide-details
+          />
+        </v-list-item>
       </v-list>
     </v-card>
   </v-menu>
@@ -48,14 +55,18 @@ export default {
   computed: {
     // TODO: Fix this!
     darkMode: {
-      get() {
-        return this.$store.state.localStorage.darkMode;
-      },
-      set(value) {
-        this.$vuetify.theme.dark = value;
-        this.$store.commit("localStorage/setDarkMode", value);
+      toggleDarkMode() {
+        this.isDark = !this.isDark;
+        localStorage.setItem("darkMode", this.isDark);
       },
     },
+  },
+  setup() {
+    let isDark = localStorage.getItem("darkMode") == "true";
+
+    return {
+      isDark,
+    };
   },
 };
 </script>
