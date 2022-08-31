@@ -178,3 +178,35 @@ export const typeFilterModule = (filterProperties) =>
       }),
     },
   });
+
+/**
+ * The typefilter acts as a single select component, but to transform to search API, the
+ * multiple-select transformer is used, with a parameter of which type. This exception is
+ * necessary for requesting multiple filetypes at once (as is the case with the 'any' option)
+ * @param filterProperties
+ * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
+ */
+export const nsfwFilterModule = (filterProperties) =>
+  filterModule({
+    state: mapDefinitionToState(filterProperties),
+    mutations: {
+      setValue: selectFilterValue,
+    },
+    getters: {
+      // for the transformation of the type filter to the search api, we need to know the requested
+      // type, because the 'any' type requires each of the available types to be searched.
+      toSearchQuery: (state) => {
+        const value = Array.isArray(state.value) ? state.value[0] : state.value;
+        return state.items.find((item) => item.value === value)?.apiValue;
+      },
+      toProps: ({ label, slug, items, value, multiple }) => ({
+        // coerce value to primitive value (in case it is an array)
+        label,
+        slug,
+        items,
+        multiple,
+        value: Array.isArray(value) ? value[0] : value,
+        isDefault: [value].flat()[0] === items.find((item) => item.default)?.value,
+      }),
+    },
+  });

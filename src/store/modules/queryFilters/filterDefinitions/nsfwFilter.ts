@@ -1,31 +1,30 @@
 import { filterDefinition } from "./filterDefinitionInterface";
+import { nsfwThresholds } from "@/helpers/constants/nsfwThresholds";
 
-export const sizeFilterDefinition: filterDefinition = {
-  label: "Size",
-  slug: "size",
-  apiKey: "size",
+export const nsfwFilterDefinition: filterDefinition = {
+  label: "NSFW filter",
+  slug: "nsfw",
+  apiKey: "",
   items: [
     {
-      title: "0-10mb",
-      apiValue: ["<=10485760"],
-    },
-    {
-      title: "10-100mb",
-      apiValue: [">10485760", "<=104857600"],
-    },
-    {
-      title: "100mb-1gb",
-      apiValue: [">104857600", "<=1073741824"],
-    },
-    {
-      title: "1gb+",
-      value: ">1gb",
-      apiValue: [">1073741824"],
-    },
-    {
-      title: "Any",
-      apiValue: [],
+      title: "Children friendly",
+      value: "children",
+      apiValue: Object.entries({ porn: 0.15 })
+        .map(([param, val]) => `nsfw.classification.${param}:<${val}`)
+        .join(" AND "),
       default: true,
+    },
+    {
+      title: "Adult content only",
+      value: "adult",
+      apiValue: Object.entries(nsfwThresholds)
+        .map(([param, val]) => `nsfw.classification.${param}:>=${val}`)
+        .join(" "),
+    },
+    {
+      title: "All content",
+      value: "all",
+      apiValue: "",
     },
   ],
 };

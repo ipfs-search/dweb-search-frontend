@@ -9,9 +9,11 @@ import { languageFilterDefinition } from "./filterDefinitions/languageFilter";
 import { sizeFilterDefinition } from "./filterDefinitions/sizeFilter";
 import { lastSeenFilterDefinition } from "./filterDefinitions/lastSeenFilter";
 import {
+  nsfwFilterModule,
   selectFilterModule,
   typeFilterModule,
 } from "@/store/modules/queryFilters/filterVuexModuleGenerators";
+import { nsfwFilterDefinition } from "@/store/modules/queryFilters/filterDefinitions/nsfwFilter";
 
 const TYPE = typeFilterDefinition.slug;
 const DOCTYPE = documentsTypeFilterDefinition.slug;
@@ -22,6 +24,7 @@ const OTHERTYPE = otherTypeFilterDefinition.slug;
 const LANGUAGE = languageFilterDefinition.slug;
 const SIZE = sizeFilterDefinition.slug;
 const LASTSEEN = lastSeenFilterDefinition.slug;
+const NSFW = nsfwFilterDefinition.slug;
 
 const mutations = {
   /**
@@ -51,7 +54,7 @@ export default {
         case Types.video:
           return [VIDEOTYPE, SIZE, LASTSEEN];
         case Types.images:
-          return [IMAGETYPE, SIZE, LASTSEEN];
+          return [IMAGETYPE, NSFW, SIZE, LASTSEEN];
         case Types.other:
           return [OTHERTYPE, SIZE, LASTSEEN];
         default:
@@ -73,5 +76,6 @@ export default {
     [LANGUAGE]: selectFilterModule(languageFilterDefinition),
     [SIZE]: selectFilterModule(sizeFilterDefinition),
     [LASTSEEN]: selectFilterModule(lastSeenFilterDefinition),
+    [NSFW]: nsfwFilterModule(nsfwFilterDefinition),
   },
 };
