@@ -1,7 +1,7 @@
 <script setup>
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
-import { useFileListComposable, imports } from "@/composables/useFileListComposable";
+import { useFileListComposable } from "@/composables/useFileListComposable";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 import { Types } from "@/helpers/typeHelper";
 import { mdiCog } from "@mdi/js";
@@ -9,8 +9,6 @@ import { mdiCog } from "@mdi/js";
 const fileType = Types.images;
 
 const { slicedHits } = useFileListComposable({ fileType });
-
-const { getResourceURL } = imports;
 
 const { blurExplicit } = useBlurExplicit();
 </script>
@@ -22,7 +20,8 @@ const { blurExplicit } = useBlurExplicit();
         <v-col v-for="(hit, index) in slicedHits(6)" :key="index" cols="6" sm="4" md="3" lg="2">
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
-              :src="getResourceURL(hit.hash)"
+              :src="thumbURL(hit.hash, 400, 400, 'image')"
+              @error="thumbError()"
               aspect-ratio="1"
               :class="{ blurExplicit: blurExplicit(hit) }"
               :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
@@ -60,3 +59,27 @@ const { blurExplicit } = useBlurExplicit();
     </v-col>
   </ListBase>
 </template>
+
+<script>
+const thumbBase = "https://api.ipfs-search.com/v1/thumbnail/ipfs/";
+const thumbRoot = "ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo";
+const ipfsGateway = "https://gateway.ipfs.io";
+
+export default {
+  data: () => ({
+    thumbNotFound: false,
+  }),
+  methods: {
+    thumbError() {
+      this.thumbNotFound = true;
+    },
+    thumbURL(hash, width, height, type) {
+      if (this.thumbNotFound) {
+        return `${thumbBase}/${hash}/${width}/${height}/?type=${type}`;
+      }
+
+      return `${ipfsGateway}/${thumbRoot}/${hash}-${width}-${height}.jpg`;
+    },
+  },
+};
+</script>
