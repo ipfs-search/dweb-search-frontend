@@ -6,7 +6,8 @@ import CardContent from "@/components/searchViewComponents/subcomponents/generic
 import MediaCenterIcon from "@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue";
 import { mdiVideo } from "@mdi/js";
 import { Types } from "@/helpers/typeHelper";
-import { picsum } from "@/helpers/picsum";
+import { mdiRobotDead, mdiTimerSand } from "@mdi/js";
+import NyatsImg from "@/helpers/nyats/vuetify-img-cid.vue";
 
 const fileType = Types.video;
 
@@ -19,15 +20,28 @@ const { slicedHits } = useFileListComposable({ fileType });
       <hover-card :hit="hit" :index="index" :file-type="fileType">
         <v-row>
           <v-col cols="12" sm="4" md="3" lg="2">
-            <v-img
+            <nyats-img
               class="ma-3 mr-sm-0"
               cover
               aspect-ratio="1.778"
-              :src="hit.src || picsum({ seed: hit.hash })"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              :cid="hit.hash"
+              type="video"
             >
               <media-center-icon :icon="mdiVideo" />
-            </v-img>
+
+              <template #placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-icon color="grey" size="large" :icon="mdiTimerSand" />
+                </v-row>
+              </template>
+
+              <template #failed>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-icon color="grey" size="large" :icon="mdiRobotDead" />
+                </v-row>
+              </template>
+            </nyats-img>
           </v-col>
           <v-col cols="12" sm="8" md="9" lg="10" class="py-sm-0 ml-sm-n6">
             <CardContent :hit="hit" />
