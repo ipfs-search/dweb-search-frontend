@@ -21,12 +21,12 @@ const { blurExplicit } = useBlurExplicit();
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="thumbURL(hit.hash, 400, 400, 'image')"
-              @error="thumbError()"
               aspect-ratio="1"
               :class="{ blurExplicit: blurExplicit(hit) }"
               :data-nsfw-classification="JSON.stringify(hit.nsfwClassification)"
               :data-nsfw="hit.nsfw"
               class="rounded grey lighten-2"
+              @error="thumbError()"
             >
               <template #placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -61,9 +61,22 @@ const { blurExplicit } = useBlurExplicit();
 </template>
 
 <script>
-const thumbBase = "https://api.ipfs-search.com/v1/thumbnail/ipfs/";
-const thumbRoot = "ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo";
-const ipfsGateway = "https://gateway.ipfs.io";
+import urlJoin from "url-join";
+
+const nyatsEndpoint = import.meta.env.VITE_NYATS_API || "https://api.ipfs-search.com/v1/thumbnail/";
+const nyatsIPNFSRoot =
+  import.meta.env.VITE_NYATS_IPNS_ROOT ||
+  "https://gateway.ipfs.io/ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo/";
+
+function ipnsThumbnailURL(hash, width, height) {
+  const filename = `${hash}-${width}-${height}.webp`;
+  return urlJoin(nyatsIPNFSRoot, filename);
+}
+
+function generateThumbnailURL(hash, width, height, type) {
+  const apiPath = `/ipfs/${hash}/${width}/${height}/?type=${type}`;
+  return urlJoin(nyatsEndpoint, apiPath);
+}
 
 export default {
   data: () => ({
@@ -75,10 +88,10 @@ export default {
     },
     thumbURL(hash, width, height, type) {
       if (this.thumbNotFound) {
-        return `${thumbBase}/${hash}/${width}/${height}/?type=${type}`;
+        return generateThumbnailURL(hash, width, height, type);
       }
 
-      return `${ipfsGateway}/${thumbRoot}/${hash}-${width}-${height}.jpg`;
+      return ipnsThumbnailURL(hash, width, height);
     },
   },
 };

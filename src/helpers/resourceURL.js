@@ -1,7 +1,6 @@
-const gatewayURL = "https://gateway.ipfs.io";
+const gatewayURL = import.meta.env.VITE_IPFS_GATEWAY || "https://gateway.ipfs.io";
 
-function getResourceURL(hash) {
-  return `${gatewayURL}/ipfs/${hash}`;
+export default function getResourceURL(hash) {
+  const resourcePath = `/ipfs/${hash}`;
+  return new URL(resourcePath, gatewayURL).toString();
 }
-
-export default getResourceURL;

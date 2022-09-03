@@ -49,14 +49,13 @@ Developers: you will likely want to run `npm run serve` in one terminal and `npm
 
 Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`, `npm run prettier:check`
 
-## NSFW api
+## Configuration
 
-This build uses an API to check nsfw content.
+The following environment variables may be used to configure the frontend.
 
-The default API endpoint to is: https://api.ipfs-search.com/nsfw/
-. This can be overridden by injecting environment variable `VITE_NSFW_API`
+### Variables
 
-The API call should be: `<VITE_NSFW_API><CID>`, so e.g.
-
-`https://api.ipfs-search.com/nsfw/QmSZzv7ux1LGwpehVcCMQ9ec945X6qE4qyjKDhCVwY25iw`
-https://api.ipfs-search.com/v1/nsfw/classify/
+- `VITE_IPFS_GATEWAY`: Default gateway for URL generation. Default: `https://gateway.ipfs.io/`
+- `VITE_NSFW_API`: Endpoint for [nsfw-server](https://github.com/ipfs-search/nsfw-server). Default: `https://api.ipfs-search.com/v1/nsfw/classify/`
+- `VITE_NYATS_API`: Endpoint for [nyats](https://github.com/ipfs-search/nyats) (Not Yet Another Thumbnail Server) API. Default: `https://api.ipfs-search.com/v1/thumbnail/`
+- `VITE_NYATS_IPNS_ROOT`: Root for thumbnails over IPNS. Default: `https://gateway.ipfs.io/ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo/`
