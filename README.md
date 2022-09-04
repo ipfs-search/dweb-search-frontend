@@ -55,7 +55,7 @@ The following environment variables may be used to configure the frontend.
 
 ### Variables
 
-- `VITE_IPFS_GATEWAY`: Default gateway for URL generation. Default: `https://gateway.ipfs.io/`
+- `VITE_IPFS_GATEWAY`: Default gateway for URL generation. Default: `https://dweb.link`
 - `VITE_NSFW_API`: Endpoint for [nsfw-server](https://github.com/ipfs-search/nsfw-server). Default: `https://api.ipfs-search.com/v1/nsfw/classify/`
 - `VITE_NYATS_API`: Endpoint for [nyats](https://github.com/ipfs-search/nyats) (Not Yet Another Thumbnail Server) API. Default: `https://api.ipfs-search.com/v1/thumbnail/`
 - `VITE_NYATS_IPNS_ROOT`: Root for thumbnails over IPNS. Default: `https://gateway.ipfs.io/ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo/`
