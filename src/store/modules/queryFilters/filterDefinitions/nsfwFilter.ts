@@ -1,10 +1,11 @@
 import { filterDefinition } from "./filterDefinitionInterface";
 import { nsfwThresholds } from "@/helpers/constants/nsfwThresholds";
 
-const adultOnly = (comparator: string) =>
+const adultOnly = (comparator: string, join = " ") =>
   Object.entries(nsfwThresholds)
+    // FIXME: the ipfs-search index has a typo in nsfw.
     .map(([param, val]) => `nfsw.classification.${param}:${comparator}${val}`)
-    .join(" OR ");
+    .join(join);
 
 export const nsfwFilterDefinition: filterDefinition = {
   label: "NSFW filter",
@@ -12,15 +13,15 @@ export const nsfwFilterDefinition: filterDefinition = {
   apiKey: "",
   items: [
     {
-      title: "Children friendly",
-      value: "children",
+      title: "Suitable for work",
+      value: "suitable",
       apiValue: adultOnly("<"),
       default: true,
     },
     {
       title: "Adult content only",
       value: "adult",
-      apiValue: adultOnly(">="),
+      apiValue: adultOnly(">=", " OR "),
     },
     {
       title: "All content",
