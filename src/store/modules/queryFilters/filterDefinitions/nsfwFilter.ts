@@ -8,7 +8,7 @@ const adultOnly = (comparator: string, join = " ") =>
     .join(join);
 
 export const nsfwFilterDefinition: filterDefinition = {
-  label: "NSFW filter",
+  label: "Adult content",
   slug: "nsfw",
   apiKey: "",
   items: [
@@ -21,7 +21,7 @@ export const nsfwFilterDefinition: filterDefinition = {
     {
       title: "Adult content only",
       value: "adult",
-      apiValue: adultOnly(">=", " OR "),
+      apiValue: `(${adultOnly(">=", " OR ")})`,
     },
     {
       title: "All content",
