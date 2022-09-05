@@ -64,9 +64,10 @@ const { blurExplicit } = useBlurExplicit();
 import urlJoin from "url-join";
 
 const nyatsEndpoint = import.meta.env.VITE_NYATS_API || "https://api.ipfs-search.com/v1/thumbnail/";
+const gatewayURL = import.meta.env.VITE_IPFS_GATEWAY || "https://dweb.link";
 const nyatsIPNFSRoot =
   import.meta.env.VITE_NYATS_IPNS_ROOT ||
-  "https://gateway.ipfs.io/ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo/";
+  gatewayURL + "/ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo/";
 
 function ipnsThumbnailURL(hash, width, height) {
   const filename = `${hash}-${width}-${height}.webp`;
