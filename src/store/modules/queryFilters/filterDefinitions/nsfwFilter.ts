@@ -1,6 +1,11 @@
 import { filterDefinition } from "./filterDefinitionInterface";
 import { nsfwThresholds } from "@/helpers/constants/nsfwThresholds";
 
+const adultOnly = (comparator: string) =>
+  Object.entries(nsfwThresholds)
+    .map(([param, val]) => `nfsw.classification.${param}:${comparator}${val}`)
+    .join(" OR ");
+
 export const nsfwFilterDefinition: filterDefinition = {
   label: "NSFW filter",
   slug: "nsfw",
@@ -9,17 +14,13 @@ export const nsfwFilterDefinition: filterDefinition = {
     {
       title: "Children friendly",
       value: "children",
-      apiValue: Object.entries({ porn: 0.15 })
-        .map(([param, val]) => `nsfw.classification.${param}:<${val}`)
-        .join(" AND "),
+      apiValue: adultOnly("<"),
       default: true,
     },
     {
       title: "Adult content only",
       value: "adult",
-      apiValue: Object.entries(nsfwThresholds)
-        .map(([param, val]) => `nsfw.classification.${param}:>=${val}`)
-        .join(" "),
+      apiValue: adultOnly(">="),
     },
     {
       title: "All content",
