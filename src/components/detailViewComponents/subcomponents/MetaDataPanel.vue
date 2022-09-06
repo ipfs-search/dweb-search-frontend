@@ -1,9 +1,15 @@
 <script setup>
+import HyperLink from "@/components/shared/HyperLink.vue";
 import prettyBytes from "pretty-bytes";
 import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
-import HyperLink from "@/components/shared/HyperLink.vue";
-const metadataLink = (item) => `metadata.${item.label}:"${item.value}"`;
+import { elasticSearchEscape } from "@/helpers/ApiHelper";
+
+const metadataLink = (item) => `metadata.${elasticSearchEscape(item.label)}:"${item.value}"`;
+
+import index from "@/helpers/indexed-metadata.json";
+const indexedMetadata = (item) =>
+  Object.keys(index.ipfs_files_v9.mappings.properties.metadata.properties).includes(item.label);
 </script>
 
 <template>
@@ -98,18 +104,24 @@ const metadataLink = (item) => `metadata.${item.label}:"${item.value}"`;
                         <tbody>
                           <tr v-for="(item, index) in extraData" :key="index">
                             <th>{{ item.label }}:</th>
-                            <hyper-link
-                              :to="{
-                                name: 'Search',
-                                query: {
-                                  q: metadataLink(item),
-                                },
-                              }"
-                            >
-                              <td>
-                                {{ decodeURI(item.value) }}
-                              </td>
-                            </hyper-link>
+                            <td v-if="indexedMetadata(item)">
+                              <span v-for="(value, valueIndex) in item.value" :key="valueIndex">
+                                <router-link
+                                  :to="{
+                                    name: 'Search',
+                                    query: {
+                                      q: metadataLink({ ...item, value }),
+                                    },
+                                  }"
+                                >
+                                  {{ decodeURI(value) }}
+                                </router-link>
+                                <span v-if="valueIndex < item.value.length - 1">, </span>
+                              </span>
+                            </td>
+                            <td v-else>
+                              {{ decodeURI(item.value) }}
+                            </td>
                           </tr>
                         </tbody>
                       </v-table>
@@ -163,14 +175,15 @@ export default {
       if (this.file.metadata?.language?.rawScore > 0.95) {
         extraData.push({
           label: "language",
-          value:
+          value: [
             languages[this.file.metadata.language.language] ?? this.file.metadata.language.language,
+          ],
         });
       }
       return extraData.concat(
         Object.entries(this.file.metadata?.metadata ?? {}).map(([label, value]) => ({
           label,
-          value: value.join(", "),
+          value,
         }))
       );
     },
