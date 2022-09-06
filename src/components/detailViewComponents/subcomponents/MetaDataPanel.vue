@@ -1,9 +1,12 @@
 <script setup>
 import HyperLink from "@/components/shared/HyperLink.vue";
+import { useRoute } from "vue-router";
 import prettyBytes from "pretty-bytes";
 import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
 import { elasticSearchEscape } from "@/helpers/ApiHelper";
+
+const route = useRoute();
 
 const metadataLink = (item) => `metadata.${elasticSearchEscape(item.label)}:"${item.value}"`;
 
@@ -110,7 +113,12 @@ const indexedMetadata = (item) =>
                                   :to="{
                                     name: 'Search',
                                     query: {
-                                      q: metadataLink({ ...item, value }),
+                                      ...route.query,
+                                      q: decodeURI(route.query.q).includes(
+                                        metadataLink({ ...item, value })
+                                      )
+                                        ? route.query.q
+                                        : `${route.query.q} ${metadataLink({ ...item, value })}`,
                                     },
                                   }"
                                 >
