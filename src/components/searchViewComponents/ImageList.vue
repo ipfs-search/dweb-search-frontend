@@ -1,10 +1,10 @@
 <script setup>
+import NsfwTooltip from "@/components/shared/nsfwTooltip.vue";
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { useFileListComposable, imports } from "@/composables/useFileListComposable";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 import { Types } from "@/helpers/typeHelper";
-import { mdiCog } from "@mdi/js";
 
 const fileType = Types.images;
 
@@ -34,25 +34,7 @@ const { blurExplicit } = useBlurExplicit();
                   <v-progress-circular indeterminate color="ipfsPrimary" />
                 </v-row>
               </template>
-              <v-tooltip location="bottom" align="center" activator="parent">
-                <div>
-                  <div v-if="hit.title" v-sane-html="hit.title"></div>
-                  <div v-if="blurExplicit(hit)">
-                    Blurring explicit content. See settings in menubar under
-                    <v-icon color="white" :icon="mdiCog" />
-                  </div>
-                  <div v-if="hit.nsfwClassification">
-                    {{
-                      Object.entries(hit.nsfwClassification).reduce(
-                        (p, [classifier, value]) =>
-                          `${p} ${classifier}: ${Math.round(value * 100)}%`,
-                        ""
-                      )
-                    }}
-                  </div>
-                  <div v-else>NSFW classification not available</div>
-                </div>
-              </v-tooltip>
+              <NsfwTooltip :file="hit" />
             </v-img>
           </hover-card>
         </v-col>
