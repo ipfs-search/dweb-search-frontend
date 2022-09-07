@@ -64,7 +64,7 @@ const { blurExplicit } = useBlurExplicit();
 import urlJoin from "url-join";
 
 const nyatsEndpoint = import.meta.env.VITE_NYATS_API || "https://api.ipfs-search.com/v1/thumbnail/";
-const gatewayURL = import.meta.env.VITE_IPFS_GATEWAY || "https://dweb.link";
+const gatewayURL = import.meta.env.VITE_IPFS_GATEWAY || "https://gw.dwebsearch.com";
 const nyatsIPNFSRoot =
   import.meta.env.VITE_NYATS_IPNS_ROOT ||
   gatewayURL + "/ipns/12D3KooWPVobDRG9Mdmact3ejSe6UAFP8cevmw35HHR1ZDwCozSo/";
