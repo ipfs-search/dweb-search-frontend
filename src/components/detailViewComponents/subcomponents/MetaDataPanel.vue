@@ -40,9 +40,9 @@ const indexedMetadata = (item) =>
               <template #default>
                 <v-table>
                   <tbody>
-                    <tr v-if="file.metadata?.metadata?.['title']">
+                    <tr v-if="file.title || file.metadata?.metadata?.['title']">
                       <th>Title:</th>
-                      <td>
+                      <td v-if="file.metadata?.metadata?.['title']">
                         <router-link
                           v-sane-html="file.metadata.metadata['title']"
                           :to="
@@ -55,6 +55,7 @@ const indexedMetadata = (item) =>
                           "
                         />
                       </td>
+                      <td v-else v-sane-html="file.title" />
                     </tr>
                     <tr v-if="file.author || file.metadata?.metadata?.['dc:creator']">
                       <th>Author:</th>
@@ -135,10 +136,6 @@ const indexedMetadata = (item) =>
                           "
                         />
                       </td>
-                    </tr>
-                    <tr>
-                      <th>File Name:</th>
-                      <td v-sane-html="file.title" />
                     </tr>
                     <tr v-if="file.description">
                       <th>Description:</th>
