@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMagnifyExpand, mdiPlaylistPlay, mdiPlaylistPlus, mdiDotsHorizontal } from "@mdi/js";
+import { mdiPlaylistPlay, mdiPlaylistPlus, mdiDotsHorizontal } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
@@ -12,6 +12,7 @@ import { batchSize, maxPages } from "@/helpers/ApiHelper";
 import { useDisplay } from "vuetify";
 import { useStore } from "vuex";
 const store = useStore();
+import ImageSpinner from "@/components/shared/imageSpinner.vue";
 
 const route = useRoute();
 const { smAndDown, smAndUp } = useDisplay();
@@ -184,7 +185,7 @@ const queryPage = computed({
     </v-row>
 
     <v-row v-if="loading" dense justify="center">
-      <v-progress-circular color="ipfsPrimary" indeterminate />
+      <image-spinner />
     </v-row>
     <!--     PAGINATION -->
     <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->
