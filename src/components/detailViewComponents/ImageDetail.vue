@@ -6,6 +6,7 @@ const { resourceURL } = useDetail(props);
 
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
+import ImageSpinner from "@/components/shared/imageSpinner.vue";
 const { blurExplicit } = useBlurExplicit();
 </script>
 
@@ -22,9 +23,7 @@ const { blurExplicit } = useBlurExplicit();
           :class="{ blurExplicit: blurExplicit(file) }"
         >
           <template #placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular indeterminate color="ipfsPrimary" />
-            </v-row>
+            <image-spinner />
           </template>
           <NsfwTooltip :file="file" />
         </v-img>

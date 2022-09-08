@@ -10,6 +10,7 @@ import { enterSearchQuery } from "@/router";
 import store from "@/store";
 import { batchSize, maxPages } from "@/helpers/ApiHelper";
 import { useDisplay } from "vuetify";
+import ImageSpinner from "@/components/shared/imageSpinner.vue";
 
 const infiniteScrollMargin = 200;
 const route = useRoute();
@@ -163,7 +164,7 @@ const queryPage = computed({
       </slot>
     </v-row>
     <v-row v-if="loading" dense justify="center">
-      <v-progress-circular color="ipfsPrimary" indeterminate />
+      <image-spinner />
     </v-row>
     <!--     PAGINATION -->
     <!-- TODO: pagination panel falls behind social media bar without margin-bottom -->
