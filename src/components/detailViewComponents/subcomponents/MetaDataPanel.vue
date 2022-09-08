@@ -234,7 +234,7 @@ const indexedMetadata = (item) =>
                   </tbody>
                   <tbody>
                     <tr>
-                      <th>Referenced in:</th>
+                      <th>File locations:</th>
                       <td v-if="!references.length">
                         <i>No references</i>
                       </td>
