@@ -1,11 +1,11 @@
 <script setup>
 import { useRoute } from "vue-router";
 import prettyBytes from "pretty-bytes";
-import HyperLink from "@/components/shared/HyperLink.vue";
 import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
 import { elasticSearchEscape } from "@/helpers/ApiHelper";
 import { nsfwClassificationFormatter } from "@/helpers/nsfwClassifier";
+import { formatTime } from "@/composables/audioControls";
 
 const route = useRoute();
 
@@ -14,7 +14,9 @@ const filterLink = (filter) => ({
   name: "Search",
   query: {
     ...route.query,
-    q: decodeURI(route.query.q).includes(filter) ? route.query.q : `${route.query.q} ${filter}`,
+    q: decodeURI(route.query.q).includes(filter)
+      ? route.query.q
+      : `${route.query.q ?? ""} ${filter}`.trim(),
   },
 });
 
@@ -38,13 +40,105 @@ const indexedMetadata = (item) =>
               <template #default>
                 <v-table>
                   <tbody>
-                    <tr>
+                    <tr v-if="file.metadata?.metadata?.['title']">
                       <th>Title:</th>
-                      <td v-sane-html="file.title" />
+                      <td>
+                        <router-link
+                          v-sane-html="file.metadata.metadata['title']"
+                          :to="
+                            filterLink(
+                              metadataLink({
+                                label: 'title',
+                                value: file.metadata.metadata['title'],
+                              })
+                            )
+                          "
+                        />
+                      </td>
                     </tr>
-                    <tr v-if="file.author">
+                    <tr v-if="file.author || file.metadata?.metadata?.['dc:creator']">
                       <th>Author:</th>
-                      <td v-sane-html="file.author" />
+                      <td v-if="file.metadata?.metadata?.['dc:creator']">
+                        <router-link
+                          v-sane-html="file.metadata.metadata['dc:creator']"
+                          :to="
+                            filterLink(
+                              metadataLink({
+                                label: 'dc:creator',
+                                value: file.metadata.metadata['dc:creator'],
+                              })
+                            )
+                          "
+                        />
+                      </td>
+                      <td v-else v-sane-html="file.author" />
+                    </tr>
+                    <tr v-if="file.metadata?.metadata?.['xmpDM:album']">
+                      <th>Album:</th>
+                      <td>
+                        <router-link
+                          v-sane-html="file.metadata.metadata['xmpDM:album']"
+                          :to="
+                            filterLink(
+                              metadataLink({
+                                label: 'xmpDM:album',
+                                value: file.metadata.metadata['xmpDM:album'],
+                              })
+                            )
+                          "
+                        />
+                      </td>
+                    </tr>
+                    <tr v-if="file.metadata?.metadata?.['xmpDM:trackNumber']">
+                      <th>Track number:</th>
+                      <td>
+                        <router-link
+                          v-sane-html="file.metadata.metadata['xmpDM:trackNumber']"
+                          :to="
+                            filterLink(
+                              `metadata.${elasticSearchEscape('xmpDM:trackNumber')}:${parseInt(
+                                file.metadata.metadata['xmpDM:trackNumber']
+                              )}`
+                            )
+                          "
+                        />
+                      </td>
+                    </tr>
+                    <tr
+                      v-if="
+                        file.metadata?.metadata?.['length'] ||
+                        file.metadata?.metadata?.['xmpDM:duration']
+                      "
+                    >
+                      <th>Length:</th>
+                      <td
+                        v-if="file.metadata?.metadata?.['xmpDM:duration']"
+                        v-sane-html="formatTime(file.metadata.metadata['xmpDM:duration'], false)"
+                      />
+                      <td
+                        v-else
+                        v-sane-html="formatTime(file.metadata.metadata['length'], false)"
+                      />
+                    </tr>
+                    <tr v-if="file.metadata?.metadata?.['subject']">
+                      <th>Subject:</th>
+                      <td>
+                        <router-link
+                          v-sane-html="file.metadata.metadata['subject']"
+                          :to="
+                            filterLink(
+                              metadataLink({
+                                label: 'subject',
+                                value: file.metadata.metadata['subject'],
+                              })
+                            )
+                          "
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>File Name:</th>
+                      <td v-sane-html="file.title" />
                     </tr>
                     <tr v-if="file.description">
                       <th>Description:</th>
@@ -58,19 +152,32 @@ const indexedMetadata = (item) =>
                             languages[file.metadata.language.language] ??
                             file.metadata.language.language
                           "
-                          :to="filterLink(`language.language:${file.metadata.language.language}`)"
+                          :to="{
+                            name: 'Search',
+                            query: {
+                              ...filterLink(`language.language:${file.metadata.language.language}`)
+                                .query,
+                              language: undefined,
+                            },
+                          }"
                         />
                       </td>
-
-                      <td />
                     </tr>
-                    <tr>
-                      <th>Direct link:</th>
+                    <tr v-if="file.metadata?.metadata?.width && file.metadata.metadata.height">
+                      <th>Image dimensions:</th>
                       <td>
-                        <a
-                          v-sane-html="resourceURL(file.hash)"
-                          :href="resourceURL(file.hash)"
-                          target="_blank"
+                        <router-link
+                          v-sane-html="
+                            `${file.metadata?.metadata?.width} x ${file.metadata.metadata.height}`
+                          "
+                          :to="
+                            filterLink(
+                              [
+                                `metadata.width:${parseInt(file.metadata.metadata['width'])}`,
+                                `metadata.height:${parseInt(file.metadata.metadata['height'])}`,
+                              ].join(' ')
+                            )
+                          "
                         />
                       </td>
                     </tr>
@@ -90,15 +197,39 @@ const indexedMetadata = (item) =>
                       <th>Last seen:</th>
                       <td v-sane-html="moment(file['last-seen'])" />
                     </tr>
+                    <tr>
+                      <th>Direct gateway link:</th>
+                      <td>
+                        <a
+                          v-sane-html="resourceURL(file.hash)"
+                          :href="resourceURL(file.hash)"
+                          target="_blank"
+                        />
+                      </td>
+                    </tr>
                     <tr v-if="file.nsfwClassification">
                       <th>NSFW classification</th>
                       <td>
                         {{ nsfwClassificationFormatter(file.nsfwClassification) }}
                       </td>
                     </tr>
-                    <tr v-if="file.mimetype">
-                      <th>Mimetype:</th>
-                      <td>{{ file.mimetype }}</td>
+                    <tr v-if="file.mimetype || file.metadata?.metadata?.['Content-Type']">
+                      <th>Content type:</th>
+                      <td v-if="file.metadata?.metadata?.['Content-Type']">
+                        <router-link
+                          v-sane-html="file.metadata.metadata['Content-Type']"
+                          :to="
+                            filterLink(
+                              metadataLink({
+                                label: 'Content-Type',
+                                value: file.metadata.metadata['Content-Type'],
+                              })
+                            )
+                          "
+                        />
+                      </td>
+
+                      <td v-else v-sane-html="file.mimetype">{{ file.mimetype }}</td>
                     </tr>
                   </tbody>
                   <tbody>
@@ -128,8 +259,10 @@ const indexedMetadata = (item) =>
                             <th>{{ item.label }}:</th>
                             <td v-if="indexedMetadata(item)">
                               <span v-for="(value, valueIndex) in item.value" :key="valueIndex">
-                                <router-link :to="filterLink(metadataLink({ ...item, value }))">
-                                  {{ decodeURI(value) }}
+                                <router-link
+                                  v-sane-html="decodeURI(value)"
+                                  :to="filterLink(metadataLink({ ...item, value }))"
+                                >
                                 </router-link>
                                 <span v-if="valueIndex < item.value.length - 1">, </span>
                               </span>
