@@ -1,10 +1,11 @@
 <script setup>
-import HyperLink from "@/components/shared/HyperLink.vue";
 import { useRoute } from "vue-router";
 import prettyBytes from "pretty-bytes";
+import HyperLink from "@/components/shared/HyperLink.vue";
 import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
 import { elasticSearchEscape } from "@/helpers/ApiHelper";
+import { nsfwClassificationFormatter } from "@/helpers/nsfwClassifier";
 
 const route = useRoute();
 
@@ -57,9 +58,7 @@ const indexedMetadata = (item) =>
                             languages[file.metadata.language.language] ??
                             file.metadata.language.language
                           "
-                          :to="
-                            filterLink(`language.language:${file.metadata.language.language}`)
-                          "
+                          :to="filterLink(`language.language:${file.metadata.language.language}`)"
                         />
                       </td>
 
@@ -94,13 +93,7 @@ const indexedMetadata = (item) =>
                     <tr v-if="file.nsfwClassification">
                       <th>NSFW classification</th>
                       <td>
-                        {{
-                          Object.entries(file.nsfwClassification).reduce(
-                            (p, [classifier, value]) =>
-                              `${p} ${classifier}: ${Math.round(value * 100)}%`,
-                            ""
-                          )
-                        }}
+                        {{ nsfwClassificationFormatter(file.nsfwClassification) }}
                       </td>
                     </tr>
                     <tr v-if="file.mimetype">
