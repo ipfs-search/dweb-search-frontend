@@ -32,8 +32,8 @@ const indexedMetadata = (item) =>
         <v-expansion-panels v-model="$data.expand">
           <v-expansion-panel>
             <v-expansion-panel-title>
-              <template #default="{ expanded: hide }">
-                <div>{{ `${hide ? "Hide" : "Show"}` }} file info</div>
+              <template #default="{}">
+                <div>File details:</div>
               </template>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="ml-n2 mr-0">

@@ -6,11 +6,6 @@ export const detailProps = {
     type: Object,
     required: true,
   },
-  // TODO: is active prop still used?
-  active: {
-    type: Boolean,
-    default: false,
-  },
 };
 
 export function useDetail(props) {

@@ -6,7 +6,7 @@ import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 
 import { detailProps } from "@/composables/useDetail";
-defineProps({
+const props = defineProps({
   ...detailProps,
   expandMeta: {
     type: Boolean,
@@ -16,7 +16,12 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  bla: {
+    type: Boolean,
+    default: true,
+  },
 });
+console.log(props);
 </script>
 
 <template>
@@ -38,7 +43,7 @@ defineProps({
             >
               <DetailHeader :file="file" />
               <slot />
-              <MetaDataPanel :file="file" :expanded="expandMeta" />
+              <MetaDataPanel :file="file" :expanded="expandMeta || bla" />
             </v-col>
           </v-row>
         </v-container>

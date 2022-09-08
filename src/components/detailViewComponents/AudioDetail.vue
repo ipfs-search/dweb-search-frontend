@@ -19,7 +19,7 @@ const imgSrc = computed(() => image(props.file, 400, 300));
 </script>
 
 <template>
-  <generic-detail :file="file" narrow>
+  <generic-detail :file="file" expand-meta narrow bla>
     <v-img
       max-height="40%"
       cover
