@@ -20,7 +20,6 @@ export default {
   },
   getters: {
     apiQueryString: (state, getters) => (fileType) => {
-      console.log(Object.keys(state.filters));
       const filterQuery = Object.keys(state.filters)
         .filter((filter) => getters["filters/applicableFilters"].includes(filter))
         .map((filter) => getters[`filters/${filter}/toSearchQuery`])

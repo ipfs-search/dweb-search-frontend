@@ -119,7 +119,7 @@ const indexedMetadata = (item) =>
                 <v-expansion-panels v-if="extraData.length">
                   <v-expansion-panel>
                     <v-expansion-panel-title>
-                      <i>Extra information: </i>
+                      <i>More details: </i>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
                       <v-table>
