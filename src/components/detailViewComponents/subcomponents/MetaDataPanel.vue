@@ -9,6 +9,13 @@ import { elasticSearchEscape } from "@/helpers/ApiHelper";
 const route = useRoute();
 
 const metadataLink = (item) => `metadata.${elasticSearchEscape(item.label)}:"${item.value}"`;
+const filterLink = (filter) => ({
+  name: "Search",
+  query: {
+    ...route.query,
+    q: decodeURI(route.query.q).includes(filter) ? route.query.q : `${route.query.q} ${filter}`,
+  },
+});
 
 import index from "@/helpers/indexed-metadata.json";
 const indexedMetadata = (item) =>
@@ -31,16 +38,6 @@ const indexedMetadata = (item) =>
                 <v-table>
                   <tbody>
                     <tr>
-                      <th>Location:</th>
-                      <td>
-                        <a
-                          v-sane-html="resourceURL(file.hash)"
-                          :href="resourceURL(file.hash)"
-                          target="_blank"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
                       <th>Title:</th>
                       <td v-sane-html="file.title" />
                     </tr>
@@ -52,8 +49,34 @@ const indexedMetadata = (item) =>
                       <th>Description:</th>
                       <td v-sane-html="file.description" />
                     </tr>
+                    <tr v-if="file.metadata?.language?.confidence === 'HIGH'">
+                      <th>Language:</th>
+                      <td>
+                        <router-link
+                          v-sane-html="
+                            languages[file.metadata.language.language] ??
+                            file.metadata.language.language
+                          "
+                          :to="
+                            filterLink(`language.language:${file.metadata.language.language}`)
+                          "
+                        />
+                      </td>
+
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>Direct link:</th>
+                      <td>
+                        <a
+                          v-sane-html="resourceURL(file.hash)"
+                          :href="resourceURL(file.hash)"
+                          target="_blank"
+                        />
+                      </td>
+                    </tr>
                     <tr v-if="file.size">
-                      <th>Size:</th>
+                      <th>File size:</th>
                       <td>{{ prettyBytes(file.size) }}</td>
                     </tr>
                     <tr v-if="file.creation_date">
@@ -67,6 +90,18 @@ const indexedMetadata = (item) =>
                     <tr v-if="file['last-seen']">
                       <th>Last seen:</th>
                       <td v-sane-html="moment(file['last-seen'])" />
+                    </tr>
+                    <tr v-if="file.nsfwClassification">
+                      <th>NSFW classification</th>
+                      <td>
+                        {{
+                          Object.entries(file.nsfwClassification).reduce(
+                            (p, [classifier, value]) =>
+                              `${p} ${classifier}: ${Math.round(value * 100)}%`,
+                            ""
+                          )
+                        }}
+                      </td>
                     </tr>
                     <tr v-if="file.mimetype">
                       <th>Mimetype:</th>
@@ -91,16 +126,7 @@ const indexedMetadata = (item) =>
                 <v-expansion-panels v-if="extraData.length">
                   <v-expansion-panel>
                     <v-expansion-panel-title>
-                      <i
-                        >Extra metadata from
-                        <hyper-link
-                          style="z-index: 100000"
-                          to="https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_metadata__hash__"
-                          @click="(event) => event.stopPropagation()"
-                        >
-                          metadata API:
-                        </hyper-link>
-                      </i>
+                      <i>Extra information: </i>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
                       <v-table>
@@ -109,19 +135,7 @@ const indexedMetadata = (item) =>
                             <th>{{ item.label }}:</th>
                             <td v-if="indexedMetadata(item)">
                               <span v-for="(value, valueIndex) in item.value" :key="valueIndex">
-                                <router-link
-                                  :to="{
-                                    name: 'Search',
-                                    query: {
-                                      ...route.query,
-                                      q: decodeURI(route.query.q).includes(
-                                        metadataLink({ ...item, value })
-                                      )
-                                        ? route.query.q
-                                        : `${route.query.q} ${metadataLink({ ...item, value })}`,
-                                    },
-                                  }"
-                                >
+                                <router-link :to="filterLink(metadataLink({ ...item, value }))">
                                   {{ decodeURI(value) }}
                                 </router-link>
                                 <span v-if="valueIndex < item.value.length - 1">, </span>
