@@ -30,8 +30,8 @@ defineProps({
           <v-row>
             <v-col
               cols="12"
-              :md="narrow ? 8 : undefined"
-              :offset-md="narrow ? 2 : undefined"
+              :md="narrow ? 10 : undefined"
+              :offset-md="narrow ? 1 : undefined"
               xl="8"
               offset-xl="2"
               :class="mdAndUp ? 'mb-16' : ''"
