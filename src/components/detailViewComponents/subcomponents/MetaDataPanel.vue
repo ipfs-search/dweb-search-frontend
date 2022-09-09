@@ -9,7 +9,10 @@ import { formatTime } from "@/composables/audioControls";
 
 const route = useRoute();
 
-const metadataLink = (item) => `metadata.${elasticSearchEscape(item.label)}:"${item.value}"`;
+const metadataLink = (item) =>
+  `${elasticSearchEscape(indexedMetadata(item)?.copy_to?.[0] || "metadata." + item.label)}:"${
+    item.value
+  }"`;
 const filterLink = (filter) => ({
   name: "Search",
   query: {
@@ -22,7 +25,16 @@ const filterLink = (filter) => ({
 
 import index from "@/helpers/indexed-metadata.json";
 const indexedMetadata = (item) =>
-  Object.keys(index.ipfs_files_v9.mappings.properties.metadata.properties).includes(item.label);
+  index.ipfs_files_v9.mappings.properties.metadata.properties?.[item.label];
+
+const fileWidth = (file) =>
+  file.metadata?.metadata?.width ||
+  file.metadata?.metadata?.["Image Width"] ||
+  file.metadata?.metadata?.["tiff:ImageWidth"];
+const fileHeight = (file) =>
+  file.metadata?.metadata?.height ||
+  file.metadata?.metadata?.["Image Height"] ||
+  file.metadata?.metadata?.["tiff:ImageHeight"];
 </script>
 
 <template>
@@ -160,18 +172,16 @@ const indexedMetadata = (item) =>
                         />
                       </td>
                     </tr>
-                    <tr v-if="file.metadata?.metadata?.width && file.metadata.metadata.height">
+                    <tr v-if="fileWidth(file) && fileHeight(file)">
                       <th>Image dimensions:</th>
                       <td>
                         <router-link
-                          v-sane-html="
-                            `${file.metadata?.metadata?.width} x ${file.metadata.metadata.height}`
-                          "
+                          v-sane-html="`${fileWidth(file)} x ${fileHeight(file)}`"
                           :to="
                             filterLink(
                               [
-                                `metadata.width:${parseInt(file.metadata.metadata['width'])}`,
-                                `metadata.height:${parseInt(file.metadata.metadata['height'])}`,
+                                `metadata.width:${parseInt(fileWidth(file))}`,
+                                `metadata.height:${parseInt(fileHeight(file))}`,
                               ].join(' ')
                             )
                           "
@@ -316,21 +326,10 @@ export default {
       return references;
     },
     extraData() {
-      const extraData = [];
-      if (this.file.metadata?.language?.rawScore > 0.95) {
-        extraData.push({
-          label: "language",
-          value: [
-            languages[this.file.metadata.language.language] ?? this.file.metadata.language.language,
-          ],
-        });
-      }
-      return extraData.concat(
-        Object.entries(this.file.metadata?.metadata ?? {}).map(([label, value]) => ({
-          label,
-          value,
-        }))
-      );
+      return Object.entries(this.file.metadata?.metadata ?? {}).map(([label, value]) => ({
+        label,
+        value,
+      }));
     },
   },
 };
