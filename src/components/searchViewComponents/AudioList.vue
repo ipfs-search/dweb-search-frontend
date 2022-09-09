@@ -33,15 +33,18 @@ pageHits.value.slice(0,
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="hit.src || picsum({ seed: hit.hash })"
-              class="text-white align-stretch"
+              class="text-white align-content-stretch"
               :aspect-ratio="1"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
-              <v-card-title class="d-flex align-start text-wrap" style="font-size: medium">
+              <v-card-title
+                class="d-flex align-start text-wrap line"
+                style="font-size: medium; line-height: 1.4rem"
+              >
                 <span v-sane-html="fileTitle(hit)" />
               </v-card-title>
               <media-center-icon :icon="mdiMusic" />
-              <v-card-text class="align-content-end">
+              <v-card-text class="align-end">
                 <span v-if="fileAuthor(hit)" v-sane-html="fileAuthor(hit)" />
                 <span v-if="fileAuthor(hit) && hit?.metadata?.metadata?.['xmpDM:album']"> - </span>
                 <span
