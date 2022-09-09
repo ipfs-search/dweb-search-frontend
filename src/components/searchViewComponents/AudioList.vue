@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMusic } from "@mdi/js";
+import { mdiMusic, mdiPlaylistMusic } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
@@ -19,6 +19,12 @@ const { slicedHits } = useFileListComposable({ fileType });
 pageHits.value.slice(0,
 <template>
   <ListBase :file-type="fileType">
+    <v-btn rounded="pill" color="ipfsPrimary">
+      Play all
+      <template #prepend>
+        <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
+      </template>
+    </v-btn>
     <v-col cols="12" xl="8" offset-xl="2">
       <v-row dense>
         <v-col

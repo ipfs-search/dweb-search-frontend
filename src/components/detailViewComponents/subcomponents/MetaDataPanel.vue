@@ -34,7 +34,7 @@ const fileWidth = (file) =>
 const fileHeight = (file) =>
   file.metadata?.metadata?.height ||
   file.metadata?.metadata?.["Image Height"] ||
-  file.metadata?.metadata?.["tiff:ImageHeight"];
+  file.metadata?.metadata?.["tiff:ImageLength"];
 </script>
 
 <template>
