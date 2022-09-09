@@ -6,6 +6,7 @@ import MediaCenterIcon from "@/components/searchViewComponents/subcomponents/Med
 import { mdiMusic } from "@mdi/js";
 import { Types } from "@/helpers/typeHelper";
 import { picsum } from "@/helpers/picsum";
+import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
 
 const { durationToColor, mime, prettyBytes } = imports;
 const fileType = Types.audio;
@@ -30,13 +31,22 @@ pageHits.value.slice(0,
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="hit.src || picsum({ seed: hit.hash })"
-              class="text-white align-end"
+              class="text-white align-content-space-between"
               :aspect-ratio="1"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
+              <v-card-title class="d-flex align-start text-wrap" style="font-size: medium">
+                <span v-sane-html="fileTitle(hit)" />
+              </v-card-title>
               <media-center-icon :icon="mdiMusic" />
-              <v-card-text class="text-subtitle-2">
-                <span v-sane-html="hit.title" />
+              <v-card-text class="align-content-end">
+                <span v-if="fileAuthor(hit)" v-sane-html="fileAuthor(hit)" />
+                <span v-if="fileAuthor(hit) && hit?.metadata?.metadata?.['xmpDM:album']"> - </span>
+                <span
+                  v-if="hit?.metadata?.metadata?.['xmpDM:album']"
+                  v-sane-html="hit.metadata?.metadata?.['xmpDM:album']"
+                  class="font-italic"
+                />
               </v-card-text>
             </v-img>
 
