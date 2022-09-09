@@ -254,7 +254,7 @@ const fileHeight = (file) =>
                     </tr>
                   </tbody>
                 </v-table>
-                <v-expansion-panels v-if="extraData.length">
+                <v-expansion-panels>
                   <v-expansion-panel>
                     <v-expansion-panel-title>
                       <i>More details: </i>
