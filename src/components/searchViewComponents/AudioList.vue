@@ -1,13 +1,15 @@
 <script setup>
+import { mdiMusic } from "@mdi/js";
+import { useDisplay } from "vuetify";
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { useFileListComposable, imports } from "@/composables/useFileListComposable";
 import MediaCenterIcon from "@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue";
-import { mdiMusic } from "@mdi/js";
 import { Types } from "@/helpers/typeHelper";
 import { picsum } from "@/helpers/picsum";
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
 
+const { xs, smAndDown, mdAndDown } = useDisplay();
 const { durationToColor, mime, prettyBytes } = imports;
 const fileType = Types.audio;
 
@@ -20,7 +22,7 @@ pageHits.value.slice(0,
     <v-col cols="12" xl="8" offset-xl="2">
       <v-row dense>
         <v-col
-          v-for="(hit, index) in slicedHits(6)"
+          v-for="(hit, index) in slicedHits(xs ? 2 : smAndDown ? 6 : mdAndDown ? 8 : 12)"
           :key="index"
           cols="6"
           xs="4"
@@ -31,7 +33,7 @@ pageHits.value.slice(0,
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="hit.src || picsum({ seed: hit.hash })"
-              class="text-white align-content-space-between"
+              class="text-white align-stretch"
               :aspect-ratio="1"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
