@@ -19,9 +19,9 @@ const imgSrc = computed(() => image(props.file, 400, 300));
 </script>
 
 <template>
-  <generic-detail :file="file" narrow>
+  <generic-detail :file="file" expand-meta narrow meta-expand>
     <v-img
-      max-height="40%"
+      aspect-ratio="3"
       cover
       :src="imgSrc"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"

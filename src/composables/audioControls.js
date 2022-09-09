@@ -129,9 +129,9 @@ export function close() {
  * @param secs
  * @returns {string}
  */
-export function formatTime(secs) {
+export function formatTime(secs, spaced = true) {
   if (secs === undefined) return "-";
   const minutes = Math.floor(secs / 60) || 0;
   const seconds = Math.floor(secs - minutes * 60) || 0;
-  return `${minutes} : ${seconds < 10 ? "0" : ""}${seconds}`;
+  return `${minutes}${spaced ? " " : ""}:${spaced ? " " : ""}${seconds < 10 ? "0" : ""}${seconds}`;
 }

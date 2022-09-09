@@ -8,13 +8,13 @@ const { mdAndUp } = useDisplay();
 import { detailProps } from "@/composables/useDetail";
 defineProps({
   ...detailProps,
-  expandMeta: {
-    type: Boolean,
-    default: false,
-  },
   narrow: {
     type: Boolean,
     default: false,
+  },
+  metaExpand: {
+    type: Boolean,
+    default: true,
   },
 });
 </script>
@@ -30,15 +30,15 @@ defineProps({
           <v-row>
             <v-col
               cols="12"
-              :md="narrow ? 8 : undefined"
-              :offset-md="narrow ? 2 : undefined"
+              :md="narrow ? 10 : undefined"
+              :offset-md="narrow ? 1 : undefined"
               xl="8"
               offset-xl="2"
               :class="mdAndUp ? 'mb-16' : ''"
             >
               <DetailHeader :file="file" />
               <slot />
-              <MetaDataPanel :file="file" :expanded="expandMeta" />
+              <MetaDataPanel :file="file" :expanded="metaExpand" />
             </v-col>
           </v-row>
         </v-container>

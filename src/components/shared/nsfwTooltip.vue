@@ -1,5 +1,6 @@
 <script setup>
 import { mdiCog } from "@mdi/js";
+import { nsfwClassificationFormatter } from "@/helpers/nsfwClassifier";
 defineProps({
   file: {
     type: Object,
@@ -15,15 +16,10 @@ const { blurExplicit } = useBlurExplicit();
       <div v-if="file.title" v-sane-html="file.title"></div>
       <div v-if="blurExplicit(file)">
         Blurring explicit content. See settings in menubar under
-        <v-icon color="wfilee" :icon="mdiCog" />
+        <v-icon color="white" :icon="mdiCog" />
       </div>
       <div v-if="file.nsfwClassification">
-        {{
-          Object.entries(file.nsfwClassification).reduce(
-            (p, [classifier, value]) => `${p} ${classifier}: ${Math.round(value * 100)}%`,
-            ""
-          )
-        }}
+        {{ nsfwClassificationFormatter(file.nsfwClassification) }}
       </div>
       <div v-else>NSFW classification not available</div>
     </div>

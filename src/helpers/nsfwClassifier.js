@@ -36,8 +36,8 @@ export function nsfw(classification) {
   return false;
 }
 
-export default {
-  classify,
-  nsfw,
-  mimetypeExemptions,
-};
+export const nsfwClassificationFormatter = (classification) =>
+  Object.entries(classification).reduce(
+    (p, [classifier, value]) => `${p} ${classifier}: ${Math.round(value * 100)}%`,
+    ""
+  );

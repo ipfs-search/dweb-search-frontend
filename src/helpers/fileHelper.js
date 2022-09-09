@@ -1,4 +1,5 @@
 import * as mime from "mime/lite";
+import { computed } from "vue";
 
 // Howler (audio player) requires the following extensions:
 // "mp3", "mpeg", "opus", "ogg", "oga", "wav", "aac", "caf", "m4a", "m4b",
@@ -53,7 +54,9 @@ export function getFileExtension(file) {
 
   return "";
 }
-
-export default {
-  getFileExtension,
+export const fileTitle = (file) => {
+  return file.metadata?.metadata?.["title"] || file.title || file.hash;
+};
+export const fileAuthor = (file) => {
+  return file.metadata?.metadata?.["dc:creator"] || file.author || undefined;
 };
