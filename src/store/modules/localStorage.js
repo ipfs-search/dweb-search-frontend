@@ -14,7 +14,7 @@ const fields = [
   },
   {
     field: "playlist",
-    defaultValue: { entries: [] },
+    defaultValue: undefined,
   },
 ];
 
