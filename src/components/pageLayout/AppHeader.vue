@@ -17,6 +17,9 @@ import Hyperlink from "@/components/shared/HyperLink.vue";
 const theme = useTheme();
 
 const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");
+
+import { usePlaylist } from "@/composables/playlistComposable";
+const { togglePlaylist } = usePlaylist();
 </script>
 
 <template>
@@ -58,7 +61,7 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === "Sea
           <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />
           <v-spacer v-else />
 
-          <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylistView">
+          <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
             <v-icon :icon="mdiMusic" />
           </v-btn>
 

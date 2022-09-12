@@ -9,6 +9,7 @@ const route = useRoute();
 
 import { playerActive } from "@/composables/audioControls";
 </script>
+
 <template>
   <v-app dark hidden class="overflow-hidden">
     <app-header v-if="route.name !== 'Home'" />

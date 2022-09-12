@@ -1,6 +1,5 @@
 <script setup>
-import { mdiMusic, mdiPlaylistMusic } from "@mdi/js";
-import { useStore } from "vuex";
+import { mdiMusic } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import ListBase from "./BaseList.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
@@ -10,30 +9,22 @@ import { Types } from "@/helpers/typeHelper";
 import { picsum } from "@/helpers/picsum";
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
 
-const store = useStore();
 const { xs, smAndDown, mdAndDown } = useDisplay();
 const { durationToColor, mime, prettyBytes } = imports;
 const fileType = Types.audio;
 
-const { slicedHits, pageHits } = useFileListComposable({ fileType });
-const playAll = () => store.commit("playlist/setPlaylist", { entries: pageHits.value });
+const { slicedHits } = useFileListComposable({ fileType });
 </script>
 
 pageHits.value.slice(0,
 <template>
   <ListBase :file-type="fileType">
-    <v-btn rounded="pill" color="ipfsPrimary" @click="playAll">
-      Play all
-      <template #prepend>
-        <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
-      </template>
-    </v-btn>
-    <v-col cols="12" xl="8" offset-xl="2">
+    <v-col cols="10" offset-xl="2">
       <v-row dense>
         <v-col
           v-for="(hit, index) in slicedHits(xs ? 2 : smAndDown ? 6 : mdAndDown ? 8 : 12)"
           :key="index"
-          cols="6"
+          cols="5"
           xs="4"
           sm="4"
           md="3"
