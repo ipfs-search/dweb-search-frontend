@@ -1,4 +1,5 @@
 import { StoreOptions } from "vuex";
+import { IFile } from "../../interfaces/IFile";
 import { IPlaylist } from "../../interfaces/IPlaylist";
 
 export interface IPlaylistStoreState {
@@ -6,15 +7,27 @@ export interface IPlaylistStoreState {
   playlists: IPlaylist[];
 }
 
+const defaultPlaylist = { entries: [] };
+
 // Can not use explicit type, it messes with cross-module calls
 export default <StoreOptions<any>>{
   namespaced: true,
-  state: {
-    playlists: [],
+  state: (): IPlaylistStoreState => {
+    try {
+      return {
+        playlists: [JSON.parse(localStorage.playlist ?? null) ?? defaultPlaylist],
+      };
+    } catch (e) {
+      return { playlists: [defaultPlaylist] };
+    }
   },
   mutations: {
-    setPlaylist(state, playlist: IPlaylist): void {
+    setPlaylist(state, playlist: IPlaylist) {
       state.playlists[0] = playlist;
+      this.commit("localStorage/setPlaylist", state.playlists[0]);
+    },
+    enqueue(state, entries: IFile | IFile[]) {
+      state.playlists[0].entries = state.playlists[0].entries.concat(entries);
       this.commit("localStorage/setPlaylist", state.playlists[0]);
     },
   },
