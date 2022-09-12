@@ -16,8 +16,7 @@ const { durationToColor, mime, prettyBytes } = imports;
 const fileType = Types.audio;
 
 const { slicedHits, pageHits } = useFileListComposable({ fileType });
-console.log(pageHits);
-const playAll = () => store.commit("playlist/setPlaylist", { entries: pageHits });
+const playAll = () => store.commit("playlist/setPlaylist", { entries: pageHits.value });
 </script>
 
 pageHits.value.slice(0,
