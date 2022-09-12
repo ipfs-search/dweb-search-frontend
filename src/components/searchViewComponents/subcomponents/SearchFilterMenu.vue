@@ -20,11 +20,6 @@ import SearchFilters from "@/components/searchViewComponents/subcomponents/Searc
 
 export default {
   components: { SearchFilters },
-  computed: {
-    filters() {
-      return this.$store.getters["query/filters/filterWidgets"];
-    },
-  },
 };
 </script>
 

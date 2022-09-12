@@ -4,8 +4,11 @@ import SettingsMenu from "@/components/pageLayout/SettingsMenu.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
+import { useStore } from "vuex";
+const store = useStore();
 
-import { mdiClose } from "@mdi/js";
+import { mdiClose, mdiMusic } from "@mdi/js";
+
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 
@@ -54,6 +57,10 @@ const whiteLogo = computed(() => theme.current.value.dark || route.name === "Sea
           </div>
           <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />
           <v-spacer v-else />
+
+          <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylistView">
+            <v-icon :icon="mdiMusic" />
+          </v-btn>
 
           <settings-menu />
 
