@@ -45,7 +45,6 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
       height="100"
     >
       <v-progress-linear
-        v-if="!loading"
         v-model="progress"
         active
         style="position: absolute"

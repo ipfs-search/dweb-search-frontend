@@ -11,6 +11,8 @@ import { picsum } from "@/helpers/picsum";
 import { usePlaylist } from "@/composables/playlistComposable";
 const { playlistVisible } = usePlaylist();
 
+import { loadSoundFile } from "../../composables/audioControls.js";
+
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"]?.entries);
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
 </script>
@@ -29,20 +31,32 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
     >
       <v-card-title>Playlist</v-card-title>
       <v-list bg-color="black">
-        <v-list-item v-for="entry in playlistEntries" :key="entry.hash" color="black">
-          <template #prepend>
-            <v-icon :icon="mdiDotsVertical" />
-            <v-list-item-avatar rounded="0">
-              <v-img
-                aspect-ratio="1"
-                bac
-                gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-                :src="entry.src || picsum({ width: 75, height: 75, seed: entry.hash })"
-              />
-            </v-list-item-avatar>
-          </template>
-          <v-list-item-title v-sane-html="fileTitle(entry)" />
-        </v-list-item>
+        <v-hover v-for="entry in playlistEntries" :key="entry.hash" v-slot="{ isHovering, props }">
+          <v-list-item
+            color="black"
+            :active="isHovering"
+            active-color="white"
+            v-bind="props"
+            @dblclick="loadSoundFile(entry)"
+          >
+            <template #prepend>
+              <v-icon :icon="mdiDotsVertical" />
+              <v-list-item-avatar rounded="0">
+                <v-img
+                  aspect-ratio="1"
+                  bac
+                  gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
+                  :src="entry.src || picsum({ width: 75, height: 75, seed: entry.hash })"
+                />
+              </v-list-item-avatar>
+            </template>
+            <v-row>
+              <v-col cols="6">
+                <v-list-item-title v-sane-html="fileTitle(entry)" />
+              </v-col>
+            </v-row>
+          </v-list-item>
+        </v-hover>
       </v-list>
     </v-card>
   </v-fade-transition>

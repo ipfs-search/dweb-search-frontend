@@ -29,7 +29,9 @@ const howlSettings = {
   preload: "metadata",
   autoplay: true,
   onend: () => (playing.value = false),
-  onstop: () => (playing.value = false),
+  onstop: () => {
+    playing.value = false;
+  },
   onpause: () => (playing.value = false),
   onplay: () => (playing.value = true),
   onload: () => {
@@ -82,7 +84,11 @@ export const playerActive = computed(() => Object.keys(sourceFile.value).length 
 
 export const progress = computed({
   get() {
-    return (time.value / duration.value) * 100;
+    if (duration.value) {
+      return (time.value / duration.value) * 100;
+    } else {
+      return 0;
+    }
   },
   set(percentage) {
     if (loaded.value) {
