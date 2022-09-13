@@ -6,7 +6,6 @@ const { mdAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
 import {
-  playerActive,
   play,
   pause,
   close,
@@ -23,20 +22,26 @@ import { onBeforeUnmount } from "vue";
 onBeforeUnmount(() => {
   close();
 });
+
+import { playerActive } from "@/composables/audioControls";
+import { usePlaylist } from "@/composables/playlistComposable";
+const { playlistVisible } = usePlaylist();
+
+import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
 </script>
 
 <template>
   <v-fade-transition class="audio-player-card">
     <v-card
-      v-if="playerActive"
-      transition="fade-transition"
+      v-if="playerActive || playlistVisible"
       style="z-index: 10000"
       position="fixed"
       location="bottom"
       color="black"
       class="d-flex"
-      tile
-      width="101%"
+      flat
+      rounded="0"
+      width="100%"
       height="100"
     >
       <v-progress-linear
@@ -74,12 +79,12 @@ onBeforeUnmount(() => {
         <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0">
           <v-marquee>
             <v-card-title class="font-weight-default d-flex px-0">
-              <span v-sane-html="sourceFile.title" />
+              <span v-sane-html="fileTitle(sourceFile)" />
             </v-card-title>
           </v-marquee>
           <v-marquee>
             <v-card-subtitle class="d-flex py-2 px-0">
-              <span v-sane-html="sourceFile.author" />
+              <span v-sane-html="fileAuthor(sourceFile)" />
             </v-card-subtitle>
           </v-marquee>
         </div>
