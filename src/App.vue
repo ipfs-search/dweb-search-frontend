@@ -1,13 +1,10 @@
 <script setup>
 //TODO: make AppHeader generic also for homeview
 import AppHeader from "@/components/pageLayout/AppHeader.vue";
-import { useDisplay } from "vuetify";
 import { useRoute } from "vue-router";
+import PlayList from "./components/pageLayout/PlayList.vue";
 
-const { mdAndUp } = useDisplay();
 const route = useRoute();
-
-import { playerActive } from "@/composables/audioControls";
 </script>
 
 <template>
@@ -18,8 +15,9 @@ import { playerActive } from "@/composables/audioControls";
       <router-view />
     </v-main>
 
-    <AudioPlayer v-if="playerActive" />
-    <AppFooter v-else-if="route.name === 'Home' || (route.name === 'Search' && mdAndUp)" />
+    <play-list />
+    <AudioPlayer />
+    <AppFooter />
   </v-app>
 </template>
 

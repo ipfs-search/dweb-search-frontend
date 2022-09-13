@@ -54,14 +54,14 @@ const fileHeight = (file) =>
                   <tbody>
                     <tr v-if="file.title || file.metadata?.metadata?.['title']">
                       <th>Title:</th>
-                      <td v-if="file.metadata?.metadata?.['title']">
+                      <td v-if="file.metadata?.metadata?.title">
                         <router-link
-                          v-sane-html="file.metadata.metadata['title']"
+                          v-sane-html="file.metadata.metadata.title"
                           :to="
                             filterLink(
                               metadataLink({
                                 label: 'title',
-                                value: file.metadata.metadata['title'],
+                                value: file.metadata.metadata.title,
                               })
                             )
                           "
