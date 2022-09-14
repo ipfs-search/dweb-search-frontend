@@ -1,6 +1,6 @@
 const gatewayURL = "https://gateway.ipfs.io";
 
-function getResourceURL(hash) {
+function getResourceURL(hash: string) {
   return `${gatewayURL}/ipfs/${hash}`;
 }
 

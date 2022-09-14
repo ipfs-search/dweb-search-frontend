@@ -7,7 +7,7 @@ import { useFileListComposable, imports } from "@/composables/useFileListComposa
 import MediaCenterIcon from "@/components/searchViewComponents/subcomponents/MediaCenterIcon.vue";
 import { Types } from "@/helpers/typeHelper";
 import { picsum } from "@/helpers/picsum";
-import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
+import { fileTitle, fileAuthor } from "@/helpers/fileHelper.ts";
 
 const { xs, smAndDown, mdAndDown } = useDisplay();
 const { durationToColor, mime, prettyBytes } = imports;

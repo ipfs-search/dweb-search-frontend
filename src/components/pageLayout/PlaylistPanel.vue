@@ -2,8 +2,7 @@
 import { useStore } from "vuex";
 const store = useStore();
 
-import { usePlaylist } from "@/composables/playlistComposable";
-const { playlistVisible } = usePlaylist();
+import { playlistVisible } from "@/composables/audioControls.ts";
 </script>
 
 <template>

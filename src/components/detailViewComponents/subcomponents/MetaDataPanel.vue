@@ -5,7 +5,7 @@ import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
 import { elasticSearchEscape } from "@/helpers/ApiHelper";
 import { nsfwClassificationFormatter } from "@/helpers/nsfwClassifier";
-import { formatTime } from "@/composables/audioControls";
+import { formatTime } from "@/composables/audioControls.js";
 
 const route = useRoute();
 
@@ -126,11 +126,11 @@ const fileHeight = (file) =>
                       <th>Length:</th>
                       <td
                         v-if="file.metadata?.metadata?.['xmpDM:duration']"
-                        v-sane-html="formatTime(file.metadata.metadata['xmpDM:duration'], false)"
+                        v-sane-html="formatTime(file.metadata.metadata['xmpDM:duration']).join(':')"
                       />
                       <td
                         v-else
-                        v-sane-html="formatTime(file.metadata.metadata['length'], false)"
+                        v-sane-html="formatTime(file.metadata.metadata['length']).join(':')"
                       />
                     </tr>
                     <tr v-if="file.metadata?.metadata?.['subject']">
