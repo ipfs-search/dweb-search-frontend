@@ -5,35 +5,20 @@ import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
-import {
-  play,
-  pause,
-  close,
-  audioError,
-  loading,
-  playing,
-  sourceFile,
-  formattedTime as time,
-  formattedDuration as duration,
-  progress,
-} from "@/composables/audioControls";
+import { audioPlayer } from "@/composables/audioControls";
 
 import { onBeforeUnmount } from "vue";
 onBeforeUnmount(() => {
-  close();
+  audioPlayer.value.cleanup();
 });
 
-import { playerActive } from "@/composables/audioControls";
-import { usePlaylist } from "@/composables/playlistComposable";
-const { playlistVisible } = usePlaylist();
-
-import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
+import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 </script>
 
 <template>
   <v-fade-transition class="audio-player-card">
     <v-card
-      v-if="playerActive || playlistVisible"
+      v-if="audioPlayer"
       style="z-index: 10000"
       position="fixed"
       location="bottom"
@@ -45,7 +30,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
       height="100"
     >
       <v-progress-linear
-        v-model="progress"
+        v-model="audioPlayer.progress"
         active
         style="position: absolute"
         color="ipfsPrimary-lighten-4"
@@ -59,7 +44,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
             aspect-ratio="1"
             bac
             gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-            :src="sourceFile.src || picsum({ width: 75, height: 75, seed: sourceFile.hash })"
+            :src="picsum({ width: 75, height: 75, seed: audioPlayer.file.hash })"
           >
           </v-img>
           <v-icon
@@ -78,12 +63,12 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
         <div class="flex-column my-auto mx-4 align-center w-100" style="min-width: 0">
           <v-marquee>
             <v-card-title class="font-weight-default d-flex px-0">
-              <span v-sane-html="fileTitle(sourceFile)" />
+              <span v-sane-html="fileTitle(audioPlayer.file)" />
             </v-card-title>
           </v-marquee>
           <v-marquee>
             <v-card-subtitle class="d-flex py-2 px-0">
-              <span v-sane-html="fileAuthor(sourceFile)" />
+              <span v-sane-html="fileAuthor(audioPlayer.file)" />
             </v-card-subtitle>
           </v-marquee>
         </div>
@@ -92,18 +77,18 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
           :class="mdAndUp ? 'flex-row ml-auto' : 'flex-column'"
         >
           <v-card-title :style="{ fontSize: mdAndUp ? '20px' : '16px' }"
-            >{{ time }} / {{ duration }}</v-card-title
+            >{{ audioPlayer.time }} / {{ audioPlayer.duration }}</v-card-title
           >
           <div class="d-inline-flex flex-row">
             <v-btn
-              v-if="audioError"
+              v-if="audioPlayer.error"
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
-              :title="audioError"
+              :title="audioPlayer.error"
               :icon="mdiAlert"
             />
             <v-btn
-              v-else-if="loading"
+              v-else-if="audioPlayer.loading"
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               icon
@@ -111,12 +96,12 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
               loading
             />
             <v-btn
-              v-else-if="playing"
+              v-else-if="audioPlayer.playing"
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiPause"
               title="Pause"
-              @click="pause"
+              @click="audioPlayer.pause"
             />
             <v-btn
               v-else
@@ -124,7 +109,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiPlay"
               title="Play"
-              @click="play"
+              @click="audioPlayer.play"
             />
             <v-btn
               class="bg-ipfsPrimary-lighten-1 ml-2"
@@ -132,7 +117,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiClose"
               title="Close"
-              @click="close"
+              @click="audioPlayer.cleanUp"
             />
           </div>
         </div>
@@ -146,6 +131,6 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
   cursor: pointer;
 }
 .audio-player-card {
-  transition: all 500ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 </style>

@@ -20,7 +20,7 @@ export default createStore({
         [Types.video]: SearchResults(Types.video),
         [Types.directories]: SearchResults(Types.directories),
         [Types.other]: SearchResults(Types.other),
-        [Types.unfiltered]: SearchResults(Types.unfiltere),
+        [Types.unfiltered]: SearchResults(Types.unfiltered),
       },
     },
   },

@@ -1,20 +1,19 @@
-import { StoreOptions } from "vuex";
-import { IFile } from "../../interfaces/IFile";
-import { IPlaylist } from "../../interfaces/IPlaylist";
+import { Module } from "vuex";
+import { IPlaylist } from "@/interfaces/IPlaylist";
 
 export interface IPlaylistStoreState {
-  // Currently we use 1 playlist; playlists[0]
+  activePlaylist?: number | undefined;
   playlists: IPlaylist[];
 }
 
 const defaultPlaylist = { entries: [] };
 
-// Can not use explicit type, it messes with cross-module calls
-export default <StoreOptions<any>>{
+export default <Module<any, unknown>>{
   namespaced: true,
   state: (): IPlaylistStoreState => {
     try {
       return {
+        activePlaylist: 0,
         playlists: [JSON.parse(localStorage.playlist ?? null) ?? defaultPlaylist],
       };
     } catch (e) {
@@ -23,17 +22,22 @@ export default <StoreOptions<any>>{
   },
   mutations: {
     setPlaylist(state, playlist: IPlaylist) {
-      state.playlists[0] = playlist;
-      this.commit("localStorage/setPlaylist", state.playlists[0]);
+      state.playlists[state.activePlaylist || 0] = playlist;
+      this.commit("localStorage/setPlaylist", state.playlists[state.activePlaylist || 0]);
     },
-    enqueue(state, entries: IFile | IFile[]) {
-      state.playlists[0].entries = state.playlists[0].entries.concat(entries);
-      this.commit("localStorage/setPlaylist", state.playlists[0]);
+    setActivePlaylist(state, playlist: number) {
+      state.activePlaylist = playlist;
+    },
+    setCurrentlyPlaying(state, index: number | undefined) {
+      state.playlists[state.activePlaylist || 0].index = index;
+      return index === undefined
+        ? undefined
+        : state.playlists[state.activePlaylist || 0].entries[index];
     },
   },
   getters: {
-    getPlaylist(state, getters, rootState) {
-      return state.playlists?.[0] ?? rootState.localStorage.playlist;
+    getPlaylist(state, getters, rootState: any) {
+      return state.playlists?.[state.activePlaylist || 0] ?? rootState.localStorage.playlist;
     },
   },
 };

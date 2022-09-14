@@ -71,11 +71,3 @@ export function apiSearch(query, type, batch = 0) {
  * @param s
  */
 export const elasticSearchEscape = (s) => s?.replaceAll(/([/:])/g, (_, c) => `\\${c}`);
-
-export default {
-  maxPages,
-  batchSize,
-  api,
-  apiMetadataQuery,
-  apiSearch,
-};

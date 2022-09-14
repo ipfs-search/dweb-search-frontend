@@ -18,8 +18,7 @@ const theme = useTheme();
 
 const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");
 
-import { usePlaylist } from "@/composables/playlistComposable.js";
-const { togglePlaylist } = usePlaylist();
+import { togglePlaylist } from "@/composables/audioControls.ts";
 </script>
 
 <template>

@@ -1,9 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 const route = useRoute();
-import { playerActive } from "@/composables/audioControls";
-import { usePlaylist } from "@/composables/playlistComposable";
-const { playlistVisible } = usePlaylist();
+import { audioPlayer, playlistVisible } from "@/composables/audioControls";
 
 import { useDisplay } from "vuetify";
 const { mdAndUp, smAndUp } = useDisplay();
@@ -37,7 +35,7 @@ const footer_links = [
   <v-card
     v-if="route.name === 'Home' || (route.name === 'Search' && mdAndUp)"
     v-scroll="onScroll"
-    :class="{ 'footer--hidden': hideFooter || playerActive || playlistVisible }"
+    :class="{ 'footer--hidden': hideFooter || audioPlayer || playlistVisible }"
     position="fixed"
     variant="flat"
     tile
