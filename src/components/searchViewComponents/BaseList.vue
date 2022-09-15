@@ -129,7 +129,7 @@ const queryPage = computed({
 </script>
 
 <template>
-  <v-container v-scroll="infiniteScroll" class="overflow-y-auto h-100">
+  <v-container v-scroll="infiniteScroll" class="overflow-y-hidden">
     <v-row dense>
       <v-col cols="12" xl="8" offset-xl="2">
         <v-card flat>

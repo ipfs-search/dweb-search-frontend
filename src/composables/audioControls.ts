@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { IFile } from "../interfaces/IFile";
 import { Audio } from "./audioPlayer";
+import { audioBank } from "../store/modules/playlistStore";
 
 import store from "@/store";
 
@@ -16,13 +17,9 @@ export const playlistVisible = ref(false);
 export const togglePlaylist = () => {
   playlistVisible.value = !playlistVisible.value;
 };
-const audioBank = new Map<string, Audio>();
 
 export const setPlaylist = (entries: IFile[]) => {
   store.commit("playlist/setPlaylist", { entries });
-  for (const entry of entries) {
-    if (!audioBank.has(entry.hash)) audioBank.set(entry.hash, new Audio(entry));
-  }
 };
 
 export const enqueue = (entries: IFile[]) =>
@@ -33,8 +30,8 @@ export const clearPlaylist = () => {
 };
 
 export const playPlaylistEntry = (entry: IFile) => {
-  const audio = audioBank.get(entry.hash);
-  audio && loadAudioPlayer(audio);
+  const audio = audioBank[entry.hash];
+  audio && !audio.error && loadAudioPlayer(audio);
 };
 /**
  * @param secs

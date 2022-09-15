@@ -5,7 +5,7 @@ import resourceURL from "@/helpers/resourceURL";
 import moment from "moment";
 import { elasticSearchEscape } from "@/helpers/ApiHelper";
 import { nsfwClassificationFormatter } from "@/helpers/nsfwClassifier";
-import { formatTime } from "@/composables/audioControls.js";
+import { formatTime } from "@/composables/audioControls";
 
 const route = useRoute();
 

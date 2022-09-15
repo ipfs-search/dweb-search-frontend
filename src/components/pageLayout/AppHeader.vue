@@ -80,5 +80,3 @@ import { togglePlaylist } from "@/composables/audioControls.ts";
     </v-container>
   </v-app-bar>
 </template>
-
-<style scoped></style>
