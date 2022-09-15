@@ -1,13 +1,11 @@
 import { ref } from "vue";
 import { IFile } from "../interfaces/IFile";
 import { Audio } from "./audioPlayer";
-import { audioBank } from "../store/modules/playlistStore";
 
 import store from "@/store";
 
 export const audioPlayer = ref<Audio | undefined>(undefined);
 
-export const audio = (file: IFile) => new Audio(file);
 export const loadAudioPlayer = (audio: Audio) => {
   console.log("Loading audio player", audio);
   audioPlayer.value = audio;
@@ -30,8 +28,7 @@ export const clearPlaylist = () => {
 };
 
 export const playPlaylistEntry = (entry: IFile) => {
-  const audio = audioBank[entry.hash];
-  audio && !audio.error && loadAudioPlayer(audio);
+  entry.audio && !entry.audio.error && loadAudioPlayer(entry.audio);
 };
 /**
  * @param secs
