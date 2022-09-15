@@ -1,8 +1,9 @@
-<script setup>
-import { useStore } from "vuex";
-const store = useStore();
-import VMarquee from "@/components/shared/VMarquee.vue";
-import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose, mdiDotsVertical } from "@mdi/js";
+<script setup lang="ts">
+import { computed } from "vue";
+import store from "@/store";
+import { audioBank } from "../../store/modules/playlistStore";
+import { IFile } from "../../interfaces/IFile";
+import { mdiCircleSmall, mdiPlay, mdiDotsVertical } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
@@ -10,17 +11,20 @@ import { picsum } from "@/helpers/picsum";
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 
 const playlistEntries = store.getters["playlist/getPlaylist"].entries;
-import { playlistVisible, loadAudioPlayer, playPlaylistEntry } from "@/composables/audioControls";
+import { playlistVisible, playPlaylistEntry } from "@/composables/audioControls";
+import BlinkBlink from "../shared/BlinkBlink.vue";
+const audioEntry = (entry: IFile) => audioBank[entry.hash];
+const cursor = (entry: IFile) => (audioEntry(entry)?.error ? "default" : "pointer");
 </script>
 
 <template>
-  <v-fade-transition class="audio-player-card">
+  <v-fade-transition class="overflow-y-scroll vh-100">
     <v-card
       v-if="playlistVisible"
       position="fixed"
       width="100%"
-      height="80%"
-      class="mt-14 pb-6 overflow-y-auto"
+      class="overflow-y-auto"
+      style="z-index: 1000"
       color="black"
       rounded="0"
       flat
@@ -43,7 +47,7 @@ import { playlistVisible, loadAudioPlayer, playPlaylistEntry } from "@/composabl
               <v-icon :icon="mdiDotsVertical" />
               <v-list-item-avatar
                 rounded="0"
-                style="cursor: pointer"
+                :style="{ cursor: cursor(entry) }"
                 @click="playPlaylistEntry(entry)"
               >
                 <v-img
@@ -53,6 +57,7 @@ import { playlistVisible, loadAudioPlayer, playPlaylistEntry } from "@/composabl
                   :src="entry.src || picsum({ width: 75, height: 75, seed: entry.hash })"
                 >
                   <v-icon
+                    v-if="!audioEntry(entry).error"
                     size="42"
                     color="white"
                     style="
@@ -68,8 +73,16 @@ import { playlistVisible, loadAudioPlayer, playPlaylistEntry } from "@/composabl
               </v-list-item-avatar>
             </template>
             <v-row>
-              <v-col cols="6">
-                <v-list-item-title v-sane-html="fileTitle(entry)" />
+              <v-col cols="6" :class="audioEntry(entry)?.error ? 'text-grey-darken-1' : ''">
+                <v-list-item-title class="d-flex">
+                  <v-span v-sane-html="fileTitle(entry)" class="mx-1" />
+                  <blink-blink
+                    :blink="audioEntry(entry)?.loading"
+                    :off="!audioEntry(entry).loading"
+                  >
+                    <v-icon v-if="!audioEntry(entry).error" color="white" :icon="mdiCircleSmall" />
+                  </blink-blink>
+                </v-list-item-title>
               </v-col>
             </v-row>
           </v-list-item>
@@ -79,8 +92,12 @@ import { playlistVisible, loadAudioPlayer, playPlaylistEntry } from "@/composabl
   </v-fade-transition>
 </template>
 
-<style lang="scss" scoped>
-.audio-player-card {
-  transition: all 300ms ease-in-out;
+<style scoped>
+.vh-100 {
+  height: 100vh;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
 }
 </style>

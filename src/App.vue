@@ -8,14 +8,14 @@ const route = useRoute();
 </script>
 
 <template>
-  <v-app dark hidden class="overflow-hidden">
+  <v-app dark hidden>
     <app-header v-if="route.name !== 'Home'" />
 
-    <v-main id="main">
+    <v-main id="main" class="pb-15">
+      <play-list />
       <router-view />
     </v-main>
 
-    <play-list />
     <AudioPlayer />
     <AppFooter />
   </v-app>
@@ -41,15 +41,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 {
-  font-size: 120%;
-  letter-spacing: 0.09em;
-  font-weight: 500;
-  span {
-    font-weight: 500;
-  }
-}
-
 /*
     This is due to a bug with the application height in Safari on IPhone
     https://stackoverflow.com/questions/62167456/use-of-v-app-bar-causes-v-content-to-always-have-an-overflow-identical-to-the-he

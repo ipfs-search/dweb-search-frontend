@@ -7,6 +7,8 @@ import { useDisplay } from "vuetify";
 const { mdAndUp, smAndUp } = useDisplay();
 import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from "@mdi/js";
 
+import { footerVisible } from "@/composables/footer";
+
 const footer_links = [
   {
     icon: mdiMastodon,
@@ -34,8 +36,7 @@ const footer_links = [
 <template>
   <v-card
     v-if="route.name === 'Home' || (route.name === 'Search' && mdAndUp)"
-    v-scroll="onScroll"
-    :class="{ 'footer--hidden': hideFooter || audioPlayer || playlistVisible }"
+    :class="{ 'footer--hidden': !footerVisible || audioPlayer || playlistVisible }"
     position="fixed"
     variant="flat"
     tile
@@ -76,15 +77,7 @@ const footer_links = [
 export default {
   data: () => ({
     lastScrollPosition: 0,
-    hideFooter: false,
   }),
-  methods: {
-    onScroll() {
-      const { scrollTop } = document.documentElement;
-      this.hideFooter = scrollTop > 30 && scrollTop > this.lastScrollPosition;
-      this.lastScrollPosition = document.documentElement.scrollTop;
-    },
-  },
 };
 </script>
 

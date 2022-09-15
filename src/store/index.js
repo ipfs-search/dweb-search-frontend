@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import localStorage from "@/store/modules/localStorage";
 import { Types } from "@/helpers/typeHelper";
-import playlist from "./modules/playlist";
+import playlist from "./modules/playlistStore";
 import query from "./modules/query";
 import SearchResults from "./modules/SearchResults";
 

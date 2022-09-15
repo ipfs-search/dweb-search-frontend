@@ -9,7 +9,7 @@ import { picsum } from "@/helpers/picsum";
 import { detailProps } from "@/composables/useDetail";
 const props = defineProps(detailProps);
 
-import { audioPlayer, loadAudioPlayer, audio } from "@/composables/audioControls.js";
+import { audioPlayer, loadAudioPlayer, audio } from "@/composables/audioControls";
 
 const currentlyLoadedInPlayer = computed(() => props.file.hash === audioPlayer.value?.file.hash);
 const image = (file, width, height) => file?.src || picsum({ width, height, seed: file.hash });

@@ -9,7 +9,7 @@ import { audioPlayer } from "@/composables/audioControls";
 
 import { onBeforeUnmount } from "vue";
 onBeforeUnmount(() => {
-  audioPlayer.value.cleanup();
+  audioPlayer.value?.cleanUp();
 });
 
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper";

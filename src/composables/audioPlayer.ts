@@ -87,8 +87,9 @@ export class Audio {
   }
 
   private reportError(message: string) {
-    console.error(message);
     this.error = message;
+    this.loading = false;
+    console.error(message);
   }
 
   /**
@@ -132,7 +133,7 @@ export class Audio {
   }
 
   cleanUp() {
-    clearInterval(this.interval);
+    this.interval && clearInterval(this.interval);
     this.player.off();
     this.player.unload();
     this.error = "";
