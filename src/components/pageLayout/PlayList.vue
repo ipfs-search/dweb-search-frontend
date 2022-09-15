@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import store from "@/store";
-import { audioBank } from "../../store/modules/playlistStore";
 import { IFile } from "../../interfaces/IFile";
 import { mdiCircleSmall, mdiPlay, mdiDotsVertical } from "@mdi/js";
 import { useDisplay } from "vuetify";
@@ -10,11 +9,10 @@ import { picsum } from "@/helpers/picsum";
 
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 
-const playlistEntries = store.getters["playlist/getPlaylist"].entries;
+const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import { playlistVisible, playPlaylistEntry } from "@/composables/audioControls";
 import BlinkBlink from "../shared/BlinkBlink.vue";
-const audioEntry = (entry: IFile) => audioBank[entry.hash];
-const cursor = (entry: IFile) => (audioEntry(entry)?.error ? "default" : "pointer");
+const cursor = (entry: IFile) => (entry.audio?.error ? "default" : "pointer");
 </script>
 
 <template>
@@ -57,7 +55,7 @@ const cursor = (entry: IFile) => (audioEntry(entry)?.error ? "default" : "pointe
                   :src="entry.src || picsum({ width: 75, height: 75, seed: entry.hash })"
                 >
                   <v-icon
-                    v-if="!audioEntry(entry).error"
+                    v-if="!entry.audio?.error"
                     size="42"
                     color="white"
                     style="
@@ -73,14 +71,11 @@ const cursor = (entry: IFile) => (audioEntry(entry)?.error ? "default" : "pointe
               </v-list-item-avatar>
             </template>
             <v-row>
-              <v-col cols="6" :class="audioEntry(entry)?.error ? 'text-grey-darken-1' : ''">
+              <v-col cols="6" :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
                 <v-list-item-title class="d-flex">
-                  <v-span v-sane-html="fileTitle(entry)" class="mx-1" />
-                  <blink-blink
-                    :blink="audioEntry(entry)?.loading"
-                    :off="!audioEntry(entry).loading"
-                  >
-                    <v-icon v-if="!audioEntry(entry).error" color="white" :icon="mdiCircleSmall" />
+                  <v-span v-sane-html="entry.title" class="mx-1" />
+                  <blink-blink :blink="entry.audio?.loading" :off="!entry.audio.loading">
+                    <v-icon v-if="!entry.audio.error" color="white" :icon="mdiCircleSmall" />
                   </blink-blink>
                 </v-list-item-title>
               </v-col>

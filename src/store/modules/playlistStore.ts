@@ -1,12 +1,12 @@
-import { reactive, Ref, ref } from "vue";
 import { Module } from "vuex";
 import { IPlaylist } from "@/interfaces/IPlaylist";
 import { IFile } from "../../interfaces/IFile";
-import { Audio } from "../../composables/audioPlayer";
+import { IAudio, Audio } from "../../composables/audioPlayer";
 
 export interface IPlaylistStoreState {
   activePlaylist?: number | undefined;
   playlists: IPlaylist[];
+  audioBank: Record<string, IAudio>;
 }
 
 const defaultPlaylist: IPlaylist = { entries: [] };
@@ -20,14 +20,16 @@ export default <Module<any, unknown>>{
       return {
         activePlaylist: 0,
         playlists: [playlist],
+        audioBank: fillAudioBank(playlist.entries),
       };
     } catch (e) {
-      return { playlists: [defaultPlaylist] };
+      return { playlists: [defaultPlaylist], audioBank: {} };
     }
   },
   mutations: {
     setPlaylist(state, playlist: IPlaylist) {
       state.playlists[state.activePlaylist || 0] = playlist;
+      state.audioBank = fillAudioBank(playlist.entries);
       this.commit("localStorage/setPlaylist", state.playlists[state.activePlaylist || 0]);
     },
     setActivePlaylist(state, playlist: number) {
@@ -39,27 +41,39 @@ export default <Module<any, unknown>>{
         ? undefined
         : state.playlists[state.activePlaylist || 0].entries[index];
     },
+    setAudioState(state, { hash, ...audio }) {
+      state.audioBank[hash] = {
+        ...state.audioBank[hash],
+        ...audio,
+      };
+    },
   },
   getters: {
-    getPlaylist(state, getters, rootState: any): IPlaylist {
-      return state.playlists?.[state.activePlaylist || 0] ?? rootState.localStorage.playlist;
+    getPlaylist(state): IPlaylist {
+      const playlist = state.playlists?.[state.activePlaylist || 0];
+      return {
+        ...playlist,
+        entries: playlist.entries.map((entry: IFile) => ({
+          ...entry,
+          audio: state.audioBank[entry.hash],
+        })),
+      };
     },
   },
 };
 
 // audioBank is used to make single Howl instances for audio files,
 // even when there are duplicates in the list
-interface dictionary {
-  [key: string]: Audio;
-}
-export const audioBank = reactive<dictionary>({});
 const fillAudioBank = (entries: IFile[], purge = true) => {
+  const audioBank: Record<string, IAudio> = {};
   for (const entry of entries) {
     if (!audioBank[entry.hash]) audioBank[entry.hash] = new Audio(entry);
   }
-  if (!purge) return;
-  const keys = new Set(entries.map((entry) => entry.hash));
-  for (const hash in audioBank.value) {
-    if (!keys.has(hash)) delete audioBank[hash];
+  if (purge) {
+    const keys = new Set(entries.map((entry) => entry.hash));
+    for (const hash in audioBank.value) {
+      if (!keys.has(hash)) delete audioBank[hash];
+    }
   }
+  return audioBank;
 };
