@@ -6,6 +6,8 @@ import { Howl, Howler } from "howler";
 import { getFileExtension } from "@/helpers/fileHelper";
 import getResourceURL from "@/helpers/resourceURL";
 
+const abortController = new AbortController();
+
 const errorCode = {
   "1": "User aborted request",
   "2": "Network error",
@@ -53,7 +55,9 @@ export const audioPlayer = ref<IAudio>({
    */
   load(file?: IFile, options = {}): Promise<IAudio> {
     return new Promise((resolve, reject) => {
-      // For debugging mainly; cause an error after 10s
+      abortController.signal.addEventListener("abort", () => {
+        reject();
+      });
       if (file) {
         this.initialize(file, options);
       }
@@ -74,6 +78,9 @@ export const audioPlayer = ref<IAudio>({
    */
   play(file?: IFile, options = {}): Promise<IAudio> {
     return new Promise((resolve, reject) => {
+      abortController.signal.addEventListener("abort", () => {
+        reject();
+      });
       this.load(file, options)
         .then((audio) => {
           this.player?.once("playerror", (source, message) => {
@@ -82,6 +89,9 @@ export const audioPlayer = ref<IAudio>({
               `Playback Error: ${errorCode[message as 1 | 2 | 3 | 4]}`
             );
             reject();
+          });
+          this.player?.once("stop", () => {
+            resolve(this);
           });
           this.player?.once("end", () => {
             resolve(this);
@@ -165,7 +175,7 @@ export const togglePlaylist = () => {
 
 export const setPlaylist = (entries: IFile[], autoPlay = true) => {
   store.commit("playlist/setPlaylist", { entries });
-  if (autoPlay) startPlaylist();
+  if (autoPlay) startPlaylist(0);
 };
 
 export const enqueue = (entries: IFile[]) =>
@@ -175,14 +185,25 @@ export const clearPlaylist = () => {
   store.commit("playlist/setPlaylist", { entries: [] });
 };
 
-export const startPlaylist = async (index = 0) => {
-  for (let i = index; i < store.getters["playlist/getPlaylist"].entries.length; i++) {
-    console.log("starting song:", i, store.getters["playlist/getPlaylist"].entries[i]);
-    await playAudioFile(store.getters["playlist/getPlaylist"].entries[i]);
+let playlistIndex = 0;
+export const startPlaylist = async (index?: number) => {
+  if (index !== undefined) playlistIndex = index;
+  while (playlistIndex < store.getters["playlist/getPlaylist"].entries.length) {
+    console.log("starting song:", playlistIndex);
+    await playAudioFile(store.getters["playlist/getPlaylist"].entries[playlistIndex]);
+    playlistIndex++;
   }
+};
+export const playlistSkipPrevious = () => {
+  startPlaylist(playlistIndex - 1);
+};
+
+export const playlistSkipNext = () => {
+  startPlaylist(playlistIndex + 1);
 };
 
 export const playAudioFile = (file: IFile) => {
+  abortController.abort();
   return new Promise((resolve, reject) => {
     if (file.audio?.error) reject(file.audio.error);
     audioPlayer.value.play(file).then(resolve).catch(reject);

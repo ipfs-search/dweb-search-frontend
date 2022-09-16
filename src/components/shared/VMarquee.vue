@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import { ref, onBeforeMount, onBeforeUnmount, onMounted, onUpdated } from "vue";
+const props = defineProps({
+  active: {
+    type: Boolean,
+    default: true,
+  },
+  speed: {
+    type: String,
+    default: "10",
+  },
+});
+const time = `${props.speed}s`;
 
 const marquee = ref({} as HTMLDivElement);
 
@@ -27,7 +38,12 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div ref="marquee" data-id="v-marquee" :class="{ bounce: overflowing }" style="overflow: hidden">
+  <div
+    ref="marquee"
+    data-id="v-marquee"
+    :class="{ bounce: active && overflowing }"
+    style="overflow: hidden"
+  >
     <div style="display: block; width: fit-content; height: fit-content">
       <slot />
     </div>
@@ -44,7 +60,7 @@ onUpdated(() => {
   height: 100%;
   text-align: center;
   transform: translateX(0%);
-  animation: bouncing-text 10s linear infinite alternate;
+  animation: bouncing-text v-bind(time) linear infinite alternate;
 }
 
 @keyframes bouncing-text {

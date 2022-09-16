@@ -11,6 +11,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import BlinkBlink from "../shared/BlinkBlink.vue";
+import VMarquee from "@/components/shared/VMarquee.vue";
 </script>
 
 <template>
@@ -40,7 +41,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
             @dblclick="startPlaylist(index)"
           >
             <template #prepend>
-              <v-icon :icon="mdiDotsVertical" />
+              <v-icon :icon="mdiDotsVertical" size="22" />
               <v-list-item-avatar
                 rounded="0"
                 :style="{ cursor: entry.audio?.error ? 'default' : 'pointer' }"
@@ -58,37 +59,54 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                     })
                   "
                 >
-                  <v-icon
-                    v-if="!entry.audio?.error"
-                    size="42"
-                    color="white"
-                    style="
-                      opacity: 0.6;
-                      position: absolute;
-                      top: 50%;
-                      left: 50%;
-                      transform: translate(-50%, -50%);
-                    "
-                    :icon="mdiPlay"
-                  />
+                  <blink-blink
+                    v-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loading"
+                  >
+                    <v-icon
+                      style="
+                        opacity: 0.9;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                      "
+                      color="white"
+                      :icon="mdiCircleSmall"
+                    />
+                  </blink-blink>
+                  <blink-blink
+                    v-else
+                    :blink="entry.hash === audioPlayer?.file?.hash && audioPlayer?.playing"
+                  >
+                    <v-icon
+                      v-if="!entry.audio?.error"
+                      size="42"
+                      color="white"
+                      style="
+                        opacity: 0.9;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                      "
+                      :icon="mdiPlay"
+                    />
+                  </blink-blink>
                 </v-img>
               </v-list-item-avatar>
             </template>
             <v-row>
-              <v-col cols="12" :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
-                <v-list-item-title class="d-flex">
-                  <span v-sane-html="fileTitle(entry)" class="mx-1" />
-                  <blink-blink
-                    v-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loading"
-                  >
-                    <v-icon color="white" :icon="mdiCircleSmall" />
-                  </blink-blink>
-                  <v-icon
-                    v-else-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loaded"
-                    color="white"
-                    :icon="mdiCircleSmall"
-                  />
-                </v-list-item-title>
+              <v-col cols="8" :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
+                <v-marquee :active="isHovering" speed="6">
+                  <v-list-item-title class="d-flex">
+                    <span
+                      v-sane-html="
+                        `${[fileTitle(entry), fileAuthor(entry)].filter((e) => !!e).join(' - ')}`
+                      "
+                      class="mx-1"
+                    />
+                  </v-list-item-title>
+                </v-marquee>
               </v-col>
             </v-row>
           </v-list-item>
