@@ -23,7 +23,6 @@ import { togglePlaylist } from "@/composables/audioControls.ts";
 
 <template>
   <v-app-bar
-    app
     class="px-4"
     height="56"
     theme="route.name === Search ? 'dark' : 'light'"

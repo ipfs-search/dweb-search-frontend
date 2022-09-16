@@ -22,9 +22,9 @@ export interface IAudio {
   duration: number;
   time: number | undefined;
   player?: Howl;
-  reportError: (message: string) => void;
-  load: (file?: IFile, options?: object) => Promise<unknown>;
-  play: (file?: IFile, options?: object) => Promise<unknown>;
+  reportError: (hash: string | undefined, message: string) => void;
+  load: (file?: IFile, options?: object) => Promise<IAudio>;
+  play: (file?: IFile, options?: object) => Promise<IAudio>;
   pause: () => void;
   initialize: (file: IFile, options?: object) => void;
   cleanUp: () => void;
@@ -39,30 +39,29 @@ export const audioPlayer = ref<IAudio>({
   playing: false,
   duration: 0,
   time: 0,
-  reportError(message) {
+  reportError(hash, message) {
     this.error = message;
     this.loading = false;
-    console.error("Audio Error:", message);
+    console.error("Audio Error:", message, this, hash);
     store.commit("playlist/setAudioError", {
-      hash: this.file?.hash,
+      hash,
       error: message,
     });
   },
   /**
    * returns promise which resolves when the file has loaded
    */
-  load(file?: IFile, options = {}) {
+  load(file?: IFile, options = {}): Promise<IAudio> {
     return new Promise((resolve, reject) => {
       // For debugging mainly; cause an error after 10s
       if (file) {
-        console.log("Loading audio file in player", file);
         this.initialize(file, options);
       }
-      if (this.loaded) return resolve(undefined);
+      if (this.loaded) return resolve(this);
       this.player?.once("loaderror", () => {
         reject();
       });
-      this.player?.once("load", () => resolve(undefined));
+      this.player?.once("load", () => resolve(this));
       if (!this.loading) {
         this.loading = true;
         this.player?.load();
@@ -73,34 +72,38 @@ export const audioPlayer = ref<IAudio>({
   /**
    * returns promise which resolves once the audiofile reaches the end
    */
-  play(file?: IFile, options = {}) {
+  play(file?: IFile, options = {}): Promise<IAudio> {
     return new Promise((resolve, reject) => {
-      this.player?.once("playerror", (source, message) => {
-        this.reportError(`Playback Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
-        reject();
-      });
-      this.player?.once("end", () => {
-        resolve(undefined);
-      });
       this.load(file, options)
-        .then(() => {
-          this.player?.play();
+        .then((audio) => {
+          this.player?.once("playerror", (source, message) => {
+            this.reportError(
+              this.file?.hash,
+              `Playback Error: ${errorCode[message as 1 | 2 | 3 | 4]}`
+            );
+            reject();
+          });
+          this.player?.once("end", () => {
+            resolve(this);
+          });
+          audio.player?.play();
         })
         .catch((message) => {
-          this.reportError(message);
+          // no need for reporting, because this is handled in a hook set in initialize
+          resolve(this);
         });
     });
   },
 
   pause() {
     if (!this.player) return;
-    this.player?.pause();
+    this.player.pause();
   },
 
   initialize(file: IFile, options = {}) {
     const fileExtension = getFileExtension(file);
     if (!Howler.codecs(fileExtension)) {
-      this.reportError(`Unsupported/undetected file type: '${fileExtension}'`);
+      this.reportError(file.hash, `Unsupported/undetected file type: '${fileExtension}'`);
       return;
     }
     this.cleanUp();
@@ -113,7 +116,7 @@ export const audioPlayer = ref<IAudio>({
       src: [getResourceURL(file.hash)],
       format: [fileExtension],
       onloaderror: (source, message) => {
-        this.reportError(`Load Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
+        this.reportError(file.hash, `Load Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
       },
       onload: () => {
         this.loading = false;
@@ -145,6 +148,7 @@ export const audioPlayer = ref<IAudio>({
   cleanUp() {
     this.player?.off();
     this.player?.unload();
+    this.file = undefined;
     this.error = "";
     this.loaded = false;
     this.loading = false;
@@ -159,20 +163,40 @@ export const togglePlaylist = () => {
   playlistVisible.value = !playlistVisible.value;
 };
 
-export const setPlaylist = (entries: IFile[]) => {
+export const setPlaylist = (entries: IFile[], autoPlay = true) => {
   store.commit("playlist/setPlaylist", { entries });
+  if (autoPlay) startPlaylist();
 };
 
 export const enqueue = (entries: IFile[]) =>
-  setPlaylist(store.getters["playlist/getPlaylist"].entries.concat(entries));
+  setPlaylist(store.getters["playlist/getPlaylist"].entries.concat(entries), false);
 
 export const clearPlaylist = () => {
   store.commit("playlist/setPlaylist", { entries: [] });
 };
 
-export const playAudioFile = (file: IFile) => {
-  !file.audio?.error && audioPlayer.value.play(file);
+export const startPlaylist = async (index = 0) => {
+  for (let i = index; i < store.getters["playlist/getPlaylist"].entries.length; i++) {
+    console.log("starting song:", i, store.getters["playlist/getPlaylist"].entries[i]);
+    await playAudioFile(store.getters["playlist/getPlaylist"].entries[i]);
+  }
 };
+
+export const playAudioFile = (file: IFile) => {
+  return new Promise((resolve, reject) => {
+    if (file.audio?.error) reject(file.audio.error);
+    audioPlayer.value.play(file).then(resolve).catch(reject);
+  });
+};
+
+export const pauseAudio = () => {
+  audioPlayer.value?.pause();
+};
+
+export const cleanUpAudioPlayer = () => {
+  audioPlayer.value?.cleanUp();
+};
+
 /**
  * @param secs
  * @returns [string, string]

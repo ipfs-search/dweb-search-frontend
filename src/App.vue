@@ -11,7 +11,7 @@ const route = useRoute();
   <v-app dark hidden>
     <app-header v-if="route.name !== 'Home'" />
 
-    <v-main id="main" class="pb-15">
+    <v-main>
       <play-list />
       <router-view />
     </v-main>
@@ -52,11 +52,11 @@ export default {
   }
 }
 
-#main {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
+//#main {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  bottom: 0;
+//  right: 0;
+//}
 </style>

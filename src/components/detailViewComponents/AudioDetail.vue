@@ -9,9 +9,9 @@ import { picsum } from "@/helpers/picsum";
 import { detailProps } from "@/composables/useDetail";
 const props = defineProps(detailProps);
 
-import { audioPlayer, loadAudioPlayer, audio } from "@/composables/audioControls";
+import { audioPlayer, playAudioFile, pauseAudio } from "@/composables/audioControls";
 
-const currentlyLoadedInPlayer = computed(() => props.file.hash === audioPlayer.value?.file.hash);
+const currentlyLoadedInPlayer = computed(() => props.file.hash === audioPlayer.value?.file?.hash);
 const image = (file, width, height) => file?.src || picsum({ width, height, seed: file.hash });
 const imgSrc = computed(() => image(props.file, 400, 300));
 </script>
@@ -34,20 +34,9 @@ const imgSrc = computed(() => image(props.file, 400, 300));
         v-else-if="currentlyLoadedInPlayer && audioPlayer.playing"
         title="Pause"
         :icon="mdiPause"
-        @click="audioPlayer.pause"
+        @click="pauseAudio"
       />
-      <AudioDetailButton
-        v-else-if="currentlyLoadedInPlayer"
-        title="Play"
-        :icon="mdiPlay"
-        @click="audioPlayer.play"
-      />
-      <AudioDetailButton
-        v-else
-        title="Play"
-        :icon="mdiPlay"
-        @click="loadAudioPlayer(audio(file))"
-      />
+      <AudioDetailButton v-else title="Play" :icon="mdiPlay" @click="playAudioFile(file)" />
     </v-img>
   </generic-detail>
 </template>

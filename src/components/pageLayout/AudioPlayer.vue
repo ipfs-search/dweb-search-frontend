@@ -6,7 +6,13 @@ import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
-import { audioPlayer, formatTime } from "@/composables/audioControls";
+import {
+  audioPlayer,
+  formatTime,
+  playAudioFile,
+  pauseAudio,
+  cleanUpAudioPlayer,
+} from "@/composables/audioControls";
 
 const progress = computed({
   get() {
@@ -113,7 +119,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiPause"
               title="Pause"
-              @click="audioPlayer.pause"
+              @click="pauseAudio"
             />
             <v-btn
               v-else
@@ -121,7 +127,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiPlay"
               title="Play"
-              @click="audioPlayer.play"
+              @click="playAudioFile"
             />
             <v-btn
               class="bg-ipfsPrimary-lighten-1 ml-2"
@@ -129,7 +135,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiClose"
               title="Close"
-              @click="audioPlayer.cleanUp"
+              @click="cleanUpAudioPlayer"
             />
           </div>
         </div>
