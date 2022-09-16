@@ -1,4 +1,3 @@
-import { Audio } from "../composables/audioPlayer";
 export interface IReference {
   name: string;
   parent_hash: string;
@@ -10,16 +9,19 @@ export interface IFileMetadata {
     language: string;
     rawScore: number;
   };
-  metadata?: object;
+  metadata?: Record<string, string[]>;
 }
 export interface IFile {
   hash: string;
   "first-seen": string;
   "last-seen": string;
   title?: string;
+  author?: string;
   size?: number;
   mimetype?: string;
   references: IReference[] | null;
   metadata?: IFileMetadata;
-  audio?: Audio;
+  audio?: {
+    error: string;
+  };
 }
