@@ -12,7 +12,7 @@ const props = defineProps({
   },
   off: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 setInterval(() => (display.value = !display.value), props.speed);

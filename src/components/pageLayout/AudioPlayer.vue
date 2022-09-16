@@ -1,15 +1,26 @@
-<script setup>
+<script setup lang="ts">
+import { computed } from "vue";
 import VMarquee from "@/components/shared/VMarquee.vue";
 import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
-import { audioPlayer } from "@/composables/audioControls";
+import { audioPlayer, formatTime } from "@/composables/audioControls";
 
-import { onBeforeUnmount } from "vue";
-onBeforeUnmount(() => {
-  audioPlayer.value?.cleanUp();
+const progress = computed({
+  get() {
+    if (audioPlayer.value.duration) {
+      return ((audioPlayer.value.time || 0) / audioPlayer.value.duration) * 100;
+    } else {
+      return 0;
+    }
+  },
+  set(percentage) {
+    if (audioPlayer.value.loaded) {
+      audioPlayer.value.player?.seek((percentage * audioPlayer.value.duration) / 100);
+    }
+  },
 });
 
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
@@ -18,7 +29,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 <template>
   <v-fade-transition class="audio-player-card">
     <v-card
-      v-if="audioPlayer"
+      v-if="audioPlayer.file"
       style="z-index: 10000"
       position="fixed"
       location="bottom"
@@ -30,7 +41,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
       height="100"
     >
       <v-progress-linear
-        v-model="audioPlayer.progress"
+        v-model="progress"
         active
         style="position: absolute"
         color="ipfsPrimary-lighten-4"
@@ -44,7 +55,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
             aspect-ratio="1"
             bac
             gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-            :src="picsum({ width: 75, height: 75, seed: audioPlayer.file.hash })"
+            :src="picsum({ width: 75, height: 75, seed: audioPlayer.file?.hash })"
           >
           </v-img>
           <v-icon
@@ -77,7 +88,8 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
           :class="mdAndUp ? 'flex-row ml-auto' : 'flex-column'"
         >
           <v-card-title :style="{ fontSize: mdAndUp ? '20px' : '16px' }"
-            >{{ audioPlayer.time }} / {{ audioPlayer.duration }}</v-card-title
+            >{{ formatTime(audioPlayer.time).join(" : ") }} /
+            {{ formatTime(audioPlayer.duration).join(" : ") }}</v-card-title
           >
           <div class="d-inline-flex flex-row">
             <v-btn

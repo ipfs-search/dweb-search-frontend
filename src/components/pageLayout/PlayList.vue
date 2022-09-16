@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import store from "@/store";
-import { IFile } from "../../interfaces/IFile";
+import { audioPlayer, playlistVisible, playAudioFile } from "@/composables/audioControls";
 import { mdiCircleSmall, mdiPlay, mdiDotsVertical } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
@@ -10,9 +10,7 @@ import { picsum } from "@/helpers/picsum";
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
-import { playlistVisible, playPlaylistEntry } from "@/composables/audioControls";
 import BlinkBlink from "../shared/BlinkBlink.vue";
-const cursor = (entry: IFile) => (entry.audio?.error ? "default" : "pointer");
 </script>
 
 <template>
@@ -39,20 +37,26 @@ const cursor = (entry: IFile) => (entry.audio?.error ? "default" : "pointer");
             :active="isHovering"
             active-color="white"
             v-bind="props"
-            @dblclick="playPlaylistEntry(entry)"
+            @dblclick="playAudioFile(entry)"
           >
             <template #prepend>
               <v-icon :icon="mdiDotsVertical" />
               <v-list-item-avatar
                 rounded="0"
-                :style="{ cursor: cursor(entry) }"
-                @click="playPlaylistEntry(entry)"
+                :style="{ cursor: entry.audio?.error ? 'default' : 'pointer' }"
+                @click="playAudioFile(entry)"
               >
                 <v-img
                   aspect-ratio="1"
                   bac
-                  gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
-                  :src="entry.src || picsum({ width: 75, height: 75, seed: entry.hash })"
+                  :src="
+                    picsum({
+                      width: 75,
+                      height: 75,
+                      seed: entry.hash,
+                      grayscale: !!entry.audio?.error,
+                    })
+                  "
                 >
                   <v-icon
                     v-if="!entry.audio?.error"
@@ -71,12 +75,19 @@ const cursor = (entry: IFile) => (entry.audio?.error ? "default" : "pointer");
               </v-list-item-avatar>
             </template>
             <v-row>
-              <v-col cols="6" :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
+              <v-col cols="12" :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
                 <v-list-item-title class="d-flex">
-                  <v-span v-sane-html="entry.title" class="mx-1" />
-                  <blink-blink :blink="entry.audio?.loading" :off="!entry.audio.loading">
-                    <v-icon v-if="!entry.audio.error" color="white" :icon="mdiCircleSmall" />
+                  <span v-sane-html="fileTitle(entry)" class="mx-1" />
+                  <blink-blink
+                    v-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loading"
+                  >
+                    <v-icon color="white" :icon="mdiCircleSmall" />
                   </blink-blink>
+                  <v-icon
+                    v-else-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loaded"
+                    color="white"
+                    :icon="mdiCircleSmall"
+                  />
                 </v-list-item-title>
               </v-col>
             </v-row>
