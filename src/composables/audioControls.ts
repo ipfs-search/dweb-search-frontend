@@ -90,9 +90,6 @@ export const audioPlayer = ref<IAudio>({
             );
             reject();
           });
-          this.player?.once("stop", () => {
-            resolve(this);
-          });
           this.player?.once("end", () => {
             resolve(this);
           });
@@ -143,10 +140,6 @@ export const audioPlayer = ref<IAudio>({
         this.playing = false;
         clearInterval(interval);
       },
-      onstop: () => {
-        this.playing = false;
-        clearInterval(interval);
-      },
       onend: () => {
         this.playing = false;
         clearInterval(interval);
@@ -156,6 +149,7 @@ export const audioPlayer = ref<IAudio>({
   },
 
   cleanUp() {
+    abortController.abort();
     this.player?.off();
     this.player?.unload();
     this.file = undefined;

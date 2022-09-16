@@ -96,7 +96,7 @@ import VMarquee from "@/components/shared/VMarquee.vue";
               </v-list-item-avatar>
             </template>
             <v-row>
-              <v-col cols="8" :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
+              <v-col :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
                 <v-marquee :active="isHovering" speed="6">
                   <v-list-item-title class="d-flex">
                     <span
