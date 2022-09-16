@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import VMarquee from "@/components/shared/VMarquee.vue";
-import { mdiMusic, mdiPlay, mdiPause, mdiAlert, mdiClose } from "@mdi/js";
+import {
+  mdiMusic,
+  mdiPlay,
+  mdiPause,
+  mdiAlert,
+  mdiClose,
+  mdiSkipNext,
+  mdiSkipPrevious,
+} from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
@@ -12,6 +20,8 @@ import {
   playAudioFile,
   pauseAudio,
   cleanUpAudioPlayer,
+  playlistSkipPrevious,
+  playlistSkipNext,
 } from "@/composables/audioControls";
 
 const progress = computed({
@@ -99,6 +109,13 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
           >
           <div class="d-inline-flex flex-row">
             <v-btn
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :size="mdAndUp ? 'large' : 'default'"
+              :icon="mdiSkipPrevious"
+              title="Pause"
+              @click="playlistSkipPrevious"
+            />
+            <v-btn
               v-if="audioPlayer.error"
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
@@ -128,6 +145,13 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               :icon="mdiPlay"
               title="Play"
               @click="playAudioFile"
+            />
+            <v-btn
+              class="bg-ipfsPrimary-lighten-1 ml-2"
+              :size="mdAndUp ? 'large' : 'default'"
+              :icon="mdiSkipNext"
+              title="Pause"
+              @click="playlistSkipNext"
             />
             <v-btn
               class="bg-ipfsPrimary-lighten-1 ml-2"
