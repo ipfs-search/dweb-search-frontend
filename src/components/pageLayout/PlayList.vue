@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import store from "@/store";
-import { audioPlayer, playlistVisible, playAudioFile } from "@/composables/audioControls";
+import { audioPlayer, playlistVisible, startPlaylist } from "@/composables/audioControls";
 import { mdiCircleSmall, mdiPlay, mdiDotsVertical } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
@@ -37,14 +37,14 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
             :active="isHovering"
             active-color="white"
             v-bind="props"
-            @dblclick="playAudioFile(entry)"
+            @dblclick="startPlaylist(index)"
           >
             <template #prepend>
               <v-icon :icon="mdiDotsVertical" />
               <v-list-item-avatar
                 rounded="0"
                 :style="{ cursor: entry.audio?.error ? 'default' : 'pointer' }"
-                @click="playAudioFile(entry)"
+                @click="startPlaylist(index)"
               >
                 <v-img
                   aspect-ratio="1"
