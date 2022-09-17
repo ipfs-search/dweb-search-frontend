@@ -180,20 +180,38 @@ export const clearPlaylist = () => {
 };
 
 let playlistIndex = 0;
+const loop = ref(false);
+export const toggleLoop = () => {
+  loop.value = !loop.value;
+};
 export const startPlaylist = async (index?: number) => {
   if (index !== undefined) playlistIndex = index;
   while (playlistIndex < store.getters["playlist/getPlaylist"].entries.length) {
-    console.log("starting song:", playlistIndex);
-    await playAudioFile(store.getters["playlist/getPlaylist"].entries[playlistIndex]);
+    if (!store.getters["playlist/getPlaylist"].entries[playlistIndex].audio?.error) {
+      await playAudioFile(store.getters["playlist/getPlaylist"].entries[playlistIndex]);
+    }
     playlistIndex++;
   }
 };
-export const playlistSkipPrevious = () => {
-  startPlaylist(playlistIndex - 1);
+export const previousPlaylistEntry = () => {
+  if (playlistIndex === 0) {
+    if (loop.value) return store.getters["playlist/getPlaylist"].entries.length - 1;
+    return undefined;
+  }
+  return playlistIndex - 1;
 };
-
+export const playlistSkipPrevious = () => {
+  startPlaylist(previousPlaylistEntry());
+};
+export const nextPlaylistEntry = () => {
+  if (playlistIndex === store.getters["playlist/getPlaylist"].entries.length - 1) {
+    if (loop.value) return 0;
+    return undefined;
+  }
+  return playlistIndex + 1;
+};
 export const playlistSkipNext = () => {
-  startPlaylist(playlistIndex + 1);
+  startPlaylist(nextPlaylistEntry());
 };
 
 export const playAudioFile = (file: IFile) => {
