@@ -33,26 +33,52 @@ pageHits.value.slice(0,
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <v-img
               :src="hit.src || picsum({ seed: hit.hash })"
-              class="text-white align-content-stretch"
+              class="text-white"
               :aspect-ratio="1"
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             >
-              <v-card-title
-                class="d-flex align-start text-wrap line"
-                style="font-size: medium; line-height: 1.4rem"
-              >
-                <span v-sane-html="fileTitle(hit)" />
-              </v-card-title>
               <media-center-icon :icon="mdiMusic" />
-              <v-card-text class="align-end">
-                <span v-if="fileAuthor(hit)" v-sane-html="fileAuthor(hit)" />
-                <span v-if="fileAuthor(hit) && hit?.metadata?.metadata?.['xmpDM:album']"> - </span>
-                <span
-                  v-if="hit?.metadata?.metadata?.['xmpDM:album']"
-                  v-sane-html="hit.metadata?.metadata?.['xmpDM:album']"
-                  class="font-italic"
-                />
-              </v-card-text>
+              <div class="h-100 d-flex justify-space-between flex-column position-absolute">
+                <v-card-title
+                  class="flex-shrink-1"
+                  style="
+                    white-space: break-spaces;
+                    font-size: medium;
+                    line-height: 1.4rem;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 4;
+                    line-clamp: 4;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-bottom: 0px;
+                  "
+                >
+                  <span v-sane-html="fileTitle(hit)" />
+                </v-card-title>
+                <v-card-text class="d-flex align-end mt-2" style="max-height: 50%">
+                  <div
+                    style="
+                      display: -webkit-box;
+                      -webkit-box-orient: vertical;
+                      -webkit-line-clamp: 2;
+                      line-clamp: 2;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    <span v-if="fileAuthor(hit)" v-sane-html="fileAuthor(hit)" />
+                    <span v-if="fileAuthor(hit) && hit?.metadata?.metadata?.['xmpDM:album']">
+                      -
+                    </span>
+                    <span
+                      v-if="hit?.metadata?.metadata?.['xmpDM:album']"
+                      v-sane-html="hit.metadata?.metadata?.['xmpDM:album']"
+                      class="font-italic"
+                    />
+                  </div>
+                </v-card-text>
+              </div>
             </v-img>
 
             <v-card-text class="text-caption text-truncate">
