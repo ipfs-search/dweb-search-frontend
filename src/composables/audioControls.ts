@@ -180,7 +180,7 @@ export const clearPlaylist = () => {
 };
 
 let playlistIndex = 0;
-const loop = ref(false);
+export const loop = ref(false);
 export const toggleLoop = () => {
   loop.value = !loop.value;
 };

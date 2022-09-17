@@ -7,10 +7,10 @@ const route = useRoute();
 import { useStore } from "vuex";
 const store = useStore();
 
-import { mdiClose, mdiPlaylistMusic } from "@mdi/js";
+import { mdiClose, mdiPlaylistMusic, mdiRepeatOff, mdiRepeatVariant } from "@mdi/js";
 
 import { useDisplay } from "vuetify";
-const { mdAndUp } = useDisplay();
+const { mdAndUp, smAndUp } = useDisplay();
 
 import { useTheme } from "vuetify";
 import Hyperlink from "@/components/shared/HyperLink.vue";
@@ -18,7 +18,7 @@ const theme = useTheme();
 
 const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");
 
-import { togglePlaylist } from "@/composables/audioControls.ts";
+import { togglePlaylist, playlistVisible, toggleLoop, loop } from "@/composables/audioControls.ts";
 </script>
 
 <template>
@@ -56,9 +56,19 @@ import { togglePlaylist } from "@/composables/audioControls.ts";
           <div v-if="route.name === 'Search'" class="flex-grow-1">
             <SearchBar />
           </div>
-          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />
-          <v-spacer v-else />
+          <!--          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />-->
+          <!--          <v-spacer v-else />-->
 
+          <div
+            v-if="playlistVisible"
+            class="d-flex flex-row justify-space-between align-center flex-grow-1 mr-auto ml-0"
+          >
+            <v-app-bar-title v-if="smAndUp" color="white"> Planetarify Playlist </v-app-bar-title>
+            <v-btn :prepend-icon="loop ? mdiRepeatVariant : mdiRepeatOff" @click="toggleLoop">
+              {{ loop ? "loop" : "no loop" }}
+            </v-btn>
+            <v-spacer />
+          </div>
           <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
             <v-icon :icon="mdiPlaylistMusic" />
           </v-btn>

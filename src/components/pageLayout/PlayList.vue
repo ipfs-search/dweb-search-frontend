@@ -26,7 +26,6 @@ import VMarquee from "@/components/shared/VMarquee.vue";
       rounded="0"
       flat
     >
-      <v-card-title class="font-italic d-flex justify-center">Planetarify</v-card-title>
       <v-list bg-color="black" class="">
         <v-hover
           v-for="(entry, index) in playlistEntries"

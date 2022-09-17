@@ -53,7 +53,7 @@ import { playlistVisible } from "@/composables/audioControls";
         ref="input"
         v-model="searchPhrase"
         v-closable="{ handler: 'onIphoneClick' }"
-        :style="{ width: playlistVisible ? '50%' : '100%' }"
+        :style="{ width: playlistVisible ? '180px' : '100%' }"
         variant="plain"
         class="bg-white rounded-pill pl-5"
         placeholder="Search"
