@@ -2,7 +2,7 @@
 import { mdiPlaylistMusic, mdiPlaylistMusicOutline, mdiMagnifyExpand } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
-import { Types, TypeListNames } from "@/helpers/typeHelper";
+import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
 import { useFileListComposable } from "@/composables/useFileListComposable";
 import { computed, onBeforeMount } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
@@ -15,7 +15,7 @@ const store = useStore();
 
 const infiniteScrollMargin = 200;
 const route = useRoute();
-const { smAndDown } = useDisplay();
+const { smAndDown, smAndUp } = useDisplay();
 
 const props = defineProps({
   fileType: {
@@ -141,7 +141,7 @@ const queryPage = computed({
               <v-btn color="ipfsPrimary-lighten-1">
                 <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
                 <template #prepend>
-                  <v-icon size="28" :icon="mdiMagnifyExpand" color="white" />
+                  <v-icon size="28" :icon="TypeIcons[fileType]" color="white" />
                 </template>
               </v-btn>
             </hyperlink>
@@ -149,7 +149,7 @@ const queryPage = computed({
               <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
             </v-btn>
             <div
-              v-if="fileType === Types.audio"
+              v-if="fileType === Types.audio && smAndUp"
               class="flex-row d-flex justify-end"
               style="column-gap: 5px"
             >
