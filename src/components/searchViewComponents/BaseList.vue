@@ -1,5 +1,5 @@
 <script setup>
-import { mdiPlaylistMusic } from "@mdi/js";
+import { mdiPlaylistMusic, mdiPlaylistMusicOutline, mdiMagnifyExpand } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames } from "@/helpers/typeHelper";
@@ -134,10 +134,27 @@ const queryPage = computed({
       <v-col cols="12" xl="8" offset-xl="2">
         <v-card flat>
           <div class="justify-space-between d-flex flex-row">
-            <div v-if="fileType === Types.audio" class="flex-row d-flex">
+            <hyperlink
+              v-if="anyFileType"
+              :to="{ ...route, query: { ...route.query, type: fileType } }"
+            >
+              <v-btn color="ipfsPrimary-lighten-1">
+                <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
+                <template #prepend>
+                  <v-icon size="28" :icon="mdiMagnifyExpand" color="white" />
+                </template>
+              </v-btn>
+            </hyperlink>
+            <v-btn v-else variant="outlined" disabled color="ipfsPrimary-lighten-1">
+              <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
+            </v-btn>
+            <div
+              v-if="fileType === Types.audio"
+              class="flex-row d-flex justify-end"
+              style="column-gap: 5px"
+            >
               <v-btn
-                rounded="pill"
-                color="ipfsPrimary"
+                color="ipfsPrimary-lighten-1"
                 @click="
                   setPlaylist(pageHits);
                   togglePlaylist();
@@ -148,25 +165,13 @@ const queryPage = computed({
                   <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
                 </template>
               </v-btn>
-              <v-btn rounded="pill" color="ipfsPrimary" @click="enqueue(pageHits)">
+              <v-btn color="ipfsPrimary-lighten-1" @click="enqueue(pageHits)">
                 Enqueue all
                 <template #prepend>
-                  <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
+                  <v-icon size="28" :icon="mdiPlaylistMusicOutline" color="white" />
                 </template>
               </v-btn>
             </div>
-            <v-card-subtitle v-else class="text-subtitle-1">
-              <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
-            </v-card-subtitle>
-            <v-card-subtitle class="text-subtitle-1">
-              <hyperlink
-                v-if="anyFileType"
-                :to="{ ...route, query: { ...route.query, type: fileType } }"
-                class="text-subtitle-1 text-secondary"
-              >
-                View all
-              </hyperlink>
-            </v-card-subtitle>
           </div>
         </v-card>
       </v-col>
