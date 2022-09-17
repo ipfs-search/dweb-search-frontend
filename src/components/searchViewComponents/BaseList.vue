@@ -27,7 +27,7 @@ const props = defineProps({
 const { anyFileType, loading, loadedPages, infinite, slicedHits, pageHits } =
   useFileListComposable(props);
 
-import { setPlaylist, enqueue } from "@/composables/audioControls.ts";
+import { togglePlaylist, setPlaylist, enqueue } from "@/composables/audioControls.ts";
 
 const error = computed(() => {
   const error = store.getters[`results/${props.fileType}/error`];
@@ -135,7 +135,14 @@ const queryPage = computed({
         <v-card flat>
           <div class="justify-space-between d-flex flex-row">
             <div v-if="fileType === Types.audio" class="flex-row d-flex">
-              <v-btn rounded="pill" color="ipfsPrimary" @click="setPlaylist(pageHits)">
+              <v-btn
+                rounded="pill"
+                color="ipfsPrimary"
+                @click="
+                  setPlaylist(pageHits);
+                  togglePlaylist();
+                "
+              >
                 Play all
                 <template #prepend>
                   <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
