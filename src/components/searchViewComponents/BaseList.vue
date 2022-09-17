@@ -130,52 +130,46 @@ const queryPage = computed({
 
 <template>
   <v-container v-scroll="infiniteScroll" class="overflow-y-hidden">
-    <v-row dense>
-      <v-col cols="12" xl="8" offset-xl="2">
-        <v-card flat>
-          <div class="justify-space-between d-flex flex-row">
-            <hyperlink
-              v-if="anyFileType"
-              :to="{ ...route, query: { ...route.query, type: fileType } }"
-            >
-              <v-btn color="ipfsPrimary-lighten-1">
-                <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
-                <template #prepend>
-                  <v-icon size="28" :icon="TypeIcons[fileType]" color="white" />
-                </template>
-              </v-btn>
-            </hyperlink>
-            <v-btn v-else variant="outlined" disabled color="ipfsPrimary-lighten-1">
-              <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
-            </v-btn>
-            <div
-              v-if="fileType === Types.audio && smAndUp"
-              class="flex-row d-flex justify-end"
-              style="column-gap: 5px"
-            >
-              <v-btn
-                color="ipfsPrimary-lighten-1"
-                @click="
-                  setPlaylist(pageHits);
-                  togglePlaylist();
-                "
-              >
-                Play all
-                <template #prepend>
-                  <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
-                </template>
-              </v-btn>
-              <v-btn color="ipfsPrimary-lighten-1" @click="enqueue(pageHits)">
-                Enqueue all
-                <template #prepend>
-                  <v-icon size="28" :icon="mdiPlaylistMusicOutline" color="white" />
-                </template>
-              </v-btn>
-            </div>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+    <div class="justify-space-between d-flex flex-row mb-3" style="column-gap: 5px">
+      <hyperlink v-if="anyFileType" :to="{ ...route, query: { ...route.query, type: fileType } }">
+        <v-btn color="ipfsPrimary-lighten-1">
+          <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
+          <template #prepend>
+            <v-icon size="28" :icon="TypeIcons[fileType]" color="white" />
+          </template>
+        </v-btn>
+      </hyperlink>
+      <v-btn v-else variant="outlined" disabled color="ipfsPrimary-lighten-1" class="banner">
+        <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
+        <template #prepend>
+          <v-icon size="28" :icon="TypeIcons[fileType]" color="ipfsPrimary-lighten-1" />
+        </template>
+      </v-btn>
+      <div
+        v-if="fileType === Types.audio && smAndUp"
+        class="flex-row d-flex justify-end"
+        style="column-gap: 5px"
+      >
+        <v-btn
+          color="ipfsPrimary-lighten-1"
+          @click="
+            setPlaylist(pageHits);
+            togglePlaylist();
+          "
+        >
+          Play all
+          <template #prepend>
+            <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
+          </template>
+        </v-btn>
+        <v-btn color="ipfsPrimary-lighten-1" @click="enqueue(pageHits)">
+          Enqueue all
+          <template #prepend>
+            <v-icon size="28" :icon="mdiPlaylistMusicOutline" color="white" />
+          </template>
+        </v-btn>
+      </div>
+    </div>
 
     <v-row v-if="error">
       <v-col cols="12" xl="8" offset-xl="2">
@@ -184,6 +178,7 @@ const queryPage = computed({
         </v-alert>
       </v-col>
     </v-row>
+
     <v-row v-if="resultsTotal !== 0" dense>
       <slot>
         <v-col v-for="(hit, index) in slicedHits(3)" :key="index" cols="12" xl="8" offset-xl="2">
@@ -193,6 +188,7 @@ const queryPage = computed({
         </v-col>
       </slot>
     </v-row>
+
     <v-row v-if="loading" dense justify="center">
       <v-progress-circular color="ipfsPrimary" indeterminate />
     </v-row>
@@ -203,3 +199,10 @@ const queryPage = computed({
     </div>
   </v-container>
 </template>
+
+<style scoped>
+.banner {
+  flex-grow: 2;
+  justify-content: flex-start;
+}
+</style>
