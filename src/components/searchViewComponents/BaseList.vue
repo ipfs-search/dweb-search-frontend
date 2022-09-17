@@ -1,5 +1,5 @@
 <script setup>
-import { mdiPlaylistMusic, mdiPlaylistMusicOutline } from "@mdi/js";
+import { mdiPlaylistPlay, mdiPlaylistPlus } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
@@ -163,13 +163,13 @@ const queryPage = computed({
         >
           Play all
           <template #prepend>
-            <v-icon size="28" :icon="mdiPlaylistMusic" color="white" />
+            <v-icon size="28" :icon="mdiPlaylistPlay" color="white" />
           </template>
         </v-btn>
         <v-btn color="ipfsPrimary-lighten-1" @click="enqueue(pageHits)">
           Enqueue all
           <template #prepend>
-            <v-icon size="28" :icon="mdiPlaylistMusicOutline" color="white" />
+            <v-icon size="28" :icon="mdiPlaylistPlus" color="white" />
           </template>
         </v-btn>
       </div>

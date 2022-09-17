@@ -7,7 +7,7 @@ const route = useRoute();
 import { useStore } from "vuex";
 const store = useStore();
 
-import { mdiClose, mdiMusic } from "@mdi/js";
+import { mdiClose, mdiPlaylistMusic } from "@mdi/js";
 
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
@@ -60,7 +60,7 @@ import { togglePlaylist } from "@/composables/audioControls.ts";
           <v-spacer v-else />
 
           <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
-            <v-icon :icon="mdiMusic" />
+            <v-icon :icon="mdiPlaylistMusic" />
           </v-btn>
 
           <settings-menu />
