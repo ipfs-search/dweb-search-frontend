@@ -20,7 +20,9 @@ import {
   playAudioFile,
   pauseAudio,
   cleanUpAudioPlayer,
+  previousPlaylistEntry,
   playlistSkipPrevious,
+  nextPlaylistEntry,
   playlistSkipNext,
 } from "@/composables/audioControls";
 
@@ -112,6 +114,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiSkipPrevious"
+              :disabled="previousPlaylistEntry() === undefined"
               title="Pause"
               @click="playlistSkipPrevious"
             />
@@ -150,6 +153,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :size="mdAndUp ? 'large' : 'default'"
               :icon="mdiSkipNext"
+              :disabled="nextPlaylistEntry() === undefined"
               title="Pause"
               @click="playlistSkipNext"
             />

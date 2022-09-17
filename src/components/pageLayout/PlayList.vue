@@ -4,7 +4,7 @@ import store from "@/store";
 import { audioPlayer, playlistVisible, startPlaylist } from "@/composables/audioControls";
 import { mdiCircleSmall, mdiPlay, mdiDotsVertical } from "@mdi/js";
 import { useDisplay } from "vuetify";
-const { mdAndUp } = useDisplay();
+const { smAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
 import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
@@ -26,8 +26,8 @@ import VMarquee from "@/components/shared/VMarquee.vue";
       rounded="0"
       flat
     >
-      <v-card-title>Playlist</v-card-title>
-      <v-list bg-color="black">
+      <v-card-title class="font-italic d-flex justify-center">Planetarify</v-card-title>
+      <v-list bg-color="black" class="">
         <v-hover
           v-for="(entry, index) in playlistEntries"
           :key="index"
@@ -41,7 +41,6 @@ import VMarquee from "@/components/shared/VMarquee.vue";
             @dblclick="startPlaylist(index)"
           >
             <template #prepend>
-              <v-icon :icon="mdiDotsVertical" size="22" />
               <v-list-item-avatar
                 rounded="0"
                 :style="{ cursor: entry.audio?.error ? 'default' : 'pointer' }"
