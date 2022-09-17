@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { enterSearchQuery } from "@/router";
-import { mdiMenuDown, mdiMagnify, mdiFilter, mdiFormatListBulletedType } from "@mdi/js";
+import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
 import { searchTypes, listName, Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
@@ -41,15 +41,19 @@ const fileType = computed({
     }
   },
 });
+
+import { playlistVisible } from "@/composables/audioControls";
 </script>
 
 <template>
-  <v-container class="d-flex justify-center align-center">
+  <v-container class="d-flex justify-start align-center">
     <div id="search" class="flex-grow-1">
       <v-text-field
+        id="searchfield"
         ref="input"
         v-model="searchPhrase"
         v-closable="{ handler: 'onIphoneClick' }"
+        :style="{ width: playlistVisible ? '50%' : '100%' }"
         variant="plain"
         class="bg-white rounded-pill pl-5"
         placeholder="Search"
@@ -61,9 +65,10 @@ const fileType = computed({
         hide-details
         style="height: 42px"
         @keyup.enter="enterSearchPhrase"
+        @focus="playlistVisible = false"
       >
         <template #append>
-          <v-menu offset-y location="left">
+          <v-menu v-if="!playlistVisible" offset-y location="left">
             <!-- FixMe: console warning about activator not being a reactive object-->
             <template #activator="{ props }">
               <div v-if="smAndUp" class="mr-3 text-grey d-flex align-start" v-bind="props">
@@ -92,17 +97,23 @@ const fileType = computed({
             </v-list>
           </v-menu>
           <v-icon
-            v-if="smAndDown && route.name !== 'Home'"
+            v-if="!playlistVisible && smAndDown && route.name !== 'Home'"
             :class="anyFiltersApplied && `text-ipfsSecondary`"
             class="mr-3"
             :icon="mdiFilter"
             data-id="filter-menu-activator"
           />
+          <v-icon
+            v-if="playlistVisible"
+            class="mr-3"
+            :icon="mdiMagnify"
+            @click="playlistVisible = false"
+          />
         </template>
       </v-text-field>
     </div>
     <v-icon
-      v-if="!smAndDown"
+      v-if="!smAndDown && !playlistVisible"
       class="ml-2"
       size="34"
       color="white"
@@ -116,5 +127,10 @@ const fileType = computed({
 #search {
   max-width: 915px;
   z-index: 10000;
+}
+</style>
+<style>
+#search input {
+  text-overflow: ellipsis;
 }
 </style>
