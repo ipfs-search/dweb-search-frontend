@@ -130,7 +130,11 @@ const queryPage = computed({
 
 <template>
   <v-container v-scroll="infiniteScroll" class="overflow-y-hidden" style="max-width: 1200px">
-    <div class="justify-space-between d-flex flex-row mb-3" style="column-gap: 5px">
+    <div
+      :class="smAndUp ? 'flex-row' : 'flex-column'"
+      class="justify-space-between d-flex mb-3"
+      style="gap: 5px"
+    >
       <hyperlink v-if="anyFileType" :to="{ ...route, query: { ...route.query, type: fileType } }">
         <v-btn color="ipfsPrimary-lighten-1">
           <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
@@ -146,7 +150,7 @@ const queryPage = computed({
         </template>
       </v-btn>
       <div
-        v-if="fileType === Types.audio && smAndUp"
+        v-if="fileType === Types.audio"
         class="flex-row d-flex justify-end"
         style="column-gap: 5px"
       >
