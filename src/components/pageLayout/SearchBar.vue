@@ -3,15 +3,15 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { enterSearchQuery } from "@/router";
-import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
+import { mdiMenuDown, mdiMagnify, mdiFilter, mdiFormatListBulletedType } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
-import { searchTypes, listName, Types, TypeListNames } from "@/helpers/typeHelper";
+import { searchTypes, listName, Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
 
 const store = useStore();
 const route = useRoute();
 
-const { smAndDown } = useDisplay();
+const { smAndDown, smAndUp } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
 
 const anyFiltersApplied = computed(() => store.getters["query/filters/anyFiltersApplied"]);
@@ -66,11 +66,14 @@ const fileType = computed({
           <v-menu offset-y location="left">
             <!-- FixMe: console warning about activator not being a reactive object-->
             <template #activator="{ props }">
-              <div class="mr-3 text-grey d-flex align-start" v-bind="props">
+              <div v-if="smAndUp" class="mr-3 text-grey d-flex align-start" v-bind="props">
                 <span class="text-capitalize" data-testid="type-filter-selector-value">
                   {{ listName(fileType) }}
                 </span>
                 <v-icon class="d-inline-block" :icon="mdiMenuDown" />
+              </div>
+              <div v-else v-bind="props">
+                <v-icon class="d-inline-block" :icon="TypeIcons[fileType]" />
               </div>
             </template>
             <v-list class="bg-white">
@@ -79,6 +82,7 @@ const fileType = computed({
                   ([t, n]) => n !== TypeListNames.unfiltered
                 )"
                 :key="type"
+                :prepend-icon="TypeIcons[type]"
                 @click="fileType = Types[type]"
               >
                 <v-list-item-title class="text-capitalize">

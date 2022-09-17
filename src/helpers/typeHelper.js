@@ -1,3 +1,14 @@
+import {
+  mdiFormatListBulletedType,
+  mdiFileDocumentOutline,
+  mdiMusic,
+  mdiFileImageOutline,
+  mdiFileVideoOutline,
+  mdiFolderOutline,
+  mdiFileQuestionOutline,
+  mdiHelp,
+} from "@mdi/js";
+
 export const Types = {
   all: "all",
   text: "text",
@@ -18,6 +29,17 @@ export const TypeListNames = {
   directories: "Directories",
   other: "Other",
   unfiltered: "Unsorted",
+};
+
+export const TypeIcons = {
+  all: mdiFormatListBulletedType,
+  text: mdiFileDocumentOutline,
+  audio: mdiMusic,
+  images: mdiFileImageOutline,
+  video: mdiFileVideoOutline,
+  directories: mdiFolderOutline,
+  other: mdiFileQuestionOutline,
+  unfiltered: mdiHelp,
 };
 
 export const searchTypes = Object.entries(TypeListNames);
