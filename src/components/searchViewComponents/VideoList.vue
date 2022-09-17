@@ -16,7 +16,7 @@ const { slicedHits } = useFileListComposable({ fileType });
 <template>
   <ListBase :file-type="fileType">
     <v-row dense>
-      <v-col v-for="(hit, index) in slicedHits(3)" :key="index" cols="12" xl="8" offset-xl="2">
+      <v-col v-for="(hit, index) in slicedHits(3)" :key="index" cols="12">
         <hover-card :hit="hit" :index="index" :file-type="fileType">
           <v-row>
             <v-col cols="12" sm="4" md="3" lg="2">
