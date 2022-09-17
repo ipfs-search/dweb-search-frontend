@@ -1,5 +1,5 @@
 <script setup>
-import { mdiPlaylistMusic, mdiPlaylistMusicOutline, mdiMagnifyExpand } from "@mdi/js";
+import { mdiPlaylistMusic, mdiPlaylistMusicOutline } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
@@ -129,7 +129,7 @@ const queryPage = computed({
 </script>
 
 <template>
-  <v-container v-scroll="infiniteScroll" class="overflow-y-hidden">
+  <v-container v-scroll="infiniteScroll" class="overflow-y-hidden" style="max-width: 1200px">
     <div class="justify-space-between d-flex flex-row mb-3" style="column-gap: 5px">
       <hyperlink v-if="anyFileType" :to="{ ...route, query: { ...route.query, type: fileType } }">
         <v-btn color="ipfsPrimary-lighten-1">
@@ -179,15 +179,15 @@ const queryPage = computed({
       </v-col>
     </v-row>
 
-    <v-row v-if="resultsTotal !== 0" dense>
-      <slot>
-        <v-col v-for="(hit, index) in slicedHits(3)" :key="index" cols="12" xl="8" offset-xl="2">
+    <slot v-if="resultsTotal !== 0">
+      <v-row dense>
+        <v-col v-for="(hit, index) in slicedHits(3)" :key="index" cols="12">
           <hover-card :hit="hit" :index="index" :file-type="fileType">
             <CardContent :hit="hit" />
           </hover-card>
         </v-col>
-      </slot>
-    </v-row>
+      </v-row>
+    </slot>
 
     <v-row v-if="loading" dense justify="center">
       <v-progress-circular color="ipfsPrimary" indeterminate />
