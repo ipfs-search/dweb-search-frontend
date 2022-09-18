@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import store from "@/store";
-import { audioPlayer, playlistVisible, startPlaylist } from "@/composables/audioControls";
-import { mdiCircleSmall, mdiPlay, mdiDotsVertical } from "@mdi/js";
+import {
+  audioPlayer,
+  playlistVisible,
+  startPlaylist,
+  audioDetailPopup,
+} from "@/composables/audioControls";
+import { mdiCircleSmall, mdiPlay, mdiDisc } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { smAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
@@ -12,6 +17,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import BlinkBlink from "../shared/BlinkBlink.vue";
 import VMarquee from "@/components/shared/VMarquee.vue";
+import HyperLink from "@/components/shared/HyperLink.vue";
 </script>
 
 <template>
@@ -97,11 +103,13 @@ import VMarquee from "@/components/shared/VMarquee.vue";
               <v-col :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
                 <v-marquee :active="isHovering" speed="6">
                   <v-list-item-title class="d-flex">
-                    <span
-                      v-sane-html="
-                        `${[fileTitle(entry), fileAuthor(entry)].filter((e) => !!e).join(' - ')}`
+                    <span v-sane-html="fileTitle(entry)" class="mx-1" />
+                    <v-icon
+                      :icon="mdiDisc"
+                      @click="
+                        audioDetailPopup = entry;
+                        playlistVisible = false;
                       "
-                      class="mx-1"
                     />
                   </v-list-item-title>
                 </v-marquee>

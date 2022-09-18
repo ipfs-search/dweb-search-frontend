@@ -164,7 +164,13 @@ export const audioPlayer = ref<IAudio>({
 
 export const playlistVisible = ref(false);
 export const togglePlaylist = () => {
+  audioDetailPopup.value = undefined;
   playlistVisible.value = !playlistVisible.value;
+};
+export const audioDetailPopup = ref<IFile | undefined>(undefined);
+export const showAudioDetail = (file: IFile) => {
+  audioDetailPopup.value = file;
+  playlistVisible.value = false;
 };
 
 export const setPlaylist = (entries: IFile[], autoPlay = true) => {

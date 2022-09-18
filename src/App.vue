@@ -3,8 +3,10 @@
 import AppHeader from "@/components/pageLayout/AppHeader.vue";
 import { useRoute } from "vue-router";
 import PlayList from "./components/pageLayout/PlayList.vue";
+import AudioDetail from "@/components/detailViewComponents/AudioDetail.vue";
 
 const route = useRoute();
+import { audioDetailPopup } from "@/composables/audioControls";
 </script>
 
 <template>
@@ -13,7 +15,8 @@ const route = useRoute();
 
     <v-main>
       <play-list />
-      <router-view />
+      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />
+      <router-view v-else />
     </v-main>
 
     <AudioPlayer />

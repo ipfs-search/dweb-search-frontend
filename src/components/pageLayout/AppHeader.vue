@@ -18,7 +18,13 @@ const theme = useTheme();
 
 const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");
 
-import { togglePlaylist, playlistVisible, toggleLoop, loop } from "@/composables/audioControls.ts";
+import {
+  togglePlaylist,
+  playlistVisible,
+  audioDetailPopup,
+  toggleLoop,
+  loop,
+} from "@/composables/audioControls.ts";
 </script>
 
 <template>
@@ -34,7 +40,7 @@ import { togglePlaylist, playlistVisible, toggleLoop, loop } from "@/composables
           <div class="ml-2">
             <hyperlink to="/" class="d-flex align-center">
               <v-img
-                v-if="mdAndUp || route.name === 'Detail'"
+                v-if="mdAndUp || route.name === 'Detail' || audioDetailPopup"
                 alt="ipfs-search.com logo"
                 contain
                 :src="`/assets/logo-${whiteLogo ? 'white' : 'black'}.svg`"
@@ -53,7 +59,7 @@ import { togglePlaylist, playlistVisible, toggleLoop, loop } from "@/composables
             </hyperlink>
           </div>
 
-          <div v-if="route.name === 'Search'" class="flex-grow-1">
+          <div v-if="route.name === 'Search' && !audioDetailPopup" class="flex-grow-1">
             <SearchBar />
           </div>
           <!--          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />-->
@@ -69,21 +75,24 @@ import { togglePlaylist, playlistVisible, toggleLoop, loop } from "@/composables
             </v-btn>
             <v-spacer />
           </div>
-          <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
-            <v-icon :icon="mdiPlaylistMusic" />
-          </v-btn>
-
-          <settings-menu />
-
-          <hyperlink
-            v-if="route.name === 'Detail'"
-            :to="{ name: 'Search', query: route.query }"
-            replace
-          >
-            <v-btn icon>
-              <v-icon :icon="mdiClose" />
+          <div id="end-buttons" class="d-flex flex-row justify-end">
+            <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
+              <v-icon :icon="mdiPlaylistMusic" />
             </v-btn>
-          </hyperlink>
+
+            <settings-menu />
+
+            <hyperlink
+              v-if="route.name === 'Detail' || audioDetailPopup"
+              :to="{ name: 'Search', query: route.query }"
+              replace
+              @click="audioDetailPopup = false"
+            >
+              <v-btn icon>
+                <v-icon :icon="mdiClose" />
+              </v-btn>
+            </hyperlink>
+          </div>
         </v-col>
       </v-row>
     </v-container>
