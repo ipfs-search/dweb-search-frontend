@@ -166,6 +166,7 @@ export const playlistVisible = ref(false);
 export const togglePlaylist = () => {
   audioDetailPopup.value = undefined;
   playlistVisible.value = !playlistVisible.value;
+  console.log(playlistVisible.value);
 };
 export const audioDetailPopup = ref<IFile | undefined>(undefined);
 export const showAudioDetail = (file: IFile) => {
