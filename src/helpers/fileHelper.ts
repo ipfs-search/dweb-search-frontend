@@ -62,3 +62,6 @@ export const fileTitle = (file: IFile): string => {
 export const fileAuthor = (file: IFile): string | undefined => {
   return file.metadata?.metadata?.["dc:creator"]?.[0] || file.author || undefined;
 };
+export const fileAlbum = (file: IFile): string | undefined => {
+  return file.metadata?.metadata?.["xmpDM:album"]?.[0];
+};

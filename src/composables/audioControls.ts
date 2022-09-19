@@ -182,15 +182,12 @@ export const setPlaylist = (entries: IFile[], autoPlay = true) => {
 export const enqueue = (entries: IFile[]) =>
   setPlaylist(store.getters["playlist/getPlaylist"].entries.concat(entries), false);
 
-export const clearPlaylist = () => {
-  store.commit("playlist/setPlaylist", { entries: [] });
-};
-
 let playlistIndex = 0;
 export const loop = ref(false);
 export const toggleLoop = () => {
   loop.value = !loop.value;
 };
+
 export const startPlaylist = async (index?: number) => {
   if (index !== undefined) playlistIndex = index;
   while (playlistIndex < store.getters["playlist/getPlaylist"].entries.length) {
@@ -200,6 +197,7 @@ export const startPlaylist = async (index?: number) => {
     playlistIndex++;
   }
 };
+
 export const previousPlaylistEntry = () => {
   if (playlistIndex === 0) {
     if (loop.value) return store.getters["playlist/getPlaylist"].entries.length - 1;
@@ -207,9 +205,11 @@ export const previousPlaylistEntry = () => {
   }
   return playlistIndex - 1;
 };
+
 export const playlistSkipPrevious = () => {
   startPlaylist(previousPlaylistEntry());
 };
+
 export const nextPlaylistEntry = () => {
   if (playlistIndex === store.getters["playlist/getPlaylist"].entries.length - 1) {
     if (loop.value) return 0;
@@ -217,6 +217,14 @@ export const nextPlaylistEntry = () => {
   }
   return playlistIndex + 1;
 };
+
+export const removePlaylistEntry = (index) => {
+  const list = store.getters["playlist/getPlaylist"].entries;
+  store.commit("playlist/setPlaylist", {
+    entries: [...list.slice(0, index), ...list.slice(index + 1)],
+  });
+};
+
 export const playlistSkipNext = () => {
   startPlaylist(nextPlaylistEntry());
 };
