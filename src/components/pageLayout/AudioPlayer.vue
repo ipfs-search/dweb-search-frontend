@@ -64,7 +64,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
         style="position: absolute"
         color="ipfsPrimary-lighten-4"
         class="bg-ipfsPrimary progress-bar"
-        height="3"
+        height="5"
         clickable
       />
       <div class="d-flex w-100">

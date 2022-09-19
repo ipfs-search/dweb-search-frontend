@@ -37,8 +37,7 @@ const footer_links = [
   <v-card
     :class="{
       'footer--hidden':
-        !(route.name === 'Home' || (route.name === 'Search' && mdAndUp)) &&
-        (!footerVisible || audioPlayer || playlistVisible),
+        route.name !== 'Home' && (!footerVisible || audioPlayer.file || playlistVisible),
     }"
     position="fixed"
     variant="flat"
@@ -46,6 +45,7 @@ const footer_links = [
     class="footer bg-ipfsPrimary-lighten-1 text-center"
     rounded="0"
     width="101%"
+    height="120px"
   >
     <v-card-text class="ipfsPrimary-lighten-1 justify-center d-flex flex-row text-caption py-1">
       <v-btn
