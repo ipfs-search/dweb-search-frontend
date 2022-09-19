@@ -21,12 +21,11 @@ import VMarquee from "@/components/shared/VMarquee.vue";
 </script>
 
 <template>
-  <v-fade-transition class="overflow-y-scroll vh-100">
+  <v-fade-transition>
     <v-card
       v-if="playlistVisible"
-      position="fixed"
       width="100%"
-      class="overflow-y-auto"
+      class="overflow-y-scroll h-100"
       style="z-index: 100000"
       color="black"
       rounded="0"
