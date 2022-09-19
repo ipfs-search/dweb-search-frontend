@@ -27,11 +27,11 @@ import VMarquee from "@/components/shared/VMarquee.vue";
       width="100%"
       class="overflow-y-scroll h-100"
       style="z-index: 100000"
-      color="black"
+      color="planetifyDark"
       rounded="0"
       flat
     >
-      <v-list bg-color="black" class="">
+      <v-list bg-color="planetifyDark" class="">
         <v-hover
           v-for="(entry, index) in playlistEntries"
           :key="index"

@@ -11,7 +11,7 @@ import { searchTypes, listName, Types, TypeListNames, TypeIcons } from "@/helper
 const store = useStore();
 const route = useRoute();
 
-const { smAndDown, smAndUp, mobile } = useDisplay();
+const { smAndDown, smAndUp, xs } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
 
 const anyFiltersApplied = computed(() => store.getters["query/filters/anyFiltersApplied"]);
@@ -46,14 +46,14 @@ import { playlistVisible } from "@/composables/audioControls";
 </script>
 
 <template>
-  <v-container class="d-flex justify-center">
+  <v-container class="d-flex justify-center align-center">
     <div id="search" class="flex-grow-1">
       <v-text-field
         id="searchfield"
         ref="input"
         v-model="searchPhrase"
         v-closable="{ handler: 'onIphoneClick' }"
-        :style="{ width: playlistVisible ? (mobile ? '70px' : '180px') : '100%' }"
+        :style="{ width: playlistVisible ? (xs ? '70px' : '180px') : '100%' }"
         variant="plain"
         class="bg-white rounded-pill pl-5"
         placeholder="Search"
@@ -67,7 +67,7 @@ import { playlistVisible } from "@/composables/audioControls";
         @keyup.enter="enterSearchPhrase"
         @focus="playlistVisible = false"
       >
-        <template v-if="route.name !== 'Home'" #append>
+        <template #append>
           <!--          type menu -->
           <v-menu v-if="!playlistVisible" offset-y location="left">
             <!-- FixMe: console warning about activator not being a reactive object-->
@@ -78,7 +78,7 @@ import { playlistVisible } from "@/composables/audioControls";
                 </span>
                 <v-icon class="d-inline-block" :icon="mdiMenuDown" />
               </div>
-              <div v-else v-bind="props">
+              <div v-else v-bind="props" class="mr-3">
                 <v-icon class="d-inline-block" :icon="TypeIcons[fileType]" />
               </div>
             </template>

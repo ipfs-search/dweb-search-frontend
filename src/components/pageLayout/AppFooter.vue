@@ -37,7 +37,7 @@ const footer_links = [
   <v-card
     :class="{
       'footer--hidden':
-        route.name !== 'Home' && (!footerVisible || audioPlayer.file || playlistVisible),
+        (route.name !== 'Home' && !footerVisible) || audioPlayer.file || playlistVisible,
     }"
     position="fixed"
     variant="flat"
@@ -75,14 +75,6 @@ const footer_links = [
     </v-card-text>
   </v-card>
 </template>
-
-<script>
-export default {
-  data: () => ({
-    lastScrollPosition: 0,
-  }),
-};
-</script>
 
 <style lang="scss" scoped>
 .footer {

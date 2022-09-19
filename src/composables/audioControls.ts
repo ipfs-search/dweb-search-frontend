@@ -77,6 +77,7 @@ export const audioPlayer = ref<IAudio>({
    * returns promise which resolves once the audiofile reaches the end
    */
   play(file?: IFile, options = {}): Promise<IAudio> {
+    this.error = "";
     return new Promise((resolve, reject) => {
       abortController.signal.addEventListener("abort", () => {
         reject();
@@ -166,7 +167,6 @@ export const playlistVisible = ref(false);
 export const togglePlaylist = () => {
   audioDetailPopup.value = undefined;
   playlistVisible.value = !playlistVisible.value;
-  console.log(playlistVisible.value);
 };
 export const audioDetailPopup = ref<IFile | undefined>(undefined);
 export const showAudioDetail = (file: IFile) => {
