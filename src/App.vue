@@ -24,7 +24,7 @@ const adjustFooterPadding = computed(() => {
 
     <v-main class="h-100" :style="{ 'padding-bottom': adjustFooterPadding }">
       <play-list />
-      <!--      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />-->
+      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />
       <router-view />
     </v-main>
 
@@ -63,12 +63,4 @@ export default {
     min-height: calc(100vh - 56px) !important;
   }
 }
-
-//#main {
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  bottom: 0;
-//  right: 0;
-//}
 </style>

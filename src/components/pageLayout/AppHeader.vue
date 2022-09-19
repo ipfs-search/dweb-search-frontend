@@ -64,7 +64,7 @@ const links = [
 
 <template>
   <v-app-bar
-    v-if="route.name !== 'Home'"
+    v-if="route.name !== 'Home' || audioDetailPopup"
     class="px-4"
     height="56"
     :color="route.name !== 'Detail' ? 'ipfsPrimary-lighten-1' : 'toolbar-light'"
@@ -116,6 +116,7 @@ const links = [
               v-if="route.name === 'Detail' || audioDetailPopup"
               :to="{ name: 'Search', query: route.query }"
               replace
+              :disabled="audioDetailPopup"
             >
               <v-btn icon @click="showAudioDetail(undefined)">
                 <v-icon :icon="mdiClose" />
@@ -132,7 +133,13 @@ const links = [
     <v-container class="px-0">
       <v-row>
         <v-col cols="12" xl="8" offset-xl="2" class="d-flex justify-space-between align-center">
-          <div class="d-flex align-center" @click="playlistVisible = false">
+          <div
+            class="d-flex align-center"
+            @click="
+              playlistVisible = false;
+              audioDetailPopup = undefined;
+            "
+          >
             <v-img
               v-if="mdAndUp || !playlistVisible"
               alt="ipfs-search.com logo"

@@ -6,14 +6,15 @@ import {
   playlistVisible,
   startPlaylist,
   showAudioDetail,
-  audioDetailPopup,
+  removePlaylistEntry,
+  formatTime,
 } from "@/composables/audioControls";
-import { mdiCircleSmall, mdiPlay, mdiDisc } from "@mdi/js";
+import { mdiCircleSmall, mdiPlay, mdiDisc, mdiTrashCanOutline } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { smAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
-import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
+import { fileTitle, fileAuthor, fileAlbum } from "@/helpers/fileHelper";
 
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import BlinkBlink from "../shared/BlinkBlink.vue";
@@ -31,7 +32,7 @@ import VMarquee from "@/components/shared/VMarquee.vue";
       rounded="0"
       flat
     >
-      <v-list bg-color="planetifyDark" class="">
+      <v-list bg-color="planetifyDark" lines="2">
         <v-hover
           v-for="(entry, index) in playlistEntries"
           :key="index"
@@ -55,8 +56,8 @@ import VMarquee from "@/components/shared/VMarquee.vue";
                   bac
                   :src="
                     picsum({
-                      width: 75,
-                      height: 75,
+                      width: 85,
+                      height: 85,
                       seed: entry.hash,
                       grayscale: !!entry.audio?.error,
                     })
@@ -98,16 +99,26 @@ import VMarquee from "@/components/shared/VMarquee.vue";
                 </v-img>
               </v-list-item-avatar>
             </template>
-            <v-row>
-              <v-col :class="entry.audio?.error ? 'text-grey-darken-1' : ''">
-                <v-marquee :active="isHovering" speed="6">
-                  <v-list-item-title class="d-flex">
-                    <span v-sane-html="fileTitle(entry)" class="mx-1" />
-                    <v-icon :icon="mdiDisc" @click="showAudioDetail(entry)" />
-                  </v-list-item-title>
-                </v-marquee>
-              </v-col>
-            </v-row>
+            <template #append>
+              <div class="d-flex flex-row">
+                <v-icon :icon="mdiDisc" @click="showAudioDetail(entry)" />
+                <v-icon :icon="mdiTrashCanOutline" @click="removePlaylistEntry(index)" />
+              </div>
+            </template>
+            <div
+              :class="{ 'text-grey-darken-1': entry.audio?.error }"
+              class="mr-auto v-list-item-title"
+            >
+              <v-list-item-title>
+                <span v-sane-html="fileTitle(entry)" class="mx-1" />
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                <span
+                  v-sane-html="[fileAuthor(entry), fileAlbum(entry)].filter((e) => !!e).join(' - ')"
+                  class="mx-1"
+                />
+              </v-list-item-subtitle>
+            </div>
           </v-list-item>
         </v-hover>
       </v-list>
