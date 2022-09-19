@@ -6,13 +6,13 @@ import PlayList from "./components/pageLayout/PlayList.vue";
 import AudioDetail from "@/components/detailViewComponents/AudioDetail.vue";
 
 const route = useRoute();
-import { audioDetailPopup, audioPlayer } from "@/composables/audioControls";
+import { audioDetailPopup, playlistVisible, audioPlayer } from "@/composables/audioControls";
 import { footerVisible } from "@/composables/footer.js";
 import { computed } from "vue";
 
-const onScroll = () => (footerVisible.value = false);
 const adjustFooterPadding = computed(() => {
-  if (footerVisible.value) return "120px";
+  if (route.name === "Home") return "0px";
+  if (footerVisible.value && !audioPlayer.value.file && !playlistVisible.value) return "120px";
   if (audioPlayer.value.file) return "100px";
   return "0px";
 });
@@ -23,11 +23,9 @@ const adjustFooterPadding = computed(() => {
     <app-header />
 
     <v-main class="h-100" :style="{ 'padding-bottom': adjustFooterPadding }">
-      <div class="h-100" style="overflow-y: scroll" @scroll="onScroll">
-        <play-list />
-        <!--      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />-->
-        <router-view />
-      </div>
+      <play-list />
+      <!--      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />-->
+      <router-view />
     </v-main>
 
     <AudioPlayer />

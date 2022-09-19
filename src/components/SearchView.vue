@@ -4,22 +4,26 @@ import GenericList from "@/components/searchViewComponents/BaseList.vue";
 import ImageList from "@/components/searchViewComponents/ImageList.vue";
 import AudioList from "@/components/searchViewComponents/AudioList.vue";
 import VideoList from "@/components/searchViewComponents/VideoList.vue";
+import SearchFilterMenu from "@/components/searchViewComponents/subcomponents/SearchFilterMenu.vue";
 
 import { useRoute } from "vue-router";
 import { Types } from "@/helpers/typeHelper";
 import { useDisplay } from "vuetify";
-import SearchFilterMenu from "@/components/searchViewComponents/subcomponents/SearchFilterMenu.vue";
 const { smAndDown } = useDisplay();
+
+import { footerVisible } from "@/composables/footer.js";
+import { playlistVisible } from "@/composables/audioControls";
 
 const route = useRoute();
 
 function listType(t) {
   return [t, Types.all, undefined].includes(route.query.type);
 }
+const onScroll = () => (footerVisible.value = false);
 </script>
 
 <template>
-  <div data-id="search-view">
+  <div v-if="!playlistVisible" data-id="search-view" class="h-100" style="overflow-y: scroll">
     <search-filter-menu v-if="smAndDown" />
     <SearchFilters v-else />
     <GenericList v-if="listType(Types.text)" :file-type="Types.text" />
@@ -31,13 +35,3 @@ function listType(t) {
     <GenericList v-if="route.query.type == Types.unfiltered" :file-type="Types.unfiltered" />
   </div>
 </template>
-
-<style scoped>
-.vh-100 {
-  height: 100vh;
-}
-
-.overflow-y-scroll {
-  overflow-y: scroll;
-}
-</style>
