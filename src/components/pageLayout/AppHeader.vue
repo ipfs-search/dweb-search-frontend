@@ -32,6 +32,7 @@ import {
   toggleLoop,
   loop,
 } from "@/composables/audioControls.ts";
+import PlanetifyBar from "@/components/pageLayout/PlanetifyToolBar.vue";
 
 const links = [
   {
@@ -66,14 +67,13 @@ const links = [
     v-if="route.name !== 'Home'"
     class="px-4"
     height="56"
-    theme="route.name === Search ? 'dark' : 'light'"
-    :color="route.name === 'Search' ? 'ipfsPrimary-lighten-1' : 'toolbar-light'"
+    :color="route.name !== 'Detail' ? 'ipfsPrimary-lighten-1' : 'toolbar-light'"
   >
     <v-container fluid class="px-0 align-start">
       <v-row>
         <v-col cols="12" class="px-0 d-flex justify-space-between align-center">
           <div class="ml-2">
-            <hyperlink to="/" class="d-flex align-center">
+            <hyperlink to="/" class="d-flex align-center" @click="playlistVisible = false">
               <v-img
                 v-if="mdAndUp || route.name === 'Detail' || audioDetailPopup"
                 alt="ipfs-search.com logo"
@@ -94,22 +94,17 @@ const links = [
             </hyperlink>
           </div>
 
-          <div v-if="route.name === 'Search' && !audioDetailPopup" class="flex-grow-1">
+          <div
+            v-if="route.name === 'Search' && !audioDetailPopup"
+            :class="{ 'flex-grow-1': !playlistVisible }"
+          >
             <SearchBar />
           </div>
           <!--          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />-->
           <!--          <v-spacer v-else />-->
 
-          <div
-            v-if="playlistVisible"
-            class="d-flex flex-row justify-space-between align-center flex-grow-1 mr-auto ml-0"
-          >
-            <v-app-bar-title v-if="smAndUp" color="white"> Planetify Premium </v-app-bar-title>
-            <v-btn :prepend-icon="loop ? mdiRepeatVariant : mdiRepeatOff" @click="toggleLoop">
-              {{ loop ? "loop" : "no loop" }}
-            </v-btn>
-            <v-spacer />
-          </div>
+          <planetify-bar v-if="playlistVisible" />
+
           <div id="end-buttons" class="d-flex flex-row justify-end">
             <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
               <v-icon :icon="mdiPlaylistMusic" />
@@ -137,18 +132,30 @@ const links = [
     <v-container class="px-0">
       <v-row>
         <v-col cols="12" xl="8" offset-xl="2" class="d-flex justify-space-between align-center">
-          <div class="d-flex align-center" :class="mdAndUp ? 'ml-6' : ''">
+          <div class="d-flex align-center" @click="playlistVisible = false">
             <v-img
+              v-if="mdAndUp || !playlistVisible"
               alt="ipfs-search.com logo"
               contain
               src="/assets/logo-white.svg"
               width="168"
               :aspect-ratio="6.00840336"
             />
+            <v-img
+              v-else
+              alt="ipfs-search.com logo"
+              contain
+              src="/assets/logo-hexagon-white.svg"
+              width="28"
+              height="28"
+            />
           </div>
-          <v-spacer />
+          <v-spacer v-if="!playlistVisible" />
+
+          <planetify-bar v-if="playlistVisible" class="ml-3" />
           <v-btn
             v-for="(link, i) in links"
+            v-else
             :key="i"
             :href="link.href"
             :text="link.title"
@@ -156,7 +163,7 @@ const links = [
             class="my-2 mx-1 hidden-sm-and-down"
           />
 
-          <v-menu bottom left class="">
+          <v-menu bottom left>
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"

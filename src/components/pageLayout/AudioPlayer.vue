@@ -51,7 +51,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
       style="z-index: 10000"
       position="fixed"
       location="bottom"
-      color="black"
+      color="planetifyDark"
       class="d-flex"
       flat
       rounded="0"

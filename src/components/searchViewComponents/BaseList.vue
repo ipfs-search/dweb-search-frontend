@@ -150,7 +150,7 @@ const queryPage = computed({
         </template>
       </v-btn>
       <div
-        v-if="fileType === Types.audio"
+        v-if="fileType === Types.audio && pageHits.length"
         class="flex-row d-flex justify-end"
         style="column-gap: 5px"
       >

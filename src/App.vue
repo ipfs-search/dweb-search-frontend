@@ -11,9 +11,9 @@ import { footerVisible } from "@/composables/footer.js";
 import { computed } from "vue";
 
 const adjustFooterPadding = computed(() => {
-  if (route.name === "Home") return "0px";
-  if (footerVisible.value && !audioPlayer.value.file && !playlistVisible.value) return "120px";
+  if (route.name === "Home" && !playlistVisible.value) return "0px";
   if (audioPlayer.value.file) return "100px";
+  if (footerVisible.value && !playlistVisible.value) return "120px";
   return "0px";
 });
 </script>
