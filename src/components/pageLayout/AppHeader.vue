@@ -7,7 +7,13 @@ const route = useRoute();
 import { useStore } from "vuex";
 const store = useStore();
 
-import { mdiClose, mdiPlaylistMusic, mdiRepeatOff, mdiRepeatVariant } from "@mdi/js";
+import {
+  mdiClose,
+  mdiPlaylistMusic,
+  mdiRepeatOff,
+  mdiRepeatVariant,
+  mdiDotsVertical,
+} from "@mdi/js";
 
 import { useDisplay } from "vuetify";
 const { mdAndUp, smAndUp } = useDisplay();
@@ -22,13 +28,42 @@ import {
   togglePlaylist,
   playlistVisible,
   audioDetailPopup,
+  showAudioDetail,
   toggleLoop,
   loop,
 } from "@/composables/audioControls.ts";
+
+const links = [
+  {
+    title: "Donate",
+    href: "https://opencollective.com/ipfs-search#category-CONTRIBUTE",
+  },
+  {
+    title: "Blog",
+    href: "https://blog.ipfs-search.com/",
+  },
+  {
+    title: "API",
+    href: "https://api.ipfs-search.com/",
+  },
+  {
+    title: "Docs",
+    href: "https://ipfs-search.readthedocs.io/en/latest/",
+  },
+  {
+    title: "Code",
+    href: "https://github.com/ipfs-search/",
+  },
+  {
+    title: "Contact",
+    href: "mailto:info@ipfs-search.com",
+  },
+];
 </script>
 
 <template>
   <v-app-bar
+    v-if="route.name !== 'Home'"
     class="px-4"
     height="56"
     theme="route.name === Search ? 'dark' : 'light'"
@@ -69,7 +104,7 @@ import {
             v-if="playlistVisible"
             class="d-flex flex-row justify-space-between align-center flex-grow-1 mr-auto ml-0"
           >
-            <v-app-bar-title v-if="smAndUp" color="white"> Planetarify Playlist </v-app-bar-title>
+            <v-app-bar-title v-if="smAndUp" color="white"> Planetify Premium </v-app-bar-title>
             <v-btn :prepend-icon="loop ? mdiRepeatVariant : mdiRepeatOff" @click="toggleLoop">
               {{ loop ? "loop" : "no loop" }}
             </v-btn>
@@ -86,13 +121,64 @@ import {
               v-if="route.name === 'Detail' || audioDetailPopup"
               :to="{ name: 'Search', query: route.query }"
               replace
-              @click="audioDetailPopup = false"
             >
-              <v-btn icon>
+              <v-btn icon @click="showAudioDetail(undefined)">
                 <v-icon :icon="mdiClose" />
               </v-btn>
             </hyperlink>
           </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app-bar>
+  <!--  home page app bar-->
+  <!--  Todo: combine the two versions into 1 generic appbar-->
+  <v-app-bar v-else app height="56" class="px-4 bg-ipfsPrimary" elevate-on-scroll theme="dark">
+    <v-container class="px-0">
+      <v-row>
+        <v-col cols="12" xl="8" offset-xl="2" class="d-flex justify-space-between align-center">
+          <div class="d-flex align-center" :class="mdAndUp ? 'ml-6' : ''">
+            <v-img
+              alt="ipfs-search.com logo"
+              contain
+              src="/assets/logo-white.svg"
+              width="168"
+              :aspect-ratio="6.00840336"
+            />
+          </div>
+          <v-spacer />
+          <v-btn
+            v-for="(link, i) in links"
+            :key="i"
+            :href="link.href"
+            :text="link.title"
+            size="small"
+            class="my-2 mx-1 hidden-sm-and-down"
+          />
+
+          <v-menu bottom left class="">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                class="my-2 mx-0 mr-n2 hidden-md-and-up"
+                :icon="mdiDotsVertical"
+              />
+            </template>
+
+            <v-list>
+              <v-list-item v-for="(link, i) in links" :key="i" :href="link.href">
+                <v-list-item-title>
+                  {{ link.title }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+
+          <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
+            <v-icon :icon="mdiPlaylistMusic" />
+          </v-btn>
+
+          <settings-menu />
         </v-col>
       </v-row>
     </v-container>

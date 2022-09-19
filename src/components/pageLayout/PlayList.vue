@@ -5,6 +5,7 @@ import {
   audioPlayer,
   playlistVisible,
   startPlaylist,
+  showAudioDetail,
   audioDetailPopup,
 } from "@/composables/audioControls";
 import { mdiCircleSmall, mdiPlay, mdiDisc } from "@mdi/js";
@@ -17,7 +18,6 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import BlinkBlink from "../shared/BlinkBlink.vue";
 import VMarquee from "@/components/shared/VMarquee.vue";
-import HyperLink from "@/components/shared/HyperLink.vue";
 </script>
 
 <template>
@@ -27,7 +27,7 @@ import HyperLink from "@/components/shared/HyperLink.vue";
       position="fixed"
       width="100%"
       class="overflow-y-auto"
-      style="z-index: 1000"
+      style="z-index: 100000"
       color="black"
       rounded="0"
       flat
@@ -104,13 +104,7 @@ import HyperLink from "@/components/shared/HyperLink.vue";
                 <v-marquee :active="isHovering" speed="6">
                   <v-list-item-title class="d-flex">
                     <span v-sane-html="fileTitle(entry)" class="mx-1" />
-                    <v-icon
-                      :icon="mdiDisc"
-                      @click="
-                        audioDetailPopup = entry;
-                        playlistVisible = false;
-                      "
-                    />
+                    <v-icon :icon="mdiDisc" @click="showAudioDetail(entry)" />
                   </v-list-item-title>
                 </v-marquee>
               </v-col>

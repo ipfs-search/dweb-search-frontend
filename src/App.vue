@@ -11,12 +11,12 @@ import { audioDetailPopup } from "@/composables/audioControls";
 
 <template>
   <v-app dark hidden>
-    <app-header v-if="route.name !== 'Home'" />
+    <app-header />
 
-    <v-main>
+    <v-main scrollable>
       <play-list />
-      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />
-      <router-view v-else />
+      <!--      <audio-detail v-if="audioDetailPopup" :file="audioDetailPopup" />-->
+      <router-view />
     </v-main>
 
     <AudioPlayer />

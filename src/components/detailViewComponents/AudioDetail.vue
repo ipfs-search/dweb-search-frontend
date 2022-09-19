@@ -8,7 +8,6 @@ import { picsum } from "@/helpers/picsum";
 
 import { detailProps } from "@/composables/useDetail";
 const props = defineProps(detailProps);
-console.log(props);
 
 import { audioPlayer, playAudioFile, pauseAudio } from "@/composables/audioControls";
 

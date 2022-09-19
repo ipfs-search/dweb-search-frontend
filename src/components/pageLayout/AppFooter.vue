@@ -20,7 +20,7 @@ const footer_links = [
   },
   {
     icon: mdiGithub,
-    href: "https://github.com/ipfs-search/ipfs-search",
+    href: "https://github.com/ipfs-search",
   },
   {
     icon: mdiHandCoin,
@@ -35,8 +35,11 @@ const footer_links = [
 
 <template>
   <v-card
-    v-if="route.name === 'Home' || (route.name === 'Search' && mdAndUp)"
-    :class="{ 'footer--hidden': !footerVisible || audioPlayer || playlistVisible }"
+    :class="{
+      'footer--hidden':
+        !(route.name === 'Home' || (route.name === 'Search' && mdAndUp)) &&
+        (!footerVisible || audioPlayer || playlistVisible),
+    }"
     position="fixed"
     variant="flat"
     tile
