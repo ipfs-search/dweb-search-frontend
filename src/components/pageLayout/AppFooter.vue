@@ -4,7 +4,7 @@ const route = useRoute();
 import { audioPlayer, playlistVisible } from "@/composables/audioControls";
 
 import { useDisplay } from "vuetify";
-const { mdAndUp, smAndUp } = useDisplay();
+const { smAndUp } = useDisplay();
 import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from "@mdi/js";
 
 import { footerVisible } from "@/composables/footer";

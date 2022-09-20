@@ -1,6 +1,5 @@
 import { Module } from "vuex";
 import { IPlaylist } from "@/interfaces/IPlaylist";
-import { IFile } from "../../interfaces/IFile";
 
 export interface IPlaylistStoreState {
   activePlaylist?: number | undefined;
@@ -9,7 +8,7 @@ export interface IPlaylistStoreState {
 
 const defaultPlaylist: IPlaylist = { entries: [] };
 
-export default <Module<any, unknown>>{
+export default <Module<IPlaylistStoreState, unknown>>{
   namespaced: true,
   state: (): IPlaylistStoreState => {
     try {
@@ -25,6 +24,8 @@ export default <Module<any, unknown>>{
   mutations: {
     setPlaylist(state, playlist: IPlaylist) {
       state.playlists[state.activePlaylist || 0] = playlist;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       this.commit("localStorage/setPlaylist", state.playlists[state.activePlaylist || 0]);
     },
     setActivePlaylist(state, playlist: number) {
@@ -37,37 +38,16 @@ export default <Module<any, unknown>>{
         : state.playlists[state.activePlaylist || 0].entries[index];
     },
     setAudioError(state, { hash, error }) {
-      for (const playlist of state.playlists) {
-        for (const entry of playlist.entries) {
-          if (entry.hash === hash) {
-            entry.audio = {
-              error,
-            };
-          }
-        }
-      }
+      state.playlists.forEach((playlist) => {
+        playlist.entries
+          .filter((entry) => entry.hash === hash)
+          .forEach((entry) => (entry.audio = { error }));
+      });
     },
   },
   getters: {
     getPlaylist(state): IPlaylist {
-      const playlist = state.playlists?.[state.activePlaylist || 0];
-      return playlist;
+      return state.playlists?.[state.activePlaylist || 0];
     },
   },
 };
-
-// audioBank is used to make single Howl instances for audio files,
-// even when there are duplicates in the list
-// const fillAudioBank = (entries: IFile[], purge = true) => {
-//   const audioBank: Record<string, IAudio> = {};
-//   for (const entry of entries) {
-//     if (!audioBank[entry.hash]) audioBank[entry.hash] = new Audio(entry);
-//   }
-//   if (purge) {
-//     const keys = new Set(entries.map((entry) => entry.hash));
-//     for (const hash in audioBank.value) {
-//       if (!keys.has(hash)) delete audioBank[hash];
-//     }
-//   }
-//   return audioBank;
-// };
