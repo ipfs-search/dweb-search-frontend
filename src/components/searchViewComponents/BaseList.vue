@@ -1,5 +1,5 @@
 <script setup>
-import { mdiPlaylistPlay, mdiPlaylistPlus } from "@mdi/js";
+import { mdiMagnifyExpand, mdiPlaylistPlay, mdiPlaylistPlus } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
@@ -135,20 +135,27 @@ const queryPage = computed({
       class="justify-space-between d-flex mb-3"
       style="gap: 5px"
     >
-      <hyperlink v-if="anyFileType" :to="{ ...route, query: { ...route.query, type: fileType } }">
-        <v-btn color="ipfsPrimary-lighten-1">
-          <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
-          <template #prepend>
-            <v-icon size="28" :icon="TypeIcons[fileType]" color="white" />
-          </template>
-        </v-btn>
+      <hyperlink
+        :disabled="!anyFileType"
+        :to="{ ...route, query: { ...route.query, type: fileType } }"
+        class="flex-grow-1"
+      >
+        <div
+          class="w-100 d-flex justify-start align-center text-ipfsPrimary-lighten-1 v-btn v-btn--density-default v-btn--size-default v-btn--variant-outlined"
+          :class="{ 'v-btn--disabled': !anyFileType }"
+        >
+          <div class="mr-auto">
+            <v-icon size="28" :icon="TypeIcons[fileType]" color="ipfsPrimary-lighten-1" />
+            <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
+          </div>
+          <div v-if="anyFileType" class="d-flex flex-row align-center justify-end">
+            <div class="">
+              <span>View all</span>
+              <v-icon size="28" :icon="mdiMagnifyExpand" color="ipfsPrimary-lighten-1" />
+            </div>
+          </div>
+        </div>
       </hyperlink>
-      <v-btn v-else variant="outlined" disabled color="ipfsPrimary-lighten-1" class="banner">
-        <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
-        <template #prepend>
-          <v-icon size="28" :icon="TypeIcons[fileType]" color="ipfsPrimary-lighten-1" />
-        </template>
-      </v-btn>
       <div
         v-if="fileType === Types.audio && pageHits.length"
         class="flex-row d-flex justify-end"

@@ -7,18 +7,14 @@ import {
   startPlaylist,
   showAudioDetail,
   removePlaylistEntry,
-  formatTime,
 } from "@/composables/audioControls";
 import { mdiCircleSmall, mdiPlay, mdiDisc, mdiTrashCanOutline } from "@mdi/js";
-import { useDisplay } from "vuetify";
-const { smAndUp } = useDisplay();
 import { picsum } from "@/helpers/picsum";
 
 import { fileTitle, fileAuthor, fileAlbum } from "@/helpers/fileHelper";
 
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import BlinkBlink from "../shared/BlinkBlink.vue";
-import VMarquee from "@/components/shared/VMarquee.vue";
 </script>
 
 <template>
@@ -127,10 +123,6 @@ import VMarquee from "@/components/shared/VMarquee.vue";
 </template>
 
 <style scoped>
-.vh-100 {
-  height: 100vh;
-}
-
 .overflow-y-scroll {
   overflow-y: scroll;
 }
