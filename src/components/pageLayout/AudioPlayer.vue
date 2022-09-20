@@ -6,7 +6,7 @@ import {
   mdiPlay,
   mdiPause,
   mdiAlert,
-  mdiClose,
+  mdiStop,
   mdiSkipNext,
   mdiSkipPrevious,
 } from "@mdi/js";
@@ -161,7 +161,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               class="bg-ipfsPrimary-lighten-1 ml-2"
               :class="{ 'mr-3': mdAndUp }"
               :size="mdAndUp ? 'large' : 'default'"
-              :icon="mdiClose"
+              :icon="mdiStop"
               title="Close"
               @click="cleanUpAudioPlayer"
             />

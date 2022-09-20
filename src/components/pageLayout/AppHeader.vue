@@ -7,16 +7,10 @@ const route = useRoute();
 import { useStore } from "vuex";
 const store = useStore();
 
-import {
-  mdiClose,
-  mdiPlaylistMusic,
-  mdiRepeatOff,
-  mdiRepeatVariant,
-  mdiDotsVertical,
-} from "@mdi/js";
+import { mdiClose, mdiPlaylistMusic, mdiDotsVertical } from "@mdi/js";
 
 import { useDisplay } from "vuetify";
-const { mdAndUp, smAndUp } = useDisplay();
+const { mdAndUp } = useDisplay();
 
 import { useTheme } from "vuetify";
 import Hyperlink from "@/components/shared/HyperLink.vue";
@@ -189,7 +183,7 @@ const links = [
           </v-menu>
 
           <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
-            <v-icon :icon="mdiPlaylistMusic" />
+            <v-icon :icon="playlistVisible ? mdiClose : mdiPlaylistMusic" />
           </v-btn>
 
           <settings-menu />
