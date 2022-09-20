@@ -24,7 +24,7 @@ import {
   audioDetailPopup,
   showAudioDetail,
 } from "@/composables/audioControls.ts";
-import PlanetifyBar from "@/components/pageLayout/PlanetifyToolBar.vue";
+import PlanetarifyToolbar from "@/components/pageLayout/PlanetarifyToolbar.vue";
 
 const links = [
   {
@@ -63,7 +63,7 @@ const links = [
   >
     <v-container fluid class="px-0 align-start">
       <v-row>
-        <v-col cols="12" class="px-0 d-flex justify-space-between align-center">
+        <v-col cols="12" xl="8" offset-xl="2" class="d-flex justify-space-between align-center">
           <div class="ml-2">
             <hyperlink to="/" class="d-flex align-center" @click="playlistVisible = false">
               <v-img
@@ -95,9 +95,9 @@ const links = [
           <!--          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />-->
           <!--          <v-spacer v-else />-->
 
-          <planetify-bar v-if="playlistVisible" />
+          <planetarify-toolbar v-if="playlistVisible" />
 
-          <div id="end-buttons" class="d-flex flex-row justify-end">
+          <div v-else id="end-buttons" class="d-flex flex-row justify-end">
             <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
               <v-icon :icon="playlistVisible ? mdiClose : mdiPlaylistMusic" />
             </v-btn>
@@ -151,7 +151,7 @@ const links = [
           </div>
           <v-spacer v-if="!playlistVisible" />
 
-          <planetify-bar v-if="playlistVisible" class="ml-3" />
+          <planetarify-toolbar v-if="playlistVisible" class="ml-3" />
           <v-btn
             v-for="(link, i) in links"
             v-else
@@ -162,7 +162,7 @@ const links = [
             class="my-2 mx-1 hidden-sm-and-down"
           />
 
-          <v-menu bottom left>
+          <v-menu v-if="!playlistVisible" bottom left>
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"
@@ -180,11 +180,15 @@ const links = [
             </v-list>
           </v-menu>
 
-          <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
+          <v-btn
+            v-if="store.getters['playlist/getPlaylist'] && !playlistVisible"
+            icon
+            @click="togglePlaylist"
+          >
             <v-icon :icon="playlistVisible ? mdiClose : mdiPlaylistMusic" />
           </v-btn>
 
-          <settings-menu />
+          <settings-menu v-if="!playlistVisible" />
         </v-col>
       </v-row>
     </v-container>

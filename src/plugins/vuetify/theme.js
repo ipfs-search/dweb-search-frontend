@@ -14,8 +14,8 @@ const ipfsTheme = {
     success: "#4CAF50",
     warning: "#FFC107",
     appBar: "#f5f5f5",
-    planetifyDark: "#0d0041",
-    planetifyLight: "#e3dbff",
+    planetarifyDark: "#0d0041",
+    planetarifyLight: "#e3dbff",
   },
 };
 
