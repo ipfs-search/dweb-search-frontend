@@ -127,7 +127,11 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
               </v-list-item>
             </v-hover>
           </v-list>
-          <v-card-title v-else class="d-flex justify-center align-center mt-10">
+          <v-card-title
+            v-else
+            class="d-flex justify-center align-center mt-10"
+            style="white-space: break-spaces !important"
+          >
             <span>Search for some audio files to add to your personal playlist</span>
           </v-card-title>
         </v-col>
