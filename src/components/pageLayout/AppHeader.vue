@@ -101,7 +101,7 @@ const links = [
 
           <div id="end-buttons" class="d-flex flex-row justify-end">
             <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
-              <v-icon :icon="mdiPlaylistMusic" />
+              <v-icon :icon="playlistVisible ? mdiClose : mdiPlaylistMusic" />
             </v-btn>
 
             <settings-menu />
