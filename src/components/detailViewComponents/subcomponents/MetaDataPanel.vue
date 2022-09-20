@@ -246,7 +246,7 @@ const fileHeight = (file) =>
                         <i>No references</i>
                       </td>
                     </tr>
-                    <tr v-for="(item, index) in references" :key="index">
+                    <tr v-for="(item, i) in references" :key="i">
                       <td />
                       <td>
                         <a v-sane-html="item.name" :href="item.url" target="_blank" />
@@ -262,7 +262,7 @@ const fileHeight = (file) =>
                     <v-expansion-panel-text>
                       <v-table>
                         <tbody>
-                          <tr v-for="(item, index) in extraData" :key="index">
+                          <tr v-for="(item, i) in extraData" :key="i">
                             <th>{{ item.label }}:</th>
                             <td v-if="indexedMetadata(item)">
                               <span v-for="(value, valueIndex) in item.value" :key="valueIndex">

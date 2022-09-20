@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { IFile } from "../interfaces/IFile";
 
 import store from "@/store";
-import { Howl, Howler } from "howler";
+import { Howl, Howler, HowlOptions } from "howler";
 import { getFileExtension } from "@/helpers/fileHelper";
 import getResourceURL from "@/helpers/resourceURL";
 
@@ -33,6 +33,42 @@ export interface IAudio {
 }
 
 let interval: number;
+
+const howlOptions = (
+  audio: IAudio,
+  file: IFile,
+  fileExtension: string,
+  options: object
+): HowlOptions => ({
+  html5: true,
+  preload: "metadata",
+  autoplay: false,
+  src: [getResourceURL(file.hash)],
+  format: [fileExtension],
+  onloaderror: (source: unknown, message: unknown) => {
+    audio.reportError(file.hash, `Load Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
+  },
+  onload: () => {
+    audio.loading = false;
+    audio.loaded = true;
+    audio.duration = audio.player?.duration() || 0;
+  },
+  onplay: () => {
+    audio.playing = true;
+    interval = setInterval(() => {
+      audio.time = audio.player?.seek();
+    }, 100);
+  },
+  onpause: () => {
+    audio.playing = false;
+    clearInterval(interval);
+  },
+  onend: () => {
+    audio.playing = false;
+    clearInterval(interval);
+  },
+  ...options,
+});
 
 export const audioPlayer = ref<IAudio>({
   error: "",
@@ -96,7 +132,7 @@ export const audioPlayer = ref<IAudio>({
           });
           audio.player?.play();
         })
-        .catch((message) => {
+        .catch(() => {
           // no need for reporting, because this is handled in a hook set in initialize
           resolve(this);
         });
@@ -117,36 +153,7 @@ export const audioPlayer = ref<IAudio>({
     this.cleanUp();
     this.file = file;
     this.loading = true;
-    this.player = new Howl({
-      html5: true,
-      preload: "metadata",
-      autoplay: false,
-      src: [getResourceURL(file.hash)],
-      format: [fileExtension],
-      onloaderror: (source, message) => {
-        this.reportError(file.hash, `Load Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
-      },
-      onload: () => {
-        this.loading = false;
-        this.loaded = true;
-        this.duration = this.player?.duration() || 0;
-      },
-      onplay: () => {
-        this.playing = true;
-        interval = setInterval(() => {
-          this.time = this.player?.seek();
-        }, 100);
-      },
-      onpause: () => {
-        this.playing = false;
-        clearInterval(interval);
-      },
-      onend: () => {
-        this.playing = false;
-        clearInterval(interval);
-      },
-      ...options,
-    });
+    this.player = new Howl(howlOptions(this, file, fileExtension, options));
   },
 
   cleanUp() {

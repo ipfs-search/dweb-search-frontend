@@ -11,7 +11,6 @@ import { Types } from "@/helpers/typeHelper";
 import { useDisplay } from "vuetify";
 const { smAndDown } = useDisplay();
 
-import { footerVisible } from "@/composables/footer.js";
 import { playlistVisible } from "@/composables/audioControls";
 
 const route = useRoute();
@@ -19,7 +18,6 @@ const route = useRoute();
 function listType(t) {
   return [t, Types.all, undefined].includes(route.query.type);
 }
-const onScroll = () => (footerVisible.value = false);
 </script>
 
 <template>

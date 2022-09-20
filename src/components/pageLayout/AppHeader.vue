@@ -23,8 +23,6 @@ import {
   playlistVisible,
   audioDetailPopup,
   showAudioDetail,
-  toggleLoop,
-  loop,
 } from "@/composables/audioControls.ts";
 import PlanetifyBar from "@/components/pageLayout/PlanetifyToolBar.vue";
 
