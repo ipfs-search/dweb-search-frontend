@@ -15,6 +15,7 @@ const ipfsTheme = {
     warning: "#FFC107",
     appBar: "#f5f5f5",
     planetifyDark: "#0d0041",
+    planetifyLight: "#e3dbff",
   },
 };
 

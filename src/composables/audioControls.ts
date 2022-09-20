@@ -218,7 +218,7 @@ export const nextPlaylistEntry = () => {
   return playlistIndex + 1;
 };
 
-export const removePlaylistEntry = (index) => {
+export const removePlaylistEntry = (index: number) => {
   const list = store.getters["playlist/getPlaylist"].entries;
   store.commit("playlist/setPlaylist", {
     entries: [...list.slice(0, index), ...list.slice(index + 1)],
