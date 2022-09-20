@@ -27,7 +27,7 @@ import VMarquee from "@/components/shared/VMarquee.vue";
       v-if="playlistVisible"
       width="100%"
       class="overflow-y-scroll h-100"
-      style="z-index: 100000"
+      style="z-index: 10000"
       color="planetifyDark"
       rounded="0"
       flat
