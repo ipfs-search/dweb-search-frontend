@@ -48,7 +48,6 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
   <v-fade-transition class="audio-player-card">
     <v-card
       v-if="audioPlayer.file"
-      style="z-index: 10000"
       position="fixed"
       location="bottom"
       color="planetarifyDark"
