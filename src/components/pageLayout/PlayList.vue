@@ -31,6 +31,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
       <v-row class="w-100">
         <v-col cols="12" xl="8" offset-xl="2">
           <v-list
+            v-if="playlistEntries.length"
             bg-color="planetarifyDark"
             lines="2"
             style="margin-left: 8px; margin-right: -24px"
@@ -126,6 +127,9 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
               </v-list-item>
             </v-hover>
           </v-list>
+          <v-card-title v-else class="d-flex justify-center align-center mt-10">
+            <span>Search for some audio files to add to your personal playlist</span>
+          </v-card-title>
         </v-col>
       </v-row>
     </v-card>

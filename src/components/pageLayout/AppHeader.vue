@@ -98,8 +98,8 @@ const links = [
           <planetarify-toolbar v-if="playlistVisible" />
 
           <div v-else id="end-buttons" class="d-flex flex-row justify-end">
-            <v-btn v-if="store.getters['playlist/getPlaylist']" icon @click="togglePlaylist">
-              <v-icon :icon="playlistVisible ? mdiClose : mdiPlaylistMusic" />
+            <v-btn icon @click="togglePlaylist">
+              <v-icon :icon="mdiPlaylistMusic" />
             </v-btn>
 
             <settings-menu />
