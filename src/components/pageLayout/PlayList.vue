@@ -74,7 +74,7 @@ import VMarquee from "@/components/shared/VMarquee.vue";
                         left: 50%;
                         transform: translate(-50%, -50%);
                       "
-                      color="white"
+                      color="planetifyLight"
                       :icon="mdiCircleSmall"
                     />
                   </blink-blink>
@@ -85,7 +85,7 @@ import VMarquee from "@/components/shared/VMarquee.vue";
                     <v-icon
                       v-if="!entry.audio?.error"
                       size="42"
-                      color="white"
+                      color="planetifyLight"
                       style="
                         opacity: 0.9;
                         position: absolute;

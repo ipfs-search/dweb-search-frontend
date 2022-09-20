@@ -7,8 +7,9 @@ import SearchBar from "@/components/pageLayout/SearchBar.vue";
     <v-container class="pa-0 fill-height d-flex mt-12">
       <v-row class="align-content-center">
         <v-col class="pa-2">
-          <!--          TODO: put a better title or remove this tag-->
-          <h3 class="mb-2 text-center hidden-sm-and-down text-white"></h3>
+          <h3 class="mb-2 text-center hidden-sm-and-down text-white">
+            Searching the Universe since 2017
+          </h3>
           <SearchBar />
         </v-col>
       </v-row>
