@@ -4,6 +4,7 @@ import mime from "mime";
 import getResourceURL from "@/helpers/resourceURL";
 import Retriever from "@/helpers/FetchDoggy";
 import { reactive, ref, computed } from "vue";
+import { getFileExtension } from "@/helpers/fileHelper";
 
 const props = defineProps({
   file: {
@@ -18,7 +19,7 @@ const props = defineProps({
 
 const error = ref(undefined);
 const retriever = reactive(new Retriever());
-const extension = mime.getExtension(props.file.mimetype);
+const extension = getFileExtension(props.file);
 
 const progress = computed(() => (retriever.progress / retriever.total) * 100);
 
@@ -42,6 +43,11 @@ const srcURL = computed(() => {
         props.file.hash
       )}`;
     case "html":
+      if (props.file.references?.length)
+        return `${getResourceURL(props.file.references[0].parent_hash)}/${
+          props.file.references[0].name
+        }`;
+      return getResourceURL(props.file.hash);
     case "txt":
     case "json":
       return getResourceURL(props.file.hash);
