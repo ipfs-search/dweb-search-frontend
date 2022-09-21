@@ -7,21 +7,33 @@ import VideoList from "@/components/searchViewComponents/VideoList.vue";
 import SearchFilterMenu from "@/components/searchViewComponents/subcomponents/SearchFilterMenu.vue";
 
 import { useRoute } from "vue-router";
+const route = useRoute();
+
 import { Types } from "@/helpers/typeHelper";
 import { useDisplay } from "vuetify";
 const { smAndDown } = useDisplay();
 
 import { playlistVisible } from "@/composables/audioControls";
 
-const route = useRoute();
+import { useFileListComposable } from "@/composables/useFileListComposable";
+const { infinite, infiniteScroll } = useFileListComposable({ fileType: route.query.type });
 
 function listType(t) {
   return [t, Types.all, undefined].includes(route.query.type);
 }
+import { useFooter } from "@/composables/footer";
+const { hideFooter } = useFooter();
 </script>
 
 <template>
-  <div v-if="!playlistVisible" data-id="search-view" class="h-100" style="overflow-y: scroll">
+  <div
+    v-if="!playlistVisible"
+    id="search-view"
+    v-scroll.self="infinite && infiniteScroll"
+    data-id="search-view"
+    class="h-100 overflow-y-auto"
+    @scroll="hideFooter"
+  >
     <search-filter-menu v-if="smAndDown" />
     <SearchFilters v-else />
     <GenericList v-if="listType(Types.text)" :file-type="Types.text" />
@@ -30,6 +42,6 @@ function listType(t) {
     <VideoList v-if="listType(Types.video)" />
     <GenericList v-if="listType(Types.directories)" :file-type="Types.directories" />
     <GenericList v-if="listType(Types.other)" :file-type="Types.other" />
-    <GenericList v-if="route.query.type == Types.unfiltered" :file-type="Types.unfiltered" />
+    <GenericList v-if="route.query.type === Types.unfiltered" :file-type="Types.unfiltered" />
   </div>
 </template>

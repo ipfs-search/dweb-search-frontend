@@ -7,15 +7,8 @@ import AudioDetail from "@/components/detailViewComponents/AudioDetail.vue";
 
 const route = useRoute();
 import { audioDetailPopup, playlistVisible, audioPlayer } from "@/composables/audioControls";
-import { footerVisible } from "@/composables/footer.js";
-import { computed } from "vue";
-
-const adjustFooterPadding = computed(() => {
-  if (route.name === "Home" && !playlistVisible.value) return "0px";
-  if (audioPlayer.value.file) return "100px";
-  if (footerVisible.value && !playlistVisible.value) return "120px";
-  return "0px";
-});
+import { useFooter } from "@/composables/footer.ts";
+const { adjustFooterPadding } = useFooter();
 </script>
 
 <template>
