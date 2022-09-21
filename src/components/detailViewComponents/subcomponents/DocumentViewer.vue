@@ -16,7 +16,7 @@ const props = defineProps({
   },
 });
 
-let error = ref(undefined);
+const error = ref(undefined);
 const retriever = reactive(new Retriever());
 const extension = mime.getExtension(props.file.mimetype);
 
@@ -52,39 +52,12 @@ const srcURL = computed(() => {
   }
 });
 
-const fetch = function fetch() {
-  if (srcURL.value) return Promise.resolve();
-  if (retriever.objectURL) {
-    return Promise.resolve(retriever.objectURL);
-  }
-  return retriever.fetch(getResourceURL(props.file.hash)).catch((fetchError) => {
+if (!(srcURL.value || retriever.objectURL)) {
+  retriever.fetch(getResourceURL(props.file.hash)).catch((fetchError) => {
     console.error(fetchError);
     error.value = fetchError;
   });
-};
-fetch();
-
-// This watch intends to cancel the download of files you cycle out of view.
-// It sort of works, but has a lot of side-effects which are hard to test and to fix.
-// Side effects may even be serverside at the ipfs-gateway, it seems that an aborted call can
-// not even always be restarted, but in stead throws a 504 gateway-timeout.
-// Leaving it in for now, to show that it has been tried/what has been tried.
-//
-// Can be fixed another time, or simply removed.
-/*
-watch(() => props.active, (active) => {
-  if (active) {
-    console.log('resetting', props.file.hash)
-    // when you cycle forward and backward, reset any errors.
-    error.value = undefined;
-    if (progress.value !== 100) fetch();
-  } else if (progress.value !== 100) {
-    console.log('aborting', props.file.hash)
-    // if you slide the document out of view, cancel unfinished download.
-    retriever.cancel();
-  }
-})
-*/
+}
 </script>
 
 <template>

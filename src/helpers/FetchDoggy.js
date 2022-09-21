@@ -45,25 +45,12 @@ function responseGenerator(responseReader, callHooks, signal) {
           await responseReader.cancel();
         }
         await readResponse(responseReader, callHooks, controller).catch((error) => {
-          controller(error);
+          controller.log(error);
           callHooks("error");
         });
       },
     })
   );
-}
-
-function testResponse(response) {
-  if (!response.body) {
-    throw Error("ReadableStream is not yet supported in this browser.");
-  }
-
-  if (!response.ok) {
-    // HTTP error server response
-    const error = Error(`Server responded ${response.status} ${response.statusText}`);
-    this.callHooks("error", error);
-    throw error;
-  }
 }
 
 export default class FetchDoggy {
@@ -87,7 +74,7 @@ export default class FetchDoggy {
     const { signal } = this.controller;
     return fetch(request, { signal, ...init })
       .then((response) => {
-        testResponse(response);
+        this.testResponse(response);
         // to access headers, server must send CORS header
         // "Access-Control-Expose-Headers: content-encoding, content-length x-file-size"
         // server must send custom x-file-size header if gzip or other content-encoding is used
@@ -116,6 +103,19 @@ export default class FetchDoggy {
           this.objectURL = window.URL.createObjectURL(blob);
         }
       });
+  }
+
+  testResponse(response) {
+    if (!response.body) {
+      throw Error("ReadableStream is not yet supported in this browser.");
+    }
+
+    if (!response.ok) {
+      // HTTP error server response
+      const error = Error(`Server responded ${response.status} ${response.statusText}`);
+      this.callHooks("error", error);
+      throw error;
+    }
   }
 
   cancel() {
