@@ -319,7 +319,7 @@ export default {
         this.file.references.forEach((reference) => {
           references.push({
             name: reference.name,
-            url: getResourceURL(reference.parent_hash),
+            url: getResourceURL(`${reference.parent_hash}/${reference.name}`),
           });
         });
       }
