@@ -22,7 +22,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
     <v-card
       v-if="playlistVisible"
       width="100%"
-      class="overflow-y-scroll h-100"
+      class="overflow-y-auto h-100"
       style="z-index: 10000"
       color="planetarifyDark"
       rounded="0"
@@ -139,9 +139,3 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
     </v-card>
   </v-fade-transition>
 </template>
-
-<style scoped>
-.overflow-y-scroll {
-  overflow-y: scroll;
-}
-</style>

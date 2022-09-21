@@ -1,5 +1,10 @@
 <script setup>
 import SearchBar from "@/components/pageLayout/SearchBar.vue";
+import { onMounted } from "vue";
+import { _footerVisible } from "@/composables/footer";
+onMounted(() => {
+  _footerVisible.value = true;
+});
 </script>
 
 <template>

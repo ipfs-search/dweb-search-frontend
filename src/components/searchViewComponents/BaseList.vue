@@ -13,7 +13,6 @@ import { useDisplay } from "vuetify";
 import { useStore } from "vuex";
 const store = useStore();
 
-const infiniteScrollMargin = 200;
 const route = useRoute();
 const { smAndDown, smAndUp } = useDisplay();
 
@@ -24,7 +23,7 @@ const props = defineProps({
   },
 });
 
-const { anyFileType, loading, loadedPages, infinite, slicedHits, pageHits } =
+const { anyFileType, loading, loadedPages, infinite, slicedHits, pageHits, infiniteScroll } =
   useFileListComposable(props);
 
 import { togglePlaylist, setPlaylist, enqueue } from "@/composables/audioControls.ts";
@@ -48,26 +47,6 @@ const pageCount = computed(
   () => Math.min(Math.ceil(store.getters[`results/${props.fileType}/resultsTotal`] / batchSize)),
   maxPages
 );
-
-/**
- * See if the the page scrolled so far down that empty space opens up at the bottom.
- * Also update the url
- * used by ImageList
- */
-const infiniteScroll = () => {
-  if (!infinite.value) return;
-  const { scrollTop, scrollHeight } = document.documentElement;
-  // calculate, which page is currently in view
-  const scrollPage = Math.floor(loadedPages.value * (scrollTop / scrollHeight)) + 1;
-  // if needed, change the page in the URL
-  if (store.state.query.page !== scrollPage) {
-    enterSearchQuery(route.query, scrollPage, "replace");
-  }
-  const nearBottom = window.innerHeight + infiniteScrollMargin > scrollHeight - scrollTop;
-  if (nearBottom && !loading.value) {
-    return store.dispatch(`results/${props.fileType}/fetchPage`, { page: loadedPages.value + 1 });
-  }
-};
 
 /**
  * scroll down to the page from the query
@@ -129,7 +108,7 @@ const queryPage = computed({
 </script>
 
 <template>
-  <v-container v-scroll="infiniteScroll" class="overflow-y-hidden" style="max-width: 1200px">
+  <v-container class="overflow-y-hidden" style="max-width: 1200px">
     <div
       :class="smAndUp ? 'flex-row' : 'flex-column'"
       class="justify-space-between d-flex mb-3"
@@ -144,7 +123,7 @@ const queryPage = computed({
           class="w-100 d-flex justify-start align-center text-ipfsPrimary-lighten-1 v-btn v-btn--density-default v-btn--size-default v-btn--variant-outlined"
           :class="{ 'v-btn--disabled': !anyFileType }"
         >
-          <div class="mr-auto">
+          <div class="mr-auto d-flex flex-row align-center">
             <v-icon size="28" :icon="TypeIcons[fileType]" color="ipfsPrimary-lighten-1" />
             <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
           </div>
@@ -210,10 +189,3 @@ const queryPage = computed({
     </div>
   </v-container>
 </template>
-
-<style scoped>
-.banner {
-  flex-grow: 2;
-  justify-content: flex-start;
-}
-</style>

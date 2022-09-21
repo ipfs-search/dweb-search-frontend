@@ -7,7 +7,8 @@ import { useDisplay } from "vuetify";
 const { smAndUp } = useDisplay();
 import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from "@mdi/js";
 
-import { footerVisible } from "@/composables/footer";
+import { useFooter } from "@/composables/footer";
+const { footerVisible } = useFooter();
 
 const footer_links = [
   {
@@ -36,8 +37,7 @@ const footer_links = [
 <template>
   <v-card
     :class="{
-      'footer--hidden':
-        (route.name !== 'Home' && !footerVisible) || audioPlayer.file || playlistVisible,
+      'footer--hidden': !footerVisible,
     }"
     position="fixed"
     variant="flat"

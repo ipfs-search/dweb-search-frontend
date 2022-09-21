@@ -16,7 +16,7 @@ const { slicedHits } = useFileListComposable({ fileType: props.fileType });
     <v-col>
       <v-row dense>
         <v-col
-          v-for="(hit, index) in slicedHits(xs ? 2 : smAndDown ? 6 : mdAndDown ? 8 : 12)"
+          v-for="(hit, index) in slicedHits(xs ? 2 : smAndDown ? 6 : mdAndDown ? 8 : 10)"
           :key="index"
           cols="6"
           sm="4"

@@ -27,9 +27,7 @@ const { blurExplicit } = useBlurExplicit();
           class="rounded grey lighten-2"
         >
           <template #placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular indeterminate color="ipfsPrimary" />
-            </v-row>
+            <v-row class="fill-height ma-0" align="center" justify="center"> </v-row>
           </template>
           <NsfwTooltip :file="hit" />
         </v-img>
