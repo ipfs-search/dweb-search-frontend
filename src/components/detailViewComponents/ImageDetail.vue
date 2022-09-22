@@ -1,8 +1,8 @@
 <script setup>
 import NsfwTooltip from "@/components/shared/nsfwTooltip.vue";
-import { useDetail, detailProps } from "@/composables/useDetail";
-const props = defineProps(detailProps);
-const { resourceURL } = useDetail(props);
+import { detailProps } from "@/composables/useDetail";
+defineProps(detailProps);
+import getResourceURL from "@/helpers/resourceURL";
 
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
@@ -16,7 +16,7 @@ const { blurExplicit } = useBlurExplicit();
         <v-img
           :data-nsfw-classification="JSON.stringify(file.nsfwClassification)"
           :data-nsfw="file.nsfw"
-          :src="resourceURL"
+          :src="getResourceURL(file.hash)"
           max-height="400px"
           class="image-wrapper"
           :class="{ blurExplicit: blurExplicit(file) }"
