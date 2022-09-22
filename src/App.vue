@@ -6,7 +6,7 @@ import PlayList from "./components/pageLayout/PlayList.vue";
 import AudioDetail from "@/components/detailViewComponents/AudioDetail.vue";
 
 const route = useRoute();
-import { audioDetailPopup, playlistVisible, audioPlayer } from "@/composables/audioControls";
+import { audioDetailPopup } from "@/composables/audioControls";
 import { useFooter } from "@/composables/footer.ts";
 const { adjustFooterPadding } = useFooter();
 </script>
