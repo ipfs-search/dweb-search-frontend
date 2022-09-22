@@ -49,7 +49,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                 @dblclick="startPlaylist(index)"
               >
                 <template #prepend>
-                  <v-list-item-avatar
+                  <v-avatar
                     rounded="0"
                     :style="{ cursor: entry.audio?.error ? 'default' : 'pointer' }"
                     @click="startPlaylist(index)"
@@ -100,7 +100,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                         />
                       </blink-blink>
                     </v-img>
-                  </v-list-item-avatar>
+                  </v-avatar>
                 </template>
                 <template #append>
                   <div class="d-flex flex-row">

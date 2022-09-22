@@ -29,10 +29,12 @@ const { hideFooter } = useFooter();
   <div
     v-if="!playlistVisible"
     id="search-view"
-    v-scroll.self="infinite && infiniteScroll"
     data-id="search-view"
     class="h-100 overflow-y-auto"
-    @scroll="hideFooter"
+    @scroll="
+      hideFooter;
+      infinite && infiniteScroll;
+    "
   >
     <search-filter-menu v-if="smAndDown" />
     <SearchFilters v-else />
