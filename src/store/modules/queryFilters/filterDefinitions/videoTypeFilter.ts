@@ -34,6 +34,10 @@ export const videoTypeFilterDefinition: filterDefinition = {
       apiValue: "video/h264",
     },
     {
+      title: "Matroska (mkv)",
+      apiValue: "video/x-matroska",
+    },
+    {
       title: "WEBM",
       apiValue: "video/webm",
     },

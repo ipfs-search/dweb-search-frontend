@@ -5,9 +5,11 @@ import MetaDataPanel from "@/components/detailViewComponents/subcomponents/MetaD
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 
-import { detailProps } from "@/composables/useDetail";
 defineProps({
-  ...detailProps,
+  file: {
+    type: Object,
+    required: true,
+  },
   narrow: {
     type: Boolean,
     default: false,
@@ -15,6 +17,10 @@ defineProps({
   metaExpand: {
     type: Boolean,
     default: true,
+  },
+  active: {
+    type: Boolean,
+    required: false,
   },
 });
 </script>
@@ -37,7 +43,7 @@ defineProps({
               :class="mdAndUp ? 'mb-16' : ''"
             >
               <DetailHeader :file="file" />
-              <slot />
+              <slot :active="active" />
               <MetaDataPanel :file="file" :expanded="metaExpand" />
             </v-col>
           </v-row>

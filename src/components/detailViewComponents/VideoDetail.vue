@@ -1,22 +1,77 @@
 <script setup>
-import VideoPlayer from "@/components/detailViewComponents/subcomponents/VideoPlayer.vue";
+import { ref, onMounted, watch } from "vue";
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
-import "video.js/dist/video-js.css";
+import { picsum } from "@/helpers/picsum";
+import getResourceURL from "@/helpers/resourceURL";
 
-import { useDetail, detailProps } from "@/composables/useDetail";
-const props = defineProps(detailProps);
-const { videoOptions } = useDetail(props);
+const props = defineProps({
+  file: {
+    type: Object,
+    required: true,
+  },
+  active: {
+    type: Boolean,
+    required: false,
+  },
+});
+
+const videoPlayer = ref();
+const loading = ref(true);
+const error = ref(false);
+
+const setError = (e) => {
+  error.value = true;
+  loading.value = false;
+};
+
+const setActiveVideoCallbacks = (active) => {
+  if (active) {
+    videoPlayer.value?.setAttribute("autoplay", true);
+    videoPlayer.value?.play();
+  } else {
+    videoPlayer.value?.removeAttribute("autoplay");
+    videoPlayer.value?.pause();
+  }
+};
+watch(() => props.active, setActiveVideoCallbacks);
+
+onMounted(() => {
+  videoPlayer.value?.setAttribute(
+    "poster",
+    picsum({
+      height: videoPlayer.value.clientHeight,
+      width: videoPlayer.value.clientWidth,
+      seed: props.file.hash,
+    })
+  );
+  videoPlayer.value?.addEventListener("canplay", () => {
+    loading.value = false;
+    videoPlayer.value?.setAttribute("controls", true);
+    videoPlayer.value?.removeAttribute("poster");
+  });
+  setActiveVideoCallbacks(props.active);
+});
 </script>
 
 <template>
   <generic-detail :file="file">
-    <!-- Video -->
-    <v-row>
-      <v-col>
-        <div class="text-body-1">
-          <video-player :options="videoOptions" />
-        </div>
-      </v-col>
-    </v-row>
+    <v-alert v-if="error" border color="ipfsPrimary-lighten-4" type="warning">
+      <i>Unable to load video</i>
+    </v-alert>
+    <video ref="videoPlayer" class="w-100">
+      <source :src="getResourceURL(file.hash)" :onerror="setError" />
+    </video>
+    <v-progress-circular
+      v-if="loading"
+      size="90"
+      style="
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+      indeterminate
+    />
   </generic-detail>
 </template>

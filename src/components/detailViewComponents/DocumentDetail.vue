@@ -7,7 +7,6 @@ defineProps(detailProps);
 
 <template>
   <generic-detail :file="file">
-    <!-- Text -->
     <DocumentViewer :file="file" />
   </generic-detail>
 </template>

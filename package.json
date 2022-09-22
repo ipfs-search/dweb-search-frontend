@@ -29,7 +29,6 @@
     "regenerator-runtime": "^0.13.9",
     "ts-node": "^10.8.0",
     "url": "^0.11.0",
-    "video.js": "^7.12.1",
     "vue": "^3.2.13",
     "vue-closable": "0.0.3",
     "vue-masonry": "^0.11.8",
