@@ -23,6 +23,12 @@ function listType(t) {
 }
 import { useFooter } from "@/composables/footer";
 const { hideFooter } = useFooter();
+const onScroll = () => {
+  hideFooter();
+  if (infinite.value) {
+    infiniteScroll();
+  }
+};
 </script>
 
 <template>
@@ -31,10 +37,7 @@ const { hideFooter } = useFooter();
     id="search-view"
     data-id="search-view"
     class="h-100 overflow-y-auto"
-    @scroll="
-      hideFooter;
-      infinite && infiniteScroll;
-    "
+    @scroll="onScroll"
   >
     <search-filter-menu v-if="smAndDown" />
     <SearchFilters v-else />
