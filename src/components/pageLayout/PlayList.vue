@@ -8,7 +8,7 @@ import {
   showAudioDetail,
   removePlaylistEntry,
 } from "@/composables/audioControls";
-import { mdiCircleSmall, mdiPlay, mdiDisc, mdiTrashCanOutline } from "@mdi/js";
+import { mdiAlert, mdiCircleSmall, mdiPlay, mdiDisc, mdiTrashCanOutline } from "@mdi/js";
 import { picsum } from "@/helpers/picsum";
 
 import { fileTitle, fileAuthor, fileAlbum } from "@/helpers/fileHelper";
@@ -66,8 +66,20 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                         })
                       "
                     >
+                      <v-icon
+                        v-if="entry.audio && entry.audio.error"
+                        style="
+                          opacity: 0.9;
+                          position: absolute;
+                          top: 50%;
+                          left: 50%;
+                          transform: translate(-50%, -50%);
+                        "
+                        :icon="mdiAlert"
+                        color="planetarifyLight"
+                      />
                       <blink-blink
-                        v-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loading"
+                        v-else-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.loading"
                       >
                         <v-icon
                           style="

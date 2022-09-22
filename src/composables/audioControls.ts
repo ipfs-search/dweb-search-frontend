@@ -80,7 +80,7 @@ export const audioPlayer = ref<IAudio>({
   reportError(hash, message) {
     this.error = message;
     this.loading = false;
-    console.error("Audio Error:", message, this, hash);
+    console.warn("Audio Error:", message, this, hash);
     store.commit("playlist/setAudioError", {
       hash,
       error: message,
@@ -94,8 +94,13 @@ export const audioPlayer = ref<IAudio>({
       abortController.signal.addEventListener("abort", () => {
         reject();
       });
-      if (file) {
-        this.initialize(file, options);
+      try {
+        if (file) {
+          this.initialize(file, options);
+        }
+      } catch (e) {
+        this.reportError(file?.hash, (<Error>e)?.message);
+        reject(e);
       }
       if (this.loaded) return resolve(this);
       this.player?.once("loaderror", () => {
@@ -147,8 +152,7 @@ export const audioPlayer = ref<IAudio>({
   initialize(file: IFile, options = {}) {
     const fileExtension = getFileExtension(file);
     if (!Howler.codecs(fileExtension)) {
-      this.reportError(file.hash, `Unsupported/undetected file type: '${fileExtension}'`);
-      return;
+      throw new Error(`Unsupported/undetected file type: '${fileExtension}'`);
     }
     this.cleanUp();
     this.file = file;
