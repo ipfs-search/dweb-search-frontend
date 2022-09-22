@@ -60,7 +60,7 @@ onMounted(() => {
       <i>Unable to load video</i>
     </v-alert>
     <video ref="videoPlayer" class="w-100">
-      <source :src="getResourceURL(file.hash)" onerror="setError()" />
+      <source :src="getResourceURL(file.hash)" :onerror="setError" />
     </video>
     <v-progress-circular
       v-if="loading"
