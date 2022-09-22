@@ -23,7 +23,9 @@ export const useFileListComposable = ({ fileType }) => {
     return [Types.all, undefined].includes(route.query.type);
   });
 
-  const infinite = computed(() => route.query.type === Types.images);
+  const infinite = computed(
+    () => route.query.type === Types.images || route.query.type === Types.video
+  );
 
   const loadedPages = computed(() =>
     Math.ceil(store.getters[`results/${fileType}/hits`].length / batchSize)

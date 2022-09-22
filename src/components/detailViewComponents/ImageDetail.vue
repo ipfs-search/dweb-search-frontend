@@ -1,22 +1,26 @@
 <script setup>
+import { mdiRobotDead } from "@mdi/js";
+
 import NsfwTooltip from "@/components/shared/nsfwTooltip.vue";
 import { detailProps } from "@/composables/useDetail";
 defineProps(detailProps);
-import getResourceURL from "@/helpers/resourceURL";
 
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 const { blurExplicit } = useBlurExplicit();
+
+import NyatsImg from "@/helpers/nyats/vuetify-img-cid.vue";
 </script>
 
 <template>
   <generic-detail :file="file">
     <v-row>
       <v-col cols="12" md="10" offset-md="1" :class="{ blurExplicit: blurExplicit(file) }">
-        <v-img
+        <nyats-img
+          :cid="file.hash"
+          type="image"
           :data-nsfw-classification="JSON.stringify(file.nsfwClassification)"
           :data-nsfw="file.nsfw"
-          :src="getResourceURL(file.hash)"
           max-height="400px"
           class="image-wrapper"
           :class="{ blurExplicit: blurExplicit(file) }"
@@ -26,8 +30,15 @@ const { blurExplicit } = useBlurExplicit();
               <v-progress-circular indeterminate color="ipfsPrimary" />
             </v-row>
           </template>
+
+          <template #failed>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-icon color="grey" size="large" :icon="mdiRobotDead" />
+            </v-row>
+          </template>
+
           <NsfwTooltip :file="file" />
-        </v-img>
+        </nyats-img>
       </v-col>
     </v-row>
   </generic-detail>

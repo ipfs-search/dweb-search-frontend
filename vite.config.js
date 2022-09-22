@@ -8,7 +8,7 @@ import createVuePlugin from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [createVuePlugin(), vuetify()],
   server: {
-    port: 8080,
+    port: 8082,
   },
   resolve: {
     alias: {
