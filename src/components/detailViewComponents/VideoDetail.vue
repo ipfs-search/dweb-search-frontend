@@ -20,7 +20,6 @@ const loading = ref(true);
 const error = ref(false);
 
 const setError = (e) => {
-  console.log(e);
   error.value = true;
   loading.value = false;
 };
