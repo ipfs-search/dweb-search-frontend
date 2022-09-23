@@ -26,12 +26,9 @@ defineProps({
 </script>
 
 <template>
-  <v-sheet :light="!$vuetify.theme.dark" class="h-100" tile>
+  <v-sheet :light="!$vuetify.theme.dark" class="overflow-y-auto h-100" tile>
     <v-row class="fill-height ma-0 pa-0">
-      <v-col
-        style="position: absolute; top: 0; left: 0; bottom: 0; right: 0"
-        class="inline-block h-100 overflow-y-auto"
-      >
+      <v-col class="inline-block h-100 overflow-y-auto">
         <v-container>
           <v-row>
             <v-col
