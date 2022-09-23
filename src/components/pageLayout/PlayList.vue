@@ -8,7 +8,7 @@ import {
   showAudioDetail,
   removePlaylistEntry,
 } from "@/composables/audioControls";
-import { mdiAlert, mdiCircleSmall, mdiPlay, mdiDisc, mdiTrashCanOutline } from "@mdi/js";
+import { mdiAlert, mdiCircleSmall, mdiPlay, mdiFileFind, mdiTrashCanOutline } from "@mdi/js";
 import { picsum } from "@/helpers/picsum";
 
 import { fileTitle, fileAuthor, fileAlbum } from "@/helpers/fileHelper";
@@ -116,7 +116,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                 </template>
                 <template #append>
                   <div class="d-flex flex-row">
-                    <v-icon :icon="mdiDisc" @click="showAudioDetail(entry)" />
+                    <v-icon :icon="mdiFileFind" @click="showAudioDetail(entry)" />
                     <v-icon :icon="mdiTrashCanOutline" @click="removePlaylistEntry(index)" />
                   </div>
                 </template>
