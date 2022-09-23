@@ -73,7 +73,11 @@ import { playlistVisible } from "@/composables/audioControls";
             <!-- FixMe: console warning about activator not being a reactive object-->
             <template #activator="{ props }">
               <div v-if="smAndUp" class="mr-3 text-grey d-flex align-start" v-bind="props">
-                <span class="text-capitalize" data-testid="type-filter-selector-value">
+                <span
+                  class="text-capitalize"
+                  style="margin-top: 1px"
+                  data-testid="type-filter-selector-value"
+                >
                   {{ listName(fileType) }}
                 </span>
                 <v-icon class="d-inline-block" :icon="mdiMenuDown" />
@@ -133,5 +137,6 @@ import { playlistVisible } from "@/composables/audioControls";
 <style>
 #search input {
   text-overflow: ellipsis;
+  padding-top: 10px;
 }
 </style>
