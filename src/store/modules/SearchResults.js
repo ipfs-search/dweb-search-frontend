@@ -108,8 +108,8 @@ export default (fileType) => ({
         });
     },
     async fetchNsfw({ commit }, { newResults, index }) {
-      newResults.hits.forEach((hit, n) => {
-        if (fileType === Types.images) {
+      if (fileType === Types.images) {
+        newResults.hits.forEach((hit, n) => {
           // TODO: Aggregate commits to reduce render time.
           classify(hit)
             .then(({ classification }) => {
@@ -119,8 +119,8 @@ export default (fileType) => ({
               });
             })
             .catch(console.error);
-        }
-      });
+        });
+      }
     },
   },
 });
