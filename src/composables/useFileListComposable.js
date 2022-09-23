@@ -8,9 +8,6 @@ import durationToColor from "@/helpers/durationToColor";
 import mime from "mime";
 import { Types } from "@/helpers/typeHelper";
 import getResourceURL from "@/helpers/resourceURL";
-import { enterSearchQuery } from "@/router";
-
-const infiniteScrollMargin = 200;
 
 export const useFileListComposable = ({ fileType }) => {
   const route = useRoute();
@@ -48,25 +45,6 @@ export const useFileListComposable = ({ fileType }) => {
     return pageHits.value;
   }
 
-  /**
-   * See if the the page scrolled so far down that empty space opens up at the bottom.
-   * Also update the url
-   * used by ImageList
-   */
-  const infiniteScroll = () => {
-    const { scrollTop, scrollHeight } = document.getElementById("search-view");
-    // calculate, which page is currently in view
-    const scrollPage = Math.floor(loadedPages.value * (scrollTop / scrollHeight)) + 1;
-    // if needed, change the page in the URL
-    if (store.state.query.page !== scrollPage) {
-      enterSearchQuery(route.query, scrollPage, "replace");
-    }
-    const nearBottom = window.innerHeight + infiniteScrollMargin > scrollHeight - scrollTop;
-    if (nearBottom && !loading.value) {
-      return store.dispatch(`results/${fileType}/fetchPage`, { page: loadedPages.value + 1 });
-    }
-  };
-
   return {
     pageHits,
     loading,
@@ -74,6 +52,12 @@ export const useFileListComposable = ({ fileType }) => {
     infinite,
     loadedPages,
     slicedHits,
-    infiniteScroll,
   };
+};
+
+export const imports = {
+  mime,
+  durationToColor,
+  prettyBytes,
+  getResourceURL,
 };
