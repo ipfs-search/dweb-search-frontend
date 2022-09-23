@@ -121,7 +121,7 @@ const queryPage = computed({
       >
         <div
           class="w-100 d-flex justify-start align-center text-ipfsPrimary-lighten-1 v-btn v-btn--density-default v-btn--size-default v-btn--variant-outlined"
-          :class="{ 'v-btn--disabled': !anyFileType }"
+          color="ipfsPrimary"
         >
           <div class="mr-auto d-flex flex-row align-center">
             <v-icon size="28" :icon="TypeIcons[fileType]" color="ipfsPrimary-lighten-1" />
