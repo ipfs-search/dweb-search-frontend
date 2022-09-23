@@ -7,8 +7,11 @@ export const _footerVisible = ref(true);
 export const useFooter = () => {
   const route = useRoute();
 
+  const coveringPanel = computed(
+    () => audioPlayer.value.file || playlistVisible.value || audioDetailPopup.value
+  );
   const footerVisible = computed(() => {
-    if (audioPlayer.value.file || playlistVisible.value || audioDetailPopup.value) return false;
+    if (coveringPanel.value) return false;
     if (route.name === "Home") return true;
     return _footerVisible.value && route.name === "Search";
   });
