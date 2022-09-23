@@ -8,7 +8,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-img src="/assets/background-02.png" cover class="h-100 hero bg-ipfsPrimary">
+  <v-img src="/assets/background-02.png" cover class="h-100 bg-ipfsPrimary">
     <v-container class="pa-0 fill-height d-flex mt-12">
       <v-row class="align-content-center">
         <v-col class="pa-2">
@@ -23,25 +23,10 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.hero {
-  margin-top: -100px;
-}
-
-h2 {
-  font-size: 120%;
-  letter-spacing: 0.09em;
-  font-weight: 500;
-  span {
-    font-weight: 500;
-  }
-}
 h3 {
   font-family: "Heebo", sans-serif;
   letter-spacing: -0.02em;
   font-size: 150%;
   font-weight: 700;
-}
-.v-card__title {
-  word-break: keep-all;
 }
 </style>
