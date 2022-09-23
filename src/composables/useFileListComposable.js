@@ -54,7 +54,6 @@ export const useFileListComposable = ({ fileType }) => {
    * used by ImageList
    */
   const infiniteScroll = () => {
-    console.log("infinite scroll called");
     const { scrollTop, scrollHeight } = document.getElementById("search-view");
     // calculate, which page is currently in view
     const scrollPage = Math.floor(loadedPages.value * (scrollTop / scrollHeight)) + 1;
@@ -77,11 +76,4 @@ export const useFileListComposable = ({ fileType }) => {
     slicedHits,
     infiniteScroll,
   };
-};
-
-export const imports = {
-  mime,
-  durationToColor,
-  prettyBytes,
-  getResourceURL,
 };

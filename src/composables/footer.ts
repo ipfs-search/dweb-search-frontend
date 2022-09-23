@@ -8,9 +8,10 @@ export const useFooter = () => {
   const route = useRoute();
 
   const footerVisible = computed(() => {
-    if (audioPlayer.value.file || playlistVisible.value || audioDetailPopup.value) return false;
-    if (route.name === "Home") return true;
-    return _footerVisible.value && route.name === "Search";
+    return (
+      !(audioPlayer.value.file || playlistVisible.value || audioDetailPopup.value) &&
+      (route.name === "Home" || (_footerVisible.value && route.name === "Search"))
+    );
   });
 
   const hideFooter = () => {
