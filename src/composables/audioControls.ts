@@ -1,8 +1,10 @@
 import { ref } from "vue";
-import { IFile } from "../interfaces/IFile";
+import { IFile } from "@/interfaces/IFile";
+import { IAudio } from "@/interfaces/audioInterfaces";
 
 import store from "@/store";
 import { Howl, Howler, HowlOptions } from "howler";
+
 import { getFileExtension } from "@/helpers/fileHelper";
 import getResourceURL from "@/helpers/resourceURL";
 
@@ -14,23 +16,6 @@ const errorCode = {
   "3": "Decoding error",
   "4": "Resource unsuitable/unavailable",
 };
-
-export interface IAudio {
-  file?: IFile;
-  error: string;
-  loaded: boolean;
-  loading: boolean;
-  playing: boolean;
-  duration: number;
-  time: number | undefined;
-  player?: Howl;
-  reportError: (hash: string | undefined, message: string) => void;
-  load: (file?: IFile, options?: object) => Promise<IAudio>;
-  play: (file?: IFile, options?: object) => Promise<IAudio>;
-  pause: () => void;
-  initialize: (file: IFile, options?: object) => void;
-  cleanUp: () => void;
-}
 
 let interval: number;
 
