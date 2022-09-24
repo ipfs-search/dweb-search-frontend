@@ -5,12 +5,13 @@ export interface IPlaylist {
   entries: IFile[];
 }
 
-export interface IExternalPlayer {
+// TODO: expand this to a more generic player interface (now it is a shadow of the Howl player)
+export interface IMediaPlayer {
   duration: () => number;
   load: () => void;
   play: () => void;
   pause: () => void;
-  seek: (progress?: number) => number;
+  seek: (progress?: number) => number | undefined;
   off: () => void;
   unload: () => void;
   once: (event: string, callback: (source?: unknown, message?: string | number) => void) => void;
@@ -24,7 +25,7 @@ export interface IAudio {
   playing: boolean;
   duration: number;
   time: number | undefined;
-  player?: IExternalPlayer;
+  player?: IMediaPlayer;
   reportError: (hash: string | undefined, message: string) => void;
   load: (file?: IFile, options?: object) => Promise<IAudio>;
   play: (file?: IFile, options?: object) => Promise<IAudio>;

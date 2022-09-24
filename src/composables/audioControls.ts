@@ -3,57 +3,14 @@ import { IFile } from "@/interfaces/IFile";
 import { IAudio } from "@/interfaces/audioInterfaces";
 
 import store from "@/store";
-import { Howl, Howler, HowlOptions } from "howler";
+import { Howl, Howler } from "howler";
+import { errorCode, howlOptions } from "@/helpers/howlPlayer";
 
 import { getFileExtension } from "@/helpers/fileHelper";
 import getResourceURL from "@/helpers/resourceURL";
+import { Midi } from "@/helpers/midiPlayer";
 
 const abortController = new AbortController();
-
-const errorCode = {
-  "1": "User aborted request",
-  "2": "Network error",
-  "3": "Decoding error",
-  "4": "Resource unsuitable/unavailable",
-};
-
-let interval: number;
-
-const howlOptions = (
-  audio: IAudio,
-  file: IFile,
-  fileExtension: string,
-  options: object
-): HowlOptions => ({
-  html5: true,
-  preload: "metadata",
-  autoplay: false,
-  src: [getResourceURL(file.hash)],
-  format: [fileExtension],
-  onloaderror: (source: unknown, message: unknown) => {
-    audio.reportError(file.hash, `Load Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
-  },
-  onload: () => {
-    audio.loading = false;
-    audio.loaded = true;
-    audio.duration = audio.player?.duration() || 0;
-  },
-  onplay: () => {
-    audio.playing = true;
-    interval = setInterval(() => {
-      audio.time = audio.player?.seek();
-    }, 100);
-  },
-  onpause: () => {
-    audio.playing = false;
-    clearInterval(interval);
-  },
-  onend: () => {
-    audio.playing = false;
-    clearInterval(interval);
-  },
-  ...options,
-});
 
 export const audioPlayer = ref<IAudio>({
   error: "",
@@ -136,13 +93,19 @@ export const audioPlayer = ref<IAudio>({
 
   initialize(file: IFile, options = {}) {
     const fileExtension = getFileExtension(file);
-    if (!Howler.codecs(fileExtension)) {
+    if (fileExtension === "mid") {
+      this.cleanUp();
+      this.file = file;
+      this.loading = true;
+      this.player = new Midi({ file, autoplay: true });
+    } else if (!Howler.codecs(fileExtension)) {
+      this.cleanUp();
+      this.file = file;
+      this.loading = true;
+      this.player = new Howl(howlOptions(this, file, fileExtension, options));
+    } else {
       throw new Error(`Unsupported/undetected file type: '${fileExtension}'`);
     }
-    this.cleanUp();
-    this.file = file;
-    this.loading = true;
-    this.player = new Howl(howlOptions(this, file, fileExtension, options));
   },
 
   cleanUp() {
