@@ -7,7 +7,6 @@ import { Howl, Howler } from "howler";
 import { errorCode, howlOptions } from "@/helpers/howlPlayer";
 
 import { getFileExtension } from "@/helpers/fileHelper";
-import getResourceURL from "@/helpers/resourceURL";
 import { Midi } from "@/helpers/midiPlayer";
 
 const abortController = new AbortController();
@@ -96,9 +95,8 @@ export const audioPlayer = ref<IAudio>({
     if (fileExtension === "mid") {
       this.cleanUp();
       this.file = file;
-      this.loading = true;
-      this.player = new Midi({ file, autoplay: true });
-    } else if (!Howler.codecs(fileExtension)) {
+      this.player = new Midi({ context: this, file, autoplay: true });
+    } else if (Howler.codecs(fileExtension)) {
       this.cleanUp();
       this.file = file;
       this.loading = true;

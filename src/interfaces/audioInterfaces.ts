@@ -5,16 +5,18 @@ export interface IPlaylist {
   entries: IFile[];
 }
 
+export type MediaPlayerEvent = "playerror" | "loaderror" | "end" | "load" | "play" | "pause";
+
 // TODO: expand this to a more generic player interface (now it is a shadow of the Howl player)
 export interface IMediaPlayer {
-  duration: () => number;
   load: () => void;
   play: () => void;
   pause: () => void;
   seek: (progress?: number) => number | undefined;
   off: () => void;
   unload: () => void;
-  once: (event: string, callback: (source?: unknown, message?: string | number) => void) => void;
+  on: (event: MediaPlayerEvent, callback: (...args: any[]) => void) => void;
+  once: (event: MediaPlayerEvent, callback: (...args: any[]) => void) => void;
 }
 
 export interface IAudio {
