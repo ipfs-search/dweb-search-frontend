@@ -198,6 +198,10 @@ export const pauseAudio = () => {
   audioPlayer.value?.pause();
 };
 
+export const resumeAudio = () => {
+  audioPlayer.value?.player?.play();
+};
+
 export const cleanUpAudioPlayer = () => {
   audioPlayer.value?.cleanUp();
 };

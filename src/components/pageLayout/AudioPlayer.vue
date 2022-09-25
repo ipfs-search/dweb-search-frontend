@@ -19,6 +19,7 @@ import {
   formatTime,
   playAudioFile,
   pauseAudio,
+  resumeAudio,
   cleanUpAudioPlayer,
   previousPlaylistEntry,
   playlistSkipPrevious,
@@ -147,7 +148,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
                 :size="mdAndUp ? 'large' : 'default'"
                 :icon="mdiPlay"
                 title="Play"
-                @click="playAudioFile"
+                @click="resumeAudio"
               />
               <v-btn
                 class="bg-ipfsPrimary-lighten-1 ml-2"
