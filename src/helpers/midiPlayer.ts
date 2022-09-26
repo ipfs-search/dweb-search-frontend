@@ -84,7 +84,7 @@ export class Midi implements IMediaPlayer {
       if (this.autoplay) this.play();
     });
     this.midiPlayer.on("playing", () => {
-      this.context.time = this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
+      this.context.time = this.seek();
     });
     this.midiPlayer.on("fileLoaded", () => this.callEvent("load"));
     this.midiPlayer.on("endOfFile", () => this.callEvent("end"));
@@ -110,7 +110,9 @@ export class Midi implements IMediaPlayer {
 
   seek(progress?: number) {
     if (this.loaded) {
-      if (!progress) return this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
+      if (!progress) {
+        return Math.max(0, this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining());
+      }
       const playing = this.midiPlayer.isPlaying();
       this.midiPlayer.pause();
       this.midiPlayer.skipToSeconds(progress);
