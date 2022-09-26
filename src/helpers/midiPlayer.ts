@@ -113,7 +113,11 @@ export class Midi implements IMediaPlayer {
   seek(progress?: number) {
     if (this.loaded) {
       if (progress) {
+        const playing = this.midiPlayer.isPlaying();
+        this.midiPlayer.pause();
         this.midiPlayer.skipToSeconds(progress);
+        this.context.time = progress;
+        if (playing) this.midiPlayer.play();
       } else {
         return this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
       }
