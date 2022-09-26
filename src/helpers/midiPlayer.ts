@@ -76,7 +76,6 @@ export class Midi implements IMediaPlayer {
     });
     this.midiPlayer.on("fileLoaded", () => {
       this.loaded = true;
-      console.debug("loaded midifile", this.file);
       this.context.loaded = true;
       this.context.loading = false;
       this.context.duration = this.midiPlayer.getSongTime();
@@ -92,10 +91,8 @@ export class Midi implements IMediaPlayer {
 
   play() {
     if (this.loaded) {
-      console.debug("midiplayer play", this.file);
       this.context.playing = true;
       if (this.midiPlayer.isPlaying()) {
-        console.debug("Already playing", this.file);
         return;
       }
       this.midiPlayer.play();
@@ -163,7 +160,6 @@ export class Midi implements IMediaPlayer {
   callEvent(event: MediaPlayerEvent, ...args: unknown[]) {
     this.onEventStore[event].forEach((callback) => callback(...args));
     this.onceEventStore[event].forEach((callback) => {
-      console.log("calling event once", event, callback);
       callback(...args);
     });
     this.onceEventStore[event] = [];
@@ -174,12 +170,10 @@ export class Midi implements IMediaPlayer {
   }
 
   once(event: MediaPlayerEvent, callback: (...args: unknown[]) => void) {
-    console.debug("midiplayer push once", event, callback);
     this.onceEventStore[event].push(callback);
   }
 
   async load() {
-    console.debug("loading midi player", this.file);
     abortController?.abort("loading a new file");
     this.midiPlayer?.stop();
     try {
@@ -187,7 +181,6 @@ export class Midi implements IMediaPlayer {
       this.context.loading = true;
       this.context.loaded = false;
       if (!instruments.length) {
-        console.debug("loading instruments");
         instruments = await Promise.all([
           ...instrumentList.map((instrument) =>
             Soundfont.instrument(this.audioContext, instrument)
@@ -201,7 +194,6 @@ export class Midi implements IMediaPlayer {
           return response.arrayBuffer();
         })
         .then((buffer) => {
-          console.debug("Midi file fetched", this.file);
           this.midiPlayer.loadArrayBuffer(buffer);
         })
         .catch((error) => this.callEvent("loaderror", error));
