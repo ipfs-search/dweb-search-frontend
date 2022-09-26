@@ -30,6 +30,8 @@ const events: MediaPlayerEvent[] = ["load", "end", "loaderror", "playerror", "pl
 
 let instruments: InstrumentPlayer[] = [];
 
+const abortController = new AbortController();
+
 export class Midi implements IMediaPlayer {
   private context: IAudio;
   private audioContext: AudioContext;
@@ -67,6 +69,9 @@ export class Midi implements IMediaPlayer {
     this.trackNames = [];
     this.midiPlayer = new MidiPlayer.Player(this.handleMidiEvent);
     this.load();
+    this.once("loaderror", (message) => {
+      this.context.reportError(this.file.hash, `Load Error: ${message}`);
+    });
     this.midiPlayer.on("fileLoaded", () => {
       this.loaded = true;
       console.debug("loaded midifile", this.file);
@@ -153,17 +158,17 @@ export class Midi implements IMediaPlayer {
     this.onceEventStore[event] = [];
   }
 
-  on(event: MediaPlayerEvent, callback: () => void) {
+  on(event: MediaPlayerEvent, callback: (...args: any[]) => void) {
     this.onEventStore[event].push(callback);
   }
 
-  once(event: MediaPlayerEvent, callback: () => void) {
+  once(event: MediaPlayerEvent, callback: (...args: any[]) => void) {
     console.debug("midiplayer push once", event, callback);
     this.onceEventStore[event].push(callback);
   }
 
   async load() {
-    console.debug("loading midi player");
+    console.debug("loading midi player", this.file);
     this.midiPlayer?.stop();
     try {
       this.loaded = false;
@@ -177,15 +182,16 @@ export class Midi implements IMediaPlayer {
           ),
         ]);
       }
-      fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`).then((response) => {
-        response
-          .arrayBuffer()
-          .then((buffer) => {
-            console.debug("Midi file fetched", this.file);
-            this.midiPlayer.loadArrayBuffer(buffer);
-          })
-          .catch((error) => this.callEvent("loaderror", error));
-      });
+      fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`)
+        .then((response) => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.arrayBuffer();
+        })
+        .then((buffer) => {
+          console.debug("Midi file fetched", this.file);
+          this.midiPlayer.loadArrayBuffer(buffer);
+        })
+        .catch((error) => this.callEvent("loaderror", error));
     } catch (error: unknown) {
       this.callEvent("loaderror");
     }
