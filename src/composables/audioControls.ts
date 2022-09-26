@@ -66,6 +66,7 @@ export const audioPlayer = ref<IAudio>({
       });
       this.load(file, options)
         .then((audio) => {
+          console.debug("audio controls loaded file", file);
           this.player?.once("playerror", (source, message) => {
             this.reportError(
               this.file?.hash,
@@ -74,11 +75,13 @@ export const audioPlayer = ref<IAudio>({
             reject();
           });
           this.player?.once("end", () => {
+            console.log("end of song", this.file);
             resolve(this);
           });
           audio.player?.play();
         })
-        .catch(() => {
+        .catch((error) => {
+          console.debug("audioControls error", error);
           // no need for reporting, because this is handled in a hook set in initialize
           resolve(this);
         });
@@ -189,7 +192,9 @@ export const playlistSkipNext = () => {
 export const playAudioFile = (file: IFile) => {
   abortController.abort();
   return new Promise((resolve, reject) => {
-    if (file.audio?.error) reject(file.audio.error);
+    if (file.audio?.error) {
+      reject(file.audio.error);
+    }
     audioPlayer.value.play(file).then(resolve).catch(reject);
   });
 };

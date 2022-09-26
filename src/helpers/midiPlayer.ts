@@ -28,6 +28,8 @@ interface IMidiEvent {
 
 const events: MediaPlayerEvent[] = ["load", "end", "loaderror", "playerror", "play", "pause"];
 
+let instruments: InstrumentPlayer[] = [];
+
 export class Midi implements IMediaPlayer {
   private context: IAudio;
   private audioContext: AudioContext;
@@ -35,7 +37,6 @@ export class Midi implements IMediaPlayer {
   private patchBay: Record<number, number>;
   private trackNames: Record<number, string>;
   private midiPlayer;
-  private instruments: InstrumentPlayer[] = [];
   private loaded = false;
   private handleMidiEvent = (event: IMidiEvent) => {
     if (event.name === "Sequence/Track Name") {
@@ -50,15 +51,11 @@ export class Midi implements IMediaPlayer {
           : Math.floor(Math.random() * (instrumentList.length - 2));
       }
       // if (!patchBay.includes(event.track)) patchBay.push(event.track);
-      this.instruments[this.patchBay[event.track]]?.play(
-        event.noteName,
-        this.audioContext.currentTime,
-        {
-          gain: event.velocity / 100,
-        }
-      );
+      instruments[this.patchBay[event.track]]?.play(event.noteName, this.audioContext.currentTime, {
+        gain: event.velocity / 100,
+      });
     } else if (event.name === "Note off" || (event.name === "Note on" && event.velocity === 0)) {
-      this.instruments[this.patchBay[event.track]]?.stop();
+      instruments[this.patchBay[event.track]]?.stop();
     }
   };
 
@@ -85,9 +82,14 @@ export class Midi implements IMediaPlayer {
 
   play() {
     if (this.loaded) {
-      this.midiPlayer.play();
-      this.callEvent("play");
+      console.debug("midiplayer play", this.file);
       this.context.playing = true;
+      this.callEvent("play");
+      if (this.midiPlayer.isPlaying()) {
+        console.debug("Already playing", this.file);
+        return;
+      }
+      this.midiPlayer.play();
     }
   }
   pause() {
@@ -141,7 +143,10 @@ export class Midi implements IMediaPlayer {
 
   callEvent(event: MediaPlayerEvent, ...args: any[]) {
     this.onEventStore[event].forEach((callback) => callback(...args));
-    this.onceEventStore[event].forEach((callback) => callback(...args));
+    this.onceEventStore[event].forEach((callback) => {
+      console.log("calling event once", event, callback);
+      callback(...args);
+    });
     this.onceEventStore[event] = [];
   }
 
@@ -150,6 +155,7 @@ export class Midi implements IMediaPlayer {
   }
 
   once(event: MediaPlayerEvent, callback: () => void) {
+    console.debug("midiplayer push once", event, callback);
     this.onceEventStore[event].push(callback);
   }
 
@@ -160,19 +166,19 @@ export class Midi implements IMediaPlayer {
       this.loaded = false;
       this.context.loading = true;
       this.context.loaded = false;
-      if (!this.instruments.length) {
+      if (!instruments.length) {
         console.debug("loading instruments");
-        this.instruments = await Promise.all([
+        instruments = await Promise.all([
           ...instrumentList.map((instrument) =>
             Soundfont.instrument(this.audioContext, instrument)
           ),
         ]);
       }
-      console.debug("");
       fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`).then((response) => {
         response
           .arrayBuffer()
           .then((buffer) => {
+            console.debug("Midi file fetched", this.file);
             this.midiPlayer.loadArrayBuffer(buffer);
           })
           .catch((error) => this.callEvent("loaderror", error));
