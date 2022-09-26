@@ -60,12 +60,9 @@ export const audioPlayer = ref<IAudio>({
   play(file?: IFile, options = {}): Promise<IAudio> {
     this.error = "";
     return new Promise((resolve, reject) => {
-      abortController.signal.addEventListener("abort", () => {
-        reject();
-      });
+      abortController.signal.addEventListener("abort", () => reject());
       this.load(file, options)
         .then((audio) => {
-          console.debug("audio controls loaded file", file);
           this.player?.once("playerror", (source, message) => {
             this.reportError(
               this.file?.hash,
@@ -73,14 +70,10 @@ export const audioPlayer = ref<IAudio>({
             );
             reject();
           });
-          this.player?.once("end", () => {
-            console.log("end of song", this.file);
-            resolve(this);
-          });
+          this.player?.once("end", () => resolve(this));
           audio.player?.play();
         })
         .catch((error) => {
-          console.debug("audioControls error", error);
           // no need for reporting, because this is handled in a hook set in initialize
           resolve(this);
         });

@@ -109,15 +109,12 @@ export class Midi implements IMediaPlayer {
 
   seek(progress?: number) {
     if (this.loaded) {
-      if (progress) {
-        const playing = this.midiPlayer.isPlaying();
-        this.midiPlayer.pause();
-        this.midiPlayer.skipToSeconds(progress);
-        this.context.time = progress;
-        if (playing) this.midiPlayer.play();
-      } else {
-        return this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
-      }
+      if (!progress) return this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
+      const playing = this.midiPlayer.isPlaying();
+      this.midiPlayer.pause();
+      this.midiPlayer.skipToSeconds(progress);
+      this.context.time = progress;
+      if (playing) this.midiPlayer.play();
     }
   }
 
@@ -191,10 +188,7 @@ export class Midi implements IMediaPlayer {
       fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`, { signal: abortController.signal })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
-          return response.arrayBuffer();
-        })
-        .then((buffer) => {
-          this.midiPlayer.loadArrayBuffer(buffer);
+          return response.arrayBuffer().then((buffer) => this.midiPlayer.loadArrayBuffer(buffer));
         })
         .catch((error) => this.callEvent("loaderror", error));
     } catch (error: unknown) {
