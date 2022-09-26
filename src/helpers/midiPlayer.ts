@@ -76,6 +76,9 @@ export class Midi implements IMediaPlayer {
 
       if (options.autoplay) this.play();
     });
+    this.midiPlayer.on("playing", () => {
+      this.context.time = this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
+    });
     this.midiPlayer.on("fileLoaded", () => this.callEvent("load"));
     this.midiPlayer.on("endOfFile", () => this.callEvent("end"));
   }
