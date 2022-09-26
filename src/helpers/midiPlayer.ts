@@ -120,6 +120,10 @@ export class Midi implements IMediaPlayer {
     }
   }
 
+  duration() {
+    return this.midiPlayer.getSongTime();
+  }
+
   off() {
     events.forEach((event) => {
       this.onceEventStore[event] = [];
@@ -130,7 +134,6 @@ export class Midi implements IMediaPlayer {
   unload() {
     // undefined/null is not possible
     abortController?.abort("unloading player");
-    this.autoplay = false;
     this.midiPlayer?.stop();
     this.midiPlayer = new MidiPlayer.Player(this.handleMidiEvent);
   }

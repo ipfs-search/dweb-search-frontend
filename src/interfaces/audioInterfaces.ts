@@ -17,6 +17,7 @@ export interface IMediaPlayer {
   unload: () => void;
   on: (event: MediaPlayerEvent, callback: (...args: any[]) => void) => void;
   once: (event: MediaPlayerEvent, callback: (...args: any[]) => void) => void;
+  duration: () => number;
 }
 
 export interface IAudio {

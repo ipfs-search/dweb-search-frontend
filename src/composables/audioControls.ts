@@ -19,7 +19,6 @@ export const audioPlayer = ref<IAudio>({
   duration: 0,
   time: 0,
   reportError(hash, message) {
-    this.error = message;
     this.loading = false;
     console.warn("Audio Error:", message, this, hash);
     store.commit("playlist/setAudioError", {
@@ -98,7 +97,7 @@ export const audioPlayer = ref<IAudio>({
     if (fileExtension === "mid") {
       this.cleanUp();
       this.file = file;
-      this.player = new Midi({ context: this, file, autoplay: true });
+      this.player = new Midi({ context: this, file, autoplay: true, ...options });
     } else if (Howler.codecs(fileExtension)) {
       this.cleanUp();
       this.file = file;

@@ -107,8 +107,8 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
             :class="smAndUp ? 'flex-row ml-auto' : 'flex-column'"
           >
             <v-card-title :style="{ fontSize: mdAndUp ? '20px' : '16px' }"
-              >{{ formatTime(audioPlayer.time).join(" : ") }} /
-              {{ formatTime(audioPlayer.duration).join(" : ") }}</v-card-title
+              >{{ formatTime(audioPlayer.time)?.join(" : ") }} /
+              {{ formatTime(audioPlayer.duration)?.join(" : ") }}</v-card-title
             >
             <div class="d-inline-flex flex-row">
               <v-btn
