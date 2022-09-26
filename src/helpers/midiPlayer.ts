@@ -138,7 +138,7 @@ export class Midi implements IMediaPlayer {
     this.midiPlayer = new MidiPlayer.Player(this.handleMidiEvent);
   }
 
-  onceEventStore: Record<MediaPlayerEvent, ((...args: any[]) => void)[]> = {
+  onceEventStore: Record<MediaPlayerEvent, ((...args: unknown[]) => void)[]> = {
     playerror: [],
     loaderror: [],
     load: [],
@@ -147,7 +147,7 @@ export class Midi implements IMediaPlayer {
     pause: [],
   };
 
-  onEventStore: Record<MediaPlayerEvent, ((...args: any[]) => void)[]> = {
+  onEventStore: Record<MediaPlayerEvent, ((...args: unknown[]) => void)[]> = {
     playerror: [],
     loaderror: [],
     load: [],
@@ -156,7 +156,7 @@ export class Midi implements IMediaPlayer {
     pause: [],
   };
 
-  callEvent(event: MediaPlayerEvent, ...args: any[]) {
+  callEvent(event: MediaPlayerEvent, ...args: unknown[]) {
     this.onEventStore[event].forEach((callback) => callback(...args));
     this.onceEventStore[event].forEach((callback) => {
       console.log("calling event once", event, callback);
@@ -165,11 +165,11 @@ export class Midi implements IMediaPlayer {
     this.onceEventStore[event] = [];
   }
 
-  on(event: MediaPlayerEvent, callback: (...args: any[]) => void) {
+  on(event: MediaPlayerEvent, callback: (...args: unknown[]) => void) {
     this.onEventStore[event].push(callback);
   }
 
-  once(event: MediaPlayerEvent, callback: (...args: any[]) => void) {
+  once(event: MediaPlayerEvent, callback: (...args: unknown[]) => void) {
     console.debug("midiplayer push once", event, callback);
     this.onceEventStore[event].push(callback);
   }

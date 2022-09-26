@@ -1,8 +1,4 @@
 <script setup>
-import { useRoute } from "vue-router";
-const route = useRoute();
-import { audioPlayer, playlistVisible } from "@/composables/audioControls";
-
 import { useDisplay } from "vuetify";
 const { smAndUp } = useDisplay();
 import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from "@mdi/js";

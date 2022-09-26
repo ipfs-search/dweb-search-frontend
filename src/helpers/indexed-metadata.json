@@ -42,25 +42,19 @@
               "index": false,
               "doc_values": false,
               "ignore_malformed": true,
-              "copy_to": [
-                "metadata.height"
-              ]
+              "copy_to": ["metadata.height"]
             },
             "Image Width": {
               "type": "integer",
               "index": false,
               "doc_values": false,
               "ignore_malformed": true,
-              "copy_to": [
-                "metadata.width"
-              ]
+              "copy_to": ["metadata.width"]
             },
             "Keywords": {
               "type": "text",
               "index": false,
-              "copy_to": [
-                "metadata.dc:subject"
-              ]
+              "copy_to": ["metadata.dc:subject"]
             },
             "X-Parsed-By": {
               "type": "keyword"
@@ -92,9 +86,7 @@
             "keywords": {
               "type": "text",
               "index": false,
-              "copy_to": [
-                "metadata.dc:subject"
-              ]
+              "copy_to": ["metadata.dc:subject"]
             },
             "language": {
               "type": "keyword"
@@ -107,18 +99,14 @@
               "index": false,
               "doc_values": false,
               "ignore_malformed": true,
-              "copy_to": [
-                "metadata.height"
-              ]
+              "copy_to": ["metadata.height"]
             },
             "tiff:ImageWidth": {
               "type": "integer",
               "index": false,
               "doc_values": false,
               "ignore_malformed": true,
-              "copy_to": [
-                "metadata.width"
-              ]
+              "copy_to": ["metadata.width"]
             },
             "title": {
               "type": "text"
@@ -137,9 +125,7 @@
             "xmpDM:composer": {
               "type": "text",
               "index": false,
-              "copy_to": [
-                "metadata.dc:creator"
-              ]
+              "copy_to": ["metadata.dc:creator"]
             },
             "xmpDM:duration": {
               "type": "float"

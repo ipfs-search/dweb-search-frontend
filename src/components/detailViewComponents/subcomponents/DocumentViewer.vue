@@ -1,6 +1,5 @@
 <script setup>
 import VIframe from "@/components/shared/VIframe.vue";
-import mime from "mime";
 import getResourceURL from "@/helpers/resourceURL";
 import Retriever from "@/helpers/FetchDoggy";
 import { reactive, ref, computed } from "vue";

@@ -1,11 +1,9 @@
 <script setup>
 //TODO: make AppHeader generic also for homeview
 import AppHeader from "@/components/pageLayout/AppHeader.vue";
-import { useRoute } from "vue-router";
 import PlayList from "./components/pageLayout/PlayList.vue";
 import AudioDetail from "@/components/detailViewComponents/AudioDetail.vue";
 
-const route = useRoute();
 import { audioDetailPopup } from "@/composables/audioControls";
 import { useFooter } from "@/composables/footer.ts";
 const { adjustFooterPadding } = useFooter();

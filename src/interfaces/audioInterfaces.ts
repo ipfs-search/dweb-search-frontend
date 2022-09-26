@@ -15,8 +15,8 @@ export interface IMediaPlayer {
   seek: (progress?: number) => number | undefined;
   off: () => void;
   unload: () => void;
-  on: (event: MediaPlayerEvent, callback: (...args: any[]) => void) => void;
-  once: (event: MediaPlayerEvent, callback: (...args: any[]) => void) => void;
+  on: (event: MediaPlayerEvent, callback: (...args: unknown[]) => void) => void;
+  once: (event: MediaPlayerEvent, callback: (...args: unknown[]) => void) => void;
   duration: () => number;
 }
 

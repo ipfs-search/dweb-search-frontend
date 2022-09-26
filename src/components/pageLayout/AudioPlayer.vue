@@ -17,7 +17,6 @@ import { picsum } from "@/helpers/picsum";
 import {
   audioPlayer,
   formatTime,
-  playAudioFile,
   pauseAudio,
   resumeAudio,
   cleanUpAudioPlayer,
