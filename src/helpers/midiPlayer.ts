@@ -30,7 +30,7 @@ const events: MediaPlayerEvent[] = ["load", "end", "loaderror", "playerror", "pl
 
 let instruments: InstrumentPlayer[] = [];
 
-const abortController = new AbortController();
+let abortController: AbortController;
 
 export class Midi implements IMediaPlayer {
   private context: IAudio;
@@ -60,8 +60,10 @@ export class Midi implements IMediaPlayer {
       instruments[this.patchBay[event.track]]?.stop();
     }
   };
+  private autoplay: boolean;
 
   constructor(options: { context: IAudio; file: IFile; autoplay: boolean }) {
+    this.autoplay = options.autoplay;
     this.context = options.context;
     this.file = options.file;
     this.audioContext = new AudioContext();
@@ -79,7 +81,7 @@ export class Midi implements IMediaPlayer {
       this.context.loading = false;
       this.context.duration = this.midiPlayer.getSongTime();
 
-      if (options.autoplay) this.play();
+      if (this.autoplay) this.play();
     });
     this.midiPlayer.on("playing", () => {
       this.context.time = this.midiPlayer.getSongTime() - this.midiPlayer.getSongTimeRemaining();
@@ -92,12 +94,12 @@ export class Midi implements IMediaPlayer {
     if (this.loaded) {
       console.debug("midiplayer play", this.file);
       this.context.playing = true;
-      this.callEvent("play");
       if (this.midiPlayer.isPlaying()) {
         console.debug("Already playing", this.file);
         return;
       }
       this.midiPlayer.play();
+      this.callEvent("play");
     }
   }
   pause() {
@@ -127,6 +129,8 @@ export class Midi implements IMediaPlayer {
 
   unload() {
     // undefined/null is not possible
+    abortController?.abort("unloading player");
+    this.autoplay = false;
     this.midiPlayer?.stop();
     this.midiPlayer = new MidiPlayer.Player(this.handleMidiEvent);
   }
@@ -169,6 +173,7 @@ export class Midi implements IMediaPlayer {
 
   async load() {
     console.debug("loading midi player", this.file);
+    abortController?.abort("loading a new file");
     this.midiPlayer?.stop();
     try {
       this.loaded = false;
@@ -182,7 +187,8 @@ export class Midi implements IMediaPlayer {
           ),
         ]);
       }
-      fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`)
+      abortController = new AbortController();
+      fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`, { signal: abortController.signal })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.arrayBuffer();

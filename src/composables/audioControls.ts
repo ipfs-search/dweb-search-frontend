@@ -191,6 +191,7 @@ export const playlistSkipNext = () => {
 
 export const playAudioFile = (file: IFile) => {
   abortController.abort();
+  cleanUpAudioPlayer();
   return new Promise((resolve, reject) => {
     if (file.audio?.error) {
       reject(file.audio.error);
