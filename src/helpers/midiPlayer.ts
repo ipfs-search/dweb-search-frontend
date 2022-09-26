@@ -2,6 +2,7 @@ import { IAudio, IMediaPlayer, MediaPlayerEvent } from "@/interfaces/audioInterf
 import MidiPlayer from "midi-player-js";
 import Soundfont, { InstrumentName, Player as InstrumentPlayer } from "soundfont-player";
 import { IFile } from "@/interfaces/IFile";
+import getResourceURL from "@/helpers/resourceURL";
 
 const instrumentList: InstrumentName[] = [
   "ocarina",
@@ -185,7 +186,7 @@ export class Midi implements IMediaPlayer {
         ]);
       }
       abortController = new AbortController();
-      fetch(`https://gateway.ipfs.io/ipfs/${this.file.hash}`, { signal: abortController.signal })
+      fetch(getResourceURL(this.file.hash), { signal: abortController.signal })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.arrayBuffer().then((buffer) => this.midiPlayer.loadArrayBuffer(buffer));
