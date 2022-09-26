@@ -72,7 +72,6 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
             <v-img
               aspect-ratio="1"
               bac
-              gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
               :src="picsum({ width: 75, height: 75, seed: audioPlayer.file?.hash })"
             >
             </v-img>
@@ -81,6 +80,8 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               color="white"
               style="
                 opacity: 0.6;
+                stroke: black;
+                stroke-width: 0.3px;
                 position: absolute;
                 top: 50%;
                 left: 50%;
