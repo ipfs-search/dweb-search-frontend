@@ -13,7 +13,7 @@ onMounted(() => {
       <v-row class="align-content-center">
         <v-col class="pa-2">
           <h3 class="mb-2 text-center hidden-sm-and-down text-white">
-            Searching the Universe since 2017
+            Searching the Universe since 2016
           </h3>
           <SearchBar />
         </v-col>
