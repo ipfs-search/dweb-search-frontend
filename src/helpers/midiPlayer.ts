@@ -71,28 +71,23 @@ export class Midi implements IMediaPlayer {
   }
 
   private patchTrack(track: number) {
+    const logPatch = (track: number) => {
+      console.log(
+        `patched track ${track} - ${this.trackNames[track]} of ${this.file.title} to ${
+          instrumentList[this.patchBay[track]]
+        }`
+      );
+    };
     if (!this.patchBay[track]) {
       if (this.trackNames[track]?.includes("drum")) {
         this.patchBay[track] = instrumentList.length - 1;
-        console.log(
-          `patched track ${track} - ${this.trackNames[track]} to ${
-            instrumentList[instrumentList.length - 1]
-          }`
-        );
+        logPatch(track);
       } else if (this.trackNames[track]?.includes("percussion")) {
         this.patchBay[track] = instrumentList.length - 2;
-        console.log(
-          `patched track ${track} - ${this.trackNames[track]} to ${
-            instrumentList[instrumentList.length - 2]
-          }`
-        );
+        logPatch(track);
       } else {
         this.patchBay[track] = Math.floor(Math.random() * (instrumentList.length - 2));
-        console.log(
-          `patched track ${track} - ${this.trackNames[track]} of ${this.file.title} to ${
-            instrumentList[this.patchBay[track]]
-          }`
-        );
+        logPatch(track);
       }
     }
     return this.patchBay[track];
@@ -195,7 +190,7 @@ export class Midi implements IMediaPlayer {
     // undefined/null is not possible
     abortController?.abort("unloading player");
     this.midiPlayer?.stop();
-    this.midiPlayer = new MidiPlayer.Player(this.handleMidiEvent);
+    this.midiPlayer = new MidiPlayer.Player(this.handleMidiEvent.bind(this));
   }
 
   onceEventStore: Record<MediaPlayerEvent, ((...args: unknown[]) => void)[]> = {
