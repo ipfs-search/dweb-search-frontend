@@ -3,10 +3,15 @@ import { mdiRepeatVariant, mdiRepeatOff, mdiClose } from "@mdi/js";
 import { toggleLoop, loop, togglePlaylist } from "@/composables/audioControls";
 import { useDisplay } from "vuetify";
 const { smAndUp } = useDisplay();
+import { useRoute } from "vue-router";
+const route = useRoute();
 </script>
 
 <template>
-  <div class="d-flex flex-row justify-space-between align-center flex-grow-1 mr-auto ml-0">
+  <div
+    class="d-flex flex-row justify-space-between align-center flex-grow-1 mr-auto"
+    :class="route.name === 'Detail' ? 'ml-3' : 'ml-0'"
+  >
     <v-card
       rounded="rounded"
       color="planetarifyDark"

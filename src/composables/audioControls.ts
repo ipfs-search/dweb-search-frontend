@@ -1,74 +1,15 @@
 import { ref } from "vue";
-import { IFile } from "../interfaces/IFile";
+import { IFile } from "@/interfaces/IFile";
+import { IAudio } from "@/interfaces/audioInterfaces";
 
 import store from "@/store";
-import { Howl, Howler, HowlOptions } from "howler";
+import { Howl, Howler } from "howler";
+import { errorCode, howlOptions } from "@/helpers/howlPlayer";
+
 import { getFileExtension } from "@/helpers/fileHelper";
-import getResourceURL from "@/helpers/resourceURL";
+import { Midi } from "@/helpers/midiPlayer";
 
 const abortController = new AbortController();
-
-const errorCode = {
-  "1": "User aborted request",
-  "2": "Network error",
-  "3": "Decoding error",
-  "4": "Resource unsuitable/unavailable",
-};
-
-export interface IAudio {
-  file?: IFile;
-  error: string;
-  loaded: boolean;
-  loading: boolean;
-  playing: boolean;
-  duration: number;
-  time: number | undefined;
-  player?: Howl;
-  reportError: (hash: string | undefined, message: string) => void;
-  load: (file?: IFile, options?: object) => Promise<IAudio>;
-  play: (file?: IFile, options?: object) => Promise<IAudio>;
-  pause: () => void;
-  initialize: (file: IFile, options?: object) => void;
-  cleanUp: () => void;
-}
-
-let interval: number;
-
-const howlOptions = (
-  audio: IAudio,
-  file: IFile,
-  fileExtension: string,
-  options: object
-): HowlOptions => ({
-  html5: true,
-  preload: "metadata",
-  autoplay: false,
-  src: [getResourceURL(file.hash)],
-  format: [fileExtension],
-  onloaderror: (source: unknown, message: unknown) => {
-    audio.reportError(file.hash, `Load Error: ${errorCode[message as 1 | 2 | 3 | 4]}`);
-  },
-  onload: () => {
-    audio.loading = false;
-    audio.loaded = true;
-    audio.duration = audio.player?.duration() || 0;
-  },
-  onplay: () => {
-    audio.playing = true;
-    interval = setInterval(() => {
-      audio.time = audio.player?.seek();
-    }, 100);
-  },
-  onpause: () => {
-    audio.playing = false;
-    clearInterval(interval);
-  },
-  onend: () => {
-    audio.playing = false;
-    clearInterval(interval);
-  },
-  ...options,
-});
 
 export const audioPlayer = ref<IAudio>({
   error: "",
@@ -78,7 +19,6 @@ export const audioPlayer = ref<IAudio>({
   duration: 0,
   time: 0,
   reportError(hash, message) {
-    this.error = message;
     this.loading = false;
     console.warn("Audio Error:", message, this, hash);
     store.commit("playlist/setAudioError", {
@@ -120,9 +60,7 @@ export const audioPlayer = ref<IAudio>({
   play(file?: IFile, options = {}): Promise<IAudio> {
     this.error = "";
     return new Promise((resolve, reject) => {
-      abortController.signal.addEventListener("abort", () => {
-        reject();
-      });
+      abortController.signal.addEventListener("abort", () => reject());
       this.load(file, options)
         .then((audio) => {
           this.player?.once("playerror", (source, message) => {
@@ -132,12 +70,10 @@ export const audioPlayer = ref<IAudio>({
             );
             reject();
           });
-          this.player?.once("end", () => {
-            resolve(this);
-          });
+          this.player?.once("end", () => resolve(this));
           audio.player?.play();
         })
-        .catch(() => {
+        .catch((error) => {
           // no need for reporting, because this is handled in a hook set in initialize
           resolve(this);
         });
@@ -151,13 +87,18 @@ export const audioPlayer = ref<IAudio>({
 
   initialize(file: IFile, options = {}) {
     const fileExtension = getFileExtension(file);
-    if (!Howler.codecs(fileExtension)) {
+    if (fileExtension === "mid") {
+      this.cleanUp();
+      this.file = file;
+      this.player = new Midi({ context: this, file, autoplay: true, ...options });
+    } else if (Howler.codecs(fileExtension)) {
+      this.cleanUp();
+      this.file = file;
+      this.loading = true;
+      this.player = new Howl(howlOptions(this, file, fileExtension, options));
+    } else {
       throw new Error(`Unsupported/undetected file type: '${fileExtension}'`);
     }
-    this.cleanUp();
-    this.file = file;
-    this.loading = true;
-    this.player = new Howl(howlOptions(this, file, fileExtension, options));
   },
 
   cleanUp() {
@@ -242,14 +183,21 @@ export const playlistSkipNext = () => {
 
 export const playAudioFile = (file: IFile) => {
   abortController.abort();
+  cleanUpAudioPlayer();
   return new Promise((resolve, reject) => {
-    if (file.audio?.error) reject(file.audio.error);
+    if (file.audio?.error) {
+      reject(file.audio.error);
+    }
     audioPlayer.value.play(file).then(resolve).catch(reject);
   });
 };
 
 export const pauseAudio = () => {
   audioPlayer.value?.pause();
+};
+
+export const resumeAudio = () => {
+  audioPlayer.value?.player?.play();
 };
 
 export const cleanUpAudioPlayer = () => {

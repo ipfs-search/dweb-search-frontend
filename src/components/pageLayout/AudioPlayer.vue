@@ -17,8 +17,8 @@ import { picsum } from "@/helpers/picsum";
 import {
   audioPlayer,
   formatTime,
-  playAudioFile,
   pauseAudio,
+  resumeAudio,
   cleanUpAudioPlayer,
   previousPlaylistEntry,
   playlistSkipPrevious,
@@ -72,7 +72,6 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
             <v-img
               aspect-ratio="1"
               bac
-              gradient="to bottom, rgba(255,255,255,.1), rgba(255,255,255,.5)"
               :src="picsum({ width: 75, height: 75, seed: audioPlayer.file?.hash })"
             >
             </v-img>
@@ -81,6 +80,8 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
               color="white"
               style="
                 opacity: 0.6;
+                stroke: black;
+                stroke-width: 0.3px;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -106,8 +107,8 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
             :class="smAndUp ? 'flex-row ml-auto' : 'flex-column'"
           >
             <v-card-title :style="{ fontSize: mdAndUp ? '20px' : '16px' }"
-              >{{ formatTime(audioPlayer.time).join(" : ") }} /
-              {{ formatTime(audioPlayer.duration).join(" : ") }}</v-card-title
+              >{{ formatTime(audioPlayer.time)?.join(" : ") }} /
+              {{ formatTime(audioPlayer.duration)?.join(" : ") }}</v-card-title
             >
             <div class="d-inline-flex flex-row">
               <v-btn
@@ -147,7 +148,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
                 :size="mdAndUp ? 'large' : 'default'"
                 :icon="mdiPlay"
                 title="Play"
-                @click="playAudioFile"
+                @click="resumeAudio"
               />
               <v-btn
                 class="bg-ipfsPrimary-lighten-1 ml-2"

@@ -1,5 +1,5 @@
 import { Module } from "vuex";
-import { IPlaylist } from "@/interfaces/IPlaylist";
+import { IPlaylist } from "@/interfaces/audioInterfaces";
 
 export interface IPlaylistStoreState {
   activePlaylist?: number | undefined;

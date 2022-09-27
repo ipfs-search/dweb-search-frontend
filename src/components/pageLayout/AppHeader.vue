@@ -16,7 +16,9 @@ import { useTheme } from "vuetify";
 import Hyperlink from "@/components/shared/HyperLink.vue";
 const theme = useTheme();
 
-const whiteLogo = computed(() => theme.current.value.dark || route.name === "Search");
+const whiteLogo = computed(
+  () => theme.current.value.dark || route.name === "Search" || playlistVisible.value
+);
 
 import {
   togglePlaylist,
@@ -59,7 +61,7 @@ const links = [
     v-if="route.name !== 'Home' || audioDetailPopup"
     class="px-4"
     height="56"
-    :color="route.name !== 'Detail' ? 'ipfsPrimary-lighten-1' : 'toolbar-light'"
+    :color="route.name !== 'Detail' || playlistVisible ? 'ipfsPrimary-lighten-1' : 'toolbar-light'"
   >
     <v-container fluid class="px-0 align-start">
       <v-row>
@@ -67,7 +69,7 @@ const links = [
           <div class="ml-2">
             <hyperlink to="/" class="d-flex align-center" @click="playlistVisible = false">
               <v-img
-                v-if="mdAndUp || route.name === 'Detail' || audioDetailPopup"
+                v-if="mdAndUp || (route.name === 'Detail' && !playlistVisible) || audioDetailPopup"
                 alt="ipfs-search.com logo"
                 contain
                 :src="`/assets/logo-${whiteLogo ? 'white' : 'black'}.svg`"

@@ -8,7 +8,14 @@ import {
   showAudioDetail,
   removePlaylistEntry,
 } from "@/composables/audioControls";
-import { mdiAlert, mdiCircleSmall, mdiPlay, mdiFileFind, mdiTrashCanOutline } from "@mdi/js";
+import {
+  mdiAlert,
+  mdiMusic,
+  mdiCircleSmall,
+  mdiPlay,
+  mdiFileFind,
+  mdiTrashCanOutline,
+} from "@mdi/js";
 import { picsum } from "@/helpers/picsum";
 
 import { fileTitle, fileAuthor, fileAlbum } from "@/helpers/fileHelper";
@@ -70,6 +77,8 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                         v-if="entry.audio && entry.audio.error"
                         style="
                           opacity: 0.9;
+                          stroke: black;
+                          stroke-width: 0.3px;
                           position: absolute;
                           top: 50%;
                           left: 50%;
@@ -83,34 +92,49 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                       >
                         <v-icon
                           style="
-                            opacity: 0.9;
+                            opacity: 0.6;
+                            stroke: black;
+                            stroke-width: 0.3px;
                             position: absolute;
                             top: 50%;
                             left: 50%;
                             transform: translate(-50%, -50%);
                           "
-                          color="planetarifyLight"
+                          size="35"
+                          color="white"
                           :icon="mdiCircleSmall"
                         />
                       </blink-blink>
-                      <blink-blink
+                      <v-icon
+                        v-else-if="entry.hash === audioPlayer?.file?.hash && audioPlayer?.playing"
+                        size="36"
+                        color="white"
+                        style="
+                          opacity: 0.6;
+                          stroke: black;
+                          stroke-width: 0.3px;
+                          position: absolute;
+                          top: 50%;
+                          left: 50%;
+                          transform: translate(-50%, -50%);
+                        "
+                        :icon="mdiMusic"
+                      />
+                      <v-icon
                         v-else
-                        :blink="entry.hash === audioPlayer?.file?.hash && audioPlayer?.playing"
-                      >
-                        <v-icon
-                          v-if="!entry.audio?.error"
-                          size="42"
-                          color="planetarifyLight"
-                          style="
-                            opacity: 0.9;
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                          "
-                          :icon="mdiPlay"
-                        />
-                      </blink-blink>
+                        size="42"
+                        color="white"
+                        style="
+                          position: absolute;
+                          opacity: 0.6;
+                          stroke: black;
+                          stroke-width: 0.3px;
+                          top: 50%;
+                          left: 50%;
+                          transform: translate(-50%, -50%);
+                        "
+                        :icon="mdiPlay"
+                      />
                     </v-img>
                   </v-avatar>
                 </template>
