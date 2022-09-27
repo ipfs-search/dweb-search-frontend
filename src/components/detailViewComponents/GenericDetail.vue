@@ -5,40 +5,43 @@ import MetaDataPanel from "@/components/detailViewComponents/subcomponents/MetaD
 import { useDisplay } from "vuetify";
 const { mdAndUp } = useDisplay();
 
-import { detailProps } from "@/composables/useDetail";
 defineProps({
-  ...detailProps,
-  expandMeta: {
-    type: Boolean,
-    default: false,
+  file: {
+    type: Object,
+    required: true,
   },
   narrow: {
     type: Boolean,
     default: false,
   },
+  metaExpand: {
+    type: Boolean,
+    default: true,
+  },
+  active: {
+    type: Boolean,
+    required: false,
+  },
 });
 </script>
 
 <template>
-  <v-sheet :light="!$vuetify.theme.dark" class="h-100" tile>
+  <v-sheet :light="!$vuetify.theme.dark" class="overflow-y-auto h-100" tile>
     <v-row class="fill-height ma-0 pa-0">
-      <v-col
-        style="position: absolute; top: 0; left: 0; bottom: 0; right: 0"
-        class="inline-block h-100 overflow-y-auto"
-      >
+      <v-col class="inline-block h-100 overflow-y-auto">
         <v-container>
           <v-row>
             <v-col
               cols="12"
-              :md="narrow ? 8 : undefined"
-              :offset-md="narrow ? 2 : undefined"
+              :md="narrow ? 10 : undefined"
+              :offset-md="narrow ? 1 : undefined"
               xl="8"
               offset-xl="2"
               :class="mdAndUp ? 'mb-16' : ''"
             >
               <DetailHeader :file="file" />
-              <slot />
-              <MetaDataPanel :file="file" :expanded="expandMeta" />
+              <slot :active="active" />
+              <MetaDataPanel :file="file" :expanded="metaExpand" />
             </v-col>
           </v-row>
         </v-container>

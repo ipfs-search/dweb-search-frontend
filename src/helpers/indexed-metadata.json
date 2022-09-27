@@ -1,0 +1,179 @@
+{
+  "ipfs_files_v9": {
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "content": {
+          "type": "text",
+          "term_vector": "with_positions_offsets"
+        },
+        "first-seen": {
+          "type": "date",
+          "format": "strict_date_time"
+        },
+        "ipfs_tika_version": {
+          "type": "keyword"
+        },
+        "language": {
+          "properties": {
+            "confidence": {
+              "type": "keyword"
+            },
+            "language": {
+              "type": "keyword"
+            },
+            "rawScore": {
+              "type": "double"
+            }
+          }
+        },
+        "last-seen": {
+          "type": "date",
+          "format": "strict_date_time"
+        },
+        "metadata": {
+          "dynamic": "false",
+          "properties": {
+            "Content-Type": {
+              "type": "keyword"
+            },
+            "Image Height": {
+              "type": "integer",
+              "index": false,
+              "doc_values": false,
+              "ignore_malformed": true,
+              "copy_to": [
+                "metadata.height"
+              ]
+            },
+            "Image Width": {
+              "type": "integer",
+              "index": false,
+              "doc_values": false,
+              "ignore_malformed": true,
+              "copy_to": [
+                "metadata.width"
+              ]
+            },
+            "Keywords": {
+              "type": "text",
+              "index": false,
+              "copy_to": [
+                "metadata.dc:subject"
+              ]
+            },
+            "X-Parsed-By": {
+              "type": "keyword"
+            },
+            "dc:creator": {
+              "type": "text"
+            },
+            "dcterms:created": {
+              "type": "date",
+              "format": "date_optional_time",
+              "ignore_malformed": true
+            },
+            "dcterms:modified": {
+              "type": "date",
+              "format": "date_optional_time",
+              "ignore_malformed": true
+            },
+            "description": {
+              "type": "text"
+            },
+            "height": {
+              "type": "integer",
+              "ignore_malformed": true,
+              "coerce": true
+            },
+            "identifier": {
+              "type": "keyword"
+            },
+            "keywords": {
+              "type": "text",
+              "index": false,
+              "copy_to": [
+                "metadata.dc:subject"
+              ]
+            },
+            "language": {
+              "type": "keyword"
+            },
+            "subject": {
+              "type": "text"
+            },
+            "tiff:ImageLength": {
+              "type": "integer",
+              "index": false,
+              "doc_values": false,
+              "ignore_malformed": true,
+              "copy_to": [
+                "metadata.height"
+              ]
+            },
+            "tiff:ImageWidth": {
+              "type": "integer",
+              "index": false,
+              "doc_values": false,
+              "ignore_malformed": true,
+              "copy_to": [
+                "metadata.width"
+              ]
+            },
+            "title": {
+              "type": "text"
+            },
+            "width": {
+              "type": "integer",
+              "ignore_malformed": true,
+              "coerce": true
+            },
+            "xmpDM:album": {
+              "type": "text"
+            },
+            "xmpDM:compilation": {
+              "type": "text"
+            },
+            "xmpDM:composer": {
+              "type": "text",
+              "index": false,
+              "copy_to": [
+                "metadata.dc:creator"
+              ]
+            },
+            "xmpDM:duration": {
+              "type": "float"
+            },
+            "xmpDM:releaseDate": {
+              "type": "date",
+              "ignore_malformed": true
+            },
+            "xmpDM:trackNumber": {
+              "type": "byte",
+              "ignore_malformed": true
+            }
+          }
+        },
+        "references": {
+          "properties": {
+            "hash": {
+              "type": "keyword"
+            },
+            "name": {
+              "type": "text"
+            },
+            "parent_hash": {
+              "type": "keyword"
+            }
+          }
+        },
+        "size": {
+          "type": "long"
+        },
+        "urls": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

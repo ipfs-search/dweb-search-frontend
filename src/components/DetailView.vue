@@ -33,18 +33,12 @@ const DetailComponent = {
       <component
         :is="DetailComponent[fileType]"
         :file="item"
-        :active="carouselIndex === index"
-        :expand-meta="fileType === Types.other"
+        :active="index === $data.carouselIndex"
       />
     </v-carousel-item>
   </v-carousel>
   <!-- https://vuejs.org/v2/guide/components.html#Dynamic-Components-->
-  <component
-    :is="DetailComponent[fileType]"
-    v-else
-    :file="singleItem"
-    :expand-meta="fileType === Types.other"
-  />
+  <component :is="DetailComponent[fileType]" v-else :file="singleItem" />
 </template>
 
 <script>
@@ -165,13 +159,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.detail {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-</style>

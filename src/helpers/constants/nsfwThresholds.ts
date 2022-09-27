@@ -3,7 +3,3 @@ export const nsfwThresholds = {
   porn: 0.15,
   sexy: 0.3,
 };
-
-export default {
-  nsfwThresholds,
-};

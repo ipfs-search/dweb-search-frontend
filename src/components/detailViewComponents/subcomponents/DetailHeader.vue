@@ -1,10 +1,10 @@
 <script setup>
+import mime from "mime";
+import prettyBytes from "pretty-bytes";
 import DownloadButton from "@/components/detailViewComponents/subcomponents/DownloadButton.vue";
 import CopyHashButton from "@/components/detailViewComponents/subcomponents/CopyHashButton.vue";
-import prettyBytes from "pretty-bytes";
-import mime from "mime";
 import { detailProps } from "@/composables/useDetail";
-
+import { fileTitle, fileAuthor } from "@/helpers/fileHelper.ts";
 defineProps(detailProps);
 </script>
 
@@ -25,12 +25,13 @@ defineProps(detailProps);
     </v-row>
     <v-row>
       <v-col>
-        <div
-          v-if="file.title"
-          v-sane-html="file.title"
-          class="text-h6 font-weight-regular"
+        <p
+          v-if="fileAuthor(file)"
+          v-sane-html="fileAuthor(file)"
+          class="font-weight-regular"
           style="word-break: break-word"
         />
+        <p v-sane-html="fileTitle(file)" class="text-h6" style="word-break: break-word" />
       </v-col>
     </v-row>
   </div>

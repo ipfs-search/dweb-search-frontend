@@ -1,10 +1,11 @@
 <script setup>
-import { useDetail, detailProps } from "@/composables/useDetail";
-const props = defineProps(detailProps);
-const { resourceURL } = useDetail(props);
+import NsfwTooltip from "@/components/shared/nsfwTooltip.vue";
+import { detailProps } from "@/composables/useDetail";
+defineProps(detailProps);
+import getResourceURL from "@/helpers/resourceURL";
 
-import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
+import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 const { blurExplicit } = useBlurExplicit();
 </script>
 
@@ -15,15 +16,17 @@ const { blurExplicit } = useBlurExplicit();
         <v-img
           :data-nsfw-classification="JSON.stringify(file.nsfwClassification)"
           :data-nsfw="file.nsfw"
-          :src="resourceURL"
+          :src="getResourceURL(file.hash)"
           max-height="400px"
           class="image-wrapper"
+          :class="{ blurExplicit: blurExplicit(file) }"
         >
           <template #placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular indeterminate color="ipfsPrimary" />
             </v-row>
           </template>
+          <NsfwTooltip :file="file" />
         </v-img>
       </v-col>
     </v-row>

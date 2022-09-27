@@ -25,11 +25,9 @@ export default {
         .map((filter) => getters[`filters/${filter}/toSearchQuery`])
         .filter((el) => !!el); // remove empty values before the join to avoid double spaces
 
-      return [
-        state.searchPhrase,
-        getters["filters/type/toSearchQuery"](fileType),
-        ...filterQuery,
-      ].join(" ");
+      return [state.searchPhrase, ...filterQuery, getters["filters/type/toSearchQuery"](fileType)]
+        .filter((e) => !!e)
+        .join(" ");
     },
   },
   modules: {

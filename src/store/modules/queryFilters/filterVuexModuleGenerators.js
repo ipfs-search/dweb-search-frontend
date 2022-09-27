@@ -5,11 +5,12 @@
 //
 // There a number of standard mutation/getter methods defined for standard filters
 //
-// The filterModule function explains the shape of the module:
 import { Types } from "@/helpers/typeHelper";
 import { elasticSearchEscape } from "@/helpers/ApiHelper";
 
 /**
+ * The filterModule function makes sure the module has the correct 'shape'
+ * TODO: turn this into a typescript interface and function type
  * @param state: holds label, slug, api-key and items for the filter. All of this is stateful.
  * @param setValue: set/select the value of the filter
  * @param toProps: transform the state to component props
@@ -100,6 +101,11 @@ const mapDefinitionToState = ({ label, slug, apiKey, items }) => ({
  * toProps getter, used to transform the state into props for the filter component
  * @param { ...state }
  * @returns {{multiple, label, items, value, slug}}
+ * @param label
+ * @param slug
+ * @param items
+ * @param value
+ * @param multiple
  */
 const toProps = ({ label, slug, items, value, multiple }) => ({
   label,
@@ -176,5 +182,26 @@ export const typeFilterModule = (filterProperties) =>
         value: Array.isArray(value) ? value[0] : value,
         isDefault: [value].flat()[0] === items.find((item) => item.default)?.value,
       }),
+    },
+  });
+
+/**
+ * the nsfw filter uses multiple keys to query on, and this is not part of the
+ * (multiple) select filter query builder. So it has a custom query builder.
+ * @param filterProperties
+ * @returns {{mutations: {setValue}, state, getters: {toProps, toSearchQuery}}}
+ */
+export const nsfwFilterModule = (filterProperties) =>
+  filterModule({
+    state: mapDefinitionToState(filterProperties),
+    mutations: {
+      setValue: selectFilterValue,
+    },
+    getters: {
+      toProps,
+      toSearchQuery: (state) => {
+        const value = Array.isArray(state.value) ? state.value[0] : state.value;
+        return state.items.find((item) => item.value === value)?.apiValue;
+      },
     },
   });

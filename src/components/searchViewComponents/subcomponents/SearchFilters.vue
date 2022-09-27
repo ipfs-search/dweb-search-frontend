@@ -6,7 +6,7 @@ import HyperLink from "@/components/shared/HyperLink.vue";
 const route = useRoute();
 </script>
 <template>
-  <v-container>
+  <v-container style="max-width: 1200px">
     <v-row>
       <v-col cols="12" offset-xl="2" xl="8" class="bg-white px-8 d-flex justify-center">
         <v-container class="mx-0 px-0">
