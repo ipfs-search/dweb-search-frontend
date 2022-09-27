@@ -7,7 +7,6 @@ export interface IPlaylist {
 
 export type MediaPlayerEvent = "playerror" | "loaderror" | "end" | "load" | "play" | "pause";
 
-// TODO: expand this to a more generic player interface (now it is a shadow of the Howl player)
 export interface IMediaPlayer {
   load: () => void;
   play: () => void;
