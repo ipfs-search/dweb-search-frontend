@@ -36,25 +36,19 @@ export default (fileType) => ({
     },
     setResults(state, { newResults, index }) {
       state.loading = false;
+
+      // Adjust index of hits with page-based offset.
+      const newHits = state.results.hits;
       newResults.hits.forEach((hit, n) => {
-        state.results.hits[index + n] = hit;
-        if (fileType === Types.images) {
-          classify(hit)
-            .then(({ classification }) => {
-              this.commit(`results/${fileType}/setNsfw`, {
-                index: index + n,
-                classification,
-              });
-            })
-            .catch(console.error);
-        }
+        const offset = index + n;
+        newHits[offset] = hit;
       });
 
+      // Now, copy everything from newResults into state.results but maintain hits and their offset.
       state.results = {
         ...newResults,
-        hits: state.results.hits,
+        hits: newHits,
       };
-      return newResults.hits;
     },
 
     setNsfw(state, { index, classification }) {
@@ -89,7 +83,7 @@ export default (fileType) => ({
      * @param perPage
      * @returns {Promise<*>}
      */
-    async fetchPage({ state, commit, rootGetters }, { page = 1, perPage = batchSize }) {
+    async fetchPage({ state, commit, rootGetters, dispatch }, { page = 1, perPage = batchSize }) {
       const batch = page - 1;
       commit("setQuery", rootGetters["query/apiQueryString"](fileType));
       // Return empty if request a non-existent page
@@ -103,10 +97,29 @@ export default (fileType) => ({
       // otherwise do api lookup
       commit("setLoading");
       return apiSearch(state.queryString, fileType, batch)
-        .then((newResults) => commit("setResults", { newResults, index: batch * perPage }))
+        .then((newResults) => {
+          const index = batch * perPage;
+          const payload = { newResults, index };
+          commit("setResults", payload);
+          dispatch("fetchNsfw", payload);
+        })
         .catch((error) => {
           commit("setError", { error, batch });
         });
+    },
+    async fetchNsfw({ commit }, { newResults, index }) {
+      if (fileType === Types.images) {
+        newResults.hits.forEach((hit, n) => {
+          classify(hit)
+            .then(({ classification }) => {
+              commit(`results/${fileType}/setNsfw`, {
+                index: index + n,
+                classification,
+              });
+            })
+            .catch(console.error);
+        });
+      }
     },
   },
 });
