@@ -110,7 +110,6 @@ export default (fileType) => ({
     async fetchNsfw({ commit }, { newResults, index }) {
       if (fileType === Types.images) {
         newResults.hits.forEach((hit, n) => {
-          // TODO: Aggregate commits to reduce render time.
           classify(hit)
             .then(({ classification }) => {
               commit(`results/${fileType}/setNsfw`, {
