@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { IFile } from "@/interfaces/IFile";
 import { IAudio } from "@/interfaces/audioInterfaces";
 
@@ -6,7 +6,13 @@ import store from "@/store";
 import { Howl, Howler } from "howler";
 import { errorCode, howlOptions } from "@/helpers/howlPlayer";
 
-import { getFileExtension } from "@/helpers/fileHelper";
+import {
+  fileAlbum,
+  fileAuthor,
+  fileCover,
+  fileTitle,
+  getFileExtension,
+} from "@/helpers/fileHelper";
 import { Midi } from "@/helpers/midiPlayer";
 
 const abortController = new AbortController();
@@ -71,9 +77,10 @@ export const audioPlayer = ref<IAudio>({
             reject();
           });
           this.player?.once("end", () => resolve(this));
+          this.player?.on("play", this.setMediaSession.bind(this));
           audio.player?.play();
         })
-        .catch((error) => {
+        .catch(() => {
           // no need for reporting, because this is handled in a hook set in initialize
           resolve(this);
         });
@@ -83,6 +90,7 @@ export const audioPlayer = ref<IAudio>({
   pause() {
     if (!this.player) return;
     this.player.pause();
+    navigator.mediaSession.playbackState = "paused";
   },
 
   initialize(file: IFile, options = {}) {
@@ -112,6 +120,40 @@ export const audioPlayer = ref<IAudio>({
     this.playing = false;
     this.duration = 0;
     this.time = 0;
+    // navigator?.mediaSession?.setActionHandler("play", null);
+    // navigator?.mediaSession?.setActionHandler("pause", null);
+    // navigator?.mediaSession?.setActionHandler("stop", null);
+  },
+
+  setMediaSession() {
+    if (navigator?.mediaSession) {
+      if (playlistActive.value) {
+        navigator.mediaSession.setActionHandler("nexttrack", () => {
+          playlistSkipNext();
+        });
+        navigator.mediaSession.setActionHandler("previoustrack", () => {
+          playlistSkipPrevious();
+        });
+      } else {
+        navigator.mediaSession.setActionHandler("nexttrack", null);
+        navigator.mediaSession.setActionHandler("previoustrack", null);
+      }
+      if (this.file) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: fileTitle(this.file),
+          artist: fileAuthor(this.file),
+          album: fileAlbum(this.file),
+          artwork: [{ src: fileCover(this.file), sizes: "200x200", type: "image/jpg" }],
+        });
+      }
+      navigator?.mediaSession?.setActionHandler("play", () => {
+        this.player?.play();
+      });
+      navigator?.mediaSession?.setActionHandler("pause", () => {
+        this.player?.pause();
+      });
+      navigator.mediaSession.playbackState = this.playing ? "playing" : "paused";
+    }
   },
 });
 
@@ -134,40 +176,52 @@ export const setPlaylist = (entries: IFile[], autoPlay = true) => {
 export const enqueue = (entries: IFile[]) =>
   setPlaylist(store.getters["playlist/getPlaylist"].entries.concat(entries), false);
 
-let playlistIndex = 0;
+export const playlistActive = ref(false);
+const playlistIndex = ref(0);
 export const loop = ref(false);
 export const toggleLoop = () => {
   loop.value = !loop.value;
 };
 
 export const startPlaylist = async (index?: number) => {
-  if (index !== undefined) playlistIndex = index;
-  while (playlistIndex < store.getters["playlist/getPlaylist"].entries.length) {
-    if (!store.getters["playlist/getPlaylist"].entries[playlistIndex].audio?.error) {
-      await playAudioFile(store.getters["playlist/getPlaylist"].entries[playlistIndex]);
+  playlistActive.value = true;
+  if (index !== undefined) playlistIndex.value = index;
+  while (playlistIndex.value < store.getters["playlist/getPlaylist"].entries.length) {
+    if (!store.getters["playlist/getPlaylist"].entries[playlistIndex.value].audio?.error) {
+      await playAudioFile(
+        store.getters["playlist/getPlaylist"].entries[playlistIndex.value],
+        playlistIndex.value
+      );
     }
-    playlistIndex++;
+    playlistIndex.value++;
   }
 };
 
-export const previousPlaylistEntry = () => {
-  if (playlistIndex === 0) {
+export const previousPlaylistEntry = computed(() => {
+  // TODO: traceback to the last previous entry wihtout error
+  if (playlistIndex.value === 0) {
     if (loop.value) return store.getters["playlist/getPlaylist"].entries.length - 1;
     return undefined;
   }
-  return playlistIndex - 1;
-};
+  return playlistIndex.value - 1;
+});
 
 export const playlistSkipPrevious = () => {
-  startPlaylist(previousPlaylistEntry());
+  if (!playlistActive.value) return;
+  startPlaylist(previousPlaylistEntry.value);
 };
 
-export const nextPlaylistEntry = () => {
-  if (playlistIndex === store.getters["playlist/getPlaylist"].entries.length - 1) {
+export const nextPlaylistEntry = computed(() => {
+  if (playlistIndex.value === store.getters["playlist/getPlaylist"].entries.length - 1) {
     if (loop.value) return 0;
     return undefined;
   }
-  return playlistIndex + 1;
+  return playlistIndex.value + 1;
+});
+
+export const playlistSkipNext = () => {
+  if (!playlistActive.value) return;
+  startPlaylist(nextPlaylistEntry.value);
 };
 
 export const removePlaylistEntry = (index: number) => {
@@ -177,13 +231,13 @@ export const removePlaylistEntry = (index: number) => {
   });
 };
 
-export const playlistSkipNext = () => {
-  startPlaylist(nextPlaylistEntry());
-};
-
-export const playAudioFile = (file: IFile) => {
+export const playAudioFile = (file: IFile, playlistIndex?: number) => {
+  if (playlistIndex === undefined) {
+    playlistActive.value = false;
+  }
   abortController.abort();
-  cleanUpAudioPlayer();
+  audioPlayer.value.cleanUp();
+  audioPlayer.value.setMediaSession();
   return new Promise((resolve, reject) => {
     if (file.audio?.error) {
       reject(file.audio.error);

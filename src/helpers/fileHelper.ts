@@ -1,5 +1,6 @@
 import * as mime from "mime/lite";
 import { IFile } from "../interfaces/IFile";
+import { picsum } from "@/helpers/picsum";
 
 // Howler (audio player) requires the following extensions:
 // "mp3", "mpeg", "opus", "ogg", "oga", "wav", "aac", "caf", "m4a", "m4b",
@@ -61,4 +62,7 @@ export const fileAuthor = (file: IFile): string | undefined => {
 };
 export const fileAlbum = (file: IFile): string | undefined => {
   return file.metadata?.metadata?.["xmpDM:album"]?.[0];
+};
+export const fileCover = (file: IFile, width = 200, height = 200, options?: object): string => {
+  return picsum({ width, height, seed: file.hash, ...options });
 };

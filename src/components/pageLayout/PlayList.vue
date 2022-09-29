@@ -16,9 +16,8 @@ import {
   mdiFileFind,
   mdiTrashCanOutline,
 } from "@mdi/js";
-import { picsum } from "@/helpers/picsum";
 
-import { fileTitle, fileAuthor, fileAlbum } from "@/helpers/fileHelper";
+import { fileTitle, fileAuthor, fileAlbum, fileCover } from "@/helpers/fileHelper";
 
 const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
 import BlinkBlink from "../shared/BlinkBlink.vue";
@@ -64,14 +63,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
                     <v-img
                       aspect-ratio="1"
                       bac
-                      :src="
-                        picsum({
-                          width: 85,
-                          height: 85,
-                          seed: entry.hash,
-                          grayscale: !!entry.audio?.error,
-                        })
-                      "
+                      :src="fileCover(entry, 85, 85, { grayscale: !!entry.audio?.error })"
                     >
                       <v-icon
                         v-if="entry.audio && entry.audio.error"

@@ -34,4 +34,6 @@ export interface IAudio {
   pause: () => void;
   initialize: (file: IFile, options?: object) => void;
   cleanUp: () => void;
+
+  setMediaSession(): void;
 }
