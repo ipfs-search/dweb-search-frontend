@@ -54,8 +54,10 @@ export function getFileExtension(file: IFile): string {
   return "";
 }
 
-export const fileTitle = (file: IFile): string => {
-  return file.metadata?.metadata?.["title"]?.[0] || file.title || file.hash;
+export const fileTitle = (file: IFile, returnHash = true): string | undefined => {
+  return (
+    file.metadata?.metadata?.["title"]?.[0] || file.title || (returnHash ? file.hash : undefined)
+  );
 };
 export const fileAuthor = (file: IFile): string | undefined => {
   return file.metadata?.metadata?.["dc:creator"]?.[0] || file.author || undefined;

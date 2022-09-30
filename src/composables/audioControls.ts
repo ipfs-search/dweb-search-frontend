@@ -135,7 +135,7 @@ export const audioPlayer = ref<IAudio>({
       navigator.mediaSession.setActionHandler("previoustrack", null);
     }
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: fileTitle(this.file) !== this.file.hash ? fileTitle(this.file) : "Planetarify",
+      title: fileTitle(this.file, false) || "Planetarify",
       artist: fileAuthor(this.file) ? fileAuthor(this.file) : "IPFS-search.com",
       album: fileAlbum(this.file),
       artwork: [{ src: fileCover(this.file), sizes: "200x200", type: "image/jpg" }],
