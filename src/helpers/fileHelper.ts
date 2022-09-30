@@ -63,6 +63,6 @@ export const fileAuthor = (file: IFile): string | undefined => {
 export const fileAlbum = (file: IFile): string | undefined => {
   return file.metadata?.metadata?.["xmpDM:album"]?.[0];
 };
-export const fileCover = (file: IFile, width = 200, height = 200, options?: object): string => {
-  return picsum({ width, height, seed: file.hash, ...options });
+export const fileCover = (file?: IFile, width = 200, height = 200, options?: object): string => {
+  return picsum({ width, height, seed: file?.hash, ...options });
 };

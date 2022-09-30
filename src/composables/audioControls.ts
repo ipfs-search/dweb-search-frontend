@@ -126,34 +126,28 @@ export const audioPlayer = ref<IAudio>({
   },
 
   setMediaSession() {
-    if (navigator?.mediaSession) {
-      if (playlistActive.value) {
-        navigator.mediaSession.setActionHandler("nexttrack", () => {
-          playlistSkipNext();
-        });
-        navigator.mediaSession.setActionHandler("previoustrack", () => {
-          playlistSkipPrevious();
-        });
-      } else {
-        navigator.mediaSession.setActionHandler("nexttrack", null);
-        navigator.mediaSession.setActionHandler("previoustrack", null);
-      }
-      if (this.file) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: fileTitle(this.file),
-          artist: fileAuthor(this.file),
-          album: fileAlbum(this.file),
-          artwork: [{ src: fileCover(this.file), sizes: "200x200", type: "image/jpg" }],
-        });
-      }
-      navigator?.mediaSession?.setActionHandler("play", () => {
-        this.player?.play();
-      });
-      navigator?.mediaSession?.setActionHandler("pause", () => {
-        this.player?.pause();
-      });
-      navigator.mediaSession.playbackState = this.playing ? "playing" : "paused";
+    if (!navigator?.mediaSession) return;
+    if (playlistActive.value) {
+      navigator.mediaSession.setActionHandler("nexttrack", playlistSkipNext);
+      navigator.mediaSession.setActionHandler("previoustrack", playlistSkipPrevious);
+    } else {
+      navigator.mediaSession.setActionHandler("nexttrack", null);
+      navigator.mediaSession.setActionHandler("previoustrack", null);
     }
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title:
+        this.file && fileTitle(this.file) !== this.file.hash ? fileTitle(this.file) : "Planetarify",
+      artist: this.file && fileAuthor(this.file) ? fileAuthor(this.file) : "IPFS-search.com",
+      album: this.file ? fileAlbum(this.file) : "",
+      artwork: [{ src: fileCover(this.file), sizes: "200x200", type: "image/jpg" }],
+    });
+    navigator?.mediaSession?.setActionHandler("play", () => {
+      this.player?.play();
+    });
+    navigator?.mediaSession?.setActionHandler("pause", () => {
+      this.player?.pause();
+    });
+    navigator.mediaSession.playbackState = this.playing ? "playing" : "paused";
   },
 });
 
