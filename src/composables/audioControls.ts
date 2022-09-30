@@ -120,23 +120,21 @@ export const audioPlayer = ref<IAudio>({
     this.playing = false;
     this.duration = 0;
     this.time = 0;
-    // navigator?.mediaSession?.setActionHandler("play", null);
-    // navigator?.mediaSession?.setActionHandler("pause", null);
-    // navigator?.mediaSession?.setActionHandler("stop", null);
   },
 
   setMediaSession() {
     if (!navigator?.mediaSession || !this.file) return;
-    if (playlistActive.value) {
-      navigator.mediaSession.setActionHandler("nexttrack", playlistSkipNext);
-      navigator.mediaSession.setActionHandler("previoustrack", playlistSkipPrevious);
-    } else {
-      navigator.mediaSession.setActionHandler("nexttrack", null);
-      navigator.mediaSession.setActionHandler("previoustrack", null);
-    }
+    navigator.mediaSession.setActionHandler(
+      "nexttrack",
+      playlistActive.value ? playlistSkipNext : null
+    );
+    navigator.mediaSession.setActionHandler(
+      "previoustrack",
+      playlistActive.value ? playlistSkipPrevious : null
+    );
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: fileTitle(this.file, false) || "Planetarify",
-      artist: fileAuthor(this.file) ? fileAuthor(this.file) : "IPFS-search.com",
+      title: fileTitle(this.file, false) || "Planetarify Pro",
+      artist: fileAuthor(this.file) ? fileAuthor(this.file) : "IPFS-search.com - Planetarify",
       album: fileAlbum(this.file),
       artwork: [{ src: fileCover(this.file), sizes: "200x200", type: "image/jpg" }],
     });
