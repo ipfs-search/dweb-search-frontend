@@ -140,7 +140,7 @@ export const audioPlayer = ref<IAudio>({
     });
     navigator?.mediaSession?.setActionHandler("play", () => this.player?.play());
     navigator?.mediaSession?.setActionHandler("pause", () => this.player?.pause());
-    navigator.mediaSession.playbackState = "playing";
+    navigator.mediaSession.playbackState = this.playing ? "playing" : "paused";
   },
 });
 
