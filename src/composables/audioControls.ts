@@ -171,16 +171,15 @@ export const toggleLoop = () => {
 };
 
 export const startPlaylist = async (index?: number) => {
+  const entries = store.getters["playlist/getPlaylist"].entries;
   playlistActive.value = true;
   if (index !== undefined) playlistIndex.value = index;
-  while (playlistIndex.value < store.getters["playlist/getPlaylist"].entries.length) {
-    if (!store.getters["playlist/getPlaylist"].entries[playlistIndex.value].audio?.error) {
-      await playAudioFile(
-        store.getters["playlist/getPlaylist"].entries[playlistIndex.value],
-        playlistIndex.value
-      );
+  while (playlistIndex.value < entries.length) {
+    if (!entries[playlistIndex.value].audio?.error) {
+      await playAudioFile(entries[playlistIndex.value], playlistIndex.value);
     }
     playlistIndex.value++;
+    if (playlistIndex.value === entries.length && loop.value) playlistIndex.value = 0;
   }
 };
 
@@ -190,11 +189,8 @@ export const startPlaylist = async (index?: number) => {
  */
 export const previousPlaylistEntry = computed(() => {
   const entries = store.getters["playlist/getPlaylist"].entries;
-
   const decrease = (index: number) => (loop.value && index === 0 ? entries.length - 1 : index - 1);
-
   let newIndex = decrease(playlistIndex.value);
-
   while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
     newIndex = decrease(newIndex);
   }
