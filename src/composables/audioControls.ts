@@ -184,13 +184,23 @@ export const startPlaylist = async (index?: number) => {
   }
 };
 
+/**
+ * Find to the first former entry without errors. In case of loop, continue at the end when hitting 0.
+ * If there are no other entries without errors before the current one, return undefined.
+ */
 export const previousPlaylistEntry = computed(() => {
-  // TODO: traceback to the last previous entry wihtout error
-  if (playlistIndex.value === 0) {
-    if (loop.value) return store.getters["playlist/getPlaylist"].entries.length - 1;
-    return undefined;
+  const entries = store.getters["playlist/getPlaylist"].entries;
+
+  const decrease = (index: number) => (loop.value && index === 0 ? entries.length - 1 : index - 1);
+
+  let newIndex = decrease(playlistIndex.value);
+
+  while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
+    newIndex = decrease(newIndex);
   }
-  return playlistIndex.value - 1;
+  // returned entry can't be the current playing entry, can't have an error, and can't be negative.
+  if (newIndex === -1 || newIndex === playlistIndex.value) return undefined;
+  return newIndex;
 });
 
 export const playlistSkipPrevious = () => {
