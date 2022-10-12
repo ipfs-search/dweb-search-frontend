@@ -1,5 +1,6 @@
 import * as mime from "mime/lite";
-import { computed } from "vue";
+import { IFile } from "../interfaces/IFile";
+import { picsum } from "@/helpers/picsum";
 
 // Howler (audio player) requires the following extensions:
 // "mp3", "mpeg", "opus", "ogg", "oga", "wav", "aac", "caf", "m4a", "m4b",
@@ -37,13 +38,12 @@ mime.define(
  * @param file
  * @returns {string|string|*}
  */
-export function getFileExtension(file) {
+export function getFileExtension(file: IFile): string {
   // Mimetype is leading
-  if (file.mimetype) {
-    const ext = mime.getExtension(file.mimetype);
-    if (ext) return ext;
-  }
-
+  let ext = mime.getExtension(file?.mimetype || "");
+  if (ext) return ext;
+  ext = mime.getExtension(file.metadata?.metadata?.["Content-Type"][0].split(" ")[0] || "");
+  if (ext) return ext;
   const filename = file.references?.[0]?.name;
   if (filename) {
     // Get filename extension, dealing with edge cases
@@ -51,12 +51,20 @@ export function getFileExtension(file) {
     /* eslint no-bitwise: ["error", { "allow": [">>>"] }] */
     return filename.slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2);
   }
-
   return "";
 }
-export const fileTitle = (file) => {
-  return file.metadata?.metadata?.["title"] || file.title || file.hash;
+
+export const fileTitle = (file: IFile, returnHash = true): string | undefined => {
+  return (
+    file.metadata?.metadata?.["title"]?.[0] || file.title || (returnHash ? file.hash : undefined)
+  );
 };
-export const fileAuthor = (file) => {
-  return file.metadata?.metadata?.["dc:creator"] || file.author || undefined;
+export const fileAuthor = (file: IFile): string | undefined => {
+  return file.metadata?.metadata?.["dc:creator"]?.[0] || file.author || undefined;
+};
+export const fileAlbum = (file: IFile): string | undefined => {
+  return file.metadata?.metadata?.["xmpDM:album"]?.[0];
+};
+export const fileCover = (file?: IFile, width = 200, height = 200, options?: object): string => {
+  return picsum({ width, height, seed: file?.hash, ...options });
 };

@@ -1,3 +1,7 @@
+<script setup>
+import SearchFilters from "@/components/searchViewComponents/subcomponents/SearchFilters.vue";
+</script>
+
 <template>
   <v-menu
     :close-on-content-click="false"
@@ -14,19 +18,6 @@
     <search-filters />
   </v-menu>
 </template>
-
-<script>
-import SearchFilters from "@/components/searchViewComponents/subcomponents/SearchFilters.vue";
-
-export default {
-  components: { SearchFilters },
-  computed: {
-    filters() {
-      return this.$store.getters["query/filters/filterWidgets"];
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .menu {

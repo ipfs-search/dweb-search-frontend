@@ -9,11 +9,9 @@ import { picsum } from "@/helpers/picsum";
 import { detailProps } from "@/composables/useDetail";
 const props = defineProps(detailProps);
 
-import * as audioControls from "@/composables/audioControls";
+import { audioPlayer, playAudioFile, pauseAudio } from "@/composables/audioControls";
 
-const currentlyLoadedInPlayer = computed(
-  () => props.file.hash === audioControls.sourceFile.value.hash
-);
+const currentlyLoadedInPlayer = computed(() => props.file.hash === audioPlayer.value?.file?.hash);
 const image = (file, width, height) => file?.src || picsum({ width, height, seed: file.hash });
 const imgSrc = computed(() => image(props.file, 400, 300));
 </script>
@@ -27,27 +25,18 @@ const imgSrc = computed(() => image(props.file, 400, 300));
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
     >
       <AudioDetailButton
-        v-if="currentlyLoadedInPlayer && audioControls.audioError.value"
-        :title="audioControls.audioError.value"
+        v-if="currentlyLoadedInPlayer && audioPlayer.error"
+        :title="audioPlayer.error"
         :icon="mdiAlert"
       />
+      <AudioDetailButton v-else-if="currentlyLoadedInPlayer && audioPlayer.loading" loading />
       <AudioDetailButton
-        v-else-if="currentlyLoadedInPlayer && audioControls.loading.value"
-        loading
-      />
-      <AudioDetailButton
-        v-else-if="currentlyLoadedInPlayer && audioControls.playing.value"
+        v-else-if="currentlyLoadedInPlayer && audioPlayer.playing"
         title="Pause"
         :icon="mdiPause"
-        @click="audioControls.pause"
+        @click="pauseAudio"
       />
-      <AudioDetailButton
-        v-else-if="currentlyLoadedInPlayer"
-        title="Play"
-        :icon="mdiPlay"
-        @click="audioControls.play"
-      />
-      <AudioDetailButton v-else title="Play" :icon="mdiPlay" @click="audioControls.load(file)" />
+      <AudioDetailButton v-else title="Play" :icon="mdiPlay" @click="playAudioFile(file)" />
     </v-img>
   </generic-detail>
 </template>

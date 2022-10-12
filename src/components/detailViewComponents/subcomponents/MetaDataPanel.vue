@@ -34,7 +34,7 @@ const fileWidth = (file) =>
 const fileHeight = (file) =>
   file.metadata?.metadata?.height ||
   file.metadata?.metadata?.["Image Height"] ||
-  file.metadata?.metadata?.["tiff:ImageHeight"];
+  file.metadata?.metadata?.["tiff:ImageLength"];
 </script>
 
 <template>
@@ -54,14 +54,14 @@ const fileHeight = (file) =>
                   <tbody>
                     <tr v-if="file.title || file.metadata?.metadata?.['title']">
                       <th>Title:</th>
-                      <td v-if="file.metadata?.metadata?.['title']">
+                      <td v-if="file.metadata?.metadata?.title">
                         <router-link
-                          v-sane-html="file.metadata.metadata['title']"
+                          v-sane-html="file.metadata.metadata.title"
                           :to="
                             filterLink(
                               metadataLink({
                                 label: 'title',
-                                value: file.metadata.metadata['title'],
+                                value: file.metadata.metadata.title,
                               })
                             )
                           "
@@ -126,11 +126,11 @@ const fileHeight = (file) =>
                       <th>Length:</th>
                       <td
                         v-if="file.metadata?.metadata?.['xmpDM:duration']"
-                        v-sane-html="formatTime(file.metadata.metadata['xmpDM:duration'], false)"
+                        v-sane-html="formatTime(file.metadata.metadata['xmpDM:duration']).join(':')"
                       />
                       <td
                         v-else
-                        v-sane-html="formatTime(file.metadata.metadata['length'], false)"
+                        v-sane-html="formatTime(file.metadata.metadata['length']).join(':')"
                       />
                     </tr>
                     <tr v-if="file.metadata?.metadata?.['subject']">
@@ -246,7 +246,7 @@ const fileHeight = (file) =>
                         <i>No references</i>
                       </td>
                     </tr>
-                    <tr v-for="(item, index) in references" :key="index">
+                    <tr v-for="(item, i) in references" :key="i">
                       <td />
                       <td>
                         <a v-sane-html="item.name" :href="item.url" target="_blank" />
@@ -262,7 +262,7 @@ const fileHeight = (file) =>
                     <v-expansion-panel-text>
                       <v-table>
                         <tbody>
-                          <tr v-for="(item, index) in extraData" :key="index">
+                          <tr v-for="(item, i) in extraData" :key="i">
                             <th>{{ item.label }}:</th>
                             <td v-if="indexedMetadata(item)">
                               <span v-for="(value, valueIndex) in item.value" :key="valueIndex">
@@ -319,7 +319,7 @@ export default {
         this.file.references.forEach((reference) => {
           references.push({
             name: reference.name,
-            url: getResourceURL(reference.parent_hash),
+            url: getResourceURL(`${reference.parent_hash}/${reference.name}`),
           });
         });
       }

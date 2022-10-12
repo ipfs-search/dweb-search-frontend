@@ -4,7 +4,7 @@ import prettyBytes from "pretty-bytes";
 import DownloadButton from "@/components/detailViewComponents/subcomponents/DownloadButton.vue";
 import CopyHashButton from "@/components/detailViewComponents/subcomponents/CopyHashButton.vue";
 import { detailProps } from "@/composables/useDetail";
-import { fileTitle, fileAuthor } from "@/helpers/fileHelper.js";
+import { fileTitle, fileAuthor } from "@/helpers/fileHelper.ts";
 defineProps(detailProps);
 </script>
 

@@ -1,12 +1,14 @@
 import { createStore } from "vuex";
 import localStorage from "@/store/modules/localStorage";
 import { Types } from "@/helpers/typeHelper";
+import playlist from "./modules/playlistStore";
 import query from "./modules/query";
 import SearchResults from "./modules/SearchResults";
 
 export default createStore({
   modules: {
     localStorage,
+    playlist,
     query,
     // TODO: Rename 'results' to 'search' to cleanup weird results.results.
     results: {
@@ -18,7 +20,7 @@ export default createStore({
         [Types.video]: SearchResults(Types.video),
         [Types.directories]: SearchResults(Types.directories),
         [Types.other]: SearchResults(Types.other),
-        [Types.unfiltered]: SearchResults(Types.unfiltere),
+        [Types.unfiltered]: SearchResults(Types.unfiltered),
       },
     },
   },

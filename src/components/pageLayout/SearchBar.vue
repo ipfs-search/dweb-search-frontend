@@ -6,12 +6,12 @@ import { enterSearchQuery } from "@/router";
 import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
-import { searchTypes, listName, Types, TypeListNames } from "@/helpers/typeHelper";
+import { searchTypes, listName, Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
 
 const store = useStore();
 const route = useRoute();
 
-const { smAndDown } = useDisplay();
+const { smAndDown, smAndUp, xs } = useDisplay();
 const { hideKeyBoardOnAndroid } = useMobileDevices();
 
 const anyFiltersApplied = computed(() => store.getters["query/filters/anyFiltersApplied"]);
@@ -41,15 +41,19 @@ const fileType = computed({
     }
   },
 });
+
+import { playlistVisible } from "@/composables/audioControls";
 </script>
 
 <template>
   <v-container class="d-flex justify-center align-center">
     <div id="search" class="flex-grow-1">
       <v-text-field
+        id="searchfield"
         ref="input"
         v-model="searchPhrase"
         v-closable="{ handler: 'onIphoneClick' }"
+        :style="{ width: playlistVisible ? (xs ? '70px' : '180px') : '100%' }"
         variant="plain"
         class="bg-white rounded-pill pl-5"
         placeholder="Search"
@@ -61,16 +65,25 @@ const fileType = computed({
         hide-details
         style="height: 42px"
         @keyup.enter="enterSearchPhrase"
+        @focus="playlistVisible = false"
       >
         <template #append>
-          <v-menu offset-y location="left">
+          <!--          type menu -->
+          <v-menu v-if="!playlistVisible" offset-y location="left">
             <!-- FixMe: console warning about activator not being a reactive object-->
             <template #activator="{ props }">
-              <div class="mr-3 text-grey d-flex align-start" v-bind="props">
-                <span class="text-capitalize" data-testid="type-filter-selector-value">
+              <div v-if="smAndUp" class="mr-3 text-grey d-flex align-start" v-bind="props">
+                <span
+                  class="text-capitalize"
+                  style="margin-top: 1px"
+                  data-testid="type-filter-selector-value"
+                >
                   {{ listName(fileType) }}
                 </span>
                 <v-icon class="d-inline-block" :icon="mdiMenuDown" />
+              </div>
+              <div v-else v-bind="props" class="mr-3">
+                <v-icon class="d-inline-block" :icon="TypeIcons[fileType]" />
               </div>
             </template>
             <v-list class="bg-white">
@@ -79,6 +92,7 @@ const fileType = computed({
                   ([t, n]) => n !== TypeListNames.unfiltered
                 )"
                 :key="type"
+                :prepend-icon="TypeIcons[type]"
                 @click="fileType = Types[type]"
               >
                 <v-list-item-title class="text-capitalize">
@@ -88,17 +102,23 @@ const fileType = computed({
             </v-list>
           </v-menu>
           <v-icon
-            v-if="smAndDown && route.name !== 'Home'"
+            v-if="!playlistVisible && smAndDown && route.name !== 'Home'"
             :class="anyFiltersApplied && `text-ipfsSecondary`"
             class="mr-3"
             :icon="mdiFilter"
             data-id="filter-menu-activator"
           />
+          <v-icon
+            v-if="playlistVisible"
+            class="mr-3"
+            :icon="mdiMagnify"
+            @click="playlistVisible = false"
+          />
         </template>
       </v-text-field>
     </div>
     <v-icon
-      v-if="!smAndDown"
+      v-if="!smAndDown && !playlistVisible"
       class="ml-2"
       size="34"
       color="white"
@@ -112,5 +132,11 @@ const fileType = computed({
 #search {
   max-width: 915px;
   z-index: 10000;
+}
+</style>
+<style>
+#search input {
+  text-overflow: ellipsis;
+  padding-top: 10px;
 }
 </style>

@@ -1,10 +1,11 @@
 <script setup>
-import { playerActive } from "@/composables/audioControls";
-
 import { useDisplay } from "vuetify";
+const { smAndUp } = useDisplay();
 import { mdiMastodon, mdiTwitter, mdiGithub, mdiHandCoin, mdiEmail } from "@mdi/js";
 
-const { smAndUp } = useDisplay();
+import { useFooter } from "@/composables/footer";
+const { footerVisible } = useFooter();
+
 const footer_links = [
   {
     icon: mdiMastodon,
@@ -16,7 +17,7 @@ const footer_links = [
   },
   {
     icon: mdiGithub,
-    href: "https://github.com/ipfs-search/ipfs-search",
+    href: "https://github.com/ipfs-search",
   },
   {
     icon: mdiHandCoin,
@@ -31,14 +32,16 @@ const footer_links = [
 
 <template>
   <v-card
-    v-scroll="onScroll"
-    :class="{ 'footer--hidden': hideFooter && !playerActive }"
+    :class="{
+      'footer--hidden': !footerVisible,
+    }"
     position="fixed"
     variant="flat"
     tile
     class="footer bg-ipfsPrimary-lighten-1 text-center"
     rounded="0"
     width="101%"
+    height="120px"
   >
     <v-card-text class="ipfsPrimary-lighten-1 justify-center d-flex flex-row text-caption py-1">
       <v-btn
@@ -68,22 +71,6 @@ const footer_links = [
     </v-card-text>
   </v-card>
 </template>
-
-<script>
-export default {
-  data: () => ({
-    lastScrollPosition: 0,
-    hideFooter: false,
-  }),
-  methods: {
-    onScroll() {
-      const { scrollTop } = document.documentElement;
-      this.hideFooter = scrollTop > 30 && scrollTop > this.lastScrollPosition;
-      this.lastScrollPosition = document.documentElement.scrollTop;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .footer {

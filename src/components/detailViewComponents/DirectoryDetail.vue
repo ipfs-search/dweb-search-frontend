@@ -1,13 +1,13 @@
 <script setup>
-import { useDetail, detailProps } from "@/composables/useDetail";
+import { detailProps } from "@/composables/useDetail";
 import GenericDetail from "@/components/detailViewComponents/GenericDetail.vue";
 import VIframe from "@/components/shared/VIframe.vue";
-const props = defineProps(detailProps);
-const { resourceURL } = useDetail(props);
+import getResourceURL from "@/helpers/resourceURL";
+defineProps(detailProps);
 </script>
 
 <template>
   <generic-detail :file="file">
-    <v-iframe :src="resourceURL" />
+    <v-iframe :src="getResourceURL(file.hash)" />
   </generic-detail>
 </template>

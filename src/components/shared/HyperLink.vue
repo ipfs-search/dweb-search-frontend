@@ -9,11 +9,18 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
 <template>
-  <router-link :to="to" :replace="replace" style="text-decoration: none; color: inherit">
+  <div v-if="disabled">
+    <slot />
+  </div>
+  <router-link v-else :to="to" :replace="replace" style="text-decoration: none; color: inherit">
     <slot />
   </router-link>
 </template>

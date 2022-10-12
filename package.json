@@ -1,8 +1,12 @@
 {
   "name": "dweb-search-frontend",
-  "version": "0.1.0",
-  "description": "Frontend for dweb-search, formerly ipfs-search.",
+  "version": "1.0.0",
+  "description": "Frontend for ipfs-search.com",
   "author": "Kees van Drongelen <kees@visualspace.nl>",
+  "contributors": [
+    "Frido Emans <frido@emans.co>",
+    "Mathijs de Bruin <mathijs@mathijsfietst.nl>"
+  ],
   "scripts": {
     "serve": "vite",
     "preview": "vite preview --open",
@@ -23,23 +27,26 @@
     "howler": "^2.2.1",
     "ipfs-search-client": "^1.0.1",
     "masonry-layout": "^4.2.2",
+    "midi-player-js": "^2.0.16",
     "mime": "^3.0.0",
     "moment": "^2.29.4",
     "pretty-bytes": "^6.0.0",
     "regenerator-runtime": "^0.13.9",
+    "soundfont-player": "^0.12.0",
     "ts-node": "^10.8.0",
     "url": "^0.11.0",
-    "video.js": "^7.12.1",
     "vue": "^3.2.13",
     "vue-closable": "0.0.3",
     "vue-masonry": "^0.11.8",
     "vue-router": "^4.0.15",
     "vue-timeago3": "^2.2.1",
-    "vuetify": "3.0.0-beta.5",
+    "vuetify": "3.0.0-beta.11",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@mdi/js": "^6.9.96",
+    "@types/howler": "^2.2.7",
+    "@types/mime": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "@vitejs/plugin-vue": "^2.3.3",

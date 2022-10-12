@@ -19,7 +19,7 @@ const cogwheelColor = computed(() => {
 </script>
 
 <template>
-  <v-menu location="start" :close-on-content-click="false">
+  <v-menu location="start" :close-on-content-click="false" style="z-index: 100000">
     <template #activator="{ props }">
       <v-btn icon v-bind="props">
         <v-icon :color="cogwheelColor" :icon="mdiCog" />
