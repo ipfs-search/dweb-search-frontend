@@ -185,14 +185,19 @@ export const playlistSkipPrevious = () => {
 };
 
 export const nextPlaylistEntry = computed(() => {
-  const entries = store.getters["playlist/getEntries"];
-  const increase = (index: number) => (loop.value && index === entries.length - 1 ? 0 : index + 1);
+  const increase = (index: number) =>
+    loop.value && index === store.getters["playlist/getLength"] - 1 ? 0 : index + 1;
   let newIndex = increase(playlistIndex.value);
-  while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
+  while (
+    store.getters["playlist/getEntries"][newIndex]?.audio?.error &&
+    newIndex !== playlistIndex.value
+  ) {
     newIndex = increase(newIndex);
   }
-  // returned entry can't be the current playing entry, can't have an error, and can't be negative.
-  if (newIndex === entries.length || newIndex === playlistIndex.value) return undefined;
+  // returned entry can't be the current playing entry, can't have an error,
+  // and can't be greater than the length of the playlist.
+  if (newIndex === store.getters["playlist/getLength"] || newIndex === playlistIndex.value)
+    return undefined;
   return newIndex;
 });
 
