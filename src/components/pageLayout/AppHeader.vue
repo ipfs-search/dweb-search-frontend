@@ -160,6 +160,7 @@ const links = [
             :key="i"
             :href="link.href"
             :text="link.title"
+            target="_blank"
             size="small"
             class="my-2 mx-1 hidden-sm-and-down"
           />
@@ -174,7 +175,7 @@ const links = [
             </template>
 
             <v-list>
-              <v-list-item v-for="(link, i) in links" :key="i" :href="link.href">
+              <v-list-item v-for="(link, i) in links" :key="i" :href="link.href" target="_blank">
                 <v-list-item-title>
                   {{ link.title }}
                 </v-list-item-title>
