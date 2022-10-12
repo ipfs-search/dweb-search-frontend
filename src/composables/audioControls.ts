@@ -150,31 +150,35 @@ export const toggleLoop = () => {
   setMediaSession(audioPlayer.value.file, audioPlayer.value.player);
 };
 
-export const startPlaylist = async (index?: number) => {
+export const startPlaylist = async (index: number) => {
   const entries = store.getters["playlist/getEntries"];
   playlistActive.value = true;
-  if (index !== undefined) playlistIndex.value = index;
+  playlistIndex.value = index;
   while (playlistIndex.value < entries.length) {
-    if (!entries[playlistIndex.value].audio?.error) {
-      await playAudioFile(entries[playlistIndex.value], playlistIndex.value);
-    }
-    playlistIndex.value++;
-    if (playlistIndex.value === entries.length && loop.value) playlistIndex.value = 0;
+    await playAudioFile(entries[playlistIndex.value], playlistIndex.value);
+    playlistIndex.value = nextPlaylistEntry.value ?? playlistIndex.value;
   }
 };
 
-const decrease = (index: number) =>
-  loop.value && index === 0 ? store.getters["playlist/getLength"] - 1 : index - 1;
+const findNext = (nextFunction: (number) => number) => {
+  let newIndex = nextFunction(playlistIndex.value);
+  while (
+    store.getters["playlist/getEntries"][newIndex]?.audio?.error &&
+    newIndex !== playlistIndex.value
+  ) {
+    newIndex = nextFunction(newIndex);
+  }
+  return newIndex;
+};
+
 /**
  * Find to the first former entry without errors. In case of loop, continue at the end when hitting 0.
  * If there are no other entries without errors before the current one, return undefined.
  */
 export const previousPlaylistEntry = computed(() => {
-  const entries = store.getters["playlist/getEntries"];
-  let newIndex = decrease(playlistIndex.value);
-  while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
-    newIndex = decrease(newIndex);
-  }
+  const newIndex = findNext((index: number) =>
+    loop.value && index === 0 ? store.getters["playlist/getLength"] - 1 : index - 1
+  );
   // returned entry can't be the current playing entry, can't have an error, and can't be negative.
   if (newIndex === -1 || newIndex === playlistIndex.value) return undefined;
   return newIndex;
@@ -182,19 +186,14 @@ export const previousPlaylistEntry = computed(() => {
 
 export const playlistSkipPrevious = () => {
   if (!playlistActive.value) return;
-  startPlaylist(previousPlaylistEntry.value);
+  const previous = previousPlaylistEntry.value;
+  if (previous !== undefined) startPlaylist(previous);
 };
 
-const increase = (index: number) =>
-  loop.value && index === store.getters["playlist/getLength"] - 1 ? 0 : index + 1;
 export const nextPlaylistEntry = computed(() => {
-  let newIndex = increase(playlistIndex.value);
-  while (
-    store.getters["playlist/getEntries"][newIndex]?.audio?.error &&
-    newIndex !== playlistIndex.value
-  ) {
-    newIndex = increase(newIndex);
-  }
+  const newIndex = findNext((index: number) =>
+    loop.value && index === store.getters["playlist/getLength"] - 1 ? 0 : index + 1
+  );
   // returned entry can't be the current playing entry, can't have an error,
   // and can't be greater than the length of the playlist.
   if (newIndex === store.getters["playlist/getLength"] || newIndex === playlistIndex.value)
@@ -204,7 +203,8 @@ export const nextPlaylistEntry = computed(() => {
 
 export const playlistSkipNext = () => {
   if (!playlistActive.value) return;
-  startPlaylist(nextPlaylistEntry.value);
+  const next = nextPlaylistEntry.value;
+  if (next !== undefined) startPlaylist(next);
 };
 
 export const removePlaylistEntry = (index: number) => {
