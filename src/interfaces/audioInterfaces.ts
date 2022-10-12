@@ -2,6 +2,7 @@ import { IFile } from "./IFile";
 
 export interface IPlaylist {
   index?: number | undefined;
+  loop?: boolean;
   entries: IFile[];
 }
 

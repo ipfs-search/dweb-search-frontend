@@ -12,7 +12,6 @@ import {
 } from "@mdi/js";
 import { useDisplay } from "vuetify";
 const { smAndUp, mdAndUp } = useDisplay();
-import { picsum } from "@/helpers/picsum";
 
 import {
   audioPlayer,
@@ -24,6 +23,7 @@ import {
   playlistSkipPrevious,
   nextPlaylistEntry,
   playlistSkipNext,
+  playlistActive,
 } from "@/composables/audioControls";
 
 const progress = computed({
@@ -41,7 +41,7 @@ const progress = computed({
   },
 });
 
-import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
+import { fileTitle, fileAuthor, fileAlbum, fileCover } from "@/helpers/fileHelper";
 </script>
 
 <template>
@@ -69,12 +69,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
       <v-row class="w-100">
         <v-col cols="12" xl="8" offset-xl="2" class="d-flex w-100">
           <v-avatar v-if="mdAndUp" class="my-auto ml-4" rounded="0" size="75">
-            <v-img
-              aspect-ratio="1"
-              bac
-              :src="picsum({ width: 75, height: 75, seed: audioPlayer.file?.hash })"
-            >
-            </v-img>
+            <v-img aspect-ratio="1" bac :src="fileCover(audioPlayer.file, 75, 75)"> </v-img>
             <v-icon
               size="42"
               color="white"
@@ -115,7 +110,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
                 class="bg-ipfsPrimary-lighten-1 ml-2"
                 :size="mdAndUp ? 'large' : 'default'"
                 :icon="mdiSkipPrevious"
-                :disabled="previousPlaylistEntry() === undefined"
+                :disabled="!playlistActive || previousPlaylistEntry === undefined"
                 title="Pause"
                 @click="playlistSkipPrevious"
               />
@@ -154,7 +149,7 @@ import { fileTitle, fileAuthor } from "@/helpers/fileHelper";
                 class="bg-ipfsPrimary-lighten-1 ml-2"
                 :size="mdAndUp ? 'large' : 'default'"
                 :icon="mdiSkipNext"
-                :disabled="nextPlaylistEntry() === undefined"
+                :disabled="!playlistActive || nextPlaylistEntry === undefined"
                 title="Pause"
                 @click="playlistSkipNext"
               />

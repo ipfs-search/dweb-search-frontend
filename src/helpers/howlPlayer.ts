@@ -2,6 +2,7 @@ import { IAudio } from "@/interfaces/audioInterfaces";
 import { IFile } from "@/interfaces/IFile";
 import { HowlOptions } from "howler";
 import getResourceURL from "@/helpers/resourceURL";
+import { updateMediaSession } from "@/composables/audioControls";
 
 export const errorCode = {
   "1": "User aborted request",
@@ -35,7 +36,8 @@ export const howlOptions = (
     context.playing = true;
     interval = setInterval(() => {
       context.time = context.player?.seek();
-    }, 100);
+      updateMediaSession(context);
+    }, 1000);
   },
   onpause: () => {
     context.playing = false;

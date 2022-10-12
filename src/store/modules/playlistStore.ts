@@ -1,5 +1,6 @@
 import { Module } from "vuex";
 import { IPlaylist } from "@/interfaces/audioInterfaces";
+import { IFile } from "@/interfaces/IFile";
 
 export interface IPlaylistStoreState {
   activePlaylist?: number | undefined;
@@ -44,10 +45,26 @@ export default <Module<IPlaylistStoreState, unknown>>{
           .forEach((entry) => (entry.audio = { error }));
       });
     },
+    toggleLoop(state) {
+      state.playlists[state.activePlaylist || 0].loop =
+        !state.playlists[state.activePlaylist || 0].loop;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.commit("localStorage/setPlaylist", state.playlists[state.activePlaylist || 0]);
+    },
   },
   getters: {
     getPlaylist(state): IPlaylist {
       return state.playlists?.[state.activePlaylist || 0];
+    },
+    loopState(state): boolean {
+      return state.playlists?.[state.activePlaylist || 0].loop ?? false;
+    },
+    getLength(state): number {
+      return state.playlists?.[state.activePlaylist || 0].entries.length;
+    },
+    getEntries(state): IFile[] {
+      return state.playlists?.[state.activePlaylist || 0].entries;
     },
   },
 };
