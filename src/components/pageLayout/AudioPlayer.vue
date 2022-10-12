@@ -93,7 +93,13 @@ import { fileTitle, fileAuthor, fileAlbum, fileCover } from "@/helpers/fileHelpe
             </v-marquee>
             <v-marquee>
               <v-card-subtitle class="d-flex py-2 px-0">
-                <span v-sane-html="fileAuthor(audioPlayer.file)" />
+                <span
+                  v-sane-html="
+                    [fileAuthor(audioPlayer.file), fileAlbum(audioPlayer.file)]
+                      .filter((e) => !!e)
+                      .join(' - ')
+                  "
+                />
               </v-card-subtitle>
             </v-marquee>
           </div>

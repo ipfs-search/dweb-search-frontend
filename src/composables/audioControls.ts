@@ -160,7 +160,7 @@ export const startPlaylist = async (index: number) => {
   }
 };
 
-const findNext = (nextFunction: (number) => number) => {
+const findNext = (nextFunction: (index: number) => number) => {
   let newIndex = nextFunction(playlistIndex.value);
   while (
     store.getters["playlist/getEntries"][newIndex]?.audio?.error &&
