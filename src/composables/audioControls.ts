@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { IFile } from "@/interfaces/IFile";
-import { IAudio } from "@/interfaces/audioInterfaces";
+import { IAudio, IMediaPlayer } from "@/interfaces/audioInterfaces";
 
 import store from "@/store";
 import { Howl, Howler } from "howler";
@@ -77,8 +77,9 @@ export const audioPlayer = ref<IAudio>({
             reject();
           });
           this.player?.once("end", () => resolve(this));
-          this.player?.on("play", this.setMediaSession.bind(this));
+          this.player?.on("play", () => setMediaSession(this.file || file, this.player));
           audio.player?.play();
+          setMediaSession(this.file || file, this.player);
         })
         .catch(() => {
           // no need for reporting, because this is handled in a hook set in initialize
@@ -90,7 +91,6 @@ export const audioPlayer = ref<IAudio>({
   pause() {
     if (!this.player) return;
     this.player.pause();
-    navigator.mediaSession.playbackState = "paused";
   },
 
   initialize(file: IFile, options = {}) {
@@ -121,27 +121,6 @@ export const audioPlayer = ref<IAudio>({
     this.duration = 0;
     this.time = 0;
   },
-
-  setMediaSession() {
-    if (!navigator?.mediaSession || !this.file) return;
-    navigator.mediaSession.setActionHandler(
-      "nexttrack",
-      playlistActive.value ? playlistSkipNext : null
-    );
-    navigator.mediaSession.setActionHandler(
-      "previoustrack",
-      playlistActive.value ? playlistSkipPrevious : null
-    );
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: fileTitle(this.file, false) || "Planetarify Pro",
-      artist: fileAuthor(this.file) || "IPFS-search.com - Planetarify",
-      album: fileAlbum(this.file),
-      artwork: [{ src: fileCover(this.file), sizes: "200x200", type: "image/jpg" }],
-    });
-    navigator?.mediaSession?.setActionHandler("play", () => this.player?.play());
-    navigator?.mediaSession?.setActionHandler("pause", () => this.player?.pause());
-    navigator.mediaSession.playbackState = this.playing ? "playing" : "paused";
-  },
 });
 
 export const playlistVisible = ref(false);
@@ -161,17 +140,18 @@ export const setPlaylist = (entries: IFile[], autoPlay = true) => {
 };
 
 export const enqueue = (entries: IFile[]) =>
-  setPlaylist(store.getters["playlist/getPlaylist"].entries.concat(entries), false);
+  setPlaylist(store.getters["playlist/getEntries"].concat(entries), false);
 
 export const playlistActive = ref(false);
 const playlistIndex = ref(0);
-export const loop = ref(false);
+export const loop = computed(() => store.getters["playlist/loopState"]);
 export const toggleLoop = () => {
-  loop.value = !loop.value;
+  store.commit("playlist/toggleLoop");
+  setMediaSession(audioPlayer.value.file, audioPlayer.value.player);
 };
 
 export const startPlaylist = async (index?: number) => {
-  const entries = store.getters["playlist/getPlaylist"].entries;
+  const entries = store.getters["playlist/getEntries"];
   playlistActive.value = true;
   if (index !== undefined) playlistIndex.value = index;
   while (playlistIndex.value < entries.length) {
@@ -188,7 +168,7 @@ export const startPlaylist = async (index?: number) => {
  * If there are no other entries without errors before the current one, return undefined.
  */
 export const previousPlaylistEntry = computed(() => {
-  const entries = store.getters["playlist/getPlaylist"].entries;
+  const entries = store.getters["playlist/getEntries"];
   const decrease = (index: number) => (loop.value && index === 0 ? entries.length - 1 : index - 1);
   let newIndex = decrease(playlistIndex.value);
   while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
@@ -205,11 +185,15 @@ export const playlistSkipPrevious = () => {
 };
 
 export const nextPlaylistEntry = computed(() => {
-  if (playlistIndex.value === store.getters["playlist/getPlaylist"].entries.length - 1) {
-    if (loop.value) return 0;
-    return undefined;
+  const entries = store.getters["playlist/getEntries"];
+  const increase = (index: number) => (loop.value && index === entries.length - 1 ? 0 : index + 1);
+  let newIndex = increase(playlistIndex.value);
+  while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
+    newIndex = increase(newIndex);
   }
-  return playlistIndex.value + 1;
+  // returned entry can't be the current playing entry, can't have an error, and can't be negative.
+  if (newIndex === entries.length || newIndex === playlistIndex.value) return undefined;
+  return newIndex;
 });
 
 export const playlistSkipNext = () => {
@@ -218,7 +202,7 @@ export const playlistSkipNext = () => {
 };
 
 export const removePlaylistEntry = (index: number) => {
-  const list = store.getters["playlist/getPlaylist"].entries;
+  const list = store.getters["playlist/getEntries"];
   store.commit("playlist/setPlaylist", {
     entries: [...list.slice(0, index), ...list.slice(index + 1)],
   });
@@ -230,7 +214,7 @@ export const playAudioFile = (file: IFile, playlistIndex?: number) => {
   }
   abortController.abort();
   audioPlayer.value.cleanUp();
-  audioPlayer.value.setMediaSession();
+  clearMediaSession();
   return new Promise((resolve, reject) => {
     if (file.audio?.error) {
       reject(file.audio.error);
@@ -250,6 +234,44 @@ export const resumeAudio = () => {
 export const cleanUpAudioPlayer = () => {
   audioPlayer.value?.cleanUp();
 };
+
+function clearMediaSession() {
+  navigator.mediaSession.setActionHandler("nexttrack", null);
+  navigator.mediaSession.setActionHandler("previoustrack", null);
+  navigator.mediaSession.setActionHandler("play", null);
+  navigator.mediaSession.setActionHandler("pause", null);
+  navigator.mediaSession.metadata = null;
+}
+
+function setMediaSession(file?: IFile, player?: IMediaPlayer) {
+  if (!navigator?.mediaSession || !file) return;
+  navigator.mediaSession.setActionHandler(
+    "nexttrack",
+    playlistActive.value && nextPlaylistEntry.value !== undefined ? playlistSkipNext : null
+  );
+  navigator.mediaSession.setActionHandler(
+    "previoustrack",
+    playlistActive.value && previousPlaylistEntry.value !== undefined ? playlistSkipPrevious : null
+  );
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: fileTitle(file, false) || "Planetarify Pro",
+    artist: fileAuthor(file) || "IPFS-search.com - Planetarify",
+    album: fileAlbum(file),
+    artwork: [{ src: fileCover(file), sizes: "200x200", type: "image/jpg" }],
+  });
+  navigator?.mediaSession?.setActionHandler("play", () => player?.play());
+  navigator?.mediaSession?.setActionHandler("pause", () => player?.pause());
+}
+
+export function updateMediaSession(context: IAudio) {
+  if ("setPositionState" in navigator.mediaSession) {
+    navigator.mediaSession.setPositionState({
+      duration: context.duration,
+      playbackRate: 1,
+      position: context.time,
+    });
+  }
+}
 
 /**
  * @param secs

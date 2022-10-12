@@ -19,7 +19,8 @@ import {
 
 import { fileTitle, fileAuthor, fileAlbum, fileCover } from "@/helpers/fileHelper";
 
-const playlistEntries = computed(() => store.getters["playlist/getPlaylist"].entries);
+const playlistEntries = computed(() => store.getters["playlist/getEntries"]);
+const playlistLength = computed(() => store.getters["playlist/getLength"]);
 import BlinkBlink from "../shared/BlinkBlink.vue";
 </script>
 
@@ -37,7 +38,7 @@ import BlinkBlink from "../shared/BlinkBlink.vue";
       <v-row class="w-100">
         <v-col cols="12" xl="8" offset-xl="2">
           <v-list
-            v-if="playlistEntries.length"
+            v-if="playlistLength"
             bg-color="planetarifyDark"
             lines="2"
             style="margin-left: 8px; margin-right: -24px"
