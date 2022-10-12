@@ -163,13 +163,14 @@ export const startPlaylist = async (index?: number) => {
   }
 };
 
+const decrease = (index: number) =>
+  loop.value && index === 0 ? store.getters["playlist/getLength"] - 1 : index - 1;
 /**
  * Find to the first former entry without errors. In case of loop, continue at the end when hitting 0.
  * If there are no other entries without errors before the current one, return undefined.
  */
 export const previousPlaylistEntry = computed(() => {
   const entries = store.getters["playlist/getEntries"];
-  const decrease = (index: number) => (loop.value && index === 0 ? entries.length - 1 : index - 1);
   let newIndex = decrease(playlistIndex.value);
   while (entries[newIndex]?.audio?.error && newIndex !== playlistIndex.value) {
     newIndex = decrease(newIndex);
@@ -184,9 +185,9 @@ export const playlistSkipPrevious = () => {
   startPlaylist(previousPlaylistEntry.value);
 };
 
+const increase = (index: number) =>
+  loop.value && index === store.getters["playlist/getLength"] - 1 ? 0 : index + 1;
 export const nextPlaylistEntry = computed(() => {
-  const increase = (index: number) =>
-    loop.value && index === store.getters["playlist/getLength"] - 1 ? 0 : index + 1;
   let newIndex = increase(playlistIndex.value);
   while (
     store.getters["playlist/getEntries"][newIndex]?.audio?.error &&
