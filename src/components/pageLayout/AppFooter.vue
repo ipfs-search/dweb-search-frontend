@@ -64,7 +64,7 @@ const footer_links = [
       <div :style="smAndUp ? 'margin-top: -7px;' : 'margin-top: -14px;'">
         Funded through the
         <a href="https://nlnet.nl/project/IPFS-search/"> NLNet/NGI0 Discovery Fund </a>
-        and&nbsp;proudly&nbsp;sponsered&nbsp;by&nbsp;<a href="https://redpencil.io/"
+        and&nbsp;proudly&nbsp;sponsored&nbsp;by&nbsp;<a href="https://redpencil.io/"
           >redpencil.io</a
         >
       </div>
