@@ -123,7 +123,8 @@ const queryPage = computed({
       <hyperlink :disabled="!anyFileType" :to="viewAllTo" class="flex-grow-1">
         <!-- Note: v-btn has a "to" prop as well, which should eliminate the need for hyperlink here. However, it causes the btn to be rendered as 'tonal', overriding the text variant here -->
         <v-btn
-          class="categoryBtn"
+          class="justify-start"
+          style="opacity: initial"
           block
           variant="text"
           :prepend-icon="TypeIcons[fileType]"
@@ -192,10 +193,3 @@ const queryPage = computed({
     </div>
   </v-container>
 </template>
-
-<style>
-.categoryBtn {
-  opacity: initial; /* Prevent button from greying out as it gets disabled, as it also doubles as header. */
-  justify-content: left;
-}
-</style>
