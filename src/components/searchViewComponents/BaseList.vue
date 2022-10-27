@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMagnifyExpand, mdiPlaylistPlay, mdiPlaylistPlus } from "@mdi/js";
+import { mdiMagnifyExpand, mdiPlaylistPlay, mdiPlaylistPlus, mdiDotsHorizontal } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
@@ -47,6 +47,12 @@ const pageCount = computed(
   () => Math.min(Math.ceil(store.getters[`results/${props.fileType}/resultsTotal`] / batchSize)),
   maxPages
 );
+
+const viewAllTo = computed(() => {
+  return { ...route, query: { ...route.query, type: props.fileType } };
+});
+
+const hasResults = computed(() => resultsTotal.value !== 0);
 
 /**
  * scroll down to the page from the query
@@ -114,11 +120,7 @@ const queryPage = computed({
       class="justify-space-between d-flex mb-3"
       style="gap: 5px"
     >
-      <hyperlink
-        :disabled="!anyFileType"
-        :to="{ ...route, query: { ...route.query, type: fileType } }"
-        class="flex-grow-1"
-      >
+      <hyperlink :disabled="!anyFileType" :to="viewAllTo" class="flex-grow-1">
         <!-- Note: v-btn has a "to" prop as well, which should eliminate the need for hyperlink here. However, it causes the btn to be rendered as 'tonal', overriding the text variant here -->
         <v-btn
           class="justify-start"
@@ -165,7 +167,7 @@ const queryPage = computed({
       </v-col>
     </v-row>
 
-    <slot v-if="resultsTotal !== 0">
+    <slot v-if="hasResults">
       <v-row dense>
         <v-col v-for="(hit, index) in slicedHits(3)" :key="index" cols="12">
           <hover-card :hit="hit" :index="index" :file-type="fileType">
@@ -174,6 +176,12 @@ const queryPage = computed({
         </v-col>
       </v-row>
     </slot>
+
+    <v-row v-if="hasResults && anyFileType" justify="center" class="mt-2 mb-1">
+      <v-col cols="12" sm="2" md="1">
+        <v-btn block rounded="pill" variant="text" :to="viewAllTo" :icon="mdiDotsHorizontal" />
+      </v-col>
+    </v-row>
 
     <v-row v-if="loading" dense justify="center">
       <v-progress-circular color="ipfsPrimary" indeterminate />
