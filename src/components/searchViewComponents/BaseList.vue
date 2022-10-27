@@ -119,21 +119,16 @@ const queryPage = computed({
         :to="{ ...route, query: { ...route.query, type: fileType } }"
         class="flex-grow-1"
       >
-        <div
-          class="w-100 d-flex justify-start align-center text-ipfsPrimary-lighten-1 v-btn v-btn--density-default v-btn--size-default v-btn--variant-outlined"
-          color="ipfsPrimary"
+        <!-- Note: v-btn has a "to" prop as well, which should eliminate the need for hyperlink here. However, it causes the btn to be rendered as 'tonal', overriding the text variant here -->
+        <v-btn
+          class="categoryBtn"
+          block
+          variant="text"
+          :prepend-icon="TypeIcons[fileType]"
+          :disabled="!anyFileType"
         >
-          <div class="mr-auto d-flex flex-row align-center">
-            <v-icon size="28" :icon="TypeIcons[fileType]" color="ipfsPrimary-lighten-1" />
-            <span> {{ TypeListNames[fileType] }} ({{ resultsTotal }}) </span>
-          </div>
-          <div v-if="anyFileType" class="d-flex flex-row align-center justify-end">
-            <div class="">
-              <span>View all</span>
-              <v-icon size="28" :icon="mdiMagnifyExpand" color="ipfsPrimary-lighten-1" />
-            </div>
-          </div>
-        </div>
+          {{ TypeListNames[fileType] }} ({{ resultsTotal }})
+        </v-btn>
       </hyperlink>
       <div
         v-if="fileType === Types.audio && pageHits.length"
@@ -189,3 +184,10 @@ const queryPage = computed({
     </div>
   </v-container>
 </template>
+
+<style>
+.categoryBtn {
+  opacity: initial; /* Prevent button from greying out as it gets disabled, as it also doubles as header. */
+  justify-content: left;
+}
+</style>
