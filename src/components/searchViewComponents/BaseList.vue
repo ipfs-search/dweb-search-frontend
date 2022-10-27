@@ -176,7 +176,7 @@ const queryPage = computed({
       </v-row>
     </slot>
 
-    <v-row v-if="hasResults" justify="center" class="mt-2 mb-1">
+    <v-row v-if="hasResults && anyFileType" justify="center" class="mt-2 mb-1">
       <v-col cols="12" sm="2" md="1">
         <v-btn block rounded="pill" variant="text" :to="viewAllTo" :icon="mdiDotsHorizontal" />
       </v-col>
