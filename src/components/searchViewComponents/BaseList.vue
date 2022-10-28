@@ -142,16 +142,15 @@ const queryPage = computed({
           "
         >
           <span v-if="smAndUp">Play all</span>
-          <v-icon v-if="!smAndUp" size="28" :icon="mdiPlaylistPlay" color="white" />
-
+          <v-icon v-else size="28" :icon="mdiPlaylistPlay" color="white" />
           <template v-if="smAndUp" #prepend>
             <v-icon size="28" :icon="mdiPlaylistPlay" color="white" />
           </template>
         </v-btn>
+
         <v-btn color="ipfsPrimary-lighten-1" @click="enqueue(pageHits)">
           <span v-if="smAndUp">Enqueue all</span>
-          <v-icon v-if="!smAndUp" size="28" :icon="mdiPlaylistPlus" color="white" />
-
+          <v-icon v-else size="28" :icon="mdiPlaylistPlus" color="white" />
           <template v-if="smAndUp" #prepend>
             <v-icon size="28" :icon="mdiPlaylistPlus" color="white" />
           </template>
