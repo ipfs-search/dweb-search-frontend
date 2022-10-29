@@ -112,7 +112,7 @@ export default (fileType) => ({
         newResults.hits.forEach((hit, n) => {
           classify(hit)
             .then(({ classification }) => {
-              commit(`results/${fileType}/setNsfw`, {
+              commit(`setNsfw`, {
                 index: index + n,
                 classification,
               });
