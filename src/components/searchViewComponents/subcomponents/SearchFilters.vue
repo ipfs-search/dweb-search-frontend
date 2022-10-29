@@ -12,7 +12,7 @@ const route = useRoute();
         <v-container class="mx-0 px-0">
           <v-row class="text-secondary">
             <v-col>
-              <span class="text-h6"> Filters: </span>
+              <span class="text-h6">Filters</span>
             </v-col>
             <v-col v-if="anyFiltersApplied" class="d-flex justify-end">
               <hyper-link :to="{ ...route, query: { q: route.query.q, type: route.query.type } }">

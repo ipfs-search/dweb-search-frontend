@@ -116,11 +116,7 @@ const queryPage = computed({
 
 <template>
   <v-container class="overflow-y-hidden" style="max-width: 1200px">
-    <div
-      :class="smAndUp ? 'flex-row' : 'flex-column'"
-      class="justify-space-between d-flex mb-3"
-      style="gap: 5px"
-    >
+    <div class="flex-row justify-space-between d-flex mb-3" style="gap: 5px">
       <hyperlink :disabled="!anyFileType" :to="viewAllTo" class="flex-grow-1">
         <!-- Note: v-btn has a "to" prop as well, which should eliminate the need for hyperlink here. However, it causes the btn to be rendered as 'tonal', overriding the text variant here -->
         <v-btn
@@ -146,14 +142,17 @@ const queryPage = computed({
             togglePlaylist();
           "
         >
-          Play all
-          <template #prepend>
+          <span v-if="smAndUp">Play all</span>
+          <v-icon v-else size="28" :icon="mdiPlaylistPlay" color="white" />
+          <template v-if="smAndUp" #prepend>
             <v-icon size="28" :icon="mdiPlaylistPlay" color="white" />
           </template>
         </v-btn>
+
         <v-btn color="ipfsPrimary-lighten-1" @click="enqueue(pageHits)">
-          Enqueue all
-          <template #prepend>
+          <span v-if="smAndUp">Enqueue all</span>
+          <v-icon v-else size="28" :icon="mdiPlaylistPlus" color="white" />
+          <template v-if="smAndUp" #prepend>
             <v-icon size="28" :icon="mdiPlaylistPlus" color="white" />
           </template>
         </v-btn>
