@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMagnifyExpand, mdiPlaylistPlay, mdiPlaylistPlus, mdiDotsHorizontal } from "@mdi/js";
+import { mdiPlaylistPlay, mdiPlaylistPlus, mdiDotsHorizontal } from "@mdi/js";
 import CardContent from "@/components/searchViewComponents/subcomponents/genericCardContent.vue";
 import HoverCard from "./subcomponents/HoverCard.vue";
 import { Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
