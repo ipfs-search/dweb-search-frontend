@@ -6,6 +6,7 @@ import TileList from "@/components/searchViewComponents/TileList.vue";
 import { imports } from "@/composables/useFileListComposable";
 import { useBlurExplicit } from "@/composables/BlurExplicitImagesComposable";
 import { Types } from "@/helpers/typeHelper";
+import ImageSpinner from "@/components/shared/imageSpinner.vue";
 
 const fileType = Types.images;
 
@@ -26,9 +27,7 @@ const { blurExplicit } = useBlurExplicit();
           :data-nsfw="hit.nsfw"
           class="rounded grey lighten-2"
         >
-          <template #placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center"> </v-row>
-          </template>
+          <template #placeholder> <image-spinner /></template>
           <NsfwTooltip :file="hit" />
         </v-img>
       </hover-card>
