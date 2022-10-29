@@ -26,7 +26,7 @@ export const useFileListComposable = ({ fileType }) => {
     return [Types.all, undefined].includes(route.query.type);
   });
 
-  const infinite = computed(() => route.query.type === Types.images);
+  const infinite = computed(() => false); // Disable infinite scrolling until fixed.
 
   const loadedPages = computed(() =>
     Math.ceil(store.getters[`results/${fileType}/hits`].length / batchSize)
