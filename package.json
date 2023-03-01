@@ -76,7 +76,7 @@
     "not dead"
   ],
   "engines": {
-    "node": "18.x"
+    "node": "16.x"
   },
   "license": "AGPL-3.0",
   "repository": "github:ipfs-search/dweb-search-frontend",
