@@ -11,8 +11,10 @@ import { enterSearchQuery } from "@/router";
 import { batchSize, maxPages } from "@/helpers/ApiHelper";
 import { useDisplay } from "vuetify";
 import { useStore } from "vuex";
-const store = useStore();
 import ImageSpinner from "@/components/shared/imageSpinner.vue";
+import { togglePlaylist, setPlaylist, enqueue } from "@/composables/audioControls.ts";
+
+const store = useStore();
 
 const route = useRoute();
 const { smAndDown, smAndUp } = useDisplay();
@@ -26,8 +28,6 @@ const props = defineProps({
 
 const { anyFileType, loading, loadedPages, infinite, slicedHits, pageHits, infiniteScroll } =
   useFileListComposable(props);
-
-import { togglePlaylist, setPlaylist, enqueue } from "@/composables/audioControls.ts";
 
 const error = computed(() => {
   const error = store.getters[`results/${props.fileType}/error`];
