@@ -27,9 +27,9 @@ npm install
 
 `npm run preview` Serves the latest build locally
 
-`npm run test` Run all tests and watch code
+`npm run test:watch` Run all tests and watch code
 
-`npm run test:once` Run all tests only once
+`npm run test` Run all tests only once
 
 `npm run test:coverage` Run all tests once and create coverage report under './coverage'
 
@@ -45,7 +45,7 @@ npm install
 
 ### So many scripts... which one do I need?
 
-Developers: you will likely want to run `npm run serve` in one terminal and `npm run test` in another. You can use `npm run prepare-githooks` to autoformat the code. Alternatively you can run `npm run prettier:write` before pushing.
+Developers: you will likely want to run `npm run serve` in one terminal and `npm run test:watch` in another. You can use `npm run prepare-githooks` to autoformat the code. Alternatively you can run `npm run prettier:write` before pushing.
 
 Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`, `npm run prettier:check`
 
