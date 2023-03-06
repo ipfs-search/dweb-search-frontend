@@ -16,8 +16,8 @@
     "lint:fix": "eslint --ext .js,.mjs,.cjs,.jsx,.ts,.tsx,.vue src --fix",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
-    "test": "vitest watch",
-    "test:once": "vitest run",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "prepare-githooks": "husky install"
   },
