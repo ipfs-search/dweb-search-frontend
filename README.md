@@ -54,7 +54,8 @@ Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`,
 - Filter query parameters. The applicable filters are defined in `store/modules/queryFilters/`.
 
 Besides this, there is are special flags:
-- `nativeIpfs=true` will make ipfs links direct to `ipfs://` rather than a gateway.
+- `nativeIpfs` will make ipfs links direct to `ipfs://` rather than a gateway.
+- `noDetailPage` will remove detail pages; clicking a result goes directly to the ipfs document
 
 ## NSFW api
 
