@@ -22,14 +22,14 @@ defineProps({
 
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <a 
-      v-if="route.query.noDetailPage!==undefined && noDetailPage !== 'false'"
+    <a
+      v-if="route.query.noDetailPage !== undefined && noDetailPage !== 'false'"
       :href="getResourceURL(hit.hash)"
-      >
+    >
       <v-card v-if="hit" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
         <slot />
       </v-card>
-    </a> 
+    </a>
     <hyperlink
       v-else
       :to="{

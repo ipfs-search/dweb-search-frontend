@@ -31,7 +31,13 @@ const onScroll = () => {
 </script>
 
 <template>
-  <div v-if="!playlistVisible" id="search-view" data-id="search-view" class="h-100 overflow-y-auto" @scroll="onScroll">
+  <div
+    v-if="!playlistVisible"
+    id="search-view"
+    data-id="search-view"
+    class="h-100 overflow-y-auto"
+    @scroll="onScroll"
+  >
     <search-filter-menu v-if="smAndDown" />
     <SearchFilters v-else />
     <GenericList v-if="listType(Types.text)" :file-type="Types.text" />

@@ -50,10 +50,12 @@ Developers: you will likely want to run `npm run serve` in one terminal and `npm
 Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`, `npm run prettier:check`
 
 ## query parameters
-- `q`, which is forwarded to the [ipfs-search API](https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_search), along with filter selections. 
+
+- `q`, which is forwarded to the [ipfs-search API](https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_search), along with filter selections.
 - Filter query parameters. The applicable filters are defined in `store/modules/queryFilters/`.
 
 Besides this, there is are special flags:
+
 - `nativeIpfs` will make ipfs links direct to `ipfs://` rather than a gateway.
 - `noDetailPage` will remove detail pages; clicking a result goes directly to the ipfs document
 
