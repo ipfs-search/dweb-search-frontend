@@ -22,7 +22,7 @@ onBeforeMount(() => {
             color="ipfsPrimary-lighten-1"
             border
             :icon="mdiHeart"
-            class="mt-3 w-100"
+            class="mt-3"
             position="absolute"
             location="top"
             closable
@@ -66,5 +66,6 @@ h3 {
 
 #questionnaireBanner {
   max-width: 915px;
+  width: 95%;
 }
 </style>
