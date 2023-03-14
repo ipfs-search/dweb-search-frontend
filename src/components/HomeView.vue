@@ -34,8 +34,8 @@ onBeforeMount(() => {
               target="_blank"
               style="text-decoration: none; color: inherit"
             >
-              Got a moment to help us enhance IPFS-Search? please take
-              this short <u>questionnaire.</u>
+              Got a moment to help us improve IPFS-Search? Please take
+              this short <u><b>questionnaire</b></u>.
             </a>
           </v-alert>
           <v-btn
