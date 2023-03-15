@@ -42,7 +42,7 @@ defineProps({
         },
       }"
     >
-      <v-card v-if="hit" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
+      <v-card v-if="hit" class="mb-1" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
         <slot />
       </v-card>
     </hyperlink>
