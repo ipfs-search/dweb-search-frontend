@@ -1,7 +1,8 @@
 <script setup>
 import { useRoute } from "vue-router";
-const route = useRoute();
 import Hyperlink from "@/components/shared/HyperLink.vue";
+import getResourceURL from "@/helpers/resourceURL";
+const route = useRoute();
 
 defineProps({
   fileType: {
@@ -21,7 +22,16 @@ defineProps({
 
 <template>
   <v-hover v-slot="{ isHovering, props }">
+    <a
+      v-if="route.query.noDetailPage !== undefined && route.query.noDetailPage !== 'false'"
+      :href="getResourceURL(hit.hash)"
+    >
+      <v-card v-if="hit" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
+        <slot />
+      </v-card>
+    </a>
     <hyperlink
+      v-else
       :to="{
         ...route,
         name: 'Detail',
@@ -32,7 +42,7 @@ defineProps({
         },
       }"
     >
-      <v-card v-if="hit" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
+      <v-card v-if="hit" class="mb-1" width="100%" v-bind="props" :elevation="isHovering ? 12 : 2">
         <slot />
       </v-card>
     </hyperlink>

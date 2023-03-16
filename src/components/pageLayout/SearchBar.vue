@@ -7,6 +7,7 @@ import { mdiMenuDown, mdiMagnify, mdiFilter } from "@mdi/js";
 import { useDisplay } from "vuetify";
 import { useMobileDevices } from "@/composables/useMobileDevices";
 import { searchTypes, listName, Types, TypeListNames, TypeIcons } from "@/helpers/typeHelper";
+import { playlistVisible } from "@/composables/audioControls";
 
 const store = useStore();
 const route = useRoute();
@@ -41,8 +42,6 @@ const fileType = computed({
     }
   },
 });
-
-import { playlistVisible } from "@/composables/audioControls";
 </script>
 
 <template>

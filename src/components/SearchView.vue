@@ -1,27 +1,26 @@
-<script setup>
+<script setup lang="ts">
 import SearchFilters from "@/components/searchViewComponents/subcomponents/SearchFilters.vue";
 import GenericList from "@/components/searchViewComponents/BaseList.vue";
 import ImageList from "@/components/searchViewComponents/ImageList.vue";
 import AudioList from "@/components/searchViewComponents/AudioList.vue";
 import VideoList from "@/components/searchViewComponents/VideoList.vue";
 import SearchFilterMenu from "@/components/searchViewComponents/subcomponents/SearchFilterMenu.vue";
-
-import { useRoute } from "vue-router";
-const route = useRoute();
-
 import { Types } from "@/helpers/typeHelper";
 import { useDisplay } from "vuetify";
+import { playlistVisible } from "@/composables/audioControls";
+import { useFooter } from "@/composables/footer";
+import { useFileListComposable } from "@/composables/useFileListComposable";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
 const { smAndDown } = useDisplay();
 
-import { playlistVisible } from "@/composables/audioControls";
-
-import { useFileListComposable } from "@/composables/useFileListComposable";
 const { infinite, infiniteScroll } = useFileListComposable({ fileType: route.query.type });
 
-function listType(t) {
-  return [t, Types.all, undefined].includes(route.query.type);
+function listType(t: string) {
+  return [t, Types.all, undefined].includes(route.query.type as string);
 }
-import { useFooter } from "@/composables/footer";
 const { hideFooter } = useFooter();
 const onScroll = () => {
   hideFooter();

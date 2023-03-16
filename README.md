@@ -27,9 +27,9 @@ npm install
 
 `npm run preview` Serves the latest build locally
 
-`npm run test` Run all tests and watch code
+`npm run test:watch` Run all tests and watch code
 
-`npm run test:once` Run all tests only once
+`npm run test` Run all tests only once
 
 `npm run test:coverage` Run all tests once and create coverage report under './coverage'
 
@@ -45,18 +45,27 @@ npm install
 
 ### So many scripts... which one do I need?
 
-Developers: you will likely want to run `npm run serve` in one terminal and `npm run test` in another. You can use `npm run prepare-githooks` to autoformat the code. Alternatively you can run `npm run prettier:write` before pushing.
+Developers: you will likely want to run `npm run serve` in one terminal and `npm run test:watch` in another. You can use `npm run prepare-githooks` to autoformat the code. Alternatively you can run `npm run prettier:write` before pushing.
 
 Ops will want to use `npm run build`, `npm run test` or `npm run test:coverage`, `npm run prettier:check`
+
+## query parameters
+
+- `q`, which is forwarded to the [ipfs-search API](https://app.swaggerhub.com/apis-docs/ipfs-search/ipfs-search/1.0.2#/default/get_search), along with filter selections.
+- Filter query parameters. The applicable filters are defined in `store/modules/queryFilters/`.
+
+Besides this, there is are special flags:
+
+- `nativeIpfs` will make ipfs links direct to `ipfs://` rather than a gateway.
+- `noDetailPage` will remove detail pages; clicking a result goes directly to the ipfs document
 
 ## NSFW api
 
 This build uses an API to check nsfw content.
 
-The default API endpoint to is: https://api.ipfs-search.com/nsfw/
+The default API endpoint to is: https://api.ipfs-search.com/v1/nsfw/classify/
 . This can be overridden by injecting environment variable `VITE_NSFW_API`
 
-The API call should be: `<VITE_NSFW_API><CID>`, so e.g.
+The API call simply pass the CID, so e.g.
 
-`https://api.ipfs-search.com/nsfw/QmSZzv7ux1LGwpehVcCMQ9ec945X6qE4qyjKDhCVwY25iw`
-https://api.ipfs-search.com/v1/nsfw/classify/
+https://api.ipfs-search.com/v1/nsfw/classify/<CID>
