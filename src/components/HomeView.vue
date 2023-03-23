@@ -30,7 +30,7 @@ onBeforeMount(() => {
             @update:model-value="store.commit('localStorage/setQuestionnaireBanner', false)"
           >
             <a
-              href="https://framaforms.org/help-us-improve-ipfs-search-1678325605"
+              href="https://www.cognitoforms.com/Ipfssearchcom/HelpUsImproveIPFSSearchCom"
               target="_blank"
               style="text-decoration: none; color: inherit"
             >
