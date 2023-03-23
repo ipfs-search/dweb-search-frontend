@@ -16,6 +16,10 @@ const fields = [
     field: "playlist",
     defaultValue: undefined,
   },
+  {
+    field: "questionnaireBanner",
+    defaultValue: true,
+  },
 ];
 
 const pascalize = (s) => s[0].toUpperCase() + s.slice(1);
