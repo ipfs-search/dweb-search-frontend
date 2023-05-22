@@ -22,37 +22,45 @@ onBeforeMount(() => {
       :class="height < 600 ? 'lower-padding' : 'higher-padding'"
     >
       <v-card class="announcement pa-2 mx-auto overflow-auto h-100" max-width="700" max-height="">
-        <h3>Important Announcement from <a href="ipfs-search.com">ipfs-search.com</a></h3>
+        <h3>An Urgent Appeal from <a href="ipfs-search.com">ipfs-search.com</a></h3>
         <v-card-text class="text-body-1">
-          <p>Dear valued users and supporters, we have some grave news.</p>
+          <p>Dear Valued Users &amp; Supporters,</p>
+
           <p>
-            <a href="ipfs-search.com">ipfs-search.com</a> is committed to providing the neutral,
-            privacy-centered search engine for Web3. We are passionate about this vision and are
-            proud to pioneer it.
+            Since 2016 we have been providing neutral, privacy-friendly Open Source search for Web3.
+            Faced with funding challenges, we now risk
+            <strong>imminent hibernation of our public service</strong>.
           </p>
+
           <p>
-            But we are running high costs, and without a new source of funding, we will have to shut
-            down in the coming weeks. For now, API access is still available, but we will block
-            search here on the site.
+            We stand at a critical crossroads, committed to maintaining our crucial role in the Web3
+            ecosystem amidst operational costs and our personal sustenance needs. Unless additional
+            funding comes through, we will need to shut down our public APIs in the coming weeks. As
+            of now, site search is already suspended, but API access remains.
           </p>
+
           <p>
-            We truly hope this is just a bump in the road, and not the end of our journey. To help
-            us continue our mission, please
-            <a
-              href="https://twitter.com/intent/tweet?text=%F0%9F%9A%80Dear%20community%2C%20ipfs-search.com%20faces%20financial%20challenges%20threatening%20our%20public%20APIs.%20We%20need%20your%20support%20to%20continue%20championing%20open%2C%20unbiased%20search%20for%20%23Web3%20and%20%23IPFS.%20Share%20our%20mission%20%26%20support%20us%20at%20https%3A%2F%2Fopencollective.com%2Fipfs-search%20%23SaveIPFSSearch"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              share
-            </a>
-            our situation in the community. You can also support us directly by visiting our
-            <a href="https://opencollective.com/ipfs-search" target="_blank">OpenCollective</a>, and
-            we are available for questions at
-            <a href="mailto:info@ipfs-search.com" target="_blank">info@ipfs-search.com</a>.
+            We see this hurdle not as the end of our journey, but a challenging bend in the road. To
+            help us steer through, please share our situation within the community and consider
+            supporting us directly through
+            <a href="https://opencollective.com/ipfs-search">OpenCollective</a>. We're always here
+            to answer your questions at
+            <a href="mailto:info@ipfs-search.com">info@ipfs-search.com</a>.
           </p>
-          <p>We will announce any further developments here and on Twitter.</p>
-          <p>Thank you for your understanding and support. Sincerely,</p>
-          <p>The <a href="ipfs-search.com">ipfs-search.com</a> Team</p>
+
+          <p>We'll share updates here and on Twitter.</p>
+
+          <p>Thank you for your understanding and unwavering support.</p>
+
+          <p>Sincerely,</p>
+
+          <p>The <a href="http://ipfs-search.com/">ipfs-search.com</a> Team</p>
+
+          <p>
+            Mathijs de Bruin<br />
+            Frido Emans<br />
+            Aad Versteeden
+          </p>
         </v-card-text>
       </v-card>
     </div>
