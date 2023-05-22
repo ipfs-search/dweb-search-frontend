@@ -97,12 +97,12 @@ const links = [
           <!--          <div v-if="route.name === 'Search'" class="d-none d-lg-block" style="min-width: 200px" />-->
           <!--          <v-spacer v-else />-->
 
-          <planetarify-toolbar v-if="playlistVisible" />
+          <!-- <planetarify-toolbar v-if="playlistVisible" /> -->
 
           <div v-else id="end-buttons" class="d-flex flex-row justify-end">
-            <v-btn icon @click="togglePlaylist">
+            <!-- <v-btn icon @click="togglePlaylist">
               <v-icon :icon="mdiPlaylistMusic" />
-            </v-btn>
+            </v-btn> -->
 
             <settings-menu />
 

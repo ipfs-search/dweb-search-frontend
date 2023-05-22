@@ -5,6 +5,9 @@ import { onBeforeMount } from "vue";
 import { _footerVisible } from "@/composables/footer";
 import { mdiHeart } from "@mdi/js";
 import store from "@/store";
+import { useDisplay } from "vuetify/lib/framework.mjs";
+
+const {height} = useDisplay();
 
 onBeforeMount(() => {
   _footerVisible.value = true;
@@ -12,14 +15,18 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <v-img src="/assets/background-02.png" cover class="h-100 bg-ipfsPrimary">
-    <v-card class="announcement pa-2 ma-16 h-75 overflow-auto" >
-      <v-card-title>
+  <div class="h-100">
+  <v-img src="/assets/background-02.png" cover class="bg-ipfsPrimary h-100">
+  </v-img>
+  <div 
+    class="d-flex justify-center align-center h-100 w-100 wrapper" 
+    :class="height < 600 ? 'lower-padding' : 'higher-padding'"
+  >
+    <v-card class="announcement pa-2 mx-auto overflow-auto h-100" max-width="700" max-height="">
         <h3>Important Announcement from <a href="ipfs-search.com">ipfs-search.com</a></h3>
-      </v-card-title>
       <v-card-text class="text-body-1"> 
         <p>Dear valued users and supporters, </p>
-      <p class="text-body-1">
+      <p>
         We regret to inform you that due to current financial constraints, we are faced with the
         difficult decision of shutting down our public APIs in the coming weeks.
       </p>
@@ -54,11 +61,25 @@ onBeforeMount(() => {
         The <a href="ipfs-search.com">ipfs-search.com</a> Team 
         </p>
       </v-card-text>
-    </v-card>
-  </v-img>
+    </v-card></div></div>
 </template>
 
 <style lang="scss" scoped>
+.wrapper {
+  position: absolute;
+  top: 70px;
+  left:0;
+  max-height: 900px;
+}
+
+.lower-padding {
+  padding-bottom: 80px;
+}
+
+.higher-padding {
+  padding-bottom: 200px;
+}
+
 .announcement {
   opacity: 0.8;
 }
@@ -72,6 +93,7 @@ h3 {
   letter-spacing: -0.02em;
   font-size: 150%;
   font-weight: 700;
+  padding: 16px;
 }
 
 #questionnaireBanner {
