@@ -41,8 +41,14 @@ onBeforeMount(() => {
 
           <p>
             We see this hurdle not as the end of our journey, but a challenging bend in the road. To
-            help us steer through, please share our situation within the community and consider
-            supporting us directly through
+            help us steer through, please
+            <a
+              href="https://twitter.com/intent/tweet?text=%F0%9F%9A%80Dear%20community%2C%20ipfs-search.com%20faces%20financial%20challenges%20threatening%20our%20public%20APIs.%20We%20need%20your%20support%20to%20continue%20championing%20open%2C%20unbiased%20search%20for%20%23Web3%20and%20%23IPFS.%20Share%20our%20mission%20%26%20support%20us%20at%20https%3A%2F%2Fopencollective.com%2Fipfs-search%20%23SaveIPFSSearch"
+              target="_blank"
+              rel="noopener noreferrer"
+              >share</a
+            >
+            our situation within the community and consider supporting us directly through
             <a href="https://opencollective.com/ipfs-search">OpenCollective</a>. We're always here
             to answer your questions at
             <a href="mailto:info@ipfs-search.com">info@ipfs-search.com</a>.
@@ -102,5 +108,9 @@ h3 {
 #questionnaireBanner {
   max-width: 915px;
   width: 95%;
+}
+
+a {
+  color: #3391ff;
 }
 </style>
