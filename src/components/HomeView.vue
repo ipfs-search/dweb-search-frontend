@@ -54,7 +54,9 @@ onBeforeMount(() => {
             <a href="mailto:info@ipfs-search.com">info@ipfs-search.com</a>.
           </p>
 
-          <p>We'll share updates here and on Twitter.</p>
+          <p>
+            We'll share updates here and on <a href="https://twitter.com/SearchIpfs">Twitter</a>.
+          </p>
 
           <p>Thank you for your understanding and unwavering support.</p>
 
