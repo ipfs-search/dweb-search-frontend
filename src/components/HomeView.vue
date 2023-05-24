@@ -67,7 +67,7 @@ onBeforeMount(() => {
           <p>
             Mathijs de Bruin<br />
             Frido Emans<br />
-            Aad Versteeden
+            Aad Versteden
           </p>
         </v-card-text>
       </v-card>
