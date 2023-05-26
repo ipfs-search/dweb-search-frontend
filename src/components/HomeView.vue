@@ -22,7 +22,7 @@ onBeforeMount(() => {
       :class="height < 600 ? 'lower-padding' : 'higher-padding'"
     >
       <v-card class="announcement pa-2 mx-auto overflow-auto h-100" max-width="700" max-height="">
-        <h3>An Urgent Appeal from <a href="ipfs-search.com">ipfs-search.com</a></h3>
+        <h3>An Urgent Appeal from <a href="https://ipfs-search.com">ipfs-search.com</a></h3>
         <v-card-text class="text-body-1">
           <p>Dear Valued Users &amp; Supporters,</p>
 
