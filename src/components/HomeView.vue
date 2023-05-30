@@ -29,13 +29,13 @@ onBeforeMount(() => {
           <p>
             Since 2016 we have been providing neutral, privacy-friendly Open Source search for Web3.
             We stand at a critical crossroads, committed to maintaining our crucial role in the Web3
-            ecosystem amidst operational costs and our personal sustenance needs. 
+            ecosystem amidst operational costs and our personal sustenance needs.
           </p>
 
           <p>
             Unless additional funding comes through,
-            <b>we will to shut down our public APIs June the 7th, 2023</b>, we don't know for how
-            long. As of now, site search is already suspended, but API access remains until then.
+            <b>we will shut down our public APIs June the 7th, 2023</b>, we don't know for how long.
+            As of now, site search is already suspended, but API access remains until then.
           </p>
 
           <p>
