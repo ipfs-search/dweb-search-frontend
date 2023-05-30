@@ -31,9 +31,9 @@ onBeforeMount(() => {
             proud to pioneer it.
           </p>
           <p>
-            But we are running high costs, and without a new source of funding, we will have to shut
-            down in the coming weeks. For now, API access is still available, but we will block
-            search here on the site.
+            But we are running high costs, and without a new source of funding,
+            <b>we will shut down june the 7th, 2023</b>, we don't know for how long. Until then, API
+            access is still available, but we will block search here on the site.
           </p>
           <p>
             We truly hope this is just a bump in the road, and not the end of our journey. To help
